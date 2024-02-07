@@ -1,4 +1,4 @@
-package kr.cl.forU.orderProd.model.vo;
+package kr.cl.forU.order.model.vo;
 
 import java.sql.Date;
 

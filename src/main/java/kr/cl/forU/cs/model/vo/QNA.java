@@ -1,4 +1,4 @@
-package kr.cl.forU.cs;
+package kr.cl.forU.cs.model.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -6,6 +6,6 @@ import lombok.Data;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ChattingMessage {
+public class QNA {
 
 }
