@@ -1,0 +1,74 @@
+.header {
+    align-items: center;
+    position: sticky;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #fff;
+}
+
+.header a{
+  text-decoration: none;
+  color: #000000;
+}
+
+.loginMenu a{
+  padding: 0 40px;
+  margin: 10px 0 0 50px;
+}
+
+.logo {
+  margin: 0 auto;
+  font-size: 80px;
+}
+.logo-container {
+  display: flex;
+  flex: 1; 
+}
+
+
+.content{
+  width: 100%;
+  height: 2000px;
+  background-color: rgb(116, 88, 88);
+}
+
+.menubar {
+  display: flex;
+  justify-content: space-between;
+}
+
+.loginMenu{
+  display: flex;
+}
+
+
+.search-container {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end; /* 오른쪽으로 정렬 */
+}
+
+
+.search-input {
+  flex: 1;
+  padding: 10px 15px;
+  border: 1px solid #ccc;
+  border-radius: 20px;
+  margin: 2px 80px;
+}
+
+.search-button {
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  padding: 0;
+  right: 0;
+  position: absolute;
+
+}
+
+.search-icon {
+  width: 20px;
+  padding-right: 95px;
+}
