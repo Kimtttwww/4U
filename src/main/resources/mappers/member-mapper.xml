@@ -2,5 +2,9 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
 
-
+	<select id="selectMemberSoft" parameterType="member" resultType="member">
+		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, CREATE_DATE
+		FROM MEMBER
+		WHERE STATUS = 'Y' AND ID = #{memberId} AND PWD = #{memberPwd}
+	</select>
 </mapper>
