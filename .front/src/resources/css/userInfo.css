@@ -1,0 +1,43 @@
+.userInfo {
+  border-bottom: 1px solid #ccc;
+  padding: 20px;
+  margin-bottom: 20px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+}
+
+.userName, .userRating, .userIntro, .userUpdate {
+  margin: 3px;
+}
+
+.userName h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #333;
+}
+
+.userRating span {
+  font-weight: bold;
+  color: #b87333;
+  background-color: #a36a344b;
+  border-radius: 15%;
+}
+
+.userIntro span {
+  color: #666;
+}
+
+.userUpdate button {
+  width: 150px;
+  padding: 10px 20px;
+  background-color: black;
+  color: #fff;
+  border: none;
+  border-radius: 15%;
+  cursor: pointer;
+}
+
+.userUpdate button:hover {
+  background-color: rgba(0, 0, 0, 0.637);
+}
