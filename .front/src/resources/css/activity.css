@@ -1,0 +1,62 @@
+.activity {
+    border-bottom: 1px solid #ccc;
+    padding: 20px;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.activity h2 {
+    margin: 0;
+    font-size: 24px;
+    color: #333;
+}
+
+.activity span {
+    color: #666;
+}
+
+.activityDetail button {
+    padding: 10px 20px;
+    background-color: black;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    border-radius: 15%;
+    margin: 3%;
+}
+
+.activityDetail button:hover {
+    background-color: rgba(0, 0, 0, 0.637);
+}
+
+.activityItem {
+    border: 1px solid black;
+    border-radius: 5%;
+    margin: 5px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.atemImg img {
+    width: 150px;
+    height: 150px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.atemIntro span {
+    font-weight: bold;
+}
+
+.atemIntro {
+    width: 100%;
+    text-align: center;
+    border-top: 1px solid black;
+    margin-top: 10px;
+    padding-top: 5px;
+}
