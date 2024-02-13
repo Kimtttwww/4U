@@ -1,8 +1,8 @@
 import '../css/userInfo.css';
 import '../css/activity.css';
-import '../css/shoppingBasket.css'
-import '../css/benefits.css'
-import '../css/chat.css'
+import '../css/shoppingBasket.css';
+import '../css/benefits.css';
+import '../css/chat.css';
 
 export default function buyerMyPage() {
   return (
