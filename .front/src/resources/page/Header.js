@@ -1,8 +1,11 @@
 import { useState } from 'react';
-import { Link } from 'react-bootstrap/lib/Navbar';
+import { Link } from 'react-router-dom';
 import "../css/Topbar.css";
 
-export default function Topbar() {
+export default function Header(props) {
+
+    // 로그인창 띄울떄 필요한 매개변수
+    const {showLogin, setShowLogin} = props;
 
     const [login, setLogin] = useState(false);
 
@@ -17,7 +20,8 @@ export default function Topbar() {
                         </>
                     ) : (
                         <>
-                            <Link to="">로그인</Link>
+                            {/* 나중에 링크말고 다른걸로(btn, div, span 등) 바꿀 것 */}
+                            <Link to="" onClick={() => {setShowLogin(true)}}>로그인</Link>
                             <Link to="">회원가입</Link>
                         </>
                     )}
@@ -31,7 +35,7 @@ export default function Topbar() {
                 </div>
             </div>
             <div className="logo-container">
-                <Link to="/" className='logo'>4YOU</Link>
+                <Link to="/" className='logo'>4U</Link>
             </div>
 
         </div>
