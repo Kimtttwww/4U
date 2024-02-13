@@ -1,0 +1,33 @@
+* {
+	box-sizing: border-box;
+}
+
+input[type=text], input[type=password] {
+    width: 350px;
+    height: 50px;
+    margin: 5px 5px;
+    padding: 0 5px;
+}
+
+/* 로그인창 요소들 가운데 오밀조밀 */
+.content-box {
+    width: fit-content;
+    display: flex;
+    margin: 0 auto;
+}
+
+/* input 정렬 박스 */
+.inputs-box {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.login-btn {
+    width: 100px;
+    margin: 5px 5px;
+}
+
+.login-font {
+	font-size: 17px;
+}

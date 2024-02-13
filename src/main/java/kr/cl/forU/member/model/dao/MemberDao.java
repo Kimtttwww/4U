@@ -15,7 +15,7 @@ public class MemberDao {
 	
 	
 	public Member selectMemberSoft(Member m) {
-		return session.selectOne(this.map + "selectMemberSoft", m);
+		return session.selectOne(map + "selectMemberSoft", m);
 	}
 
 }
