@@ -1,0 +1,155 @@
+.order-container {
+    width: 600px;
+    margin: 0 auto;
+}
+
+.order-write {
+    font-size: 50px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+}
+
+.order-prod-title,
+.order-delivery-title,
+.order-paymentInfo-title,
+.order-payment-title {
+    font-size: 25px;
+}
+
+.order-prod-table {
+    border: 1px solid black;
+    width: 600px;
+}
+
+.order-prod-table tr {
+    border: 1px solid rgb(255, 0, 0);
+}
+
+.totalPrice {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 50px;
+    font-size: 20px;
+    font-weight: bold;
+
+}
+
+.delivery-info,
+.order-paymentInfo-content {
+    margin-bottom: 50px;
+    border: 1px solid black;
+}
+
+
+.order-delivery-content {
+    display: flex;
+    flex-direction: row;
+
+}
+
+.receiver-text {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.memo {
+    margin-top: 30px;
+}
+
+.margin {
+    margin-bottom: 15px;
+}
+
+.margin>select {
+    height: 20px;
+    margin-right: 5px;
+}
+
+
+.ordererInfo {
+    margin-bottom: 20px;
+}
+
+.paymnet-area {
+    display: flex;
+    justify-content: space-between;
+}
+
+.payment-info {
+    display: flex;
+    margin: 10px;
+}
+
+.payment-discount {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.payPrice {
+    border-top: 1px solid black;
+    background-color: burlywood;
+    height: 50px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+}
+
+.payPrice>span {
+    font-weight: bold;
+}
+
+.payment-method {
+    display: flex;
+}
+
+.payment-method>button {
+    border: 1px solid black;
+    width: 90px;
+    height: 80px;
+    cursor: pointer;
+}
+
+.payment-right {
+    border: 1px solid black;
+    margin-left: 20px;
+    border-radius: 20px;
+    background-color: rgb(236, 175, 152);
+    width: 250px;
+    display: flex;
+    flex-direction: column;
+}
+
+.payment-right>p {
+    font-size: 25px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+}
+
+.payment-right-content {
+    display: flex;
+    justify-content: space-around;
+    margin-top: 20px;
+}
+
+.payBtn {
+    display: flex;
+    justify-content: center;
+    margin-top: 110px;
+}
+
+.payment-right button {
+    display: flex;
+    justify-content: center;
+    width: 220px;
+    height: 50px;
+    align-items: center;
+    background-color: crimson;
+    color: white;
+    font-weight: bold;
+    font-size: 20px;
+    cursor: pointer;
+}
