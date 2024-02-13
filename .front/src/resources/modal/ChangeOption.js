@@ -2,27 +2,26 @@
 // import { Modal, Button } from "bootstrap";
 
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 
 
-export default function ChangeOption({ isOptionChange, closeModal }) {
+export default function ChangeOption({ isOpen, closeModal }) {
     /* <!-- optionChange Modal --> */
 
     // const [isShow, setIsShow] = useState(false);
 
     // const show = () => setIsShow(true);
     // const close = () => setIsShow(false);
-
+    console.log("sdfhj");
 
     return (
-        <div isOpen={isOptionChange} >
-            <div className="modal fade" id="optionChangeModal" data-bs-backdrop="static" data-bs-keyboard="false"
-                tabIndex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
-                <div className="modal-dialog">
+        <Modal isOpen={isOpen} >
+            <div id="optionChangeModal" >
+                <div >
                     <div className="modal-content">
                         <div className="modal-header">
                             <h3 className="modal-title fs-5" id="staticBackdropLabel">옵션변경</h3>
-                            <Button type="button" className="btn-close" variant="info" data-bs-dismiss="modal" aria-label="Close"
+                            <Button type="button" className="btn-close" variant="info"
                             ></Button>
                         </div>
                         <div className="modal-body">
@@ -46,13 +45,12 @@ export default function ChangeOption({ isOptionChange, closeModal }) {
                         </div>
                         <div className="modal-footer">
                             <button type="button" className="btn btn-primary">저장</button>
-                            <button type="button" className="btn btn-secondary" data-bs-dismiss="modal"
-                                onClick={closeModal}>취소</button>
+                            <button type="button" className="btn btn-secondary" onClick={closeModal}>취소</button>
                         </div>
                     </div>
                 </div>
             </div>
-        </div >
+        </Modal >
 
 
     )

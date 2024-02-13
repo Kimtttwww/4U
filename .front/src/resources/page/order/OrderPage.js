@@ -35,12 +35,10 @@ export default function OrderPage() {
                         <td>샤랄라 원피스</td>
                         <td>L/블랙
                             {/* <!-- Button trigger modal --> */}
-                            <Button className="btn btn-primary" data-bs-toggle="modal"
-                                data-bs-target="#staticBackdrop" onClick={openModal}>
+                            <Button className="btn btn-primary" onClick={openModal}>
                                 옵션변경
                             </Button>
 
-                            <ChangeOption isOpen={isOptionChange} closeModal={closeModal} />
                         </td>
                         <td>39000</td>
                         <td>29000</td>
@@ -51,6 +49,7 @@ export default function OrderPage() {
             </table>
             <span className="totalPrice">총 주문금액 99,900원</span>
 
+            <ChangeOption isOpen={isOptionChange} closeModal={closeModal} />
 
             <span className="order-delivery-title">배송정보</span>
             <div className="delivery-info">
