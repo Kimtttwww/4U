@@ -1,40 +1,64 @@
-import "react-router-dom"
 import { Route, Routes } from "react-router-dom";
-import BuyerMyPage from "./resources/page/BuyerMyPage/BuyerMyPage";
+
+import BuyerMyPage from "./resources/page/BuyerMyPage";
 import Login from "./resources/page/Login";
 import OrderPage from "./resources/page/order/OrderPage";
 import Payment from "./resources/page/order/Payment";
 import Mainpage from "./resources/page/Mainpage";
 import SignUp from "./resources/page/SignUp";
-import Topbar from "../src/resources/page/Topbar";
+import Header from "./resources/page/Header";
 import Footer from "../src/resources/page/Footer";
 import UserUpdate from "./resources/page/BuyerMyPage/UserUpdate";
 import CartList from "./resources/page/BuyerMyPage/cart/CartList";
+import { useState } from "react";
+import Login from "./resources/page/member/Login";
+import ProdList from "./resources/page/product/ProdList";
 
 function App() {
+	
+	const [showLogin, setShowLogin] = useState(false);
+
 	return (
 		<div className="App">
-			<Topbar />
+			<Header setShowLogin={setShowLogin} />
+			
 			<Routes>
+				{/* 메인 페이지 */}
 				<Route path="/" element={<Mainpage />} />
+
+				{/* 회원 관련 */}
 				<Route path="/member">
-					<Route path="login/*" element={<Login />} />
+					{/* 회원가입 페이지 */}
 					<Route path="signUp" element={<SignUp />} />
 					<Route path="userupdate" element={<UserUpdate/>} />
 				</Route>
-				<Route path="/order" element={<OrderPage />} />
-				<Route path="/Payment" element={<Payment />} />
-				<Route path="/buyer/mypage/" element={<BuyerMyPage />} />
-				<Route path="/orderPage" element={<OrderPage />} />
 
-				<Route path="/buyer/mypage/" element={<BuyerMyPage />} />
+				{/* 제품 관련 */}
+				<Route path="/product">
+					<Route path="list" element={<ProdList />} />
+				</Route>
+
+				{/* ? */}
+				<Route path="/order" element={<OrderPage />} />
+
+				{/* ? */}
+				<Route path="/buyer/mypage/" element={<BuyerMyPage />} /> 
+
+				{/* ? */}
+				<Route path="/Payment" element={<Payment />} />
+
+				{/* ? */}
 				<Route path="/cart/CartList/" element={<CartList />} />
 
-				
+				{/* 그 외의 에러 페이지 */}
 				<Route path="*" element={
-					<h1>아마도 당신은 에러일 겁니다</h1>
+					<h1>404! 아마도 당신은 에러일 겁니다 404!</h1>
 				} />
 			</Routes>
+
+			{/* 로그인 페이지 */}
+			<Login showLogin={showLogin} setShowLogin={setShowLogin} />
+
 			<Footer />
 		</div>
 	);

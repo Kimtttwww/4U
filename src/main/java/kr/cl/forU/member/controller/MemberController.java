@@ -1,8 +1,6 @@
 package kr.cl.forU.member.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -12,7 +10,6 @@ import org.springframework.web.bind.annotation.SessionAttributes;
 import kr.cl.forU.member.model.service.MemberService;
 import kr.cl.forU.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.web.bind.annotation.GetMapping;
 
 
 @Slf4j
@@ -29,15 +26,12 @@ public class MemberController {
 	 * @param m 로그인 시도할 ID, PW 정보
 	 */
 	@PostMapping("/login")
-	public String selectSoftMember(@RequestBody Member m, Model model) {
+	public Member selectMemberSoft(@RequestBody Member m) {
+		log.info("\nm = {}", m);
 		Member loginMember = service.selectMemberSoft(m);
-		log.info("\nm = {}\nloginMember = {}");
+		log.info("\nm = {}\nloginMember = {}", m, loginMember);
 		
-		if(loginMember != null) {
-			model.addAttribute("loginMember", loginMember);
-		}
-		
-		return null;
+		return loginMember;
 	}
 	
 }

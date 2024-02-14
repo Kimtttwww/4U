@@ -5,6 +5,6 @@
 	<select id="selectMemberSoft" parameterType="member" resultType="member">
 		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, CREATE_DATE
 		FROM MEMBER
-		WHERE STATUS = 'Y' AND ID = #{memberId} AND PWD = #{memberPwd}
+		WHERE STATUS = 'Y' AND MEMBER_ID = #{memberId} AND MEMBER_PWD = #{memberPwd}
 	</select>
 </mapper>
