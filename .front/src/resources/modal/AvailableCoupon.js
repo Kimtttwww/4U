@@ -1,20 +1,22 @@
-export default function AvailableCoupon() {
+import 'bootstrap/dist/css/bootstrap.min.css';
+import { Button, Modal } from 'react-bootstrap';
+
+export default function AvailableCoupon({ show, closeCoupon }) {
     /* coupon Modal - */
 
 
 
 
     return (
-        <div class="modal fade" id="couponModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
-            aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <Modal show={show} >
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h3 class="modal-title fs-5" id="staticBackdropLabel">사용가능한 쿠폰</h3>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div class="modal-body">
                         <div>
+                            <input type='checkbox' id="" name='' />
                             쿠폰번호 12345 |
                             5천원 할인쿠폰 |
                             만료기간 2024-05-23
@@ -22,12 +24,12 @@ export default function AvailableCoupon() {
 
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-primary">저장</button>
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"
-                        >취소</button>
+                        <Button type="button" class="btn btn-primary" variant="info">저장</Button>
+                        <Button type="button" class="btn btn-secondary" variant="info"
+                            onClick={closeCoupon}>취소</Button>
                     </div>
                 </div>
             </div>
-        </div>
+        </Modal>
     )
 }
