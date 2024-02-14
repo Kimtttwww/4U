@@ -51,15 +51,14 @@
     margin-bottom: 10px;
   }
   
-  button {
+  .bMv {
     padding: 10px 20px;
     background-color: black;
     color: #fff;
     border: none;
     cursor: pointer;
   }
-  
-  button:hover {
-    background-color: rgba(0, 0, 0, 0.637);
-  }
-  
+
+.bMv:hover {
+  background-color: rgba(0, 0, 0, 0.637);
+}

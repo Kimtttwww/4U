@@ -11,7 +11,7 @@ public class MemberDao {
 
 	@Autowired
 	private SqlSession session;
-	private String map = "memberMapper";
+	private String map = "memberMapper.";
 	
 	
 	public Member selectMemberSoft(Member m) {

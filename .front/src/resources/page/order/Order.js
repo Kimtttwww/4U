@@ -1,15 +1,19 @@
 import { useState } from "react";
 import ChangeOption from "../../modal/ChangeOption";
+import AvailbleCoupon from "../../modal/AvailableCoupon";
 import '../../css/OrderPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
-// import ReactModal from "react-modal";
 
-export default function OrderPage() {
+export default function Order() {
 
     const [isOptionChange, setisOptionChange] = useState(false);
+    const [isMyCoupon, setisMyCoupon] = useState(false);
     const openModal = () => setisOptionChange(true);
     const closeModal = () => setisOptionChange(false);
+    const openCoupon = () => setisMyCoupon(true);
+    const closeCoupon = () => setisMyCoupon(false);
+
 
 
     return (
@@ -35,9 +39,10 @@ export default function OrderPage() {
                         <td>샤랄라 원피스</td>
                         <td>L/블랙
                             {/* <!-- Button trigger modal --> */}
-                            <Button className="btn btn-primary" onClick={openModal}>
+                            <Button variant="secondary" onClick={openModal}>
                                 옵션변경
                             </Button>
+                            <ChangeOption show={isOptionChange} closeModal={closeModal} />
 
                         </td>
                         <td>39000</td>
@@ -48,8 +53,6 @@ export default function OrderPage() {
                 </tbody>
             </table>
             <span className="totalPrice">총 주문금액 99,900원</span>
-
-            <ChangeOption isOpen={isOptionChange} closeModal={closeModal} />
 
             <span className="order-delivery-title">배송정보</span>
             <div className="delivery-info">
@@ -96,7 +99,7 @@ export default function OrderPage() {
                 <div className="payment-left">
                     <div className="order-paymentInfo-content">
                         <div className="payment-info">
-                            <div>
+                            <div className="payment-text">
                                 <div>결제예정금액</div>
                                 <div>쿠폰할인</div>
                                 <div>포인트할인</div>
@@ -104,16 +107,18 @@ export default function OrderPage() {
                             </div>
                             <div className="payment-discount">
                                 <div>99,900원</div>
-                                <div>
-                                    <span>0원</span>
-                                    <button type="button" className="btn btn-primary" data-bs-toggle="modal"
-                                        data-bs-target="#staticBackdrop" >
+                                <div className="myCoupon-view">
+                                    <span style={{ marginRight: '10px' }}>0원</span>
+                                    <Button variant="secondary" style={{ width: '130px', height: '25px', fontSize: '10px', padding: '0' }}
+                                        onClick={openCoupon}>
                                         사용가능한 쿠폰보기
-                                    </button>
+                                    </Button>
+                                    <AvailbleCoupon show={isMyCoupon} closeCoupon={closeCoupon} />
+
                                 </div>
                                 <span>0원</span>
                                 <div>
-                                    <span>0원</span>
+                                    <span style={{ marginRight: '10px' }}>0원</span>
                                     <span>전체사용하기</span>
                                     <input type="checkbox" />
                                 </div>

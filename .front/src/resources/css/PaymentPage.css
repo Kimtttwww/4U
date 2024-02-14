@@ -1,0 +1,131 @@
+.payment-container {
+    width: 750px;
+    margin: 0 auto;
+}
+
+.payment-complate {
+    font-size: 50px;
+    font-weight: bold;
+    display: flex;
+    justify-content: center;
+    margin: 50px 0;
+}
+
+.payment-complate-msg {
+    font-size: 30px;
+    font-weight: bold;
+    color: blue;
+    display: flex;
+    justify-content: center;
+    margin: 50px 0 100px 0;
+}
+
+.payment-prod-title {
+    display: flex;
+    justify-content: space-between;
+}
+
+.payment-prod-title>p,
+.payment-delivery-title,
+.payment-content-title {
+    font-size: 25px;
+
+}
+
+.payment-complate-prod {
+    margin-bottom: 50px;
+}
+
+.payment-prod-table {
+    width: 750px;
+    margin-bottom: 50px;
+}
+
+.payment-prod-table tr {
+    border: 1px solid rgb(187 149 149);
+}
+
+.payment-delivery-area {
+    display: flex;
+    border: 1px solid;
+    margin-bottom: 50px;
+}
+
+.payment-delivery-text,
+.payment-delivery-receiver {
+    display: flex;
+    flex-direction: column;
+    margin: 20px;
+}
+
+.modal-body {
+    display: flex;
+}
+
+.modal-body-text,
+.modal-body-input {
+    display: flex;
+    flex-direction: column;
+    margin: 50px;
+    font-size: 16px;
+}
+
+.modal-body-input {
+    margin-left: 10px;
+    width: 200px;
+}
+
+.modal-body-text>span,
+.modal-body-input>input {
+    margin: 10px;
+}
+
+.payment-discount-area {
+    display: flex;
+    justify-content: space-between;
+}
+
+.payment-discount-content1,
+.payment-discount-content2 {
+    border: 1px solid black;
+    width: 350px;
+}
+
+.payment-discount-content2 {
+    display: flex;
+    justify-content: space-between;
+    height: 100px;
+}
+
+.payment-discount-content1>*,
+.payment-discount-content2>* {
+    margin: 10px;
+}
+
+.payment-bottom-divbtn {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.payment-bottom-btn1,
+.payment-bottom-btn2 {
+    width: 180px;
+    height: 60px;
+    margin: 20px 0 50px 0;
+    color: white;
+    font-size: 22px;
+    font-weight: bold;
+    border-radius: 10px;
+    text-decoration-line: none;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.payment-bottom-btn1 {
+    background-color: blue;
+}
+
+.payment-bottom-btn2 {
+    background-color: rgb(200, 92, 250);
+}

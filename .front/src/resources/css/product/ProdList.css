@@ -1,0 +1,15 @@
+/* 페이지 시작 */
+.ProdList {
+	display: flex;
+
+}
+
+.menu-side-area {
+	
+	display: flex;
+}
+
+.products {
+	display: flex;
+
+}
