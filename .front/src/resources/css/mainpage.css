@@ -1,8 +1,6 @@
-.container{
-    border: 5px solid white;
-    margin: 10px;
-    padding: 5px;
-  }
+
+
+  
   .bannerImg{
     width: 100%;
     height: 600px;
@@ -90,34 +88,5 @@
   
   .listImg{
     height: 77%; /*여기 수정 필요*/
-  }
-  
-  /* 수정 필요 */
-  
-  .container {
-    max-width: 1200px; /* 더 이상 화면이 커져도 1200px 이상으로 커지지 않도록 설정 */
-    margin: 0 auto; /* 화면 중앙 정렬을 위해 auto로 설정 */
-  
-    /* 추가된 미디어 쿼리 */
-    @media (max-width: 600px) {
-      max-width: 100%; /* 화면의 너비가 600px 이하일 때 최대 너비를 100%로 설정 */
-    }
-  }
-  
-  .container {
-    /* 모달창 크기 */
-    width: 300px;
-    height: 200px;
-  
-    /* 최상단 위치 */
-    z-index: 999;
-    
-    /* 중앙 배치 */
-    /* top, bottom, left, right 는 브라우저 기준으로 작동한다. */
-    /* translate는 본인의 크기 기준으로 작동한다. */
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
   }
   

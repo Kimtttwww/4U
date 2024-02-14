@@ -3,8 +3,8 @@ import { Route, Routes } from "react-router-dom";
 import BuyerMyPage from "./resources/page/BuyerMyPage";
 import Login from "./resources/page/Login";
 import OrderPage from "./resources/page/order/OrderPage";
-import Mainpage from "./resources/page/mainpage";
-import SignUp from "./resources/page/signUp";
+import Mainpage from "./resources/page/Mainpage";
+import SignUp from "./resources/page/SignUp";
 
 
 function App() {
