@@ -5,6 +5,7 @@
     left: 0;
     width: 100%;
     background-color: #fff;
+    z-index: 100;
 }
 
 .header a{
@@ -14,7 +15,7 @@
 
 .loginMenu a{
   padding: 0 40px;
-  margin: 10px 0 0 50px;
+  margin: 10px 0 0 0;
 }
 
 .logo {
@@ -40,22 +41,29 @@
 
 .loginMenu{
   display: flex;
+  margin-left: 70px;
 }
 
 
 .search-container {
   display: flex;
   align-items: center;
-  justify-content: flex-end; /* 오른쪽으로 정렬 */
+  margin-right: 70px;
+  align-items: flex-start;
 }
 
 
 .search-input {
-  flex: 1;
-  padding: 10px 15px;
+  padding: 10px 20px;
   border: 1px solid #ccc;
-  border-radius: 20px;
-  margin: 2px 80px;
+  border-bottom: 1px solid #000;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+}
+
+.search-input:focus {
+  outline: none;
 }
 
 .search-button {
@@ -63,12 +71,13 @@
   border: none;
   cursor: pointer;
   padding: 0;
-  right: 0;
-  position: absolute;
+  margin-top: 10px;
+}
 
+.search-button:hover{
+  background-color: transparent;
 }
 
 .search-icon {
-  width: 20px;
-  padding-right: 95px;
+  width: 30px;
 }

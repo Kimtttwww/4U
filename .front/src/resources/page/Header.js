@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
-import "../css/Topbar.css";
+import "../css/Header.css";
 
 export default function Header(props) {
 
@@ -8,7 +8,14 @@ export default function Header(props) {
     const {setShowLogin} = props;
 
     const [login, setLogin] = useState(false);
-
+    
+        const scrollToTop = () => {
+            window.scrollTo({
+                top: 0,
+                behavior: "instant"
+            });
+        };
+    
     return (
         <div className="header">
             <div className='menubar'>
@@ -27,15 +34,15 @@ export default function Header(props) {
                     )}
                 </div>
 
+            <div className="logo-container">
+                <Link to="/" className='logo' onClick={scrollToTop}>4U</Link>
+            </div>
                 <div className="search-container">
                     <input type="text" className="search-input" placeholder="검색어를 입력하세요" />
                     <button className="search-button">
-                        <img src="/images/search-icon.png" alt="Search Icon" className="search-icon" />
+                        <img src="https://xexymix.jpg3.kr/xexymix/2020/main/menu_view.png" alt="Search Icon" className="search-icon" />
                     </button>
                 </div>
-            </div>
-            <div className="logo-container">
-                <Link to="/" className='logo'>4U</Link>
             </div>
 
         </div>

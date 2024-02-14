@@ -7,7 +7,7 @@ import Payment from "./resources/page/order/Payment";
 import Mainpage from "./resources/page/Mainpage";
 import SignUp from "./resources/page/SignUp";
 import Header from "./resources/page/Header";
-import Footer from "../src/resources/page/Footer";
+import Footer from "./resources/page/Footer";
 import UserUpdate from "./resources/page/BuyerMyPage/UserUpdate";
 import CartList from "./resources/page/BuyerMyPage/cart/CartList";
 import { useState } from "react";
