@@ -1,8 +1,8 @@
-import '../../css/userInfo.css';
-import '../../css/activity.css';
-import '../../css/shoppingBasket.css';
-import '../../css/benefits.css';
-import '../../css/chat.css';
+import '../../css/UserInfo.css';
+import '../../css/Activity.css';
+import '../../css/ShoppingBasket.css';
+import '../../css/Benefits.css';
+import '../../css/Chat.css';
 import { useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
