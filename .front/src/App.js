@@ -2,14 +2,12 @@ import "react-router-dom"
 import { Route, Routes } from "react-router-dom";
 import BuyerMyPage from "./resources/page/BuyerMyPage";
 import Login from "./resources/page/Login";
-import OrderPage from "./resources/page/order/Order";
+import OrderPage from "./resources/page/order/OrderPage";
 import Payment from "./resources/page/order/Payment";
-import Mainpage from "./resources/page/mainpage";
-import SignUp from "./resources/page/signUp";
+import Mainpage from "./resources/page/Mainpage";
+import SignUp from "./resources/page/SignUp";
 import Topbar from "../src/resources/page/Topbar";
 import Footer from "../src/resources/page/Footer";
-
-
 
 function App() {
 	return (

@@ -2,7 +2,7 @@ import React, {Component, useState} from 'react'
 import {Pagination, Navigation, Autoplay} from 'swiper/modules';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-import "../css/mainpage.css";
+import "../css/Mainpage.css";
 // import Button from 'react-bootstrap/Button';
 // import Modal from 'react-bootstrap/Modal';
 
