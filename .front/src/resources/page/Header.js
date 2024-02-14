@@ -5,7 +5,7 @@ import "../css/Topbar.css";
 export default function Header(props) {
 
     // 로그인창 띄울떄 필요한 매개변수
-    const {showLogin, setShowLogin} = props;
+    const {setShowLogin} = props;
 
     const [login, setLogin] = useState(false);
 

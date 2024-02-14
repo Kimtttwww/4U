@@ -1,7 +1,3 @@
-* {
-	box-sizing: border-box;
-}
-
 /* 로그인창 요소들 가운데 오밀조밀 */
 .content-box {
     width: fit-content;

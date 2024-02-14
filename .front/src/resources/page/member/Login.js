@@ -1,5 +1,4 @@
 import Modal from "react-bootstrap/Modal";
-import Button from "react-bootstrap/Button";
 import { useRef, useState } from "react";
 import "../../css/member/Login.css";
 import axios from "axios";
@@ -50,7 +49,6 @@ export default function Login(props) {
 
 	return(
 		<>
-			<Button variant="primary" onClick={() => setShowLogin(true)}>모달 테스트</Button>
 			<Modal show={showLogin} onHide={() => setShowLogin(false)} backdrop="static" keyboard={false}>
 				<Modal.Header closeButton>
 					<Modal.Title>로그인</Modal.Title>

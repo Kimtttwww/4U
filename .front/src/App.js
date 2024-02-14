@@ -6,7 +6,7 @@ import SignUp from "./resources/page/signUp";
 import Header from "./resources/page/Header";
 import { useState } from "react";
 import Login from "./resources/page/member/Login";
-
+import ProdList from "./resources/page/product/ProdList";
 
 function App() {
 	
@@ -14,7 +14,7 @@ function App() {
 
 	return (
 		<div className="App">
-			<Header showLogin={showLogin} setShowLogin={setShowLogin} />
+			<Header setShowLogin={setShowLogin} />
 			<Routes>
 				{/* 메인 페이지 */}
 				<Route path="/" element={<Mainpage />} />
@@ -23,6 +23,11 @@ function App() {
 				<Route path="/member">
 					{/* 회원가입 페이지 */}
 					<Route path="signUp" element={<SignUp />} />
+				</Route>
+
+				{/* 제품 관련 */}
+				<Route path="/product">
+					<Route path="list" element={<ProdList />} />
 				</Route>
 
 				{/* ? */}
@@ -36,6 +41,7 @@ function App() {
 					<h1>404! 아마도 당신은 에러일 겁니다 404!</h1>
 				} />
 			</Routes>
+
 			{/* 로그인 페이지 */}
 			<Login showLogin={showLogin} setShowLogin={setShowLogin} />
 		</div>
