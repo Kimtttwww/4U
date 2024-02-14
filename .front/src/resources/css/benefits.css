@@ -47,12 +47,16 @@
     flex-direction: column;
   }
   
-  h3 {
+  .pointInfo h3,
+  .couponInfo h3,
+  .ratingInfo h3 {
     margin: 0;
     font-size: 18px;
   }
   
-  span {
+  .pointInfo span,
+  .couponInfo span,
+  .ratingInfo span {
     color: #666;
   }
   

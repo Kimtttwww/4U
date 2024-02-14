@@ -19,23 +19,25 @@
   
   .bitem {
     display: flex;
-    justify-content: space-between;
     align-items: center;
+    flex-direction: column;
     margin-bottom: 5px;
     border: 1px solid black;
   }
 
   .bitem img {
-    width: 100px;
-    height: 100px;
+    width: 400px;
+    height: 400px;
     margin: 10px;
   }
 
   .bitem span {
     font-weight: bold;
+    margin: 10px;
   }
   
   .bitem button {
+    margin: 10px;
     background-color: black;
     color: #fff;
     border: none;

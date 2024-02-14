@@ -39,23 +39,23 @@
     justify-content: center;
   }
   
-  h3 {
+  .chatInfo h3 {
     margin: 0;
     font-size: 18px;
   }
   
-  span {
+  .chatInfo span {
     color: #666;
   }
   
-  a {
+  .chatInfo a {
     color: black;
     text-decoration: none;
     margin-top: 5px;
     border-bottom: none;
   }
   
-  a:hover {
+  .chatInfo a:hover {
     text-decoration: underline;
   }
   
