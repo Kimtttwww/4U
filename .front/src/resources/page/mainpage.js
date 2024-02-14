@@ -20,7 +20,6 @@ export default () => {
 
 
 
-
     <div>
     <Swiper
     modules={[Pagination, Navigation, Autoplay]}
@@ -40,10 +39,11 @@ export default () => {
     </Swiper>
     </div>
     
+<div className='container'>
     {/*==============================================================================================================================================*/}
 
 
-    <div className='adTop'>
+    {/* <div className='adTop'>
      <div className='adTop-left'>
           <img className = 'adTopImg' src='https://atimg.sonyunara.com/files/attrangs/goods/157385/65979a5371357.jpg'/>
      </div>
@@ -61,9 +61,10 @@ export default () => {
       <div className='adTop-rightTwo'>
       <img className = 'adTopImg' src='https://atimg.sonyunara.com/files/attrangs/goods/158300/65bc5879cc42c.jpg'/>
       </div>
-    </div>
+    </div> */}
     
   {/*==============================================================================================================================================*/}
+
 
   <h1>베스트 상품</h1>
     <div className='clothListBox'>
@@ -189,7 +190,7 @@ export default () => {
 
     </div>
 
-    
+</div>
     
     </>
   );
