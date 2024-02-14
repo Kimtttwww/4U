@@ -24,6 +24,7 @@ public class MemberController {
 	
 	/** 로그인 팝업창 로그인 요청
 	 * @param m 로그인 시도할 ID, PW 정보
+	 * @return 해당되는 사용자의 간략한 정보
 	 */
 	@PostMapping("/login")
 	public Member selectMemberSoft(@RequestBody Member m) {

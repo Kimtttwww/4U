@@ -1,6 +1,7 @@
 package kr.cl.forU.product.model.vo;
 
 import java.sql.Date;
+import java.util.List;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -43,4 +44,7 @@ public class Product {
 	private String line;
 	/** 옷에 맞는 계절 */
 	private String season;
+	
+	/**	해당 상품의 조합 */
+	private List<ProdDetail> detail;
 }

@@ -1,31 +1,39 @@
-import Modal from "react-bootstrap/Modal";
-import { useRef, useState } from "react";
-import "../../css/member/Login.css";
+import { useEffect, useRef, useState } from "react";
+import "../css/member/Login.css";
 import axios from "axios";
+import { Modal } from "react-bootstrap";
 
 export default function Login(props) {
 	
-	const {showLogin, setShowLogin} = props;
+	const {showLogin, setShowLogin, setLogin} = props;
 	const [member, setMember] = useState({memberId: '', memberPwd: ''});
 	const inputs = useRef([]);
 	
-	// window.onkeydown = (e) => {
-	// 	if(e.getModifierState("CapsLock")) {    
-	// 		pw.setCustomValidity('CapsLock이 켜져 있습니다');
-	// 		pw.reportValidity();
-	// 	} else {
-	// 		pw.setCustomValidity('');
-	// 	}
-	// };
+	useEffect(() => {
+		// capsLock 확인
+		const capsCheck = (e) => {
+			if(inputs.current.length && inputs.current[1]){
+				if(e.getModifierState("CapsLock")) {    
+					inputs.current[1].setCustomValidity('CapsLock이 켜져 있습니다');
+					inputs.current[1].reportValidity();
+				} else {
+					inputs.current[1].setCustomValidity('');
+				}
+			}
+		};
+		
+		window.addEventListener("keydown", capsCheck);
+
+		return () => {window.removeEventListener("keydown", capsCheck)};
+	}, []);
 
 	// 로그인 시도
 	function login() {
-		for (let i = 0; i < 1; i++) {
+		for (let i = 0; i < 2; i++) {
 			member[inputs.current[i].name] = inputs.current[i].value;
 		}
-		setMember({...member});
 		
-		console.log(inputs.current[2]);
+		setMember({...member});
 		let {memberId, memberPwd, isRememberId} = member;
 
 		if(memberId && memberPwd) {
@@ -33,12 +41,16 @@ export default function Login(props) {
 			.then((result) => {
 				if(result.data) {
 					sessionStorage.setItem('loginMember', JSON.stringify(result.data));
+					setShowLogin(false);
+					setLogin(result.data);
 				} else {
 					setMember({memberId: '', memberPwd: ''});
-					for (let i = 0; i < 1; i++) {inputs.current[i].value = "";}
+					for (let i = 0; i < 2; i++) {inputs.current[i].value = "";}
 					alert('잘못된 아이디 혹은 비밀번호 입니다');
 				}
 			}).catch(console.log);
+		} else {
+			alert("입력이 충분하지 않습니다");
 		}
 
 		// 나중에 아이디 저장 기능

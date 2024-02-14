@@ -1,15 +1,71 @@
 /* 페이지 시작 */
 .ProdList {
+	width: 1350px;
+	min-height: 750px;
 	display: flex;
-
 }
 
 .menu-side-area {
-	
+    width: 325px;
+	height: 100%;
+	display: flex;
+	background-color: aquamarine;
+}
+
+/* 컨텐츠영역(상품 리스트) */
+.products {
+	width: calc(100% - 325px);
+	display: flex;
+    flex-wrap: wrap;
+	justify-content: space-around;
+}
+
+/* 각각의 상품들 */
+.product {
+	flex: 0 0 250px;
+	height: 400px;
+	display: flex;
+	flex-direction: column;
+	border: 1px solid black;
+	margin: 5px 3px;
+}
+
+/* 상품 이미지 */
+.prod-img {
+	width: 100%;
+	height: 75%;
+	background-color: hotpink;
+}
+
+/* 상품 설명들 박스 */
+.product>article {
+	display: flex;
+	flex-direction: column;
+	padding: 5px;
+}
+
+/* 상품 설명들 */
+.product div {
+	height: 20px;
+	font-size: small;
+}
+
+/* 상품 이름 */
+.product div:nth-of-type(2) {
+	height: 40px;
+
+}
+
+/* 상품 색상 박스 */
+.prod-color {
 	display: flex;
 }
 
-.products {
-	display: flex;
-
+/* 상품 색상 */
+.prod-color>span {
+	height: 100%;
+	width: 20px;
+	background-color: chartreuse;
+	border-radius: 50%;
+	margin-right: 15px;
 }
