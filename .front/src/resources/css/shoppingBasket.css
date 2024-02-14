@@ -1,69 +1,64 @@
 .shoppingBasket {
-  border-bottom: 1px solid #ccc;
-  padding: 20px;
-  margin: 20px;
-  display: flex;
-  flex-direction: column;
-  /* 자식 요소들을 세로 방향으로 정렬하기 위해 column 설정 */
-  justify-content: center;
-  /* 수직 중앙 정렬 */
-  align-items: center;
-  /* 수평 중앙 정렬 */
-}
+    border-bottom: 1px solid #ccc;
+    padding: 20px;
+    margin: 20px;
+    display: flex;
+    flex-direction: column; /* 자식 요소들을 세로 방향으로 정렬하기 위해 column 설정 */
+    justify-content: center; /* 수직 중앙 정렬 */
+    align-items: center; /* 수평 중앙 정렬 */
+  }
+  
+  .shoppingBasket h2 {
+    font-size: 24px;
+    margin-bottom: 10px;
+  }
+  
+  .bitems {
+    margin-bottom: 10px;
+  }
+  
+  .bitem {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 5px;
+    border: 1px solid black;
+  }
 
-.shoppingBasket h2 {
-  font-size: 24px;
-  margin-bottom: 10px;
-}
+  .bitem img {
+    width: 100px;
+    height: 100px;
+    margin: 10px;
+  }
 
-.bitems {
-  margin-bottom: 10px;
-}
-
-.bitem {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  margin-bottom: 5px;
-  border: 1px solid black;
-}
-
-.bitem img {
-  width: 100px;
-  height: 100px;
-  margin: 10px;
-}
-
-.bitem span {
-  font-weight: bold;
-}
-
-.bitem button {
-  background-color: black;
-  color: #fff;
-  border: none;
-  padding: 5px 10px;
-  cursor: pointer;
-}
-
-.bitem button:hover {
-  background-color: rgba(0, 0, 0, 0.637);
-}
-
-.btotal {
-  margin-bottom: 10px;
-}
-
-/* 
-button {
+  .bitem span {
+    font-weight: bold;
+  }
+  
+  .bitem button {
+    background-color: black;
+    color: #fff;
+    border: none;
+    padding: 5px 10px;
+    cursor: pointer;
+  }
+  
+  .bitem button:hover {
+    background-color: rgba(0, 0, 0, 0.637);
+  }
+  
+  .btotal {
+    margin-bottom: 10px;
+  }
+  
+  .bMv {
     padding: 10px 20px;
     background-color: black;
     color: #fff;
     border: none;
     cursor: pointer;
-  } */
-/* 누가 태그명으로 css하래............. */
+  }
 
-button:hover {
+.bMv:hover {
   background-color: rgba(0, 0, 0, 0.637);
 }

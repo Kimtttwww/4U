@@ -41,6 +41,11 @@
     align-items: center;
 }
 
+.atemImg {
+    display: flex;
+    justify-content: center;
+}
+
 .atemImg img {
     width: 150px;
     height: 150px;
