@@ -1,8 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 
-import BuyerMyPage from "./resources/page/BuyerMyPage";
-import Login from "./resources/page/Login";
-import OrderPage from "./resources/page/order/OrderPage";
+import BuyerMyPage from "./resources/page/BuyerMyPage/BuyerMyPage";
+import OrderPage from "./resources/page/order/Order";
 import Payment from "./resources/page/order/Payment";
 import Mainpage from "./resources/page/Mainpage";
 import SignUp from "./resources/page/SignUp";
