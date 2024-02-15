@@ -3,4 +3,16 @@
 <mapper namespace="productMapper">
 
 
+
+
+
+
+<!-- INSERT INTO prod_detail(
+    PROD_NO,
+    "INDEX"
+) values(
+    #{???},
+    (select count(*) from prod_detail WHERE prod_no = 2)
+) -->
+
 </mapper>

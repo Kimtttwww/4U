@@ -1,13 +1,10 @@
-import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import "../css/Header.css";
-import Login from '../modal/Login';
 
-export default function Header() {
+export default function Header(props) {
 
     // 로그인창 띄울떄 필요한 매개변수
-	const [showLogin, setShowLogin] = useState(false);
-    const [login, setLogin] = useState(JSON.parse(sessionStorage.getItem("loginMember")+""));
+	const {setShowLogin, login, setLogin} = props;
     
         const scrollToTop = () => {
             window.scrollTo({
@@ -49,11 +46,7 @@ export default function Header() {
                         </button>
                     </div>
                 </div>
-
             </div>
-            
-            {/* 로그인 페이지 */}
-            <Login showLogin={showLogin} setShowLogin={setShowLogin} setLogin={setLogin} />
         </>
     )
 }

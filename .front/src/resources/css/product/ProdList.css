@@ -5,6 +5,7 @@
 	display: flex;
 }
 
+/* 왼쪽 메뉴바 영역 */
 .menu-side-area {
     width: 325px;
 	height: 100%;

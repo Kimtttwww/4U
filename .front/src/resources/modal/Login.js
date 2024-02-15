@@ -1,12 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import "../css/member/Login.css";
 import axios from "axios";
-import { Modal } from "react-bootstrap";
+import { Modal, Overlay, Tooltip } from "react-bootstrap";
 
 export default function Login(props) {
 	
 	const {showLogin, setShowLogin, setLogin} = props;
 	const [member, setMember] = useState({memberId: '', memberPwd: ''});
+	const [showTooltip, setShowTooltip] = useState(false);
 	const inputs = useRef([]);
 	
 	useEffect(() => {
@@ -14,10 +15,9 @@ export default function Login(props) {
 		const capsCheck = (e) => {
 			if(inputs.current.length && inputs.current[1]){
 				if(e.getModifierState("CapsLock")) {    
-					inputs.current[1].setCustomValidity('CapsLock이 켜져 있습니다');
-					inputs.current[1].reportValidity();
+					setShowTooltip(true);
 				} else {
-					inputs.current[1].setCustomValidity('');
+					setShowTooltip(false);
 				}
 			}
 		};
@@ -59,29 +59,34 @@ export default function Login(props) {
 		// }
 	}
 
-	return(
-		<>
-			<Modal show={showLogin} onHide={() => setShowLogin(false)} backdrop="static" keyboard={false}>
-				<Modal.Header closeButton>
-					<Modal.Title>로그인</Modal.Title>
-				</Modal.Header>
-				<Modal.Body className="content-box" style={{flexDirection: "column"}}>
-					<div className="content-box">
-						<div className="inputs-box">
-							<input type="text" name="memberId" className="login-font form-control" placeholder="ID"
-							ref={(e) => {inputs.current[0] = (e)}} required />
-							<input type="password" name="memberPwd" className="login-font form-control" placeholder="PW"
-							ref={(e) => {inputs.current[1] = (e)}} required />
-						</div>
-						<button className="login-btn login-font btn btn-primary" onClick={login}>Log in</button>
+	return(<>
+		<Modal show={showLogin} onHide={() => setShowLogin(false)} backdrop="static" keyboard={false}>
+			<Modal.Header closeButton>
+				<Modal.Title>로그인</Modal.Title>
+			</Modal.Header>
+			<Modal.Body className="content-box" style={{flexDirection: "column"}}>
+				<div className="content-box">
+					<div className="inputs-box">
+						<input type="text" name="memberId" className="login-font form-control" placeholder="ID"
+						ref={(e) => {inputs.current[0] = (e)}} required />
+						<input type="password" name="memberPwd" className="login-font form-control" placeholder="PW"
+						ref={(e) => {inputs.current[1] = (e)}} required />
+						<Overlay target={inputs.current[1]} show={showTooltip} placement="bottom">
+							{(props) => (
+								<Tooltip id="overlay-tooltip" {...props}>
+									CapsLock이 켜져 있습니다
+								</Tooltip>
+							)}
+						</Overlay>
 					</div>
-					<div style={{padding: "0 5px"}}>
-						{/* 나중에 아이디, 비번 찾기 혹은 아이디 저장 기능 */}
-						<input type="checkbox" id="isRememberId" className="form-check-input" name="isRememberId" ref={(e) => {inputs.current[2] = (e)}} />
-						<label htmlFor="isRememberId" className="form-label">아이디 저장</label>
-					</div>
-				</Modal.Body>
-			</Modal>
-		</>
-	);
+					<button className="login-btn login-font btn btn-primary" onClick={login}>Log in</button>
+				</div>
+				<div style={{padding: "0 5px"}}>
+					{/* 나중에 아이디, 비번 찾기 혹은 아이디 저장 기능 */}
+					<input type="checkbox" id="isRememberId" className="form-check-input" name="isRememberId" ref={(e) => {inputs.current[2] = (e)}} />
+					<label htmlFor="isRememberId" className="form-label">아이디 저장</label>
+				</div>
+			</Modal.Body>
+		</Modal>
+	</>);
 }
