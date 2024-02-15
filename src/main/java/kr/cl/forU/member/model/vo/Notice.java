@@ -9,4 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Notice {
 
+	private int noticeNo;
+	private int noticeType;
+	private int memberNo;
 }

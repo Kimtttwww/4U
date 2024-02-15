@@ -2,6 +2,8 @@ package kr.cl.forU.member.model.vo;
 
 import java.sql.Date;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -24,7 +26,7 @@ public class Member {
 	/** 이메일 */
 	private String phone;
 	/** 연락처 */
-	private Date birthday;
+	private String birthday;
 	/** 가입일 */
 	private Date createDate;
 	/** 상태 */
@@ -34,7 +36,7 @@ public class Member {
 	/** 주소(상세) */
 	private String addressDetail;
 	/** 우편번호 */
-	private int postNo;
+	private int zipCode;
 	/** 회원등급 */
 	private String grade;
 	/** 포인트 */

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import PaymentPage from "../../css/PaymentPage.css";
+import PaymentPage from "../../css/order/PaymentPage.css";
 import ChangeAddress from "../../modal/ChangeAddress";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";

@@ -41,7 +41,7 @@
     height: calc(150vh - 300px); /* Adjust the height based on your design */
 }
 
-form {
+.signUpForm {
     width: 400px;
     padding: 20px;
     border: 1px solid #ccc;
