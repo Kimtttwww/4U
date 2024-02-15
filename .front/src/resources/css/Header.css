@@ -6,6 +6,7 @@
     width: 100%;
     background-color: #fff;
     z-index: 100;
+    border-bottom: 2px solid #ccc4c4;
 }
 
 .header a{
@@ -13,9 +14,19 @@
   color: #000000;
 }
 
-.loginMenu a{
-  padding: 0 40px;
+.loginMenu a{ /*요거 수정함*/
+  width: 160px;
   margin: 10px 0 0 0;
+  height: 25px;
+  text-align: center;
+}
+
+.loginMenu button{ /*요거 수정함*/
+  width: 160px;
+  margin: 10px 0 0 0;
+  border: none;
+  background-color: #fff;
+  height: 25px;
 }
 
 .logo {
@@ -53,8 +64,8 @@
 }
 
 
-.search-input {
-  padding: 10px 20px;
+.search-input { /*요거도 수정함*/
+  padding: 10px 56px;
   border: 1px solid #ccc;
   border-bottom: 1px solid #000;
   border-top: none;
