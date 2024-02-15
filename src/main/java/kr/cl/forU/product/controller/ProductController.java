@@ -3,8 +3,11 @@ package kr.cl.forU.product.controller;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
@@ -12,16 +15,20 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.cl.forU.product.model.service.ProductService;
 import kr.cl.forU.product.model.vo.Product;
 
-@Controller
+@RestController
+@RequestMapping("/product")
 public class ProductController {
 
-    // 최근 본 상품 목록을 저장할 쿠키 이름
+	@Autowired
+	ProductService service;
+    /** 최근 본 상품 목록을 저장할 쿠키 이름 */
     private static final String RECENT_PRODUCTS_COOKIE = "recentProducts";
 
-    @GetMapping("/product/detail")
+    
+    @GetMapping("detail")
     public String getProductDetail(HttpServletRequest request, HttpServletResponse response) {
         // 상품 상세 정보를 가져오는 로직
-        Product product = ProductService.getProductById(prodNo);
+        Product product = service.getProductById(prodNo);
         
         // 최근 본 상품 목록을 쿠키에서 가져오기
         Cookie[] cookies = request.getCookies();
@@ -40,7 +47,7 @@ public class ProductController {
         if (recentProducts != null && !recentProducts.isEmpty()) {
             String[] productIds = recentProducts.split(",");
             for (String productId : productIds) {
-                Product recentProduct = ProductService.getProductById(Integer.parseInt(productId));
+                Product recentProduct = service.getProductById(Integer.parseInt(productId));
                 recentProductList.add(recentProduct);
             }
         }

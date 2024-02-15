@@ -4,7 +4,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -16,7 +15,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.cl.forU.member.model.service.MemberService;
 import kr.cl.forU.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
-
 
 @Slf4j
 @RestController
@@ -46,7 +44,7 @@ public class MemberController {
 	public Map<String, Object> insertMember(@RequestBody Member m , HttpServletResponse res) {
 		log.info("dd {}" , m);
 		int result = service.insertMember(m);
-		Map<String, Object> map = new HashMap();
+		Map<String, Object> map = new HashMap<>();
 		
 		
 		if(result > 0) {

@@ -1,13 +1,14 @@
 /* modal */
 .one-product {
 	max-width: none!important;
-    width: 1300px;
-    height: 1000px;
+    width: 1200px;
+    height: 800px;
 }
 
 /* modal body */
 .prod-detail {
 	width: 100%;
+	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
 	overflow: auto;
@@ -16,27 +17,98 @@
 
 /* 상품 사진들 박스 */
 .prod-imgs {
-	flex: 0 0 720px;
+	flex: 0 0 600px;
 	display: flex;
 	flex-direction: column;
 }
 
-/* 상품 main 사진 */
-.prod-main-img {
+/* 상품 사진 박스들의 박스 */
+.prod-imgs>picture {
 	width: 100%;
+}
+
+/* 상품 main 사진 박스 */
+.prod-main-img {
 	height: 600px;
 	border: 1px solid black;
 }
 
-/* 상품 sub 사진 */
-.prod-main-img {
-	
-	
+/* 상품 sub 사진 박스*/
+.prod-sub-img {
+	width: 300px;
+	height: 300px;
 }
 
 /* 상품 정보들 박스 */
 .prod-other {
-	flex: 0 0 480px;
-	
-	
+	flex: 0 0 400px;
+}
+
+/* 상품 정보들 박스 안 박스들 */
+.prod-other>* {
+	margin-bottom: 20px;
+}
+
+/* 상품 정보들 박스 안 박스들 */
+.prod-other>p {
+	font-size: large;
+}
+
+/* 상품 가격 박스 */
+.prod-price {
+	display: flex;
+}
+
+/* 상품 정가 */
+.prod-price>h5 {
+	text-decoration: line-through;
+}
+
+/* 상품 할인 가격 */
+.prod-price>h4, .prod-price pre {
+	display: flex;
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+
+/* 상품 색상들 */
+.prod-colors>label {
+	width: 30px;
+	height: 30px;
+	border-radius: 50%;
+	margin: 5px;
+}
+
+/* 상품 사이즈들 */
+.prod-sizes>label {
+	margin: 5px;
+}
+
+/* 상품 선택창 */
+.prod-receipt {
+	border: 1px solid black;
+}
+
+/* 상품 선택창 */
+.prod-receipt>ul {
+	list-style: none;
+	padding: 0;
+	margin: 0;
+}
+
+.prod-receipt li {
+	border: 1px solid black;
+	border-radius: 5%;
+}
+
+/* 선택한 상품의 수량 입력 */
+.prod-receipt input {
+	width: 50px;
+}
+
+/* 수량 입력창 잡것 제거 */
+.prod-receipt input::-webkit-outer-spin-button, .prod-receipt input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }

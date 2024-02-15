@@ -1,4 +1,4 @@
-package kr.cl.forU.review.model.vo;
+package kr.cl.forU.product.model.vo;
 
 import java.sql.Date;
 

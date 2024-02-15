@@ -12,13 +12,13 @@ public class ProductService {
 	@Autowired
 	ProductDao dao;
 
-	public static Product getProductById(Product product) {
+	public Product getProductById(Product product) {
 		// TODO Auto-generated method stub
 		return null;
 	}
 
 
-	public static Product getProductById(int prodNo) {
+	public Product getProductById(int prodNo) {
 		// TODO Auto-generated method stub
 		return null;
 	}

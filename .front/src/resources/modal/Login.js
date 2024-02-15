@@ -3,6 +3,13 @@ import "../css/member/Login.css";
 import axios from "axios";
 import { Modal, Overlay, Tooltip } from "react-bootstrap";
 
+/**
+ * 로그인 모달창 
+ * @props props
+ * 	@param {boolean} showLogin 로그인 모달창의 표시 여부 state
+ * 	@param {function} setShowLogin 로그인 모달창의 표시 여부 state's setter fn
+ * 	@param {function} setLogin 로그인 된 사용자 정보를 가지고 있는 state's setter fn
+*/
 export default function Login(props) {
 	
 	const {showLogin, setShowLogin, setLogin} = props;
@@ -11,9 +18,12 @@ export default function Login(props) {
 	const inputs = useRef([]);
 	
 	useEffect(() => {
-		// capsLock 확인
+		/**
+		 * capsLock 확인
+		 * @param {KeyboardEvent} e 
+		*/
 		const capsCheck = (e) => {
-			if(inputs.current.length && inputs.current[1]){
+			if(inputs.current.length && inputs.current[1]) {
 				if(e.getModifierState("CapsLock")) {    
 					setShowTooltip(true);
 				} else {
@@ -22,12 +32,32 @@ export default function Login(props) {
 			}
 		};
 		
+		/**
+		 * 아이디 / 비번 input에서 enter 확인
+		 * @param {KeyboardEvent} e 
+		*/
+		const enterCheck = (e) => {
+			if(e.key == "Enter") {login();}
+		};
+		
 		window.addEventListener("keydown", capsCheck);
+		if(inputs.current.length && inputs.current[1]) {
+			inputs.current[0].addEventListener("keydown", enterCheck);
+			inputs.current[1].addEventListener("keydown", enterCheck);
+		}
+		
+		return () => {
+			window.removeEventListener("keydown", capsCheck);
+			if(inputs.current.length && inputs.current[1]) {
+				inputs.current[0].removeEventListener("keydown", enterCheck);
+				inputs.current[1].removeEventListener("keydown", enterCheck);
+			}
+		};
+	}, [showLogin]);
 
-		return () => {window.removeEventListener("keydown", capsCheck)};
-	}, []);
-
-	// 로그인 시도
+	/** 
+	 * 로그인 시도
+	 */
 	function login() {
 		for (let i = 0; i < 2; i++) {
 			member[inputs.current[i].name] = inputs.current[i].value;
@@ -40,9 +70,10 @@ export default function Login(props) {
 			axios.post("/member/login", member)
 			.then((result) => {
 				if(result.data) {
-					sessionStorage.setItem('loginMember', JSON.stringify(result.data));
+					const loginMember = JSON.stringify(result.data)
+					sessionStorage.setItem('loginMember', loginMember);
+					setLogin(loginMember);
 					setShowLogin(false);
-					setLogin(result.data);
 				} else {
 					setMember({memberId: '', memberPwd: ''});
 					for (let i = 0; i < 2; i++) {inputs.current[i].value = "";}
@@ -60,7 +91,7 @@ export default function Login(props) {
 	}
 
 	return(<>
-		<Modal show={showLogin} onHide={() => setShowLogin(false)} backdrop="static" keyboard={false}>
+		<Modal show={showLogin} onHide={() => setShowLogin(false)} backdrop="static">
 			<Modal.Header closeButton>
 				<Modal.Title>로그인</Modal.Title>
 			</Modal.Header>
@@ -68,7 +99,7 @@ export default function Login(props) {
 				<div className="content-box">
 					<div className="inputs-box">
 						<input type="text" name="memberId" className="login-font form-control" placeholder="ID"
-						ref={(e) => {inputs.current[0] = (e)}} required />
+						ref={(e) => {inputs.current[0] = (e)}} autoFocus required />
 						<input type="password" name="memberPwd" className="login-font form-control" placeholder="PW"
 						ref={(e) => {inputs.current[1] = (e)}} required />
 						<Overlay target={inputs.current[1]} show={showTooltip} placement="bottom">
