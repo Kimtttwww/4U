@@ -1,11 +1,12 @@
-import '../../css/UserInfo.css';
-import '../../css/Activity.css';
-import '../../css/ShoppingBasket.css';
-import '../../css/Benefits.css';
-import '../../css/Chat.css';
-import { useState } from 'react';
+import '../../css/buyerMyPage/UserInfo.css';
+import '../../css/buyerMyPage/Activity.css';
+import '../../css/buyerMyPage/ShoppingBasket.css';
+import '../../css/buyerMyPage/Benefits.css';
+import '../../css/buyerMyPage/Chat.css';
+import { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 
 export default function BuyerMyPage() {
 
@@ -25,25 +26,37 @@ export default function BuyerMyPage() {
     };
 
     // 구매내역
-    const purchaseHistory = [
-      { id: 1, productName: '데이린 하트넥 퍼프 골지 긴팔 티셔츠', image: 'https://atimg.sonyunara.com/files/attrangs/goods/62515/63d223cd55470.jpg' },
-      { id: 2, productName: '데이린 하트넥 퍼프 골지 긴팔 티셔츠', image: 'https://atimg.sonyunara.com/files/attrangs/goods/62515/63d223cd55470.jpg' },
-      { id: 3, productName: '데이린 하트넥 퍼프 골지 긴팔 티셔츠', image: 'https://atimg.sonyunara.com/files/attrangs/goods/62515/63d223cd55470.jpg' }
-    ];
+    const [orders, setOrders] = useState([]);
+    useEffect(()=>{
+      axios
+      .get( "http://localhost:3000/order/history")
+      .then(
+          (response) =>{
+              console.log(response)
+              setOrders(response.data); //채팅방 목록페이지 조회
+          }
+      )
+      .catch((err)=>console.log(err))
+  }, [])
   
     // 최근 본 상품
 
-      // 최근 본 상품 목록을 저장하는 상태
-  const [recentlyViewed, setRecentlyViewed] = useState([]);
+    const [recentlyViewed, setRecentlyViewed] = useState([]);
 
-  // 상품을 최근 본 상품 목록에 추가하는 함수
-  const addToRecentlyViewed = (product) => {
-    // 최근 본 상품 목록에 중복된 상품이 있는지 확인
-    if (!recentlyViewed.some((item) => item.id === product.id)) {
-      // 중복되지 않은 상품이라면 최근 본 상품 목록에 추가
-      setRecentlyViewed([...recentlyViewed, product]);
-    }
-  };
+    useEffect(() => {
+        // 쿠키에서 최근 본 상품 정보를 읽어옴
+        const cookieValue = document.cookie
+            .split('; ')
+            .find(row => row.startsWith('recentlyViewed='))
+            ?.split('=')[1];
+
+        if (cookieValue) {
+            const productIds = cookieValue.split(',');
+            // productIds를 서버에 보내서 최근 본 상품 정보를 가져올 수 있음
+            // 가져온 상품 정보를 recentlyViewed 상태에 설정
+            setRecentlyViewed(productIds);
+        }
+    }, []);
 
 
 
@@ -88,50 +101,48 @@ export default function BuyerMyPage() {
           <div className="activityDetail">
             <h2>나의 활동</h2>
             <span>구매 내역</span>
-            <button>이동</button>
+            <Link to="/order/history">
+              <button>이동</button>
+            </Link>
           </div>
         </div>
         <div className="rightContainer">
           {/* 각 구매 내역을 매핑하여 화면에 표시 */}
-          {purchaseHistory.map((item) => (
-            <div className="activityItem" key={item.id}>
-              <div className="atem">
-                <div className="atemImg">
-                  <img src={item.image} alt={item.productName} />
+          {orders.map((order) => (
+          <div className="activityItem" key={order.orderNo}>
+            <Link to={`/order/orderdetail/${order.orderNo}`}>
+                <div className="atem">
+                    <div className="atemImg">
+                        <img src={order.image} alt={order.productName} />
+                    </div>
+                    <div className="atemIntro">
+                        <span>{order.orderName}</span>
+                    </div>
                 </div>
-                <div className="atemIntro">
-                  <span>{item.productName}</span>
-                </div>
-              </div>
-            </div>
+            </Link>
+          </div>
           ))}
         </div>
     </div>
 
     <div className="activity">
-      <div className="leftContainer">
-        <div className="activityDetail">
-          <h2>나의 활동</h2>
-          <span>최근 본 상품</span>
-          <button>이동</button>
-        </div>
-      </div>
-      <div className="rightContainer">
-        {/* 최근 본 상품 목록을 화면에 표시 */}
-        {recentlyViewed.map((product) => (
-          <div className="activityItem" key={product.id}>
-            <div className="atem">
-              <div className="atemImg">
-                <img src={product.image} alt={product.name} />
-              </div>
-              <div className="atemIntro">
-                <span>{product.name}</span>
-              </div>
+            <div className="leftContainer">
+                <div className="activityDetail">
+                    <h2>나의 활동</h2>
+                    <span>최근 본 상품</span>
+                    <button>이동</button>
+                </div>
             </div>
-          </div>
-        ))}
-      </div>
-    </div>
+            <div className="rightContainer">
+                {/* 최근 본 상품 목록을 화면에 표시 */}
+                {recentlyViewed.map(productId => (
+                    <div className="activityItem" key={productId}>
+                        {/* productId를 서버에 보내서 해당 상품 정보를 가져올 수 있음 */}
+                        {/* 가져온 상품 정보를 화면에 표시 */}
+                    </div>
+                ))}
+            </div>
+        </div>
 
       <div className="shoppingBasket">
       <h2>장바구니</h2>

@@ -13,6 +13,7 @@ import ProdList from "./resources/page/product/ProdList";
 import SignUp from "./resources/page/SignUp";
 import UserUpdate from "./resources/page/BuyerMyPage/UserUpdate";
 import { useState } from "react";
+import OrderHt from "./resources/page/BuyerMyPage/orderHistory/OrderHt";
 
 function App() {
 
@@ -43,15 +44,17 @@ function App() {
 				</Route>
 
 				{/* ? */}
-				<Route path="/order" element={<OrderPage />} />
-				{/* <Route path="/leftbar" element={<Leftmenubar />} /> */}
-				{/* ? */}
-				<Route path="/buyer/mypage/" element={<BuyerMyPage />} />
+				<Route path="/order/order" element={<OrderPage />} />
+
+				<Route path="/order/history" element={<OrderHt />}/>
+
+				{/* 구매자 마이페이지 */}
+				<Route path="/buyer/mypage/" element={<BuyerMyPage />} /> 
 
 				{/* ? */}
 				<Route path="/Payment" element={<Payment />} />
 
-				{/* ? */}
+				{/* 장바구니 관련 */}
 				<Route path="/cart/CartList/" element={<CartList />} />
 
 				{/* 그 외의 에러 페이지 */}

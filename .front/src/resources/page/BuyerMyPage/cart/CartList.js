@@ -32,7 +32,7 @@ function CartList(props) {
   const showList = async () => {
     try {
       const result = await axios.get(
-        "https://backend.alittlevanilla.kro.kr/cart/list",
+        "http://localhost:3000/cart/CartList",
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -69,7 +69,7 @@ function CartList(props) {
   const cancel = async (idx) => {
     try {
       await axios.get(
-        "https://backend.alittlevanilla.kro.kr/cart/cancel/" + idx,
+        "http://localhost:3000/cart/CartList/cancel/" + idx,
         {
           headers: {
             Authorization: "Bearer " + localStorage.getItem("token"),
@@ -410,9 +410,9 @@ function CartList(props) {
 const EmptyCartBtn = styled.button`
   width: 246px;
   margin-top: 36px;
-  background: #f1c333;
+  color : white;
   border: 1px solid transparent;
-  color: #ffffff;
+  background-color: black;
   font-size: 16px;
   line-height: 46px;
   padding: 0 24px;
@@ -426,6 +426,9 @@ const EmptyCartBtn = styled.button`
   text-decoration: none;
   transition: border-color 0.2s cubic-bezier(0.075, 0.82, 0.165, 1);
   vertical-align: middle;
+  &:hover {
+    background-color: rgba(0, 0, 0, 0.637);
+  }
 `;
 
 const EmptyListText = styled.p`
@@ -436,7 +439,7 @@ const EmptyListText = styled.p`
 
 const LogoEmpty = styled.i`
   vertical-align: middle;
-  color: #f1c333;
+  color: black;
   font-size: 120px !important;
   font-style: normal;
   -webkit-font-smoothing: antialiased;

@@ -8,10 +8,17 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Order {
-
 	private int orderNo;
-	private int index;
-	private int prodNo;
-	private int count;
-	private int price;
+	private int memberNo;
+	private String orderName;
+	private String orderDate;
+	private String receiver;
+	private String receivePhone;
+	private String address;
+	private String addressDetail;
+	private String zipCode;
+	private String message;
+	private int totalCount;
+	private int totalPrice;
+	private String payment;
 }
