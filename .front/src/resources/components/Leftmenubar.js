@@ -1,5 +1,4 @@
 import { useCallback, useEffect, useState } from "react";
-import Leftbar from "../css/components/Leftbar.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 

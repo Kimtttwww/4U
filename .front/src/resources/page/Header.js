@@ -22,14 +22,13 @@ export default function Header(props) {
                 <div className="loginMenu">
                     {login ? (
                         <>
-                            <Link to={""}>로그아웃</Link>
+                            <button type='button'>로그아웃</button>
                             <Link to={""}>마이페이지</Link>
                         </>
                     ) : (
                         <>
-                            {/* 나중에 링크말고 다른걸로(btn, div, span 등) 바꿀 것 */}
-                            <Link to="" onClick={() => {setShowLogin(true)}}>로그인</Link>
-                            <Link to="member/SignUp">회원가입</Link>
+                            <button type='button' className='login' onClick={() => {setShowLogin(true)}}>로그인</button>
+                            <Link to={""} className='enroll'>회원가입</Link>
                         </>
                     )}
                 </div>

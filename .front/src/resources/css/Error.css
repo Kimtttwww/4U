@@ -1,0 +1,40 @@
+.errorImg {width: 500px;}
+.error404 {width: 100%;position: relative;background: #fff; display: flex; justify-content: center;}
+.error404_container {display: table;height: 100%;text-align: center;color: #000;}
+.error404_container_inner {display: table-cell;vertical-align: middle; height: 800px;}
+.error404_container p {margin-bottom: 18px;font-size: 26px;letter-spacing: -0.025em;line-height: 1.75;}
+.error404_container a {display: inline-block;margin-top: 56px;padding: 10px 18px;font-size: 26px;letter-spacing: 0.05em;line-height: 1;color: #000; text-decoration: none;}
+.error404_container a > span {border-bottom: 1px solid #fff;}
+
+.error404_container .glitch {display: block;position: relative;white-space: nowrap;}
+.error404_container .glitch:before {text-shadow: 1px 0 #000;animation: noise 3s infinite linear alternate-reverse;}
+
+.error404_container , .glitch:before {background: #fff 0 0 repeat;}
+
+.error404_container .glitch:before, .error_404_container .glitch:after {content: attr(data-text);width: 100%;position: absolute;left: -2px;top: 0;color: #fff;overflow: hidden;clip: rect(0, 900px, 0, 0);}
+
+
+@keyframes noise {
+    0% {clip: rect(18px, 9999px, 46px, 0);}
+    5% {clip: rect(31px, 9999px, 98px, 0);}
+    10% {clip: rect(80px, 9999px, 10px, 0);}
+    15% {clip: rect(77px, 9999px, 22px, 0);}
+    20% {clip: rect(48px, 9999px, 47px, 0);}
+    25% {clip: rect(66px, 9999px, 12px, 0);}
+    30% {clip: rect(63px, 9999px, 77px, 0);}
+    35% {clip: rect(17px, 9999px, 64px, 0);}
+    40% {clip: rect(9px, 9999px, 71px, 0);}
+    45% {clip: rect(5px, 9999px, 5px, 0);}
+    50% {clip: rect(25px, 9999px, 71px, 0);}
+    55% {clip: rect(61px, 9999px, 23px, 0);}
+    60% {clip: rect(94px, 9999px, 94px, 0);}
+    65% {clip: rect(5px, 9999px, 14px, 0);}
+    70% {clip: rect(22px, 9999px, 33px, 0);}
+    75% {clip: rect(4px, 9999px, 49px, 0);}
+    80% {clip: rect(98px, 9999px, 92px, 0);}
+    85% {clip: rect(71px, 9999px, 28px, 0);}
+    90% {clip: rect(36px, 9999px, 5px, 0);}
+    95% {clip: rect(95px, 9999px, 35px, 0);}
+    100% {clip: rect(50px, 9999px, 27px, 0);}
+}
+
