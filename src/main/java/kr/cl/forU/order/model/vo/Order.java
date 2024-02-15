@@ -9,4 +9,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class Order {
 
+	private int orderNo;
+	private int index;
+	private int prodNo;
+	private int count;
+	private int price;
 }

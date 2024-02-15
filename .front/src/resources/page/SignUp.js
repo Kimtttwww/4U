@@ -47,7 +47,8 @@ const SignUp = () => {
         console.log("password" + password);
         console.log("confirm" + confirm);
         console.log("address" + inputAddressValue);
-        
+        console.log("birthday" + birthday);
+        console.log("phone" + phone);
         
     }
 //========================================================== 

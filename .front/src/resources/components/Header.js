@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import "../css/Header.css";
+import "../css/components/Header.css";
 
 export default function Header(props) {
 
@@ -36,9 +36,9 @@ export default function Header(props) {
                         )}
                     </div>
 
-                <div className="logo-container">
-                    <Link to="/" className='logo' onClick={scrollToTop}>4U</Link>
-                </div>
+                    <div className="logo-container">
+                        <Link to="/" className='logo' onClick={scrollToTop}>4U</Link>
+                    </div>
                     <div className="search-container">
                         <input type="text" className="search-input" placeholder="검색어를 입력하세요" />
                         <button className="search-button">

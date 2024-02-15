@@ -9,4 +9,6 @@ import lombok.NoArgsConstructor;
 @Data
 public class NoticeDetail {
 	
+	private int noticeType;
+	private String noticeMessage;
 }
