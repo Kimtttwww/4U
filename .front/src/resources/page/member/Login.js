@@ -22,15 +22,17 @@ export default function Login(props) {
 	function login() {
 		for (let i = 0; i < 1; i++) {
 			member[inputs.current[i].name] = inputs.current[i].value;
+			console.log(inputs.current[i].value);
 		}
 		setMember({...member});
 		
-		console.log(inputs.current[2]);
+		console.table(inputs.current);
 		let {memberId, memberPwd, isRememberId} = member;
-
+		console.log(member);
 		if(memberId && memberPwd) {
 			axios.post("/member/login", member)
 			.then((result) => {
+				console.log(result);
 				if(result.data) {
 					sessionStorage.setItem('loginMember', JSON.stringify(result.data));
 				} else {

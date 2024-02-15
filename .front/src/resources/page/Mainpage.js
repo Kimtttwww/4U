@@ -2,7 +2,7 @@ import React, {Component, useState} from 'react'
 import {Pagination, Navigation, Autoplay} from 'swiper/modules';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-import "../css/Mainpage.css";
+import "../css/mainPage/Mainpage.css";
 // import Button from 'react-bootstrap/Button';
 // import Modal from 'react-bootstrap/Modal';
 
@@ -43,25 +43,7 @@ export default () => {
     {/*==============================================================================================================================================*/}
 
 
-    {/* <div className='adTop'>
-     <div className='adTop-left'>
-          <img className = 'adTopImg' src='https://atimg.sonyunara.com/files/attrangs/goods/157385/65979a5371357.jpg'/>
-     </div>
-     <div className='adTop-right'>
-          2024 Spring 추천@ <br/> 데이트룩으로 좋아요~
-     </div>
-    </div>
 
-
-    <div className='adTop'>
-      <div className='adTop-leftTwo'>
-      데일리룩 찾으세요? <br/>
-      2024 Spring 베스트 추천해요
-      </div>
-      <div className='adTop-rightTwo'>
-      <img className = 'adTopImg' src='https://atimg.sonyunara.com/files/attrangs/goods/158300/65bc5879cc42c.jpg'/>
-      </div>
-    </div> */}
     
   {/*==============================================================================================================================================*/}
 

@@ -16,5 +16,10 @@ public class MemberService {
 	public Member selectMemberSoft(Member m) {
 		return dao.selectMemberSoft(m);
 	}
+
+
+	public int insertMember(Member m) {
+		return dao.insertMember(m);
+	}
 	
 }
