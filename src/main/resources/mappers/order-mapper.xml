@@ -3,7 +3,10 @@
 <mapper namespace="orderMapper">
 
     <select id="findAll" resultType="order">
-        SELECT * FROM "ORDER"
+        SELECT *
+		FROM "ORDER"
+		JOIN ORDER_PROD OP USING (ORDER_NO) 
+		JOIN PRODUCT PR USING (PROD_NO)
     </select>
 
     <select id="findById" parameterType="int" resultType="order">

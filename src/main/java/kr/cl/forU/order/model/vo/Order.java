@@ -21,4 +21,9 @@ public class Order {
 	private int totalCount;
 	private int totalPrice;
 	private String payment;
+	
+	
+	
+	private String prodName;
+	private int Price;
 }

@@ -30,21 +30,21 @@ export default function OrderHt() {
                 <thead className="orderHead">
                     <tr>
                         <th>주문 번호</th>
+                        <th>상품명</th>
                         <th>주문일</th>
                         <th>주문자</th>
-                        <th>상품금액</th>
+                        <th style={{ width: "300px" }}>상품금액</th>
                     </tr>
                 </thead>
                 <tbody className="orderBody">
                     {orders.map((order) => (
-                        // <Link to={`/order/orderdetail/${order.orderNo}`}>
-                            <tr key={order.orderNo}>
-                                    <td>{order.orderNo}</td>
-                                    <td>{order.orderDate}</td>
-                                    <td>{order.orderName}</td>
-                                    <td>{order.totalPrice}</td>
-                            </tr>
-                        // </Link>
+                        <tr key={order.orderNo}>
+                            <td>{order.orderNo}</td>
+                            <td>{order.prodName}</td>
+                            <td>{order.orderDate}</td>
+                            <td>{order.orderName}</td>
+                            <td>{order.price}</td>
+                        </tr>
                     ))}
                 </tbody>
             </table>

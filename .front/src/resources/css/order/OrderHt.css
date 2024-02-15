@@ -9,7 +9,6 @@
   
   /* 테이블 헤더 */
   .orderHead th {
-    width: 25%;
     background-color: #f2f2f2;
     border: 1px solid #dddddd;
     padding: 8px;
