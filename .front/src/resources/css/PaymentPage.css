@@ -58,28 +58,6 @@
     margin: 20px;
 }
 
-.modal-body {
-    display: flex;
-}
-
-.modal-body-text,
-.modal-body-input {
-    display: flex;
-    flex-direction: column;
-    margin: 50px;
-    font-size: 16px;
-}
-
-.modal-body-input {
-    margin-left: 10px;
-    width: 200px;
-}
-
-.modal-body-text>span,
-.modal-body-input>input {
-    margin: 10px;
-}
-
 .payment-discount-area {
     display: flex;
     justify-content: space-between;
