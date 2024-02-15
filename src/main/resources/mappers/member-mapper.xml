@@ -7,4 +7,26 @@
 		FROM MEMBER
 		WHERE STATUS = 'Y' AND MEMBER_ID = #{memberId} AND MEMBER_PWD = #{memberPwd}
 	</select>
+	
+	<insert id="insertMember" parameterType = "member">
+		INSERT INTO MEMBER
+		VALUES (
+		SEQ_MEMBER_NO.NEXTVAL,
+		#{memberId},
+		#{memberPwd},
+		#{memberName},
+		TO_DATE(NVL(#{birthday}, '00010101')  ,'YYYYMMDD'),
+		#{email},
+		#{phone},
+		DEFAULT,
+		#{address},
+		#{addressDetail},
+		#{zipCode},
+		1,
+		DEFAULT,
+		DEFAULT
+		)
+		
+	</insert>
+	
 </mapper>

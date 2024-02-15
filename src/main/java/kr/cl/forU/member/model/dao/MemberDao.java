@@ -18,4 +18,9 @@ public class MemberDao {
 		return session.selectOne(map + "selectMemberSoft", m);
 	}
 
+
+	public int insertMember(Member m) {
+		return session.insert(map + "insertMember", m);
+	}
+
 }
