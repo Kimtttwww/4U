@@ -1,5 +1,7 @@
 package kr.cl.forU.member.model.vo;
 
+import java.sql.Date;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -7,9 +9,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Notice {
+public class CouponUser {
 
-	private int noticeNo;
-	private int noticeType;
 	private int memberNo;
+	private int couponNo;
+	private Date validityDate;
+	private String status;
+	
 }

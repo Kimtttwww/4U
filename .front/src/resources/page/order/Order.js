@@ -1,7 +1,7 @@
 import { useState } from "react";
 import ChangeOption from "../../modal/ChangeOption";
 import AvailbleCoupon from "../../modal/AvailableCoupon";
-import '../../css/OrderPage.css';
+import '../../css/order/OrderPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
 

@@ -9,4 +9,8 @@ import lombok.NoArgsConstructor;
 @Data
 public class Coupon {
 
+	private int couponNo;
+	private String couponName;
+	private int discountRate;
+	private int discount;
 }

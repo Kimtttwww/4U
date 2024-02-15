@@ -165,3 +165,19 @@
     font-size: 20px;
     cursor: pointer;
 }
+
+
+
+
+/* ChangeOption 모달관련 */
+.optionBody {
+    flex-direction: column;
+}
+
+.optionBody input {
+    margin-left: 10px;
+}
+
+.form-check-1 {
+    margin-bottom: 10px;
+}
