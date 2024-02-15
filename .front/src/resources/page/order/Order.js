@@ -7,6 +7,7 @@ import { Button, Modal } from 'react-bootstrap';
 
 export default function Order() {
 
+    const [applyColor, setApplyColor] = useState('');
     const [isOptionChange, setisOptionChange] = useState(false);
     const [isMyCoupon, setisMyCoupon] = useState(false);
     const openModal = () => setisOptionChange(true);
@@ -14,6 +15,10 @@ export default function Order() {
     const openCoupon = () => setisMyCoupon(true);
     const closeCoupon = () => setisMyCoupon(false);
 
+
+    const colorHandler = (data) => {
+        setApplyColor(data);
+    }
 
 
     return (
@@ -37,12 +42,14 @@ export default function Order() {
                     <tr>
                         <td>[이미지]</td>
                         <td>샤랄라 원피스</td>
-                        <td>L/블랙
+                        <td>
+                            L/블랙
+                            <label className="order-option">{applyColor}</label>
                             {/* <!-- Button trigger modal --> */}
                             <Button variant="secondary" onClick={openModal}>
                                 옵션변경
                             </Button>
-                            <ChangeOption show={isOptionChange} closeModal={closeModal} />
+                            <ChangeOption show={isOptionChange} closeModal={closeModal} sendColor={colorHandler} />
 
                         </td>
                         <td>39000</td>

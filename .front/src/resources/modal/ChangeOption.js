@@ -1,26 +1,28 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
+import Order from '../page/order/Order';
+import { Route, Routes } from 'react-router-dom';
 
 
-export default function ChangeOption({ show, closeModal }) {
+export default function ChangeOption({ show, closeModal, sendColor }) {
     /* <!-- optionChange Modal --> */
 
-    const [checkColor, setCheckColor] = useState({
-        color: ""
-    })
+    // const [sendColor, setSendColor] = useState(false);
+    const [applyColor, setApplyColor] = useState('');
+    const [checkColor, setCheckColor] = useState('');
 
     const optionHandler = (e) => {
-        setCheckColor({
-            color: e.target.value
-        })
+        setCheckColor(e.target.value)
     }
-    const changeColor = () => {
 
+    const applyChange = () => {
+        sendColor(checkColor);
     }
-    console.log(checkColor);
+
 
     return (
+
         <Modal show={show}  >
             <div id="optionChangeModal" >
                 <div >
@@ -39,23 +41,25 @@ export default function ChangeOption({ show, closeModal }) {
                             <div className="form-check-2">
                                 변경할 색상
                                 <input className="form-check-input" type="radio" name="changeColor"
-                                    id="optionChange-black" onChange={optionHandler} /> black
+                                    id="optionChange-black" onChange={optionHandler} value={"black"} /> black
                                 <input className="form-check-input" type="radio" name="changeColor"
-                                    id="optionChange-red" onChange={optionHandler} /> red
+                                    id="optionChange-red" onChange={optionHandler} value={"red"} /> red
                                 <input className="form-check-input" type="radio" name="changeColor"
-                                    id="optionChange-pink" onChange={optionHandler} /> pink
+                                    id="optionChange-pink" onChange={optionHandler} value={"pink"} /> pink
                                 <input className="form-check-input" type="radio" name="changeColor"
-                                    id="optionChange-blue" onChange={optionHandler} /> blue
+                                    id="optionChange-blue" onChange={optionHandler} value={"blue"} /> blue
                             </div>
                         </div>
+                        {/* <Order show={sendColor} applyColor={applyColor} /> */}
                         <div className="modal-footer">
-                            <Button type="button" className="btn btn-primary" onClick={changeColor}>변경</Button>
+                            <Button type="button" className="btn btn-primary" onClick={applyChange}>변경</Button>
                             <Button type="button" className="btn btn-secondary" onClick={closeModal}>취소</Button>
                         </div>
                     </div>
                 </div>
             </div>
         </Modal >
+
 
 
     )
