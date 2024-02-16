@@ -21,27 +21,28 @@ export default function Header(props) {
                         {login ? (
                             <>
                                 {/* 나중에 링크말고 다른걸로(btn, div, span 등) 바꿀 것 */}
-                                <Link onClick={() => {
+                                <button onClick={() => {
                                     sessionStorage.removeItem("loginMember");
                                     setLogin("");
-                                    }}>로그아웃</Link>
+                                    }}>로그아웃</button>
                                 <Link to={""}>마이페이지</Link>
                             </>
                         ) : (
                             <>
                                 {/* 나중에 링크말고 다른걸로(btn, div, span 등) 바꿀 것 */}
-                                <Link onClick={() => {setShowLogin(true)}}>로그인</Link>
+                                <button onClick={() => {setShowLogin(true)}}>로그인</button>
                                 <Link to="">회원가입</Link>
                             </>
                         )}
                     </div>
 
                     <div className="logo-container">
-                        <Link to="/" className='logo' onClick={scrollToTop}>4U</Link>
+                        <Link to="/" className='logo' onClick={scrollToTop}><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzS70rzlJpJMXZ0Q6_ChitEnpVLSkcRmUeELLPbIZDFevEM7davlrHs7uMbGUygEnMl2g&usqp=CAU'/></Link>
                     </div>
                     <div className="search-container">
                         <input type="text" className="search-input" placeholder="검색어를 입력하세요" />
                         <button className="search-button">
+                            {/* 일단 로고 이미지 아무거나 넣어놓은거임 */}
                             <img src="https://xexymix.jpg3.kr/xexymix/2020/main/menu_view.png" alt="Search Icon" className="search-icon" />
                         </button>
                     </div>
