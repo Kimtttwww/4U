@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -15,8 +14,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.cl.forU.product.model.service.ProductService;
 import kr.cl.forU.product.model.vo.Product;
 import lombok.extern.slf4j.Slf4j;
-
-import org.springframework.web.bind.annotation.RequestParam;
 
 @Slf4j
 @RestController
@@ -83,6 +80,9 @@ public class ProductController {
         }
     }
     
+    /** 상품들 조회
+	 * @return 조회된 상품 리스트
+	 */
     @GetMapping("list")
     public List<Product> selectProductList() {
         return service.selectProductList();
