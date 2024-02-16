@@ -17,16 +17,18 @@ import Leftmenubar from "./resources/components/Leftmenubar";
 
 function App() {
 
-	// 로그인창 띄울떄 필요한 매개변수
+	/** 로그인창 띄울떄 필요한 매개변수 */
 	const [showLogin, setShowLogin] = useState(false);
 	const [login, setLogin] = useState(JSON.parse(sessionStorage.getItem("loginMember")+""));
 
 	return (
 		<div className="App">
-			<Header setShowLogin={setShowLogin} />
+			<Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
+
 			<div className="leftsidebar">
 				{/* <Leftmenubar /> */}
 			</div>
+			
 			<Routes>
 				{/* 메인 페이지 */}
 				<Route path="/" element={<Mainpage />} />

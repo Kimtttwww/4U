@@ -2,8 +2,6 @@ package kr.cl.forU.member.model.vo;
 
 import java.sql.Date;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

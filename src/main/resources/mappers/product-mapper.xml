@@ -2,11 +2,15 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="productMapper">
 
+	<select id="selectProductList" resultType="product">
+		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
+		FROM PRODUCT
+	</select>
 
 
 
 
-
+<!-- 나중에 쓸 예정, 지우지 말 것 -->
 <!-- INSERT INTO prod_detail(
     PROD_NO,
     "INDEX"

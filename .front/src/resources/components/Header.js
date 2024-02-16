@@ -1,6 +1,12 @@
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import "../css/components/Header.css";
 
+/** App의 header
+ * @props props
+ * 	@param {function} setShowLogin 로그인 모달창의 표시 여부 state's setter fn
+ * 	@param {boolean} login 로그인 된 사용자 정보를 가지고 있을 state
+ * 	@param {function} setLogin 로그인 된 사용자 정보를 가지고 있을 state's setter fn
+ */
 export default function Header(props) {
 
     // 로그인창 띄울떄 필요한 매개변수
@@ -21,17 +27,17 @@ export default function Header(props) {
                         {login ? (
                             <>
                                 {/* 나중에 링크말고 다른걸로(btn, div, span 등) 바꿀 것 */}
-                                <Link onClick={() => {
+                                <button onClick={() => {
                                     sessionStorage.removeItem("loginMember");
                                     setLogin("");
-                                    }}>로그아웃</Link>
+                                    }}>로그아웃</button>
                                 <Link to={""}>마이페이지</Link>
                             </>
                         ) : (
                             <>
                                 {/* 나중에 링크말고 다른걸로(btn, div, span 등) 바꿀 것 */}
-                                <Link onClick={() => {setShowLogin(true)}}>로그인</Link>
-                                <Link to="/member/signUp">회원가입</Link>
+                                <button onClick={() => {setShowLogin(true)}}>로그인</button>
+                                <Link to="">회원가입</Link>
                             </>
                         )}
                     </div>

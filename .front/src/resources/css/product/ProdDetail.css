@@ -1,42 +1,180 @@
 /* modal */
 .one-product {
 	max-width: none!important;
-    width: 1300px;
-    height: 1000px;
+    width: 1200px;
+    height: 800px;
+}
+
+.one-product>.modal-content {
+	height: 100%;
+	overflow: auto;
 }
 
 /* modal body */
 .prod-detail {
 	width: 100%;
+	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;
-	overflow: auto;
+	border-bottom: var(--bs-modal-header-border-width) solid var(--bs-modal-header-border-color);
 	margin: 0 auto;
 }
 
 /* 상품 사진들 박스 */
 .prod-imgs {
-	flex: 0 0 720px;
+	flex-basis: calc((100% - 200px) - 30%);
 	display: flex;
 	flex-direction: column;
 }
 
-/* 상품 main 사진 */
-.prod-main-img {
+/* 상품 사진 박스들의 박스 */
+.prod-imgs>picture {
 	width: 100%;
+}
+
+/* 상품 main 사진 박스 */
+.prod-main-img {
 	height: 600px;
 	border: 1px solid black;
 }
 
-/* 상품 sub 사진 */
-.prod-main-img {
-	
-	
+/* 상품 sub 사진 박스*/
+.prod-sub-img {
+	width: 300px;
+	height: 300px;
 }
 
 /* 상품 정보들 박스 */
 .prod-other {
-	flex: 0 0 480px;
+	flex-basis: calc((100% - 200px) - 47%);
+}
+
+/* 상품 정보들 박스 안 박스들 */
+.prod-other>* {
+	margin-bottom: 20px;
+}
+
+/* 상품 정보들 박스 안 박스들 */
+.prod-other>p {
+	font-size: large;
+}
+
+/* 상품 가격 박스 */
+.prod-price {
+	display: flex;
+}
+
+/* 상품 정가 */
+.prod-price>h5 {
+	text-decoration: line-through;
+}
+
+/* 상품 할인 가격 */
+.prod-price>h4, .prod-price pre {
+	display: flex;
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 0;
+}
+
+/* 상품 색상들 */
+.prod-colors>label {
+	width: 30px;
+	height: 30px;
+	cursor: pointer;
+	border-radius: 50%;
+	margin: 5px;
+}
+
+/* 상품 사이즈들 */
+.prod-sizes>label {
+	margin: 5px;
+}
+
+/* 상품 선택창 */
+.prod-receipt {
+	border: 1px solid black;
+}
+
+/* 상품 선택창 */
+.prod-receipt {
+	list-style: none;
+	padding: 0;
+}
+
+/* 상품 선택 요소 */
+.prod-receipt>li {
+	height: 30px;
+	display: flex;
+	justify-content: space-around;
+	background-color: lightgreen;
+	border-radius: 3%;
+	margin: 5px 0;
+}
+
+/* 상품 선택 요소의 이름 */
+.prod-receipt>li>*:first-child {
+	height: 100%;
+	flex: 0 0 65%;
+}
+
+/* 선택한 상품의 수량 입력 */
+.prod-receipt input {
+	width: 0;
+	flex: 0 0 20%;
+	outline: none;
+}
+
+/* 상품 선택 요소 */
+.prod-receipt>li>*:last-child {
+	flex: 0 0 5%;
 	
-	
+}
+
+/* 수량 입력창 잡것 제거 */
+.prod-receipt input::-webkit-outer-spin-button, .prod-receipt input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
+	margin: 0;
+}
+
+/* 총 금액 박스 */
+.prod-total {
+	display: flex;
+}
+
+/* 총 금액 요소들 */
+.prod-total>* {
+	flex: 0 0 50%;
+}
+
+/* 총 금액 찍는거 */
+.prod-total>*:last-child {
+	text-align: end;
+}
+
+/* 구매 결정 박스 */
+.order-action {
+	display: flex;
+	justify-content: space-around;
+}
+
+/* 장바구니 구매 버튼 둘 다 */
+.order-action>button {
+	width: 150px;
+}
+
+
+
+.asdfg {
+	justify-content: center;
+}
+
+.test-slide{
+	width: 88px !important;
+    margin: 0 25px !important;
+}
+
+.testImg {
+	width: 100%;
+	height: 100px;
 }

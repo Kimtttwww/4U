@@ -4,7 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.servlet.http.Cookie;
@@ -12,17 +14,25 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.cl.forU.product.model.service.ProductService;
 import kr.cl.forU.product.model.vo.Product;
+import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
+@Slf4j
 @RestController
+@RequestMapping("/product")
 public class ProductController {
 	
 	@Autowired
 	ProductService productService;
 
-    // 최근 본 상품 목록을 저장할 쿠키 이름
+	@Autowired
+	ProductService service;
+    /** 최근 본 상품 목록을 저장할 쿠키 이름 */
     private static final String RECENT_PRODUCTS_COOKIE = "recentProducts";
 
-    @GetMapping("/product/detail")
+    
+    @GetMapping("detail")
     public String getProductDetail(HttpServletRequest request, HttpServletResponse response) {
         String prodNoParam = request.getParameter("prodNo");
 //        int prodNo = Integer.parseInt(prodNoParam);
@@ -72,5 +82,11 @@ public class ProductController {
             return "error-page"; // 예외 처리 페이지로 리다이렉트 또는 에러 메시지 반환
         }
     }
+    
+    @GetMapping("list")
+    public List<Product> selectProductList() {
+        return service.selectProductList();
+    }
+    
 }
 
