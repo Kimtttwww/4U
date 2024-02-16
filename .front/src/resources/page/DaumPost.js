@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import DaumPostcode from 'react-daum-postcode';
 
 const postCodeStyle = {
-  width: '400px',
+  width: '100%',
+  height: '600px'
 };
 
 const DaumApi = ({ onCompletePost }) => {
@@ -18,9 +19,6 @@ const DaumApi = ({ onCompletePost }) => {
       <div className="modalContent">
         {/* 팝업 내용 */}
         <DaumPostcode style={postCodeStyle} onComplete={onCompletePost} autoClose={false} />
-
-        {/* 팝업 닫기 버튼 */}
-        <button onClick={closeModal}>닫기</button>
       </div>
     </div>
   );
