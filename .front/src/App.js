@@ -26,9 +26,9 @@ function App() {
 			<Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
 
 			<div className="leftsidebar">
-				{/* <Leftmenubar /> */}
+				<Leftmenubar />
 			</div>
-			
+
 			<Routes>
 				{/* 메인 페이지 */}
 				<Route path="/" element={<Mainpage />} />
