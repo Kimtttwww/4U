@@ -12,7 +12,7 @@ import SignUp from "./resources/page/SignUp";
 import UserUpdate from "./resources/page/BuyerMyPage/UserUpdate";
 import { useState } from "react";
 import OrderHt from "./resources/page/BuyerMyPage/orderHistory/OrderHt";
-import Error from "./resources/page/Error";
+import Error from "./resources/components/Error";
 import Leftmenubar from "./resources/components/Leftmenubar";
 
 function App() {
