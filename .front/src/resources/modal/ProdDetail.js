@@ -23,7 +23,7 @@ export default function ProdDetail(props) {
 				<section className="prod-other">
 					<h2>이거슨 상품명!!!이거슨 상품명!!!이거슨 상품명!!!이거슨 상품명!!!</h2>
 				</section>
-
+			
 
 			</Modal.Body>
 		</Modal>

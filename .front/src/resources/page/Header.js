@@ -28,7 +28,7 @@ export default function Header(props) {
                     ) : (
                         <>
                             <button type='button' className='login' onClick={() => {setShowLogin(true)}}>로그인</button>
-                            <Link to={""} className='enroll'>회원가입</Link>
+                            <Link to={"/member/SignUp"} className='enroll'>회원가입</Link>
                         </>
                     )}
                 </div>

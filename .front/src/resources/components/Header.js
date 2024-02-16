@@ -31,7 +31,7 @@ export default function Header(props) {
                             <>
                                 {/* 나중에 링크말고 다른걸로(btn, div, span 등) 바꿀 것 */}
                                 <Link onClick={() => {setShowLogin(true)}}>로그인</Link>
-                                <Link to="">회원가입</Link>
+                                <Link to="/member/SignUp">회원가입</Link>
                             </>
                         )}
                     </div>

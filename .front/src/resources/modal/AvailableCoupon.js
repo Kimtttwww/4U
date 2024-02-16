@@ -3,10 +3,6 @@ import { Button, Modal } from 'react-bootstrap';
 
 export default function AvailableCoupon({ show, closeCoupon }) {
     /* coupon Modal - */
-
-
-
-
     return (
         <Modal show={show} >
             <div class="modal-dialog">

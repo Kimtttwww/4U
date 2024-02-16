@@ -46,3 +46,19 @@
     padding: 20px;
     border: 1px solid #ccc;
 }
+
+.form-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    
+}
+
+.DaumModal {
+    max-width: none!important;
+    width: 500px;
+}
+
+.DaumModalBody{
+    height: 700px;
+}
