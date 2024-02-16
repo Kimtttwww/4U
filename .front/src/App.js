@@ -3,7 +3,7 @@ import BuyerMyPage from "./resources/page/BuyerMyPage/BuyerMyPage";
 import CartList from "./resources/page/BuyerMyPage/cart/CartList";
 import Mainpage from "./resources/page/Mainpage";
 import Login from "./resources/modal/Login";
-import OrderPage from "./resources/page/order/Order";
+import Order from "./resources/page/order/Order";
 import Payment from "./resources/page/order/Payment";
 import Header from "./resources/components/Header";
 import Footer from "./resources/components/Footer";
@@ -19,7 +19,7 @@ function App() {
 
 	// 로그인창 띄울떄 필요한 매개변수
 	const [showLogin, setShowLogin] = useState(false);
-	const [login, setLogin] = useState(JSON.parse(sessionStorage.getItem("loginMember")+""));
+	const [login, setLogin] = useState(JSON.parse(sessionStorage.getItem("loginMember") + ""));
 
 	return (
 		<div className="App">
@@ -46,13 +46,13 @@ function App() {
 				</Route>
 
 				{/* ? */}
-				<Route path="/order/order" element={<OrderPage />} />
+				<Route path="/order/" element={<Order loginUser={login} />} />
 
 				{/* ? */}
-				<Route path="/order/history" element={<OrderHt />}/>
+				<Route path="/order/history" element={<OrderHt />} />
 
 				{/* 구매자 마이페이지 */}
-				<Route path="/buyer/mypage/" element={<BuyerMyPage />} /> 
+				<Route path="/buyer/mypage/" element={<BuyerMyPage />} />
 
 				{/* ? */}
 				<Route path="/Payment" element={<Payment />} />
@@ -64,8 +64,8 @@ function App() {
 				<Route path="*" element={<Error />} />
 			</Routes>
 
-            {/* 로그인 페이지 */}
-            <Login showLogin={showLogin} setShowLogin={setShowLogin} setLogin={setLogin} />
+			{/* 로그인 페이지 */}
+			<Login showLogin={showLogin} setShowLogin={setShowLogin} setLogin={setLogin} />
 
 			<Footer />
 		</div>

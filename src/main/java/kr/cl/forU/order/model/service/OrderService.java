@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.dao.OrderDao;
 import kr.cl.forU.order.model.vo.Order;
 
@@ -22,4 +23,10 @@ public class OrderService {
     public Order getOrderById(int orderNo) {
         return dao.findById(orderNo);
     }
+
+	public Member selectOrdererInfo(Member memberNo) {
+		return dao.selectOrdererInfo(memberNo);
+	}
+
+	
 }
