@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.dao.OrderDao;
 import kr.cl.forU.order.model.vo.Order;
+import kr.cl.forU.product.model.vo.CategoryMain;
+import kr.cl.forU.product.model.vo.CategorySub;
 
 @Service
 public class OrderService {
@@ -24,8 +26,16 @@ public class OrderService {
         return dao.findById(orderNo);
     }
 
-	public Member selectOrdererInfo(Member memberNo) {
+	public Member selectOrdererInfo(int memberNo) {
 		return dao.selectOrdererInfo(memberNo);
+	}
+
+	public List<CategoryMain> selectMainCate() {
+		return dao.selectMainCate();
+	}
+
+	public List<CategorySub> selectSubCate(int cateMainNum) {
+		return dao.selectSubCate(cateMainNum);
 	}
 
 	

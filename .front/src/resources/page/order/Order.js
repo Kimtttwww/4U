@@ -60,8 +60,11 @@ export default function Order({ loginUser }) {
 
     // 주문자정보 DB에서 가져오기
     const loadFromDb = async () => {
-        const responseData = await loadInfoAPI({ memberNo: loginUser?.memberNo });
-        // console.log(responseData);
+
+        const formData = { memberNo: loginUser?.memberNo }
+
+        const responseData = await loadInfoAPI(formData);
+        console.log("responseData", responseData);
         setLoadInfo(responseData);
     }
 
@@ -101,9 +104,9 @@ export default function Order({ loginUser }) {
             setLoadInfo(loadInfo);
         }
 
-        if (loadInfo != inputChange) {
+        if (loadInfo !== inputChange) {
             // checkedHandler();
-            console.log(loadInfo != inputChange, "loadInfo  inputChange 다름 ");
+            console.log(loadInfo !== inputChange, "loadInfo  inputChange 다름 ");
             // console.log("loadInfo  inputChange 다름 ");
             setInputChange({});
         }
@@ -175,12 +178,6 @@ export default function Order({ loginUser }) {
                         <td>29000</td>
                         <td>1</td>
                         <td><button>삭제</button></td>
-                        {/* {
-                            orderData?.map((order, index) => {
-                                <td key={index} >{order.value}</td>
-                            })
-
-                        } */}
                     </tr>
                 </tbody>
             </table>
@@ -238,9 +235,9 @@ export default function Order({ loginUser }) {
                         <select style={{ width: "200px" }}
                             onChange={applyMsg} value={delMsg} >
                             {
-                                deliMessage?.map((msg, index) => {
+                                deliMessage?.map((msg, index) =>
                                     <option key={index} value={msg.value}>{msg.value}</option>
-                                })
+                                )
 
                             }
 

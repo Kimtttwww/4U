@@ -22,5 +22,29 @@
 		 WHERE MEMBER_NO = #{memberNo}
 	</select>
 
+	<select id="selectMainCate" resultType="categoryMain">
+		SELECT * 
+		  FROM CATE_MAIN
+	</select>
+	
+	<select id="selectSubCate" resultType="categorySub">
+		SELECT *
+		  FROM CATE_SUB
+		 WHERE CATE_MAIN = #{cateMain}
+	</select>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 </mapper>

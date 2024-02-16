@@ -2,23 +2,21 @@ package kr.cl.forU.order.controller;
 
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jakarta.servlet.http.HttpSession;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.service.OrderService;
-import kr.cl.forU.order.model.vo.Order;
+import kr.cl.forU.product.model.vo.CategoryMain;
+import kr.cl.forU.product.model.vo.CategorySub;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -31,44 +29,36 @@ public class OrderController {
 	OrderService service;
 	
 	@PostMapping("/loadOrdererInfo")
-	public ResponseEntity<Member> selectOrdererInfo(
-			@RequestBody Member memberNo,
+	public Member selectOrdererInfo(
+			@RequestParam("memberNo") int memberNo,
 			Model model, 
 			HttpSession session){
+		log.info("memberNo ? {}" , memberNo);
+		Member orderer = service.selectOrdererInfo(memberNo);
 		
+		log.info("orderer ? {}" , orderer);
+//		if(orderer == null){
+////			session.setAttribute("loginMember", member);
+//			model.addAttribute("msg", "오류발생");
+//			return null;
+//		}
 		
-		Member member = service.selectOrdererInfo(memberNo);
-		
-//		String phone = member.getPhone().replace("-", "");
-//		member.setPhone(phone);
-//		log.info("phone {}", phone);
-		
-		if(member != null){
-//			session.setAttribute("loginMember", member);
-			return ResponseEntity.status(HttpStatus.OK).body(member);
-		}
-		model.addAttribute("msg", "오류발생");
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(member);
+		return orderer;
 	}
 	
+
+	@PostMapping("/mainCate")
+	public List<CategoryMain> selectMainCate(){
+		
+		List<CategoryMain> main = service.selectMainCate();
+		return main;
+	}
 	
-//	@PostMapping("/loadOrder")
-//	public ResponseEntity<List<Order>> selectOrderInfo(
-//			@RequestBody Member memberNo,
-//			Model model
-//			){
-//		
-//		List<Order> order = service.selectOrderInfo(memberNo);
-//		log.info("order {}", order);
-//		if(order != null){
-//			return ResponseEntity.status(HttpStatus.OK).body(order);
-//		}
-//		model.addAttribute("msg", "오류발생");
-//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(order);
-//		
-//	}
-	
-	
-	
+	@PostMapping("/subCate")
+	public List<CategorySub> selectSubCate(
+			@RequestBody CategoryMain cateMain){
+		List<CategorySub> sub = service.selectSubCate(cateMain.getCateMain());
+		return sub;
+	}
 	
 }

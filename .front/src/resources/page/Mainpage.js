@@ -27,8 +27,8 @@ export default () => {
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
+          // onSlideChange={() => console.log('slide change')}
+          // onSwiper={(swiper) => console.log(swiper)}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
         >
           <SwiperSlide className='custom-slide'><img className='bannerImg' src='https://atimg.sonyunara.com/files/attrangs/goods/55939/63e9a881af788.jpg' /></SwiperSlide>
