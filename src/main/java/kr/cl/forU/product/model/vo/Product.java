@@ -31,7 +31,7 @@ public class Product {
 	/** 상태 */
 	private String status;
 	/** 옷감 두께 */
-	private int thickness;
+	private String thickness;
 	/** 옷의 안감 */
 	private String lining;
 	/** 옷의 비침 정도 */

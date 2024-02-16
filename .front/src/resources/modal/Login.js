@@ -64,7 +64,7 @@ export default function Login(props) {
 		}
 		
 		setMember({...member});
-		let {memberId, memberPwd, isRememberId} = member;
+		let {memberId, memberPwd, /* isRememberId */} = member;
 
 		if(memberId && memberPwd) {
 			axios.post("/member/login", member)
@@ -79,7 +79,10 @@ export default function Login(props) {
 					for (let i = 0; i < 2; i++) {inputs.current[i].value = "";}
 					alert('잘못된 아이디 혹은 비밀번호 입니다');
 				}
-			}).catch(console.log);
+			}).catch((e) => {
+				console.log(e);
+				alert("서버와 통신에 실패했습니다");
+			});
 		} else {
 			alert("입력이 충분하지 않습니다");
 		}

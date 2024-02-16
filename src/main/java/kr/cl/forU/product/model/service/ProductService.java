@@ -1,5 +1,7 @@
 package kr.cl.forU.product.model.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -21,5 +23,13 @@ public class ProductService {
 	public Product getProductById(int prodNo) {
 		// TODO Auto-generated method stub
 		return null;
+	}
+
+
+	/** 상품들 조회
+	 * @return 조회된 상품 리스트
+	 */
+	public List<Product> selectProductList() {
+		return dao.selectProductList();
 	}
 }

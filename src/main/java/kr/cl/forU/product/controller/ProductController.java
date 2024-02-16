@@ -14,7 +14,12 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import kr.cl.forU.product.model.service.ProductService;
 import kr.cl.forU.product.model.vo.Product;
+import lombok.extern.slf4j.Slf4j;
 
+import org.springframework.web.bind.annotation.RequestParam;
+
+
+@Slf4j
 @RestController
 @RequestMapping("/product")
 public class ProductController {
@@ -68,4 +73,10 @@ public class ProductController {
 
         return "product-detail"; // 상품 상세 페이지로 이동
     }
+    
+    @GetMapping("list")
+    public List<Product> selectProductList() {
+        return service.selectProductList();
+    }
+    
 }

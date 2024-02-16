@@ -32,11 +32,7 @@ public class MemberController {
 	 */
 	@PostMapping("/login")
 	public Member selectMemberSoft(@RequestBody Member m) {
-		log.info("\nm = {}", m);
-		Member loginMember = service.selectMemberSoft(m);
-		log.info("\nm = {}\nloginMember = {}", m, loginMember);
-		
-		return loginMember;
+		return service.selectMemberSoft(m);
 	}
 	
 	@CrossOrigin(origins = "https://localhost:")
