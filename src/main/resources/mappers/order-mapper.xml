@@ -16,4 +16,11 @@
     </select>
 
 
+	<select id="selectOrdererInfo" parameterType="int" resultType="member">
+		SELECT * 
+		  FROM MEMBER 
+		 WHERE MEMBER_NO = #{memberNo}
+	</select>
+
+
 </mapper>

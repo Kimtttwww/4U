@@ -8,19 +8,18 @@ export default function OrderHt() {
 
     const totalOrders = orders.length;
 
-    useEffect(()=>{
+    useEffect(() => {
         axios
-        .get( "http://localhost:3000/order/history")
-        .then(
-            (response) =>{
-                console.log(response)
-                setOrders(response.data); //채팅방 목록페이지 조회
-            }
-        )
-        .catch((err)=>console.log(err))
+            .get("http://localhost:3000/order/history")
+            .then(
+                (response) => {
+                    console.log(response)
+                    setOrders(response.data); //채팅방 목록페이지 조회
+                }
+            )
+            .catch((err) => console.log(err))
     }, [])
-        
-       
+
     return (
         <>
         <div className="orderContainer">

@@ -11,14 +11,9 @@ import lombok.NoArgsConstructor;
 @Data
 public class OrderProd {
 
-	/** 메세지 번호 */
-	private int cmNo;
-	/** 메세지 */
-	private String message;
-	/** 회원 번호 */
-	private int writerNo;
-	/** 작성일 */
-	private Date createDate;
-	/** 방번호 */
-	private int chatRoomNo;
+	private int orderNo;
+	private int index;
+	private int prodNo;
+	private int count;
+	private int price;
 }

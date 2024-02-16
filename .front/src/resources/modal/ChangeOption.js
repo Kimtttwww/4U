@@ -5,20 +5,32 @@ import Order from '../page/order/Order';
 import { Route, Routes } from 'react-router-dom';
 
 
-export default function ChangeOption({ show, closeModal, sendColor }) {
+export default function ChangeOption({ show, closeModal, sendColor, sendSize }) {
     /* <!-- optionChange Modal --> */
 
-    // const [sendColor, setSendColor] = useState(false);
-    const [applyColor, setApplyColor] = useState('');
     const [checkColor, setCheckColor] = useState('');
+    const [checkSize, setCheckSize] = useState('');
 
-    const optionHandler = (e) => {
+    const sizeOption = [
+        { key: 0, value: "색상선택" },
+        { key: 1, value: "S" },
+        { key: 2, value: "M" },
+        { key: 3, value: "L" },
+    ];
+
+    const colorHandler = (e) => {
         setCheckColor(e.target.value)
     }
-
-    const applyChange = () => {
-        sendColor(checkColor);
+    const sizeHandler = (e) => {
+        setCheckSize(e.currentTarget.value)
     }
+
+    const optionChange = () => {
+        sendColor(checkColor);
+        sendSize(checkSize);
+        closeModal(false);
+    }
+
 
 
     return (
@@ -32,27 +44,36 @@ export default function ChangeOption({ show, closeModal, sendColor }) {
                         </div>
                         <div className="modal-body optionBody" >
                             <div className="form-check-1">
-                                {/* <input className="form-check-input" type="radio" name="color"
-                                    id="flexRadioDefault1" /> */}
-                                {/* <label className="form-check-label" htmlFor="flexRadioDefault1"> */}
-                                선택한 색상 : white
-                                {/* </label> */}
+                                <span>선택한 색상 : white</span>
                             </div>
                             <div className="form-check-2">
-                                변경할 색상
-                                <input className="form-check-input" type="radio" name="changeColor"
-                                    id="optionChange-black" onChange={optionHandler} value={"black"} /> black
-                                <input className="form-check-input" type="radio" name="changeColor"
-                                    id="optionChange-red" onChange={optionHandler} value={"red"} /> red
-                                <input className="form-check-input" type="radio" name="changeColor"
-                                    id="optionChange-pink" onChange={optionHandler} value={"pink"} /> pink
-                                <input className="form-check-input" type="radio" name="changeColor"
-                                    id="optionChange-blue" onChange={optionHandler} value={"blue"} /> blue
+                                <span>변경할 색상</span>
+                                <input type="radio" name="changeColor"
+                                    onChange={colorHandler} value={"black"} /> black
+                                <input type="radio" name="changeColor"
+                                    onChange={colorHandler} value={"red"} /> red
+                                <input type="radio" name="changeColor"
+                                    onChange={colorHandler} value={"pink"} /> pink
+                                <input type="radio" name="changeColor"
+                                    onChange={colorHandler} value={"blue"} /> blue
+                            </div>
+                            <hr />
+                            <div className="form-check-3">
+                                <span>선택한 사이즈 : M</span>
+                            </div>
+                            <div className="form-check-4">
+                                <span>변경할 사이즈 </span>
+                                <select onChange={sizeHandler} value={checkSize}>
+                                    {
+                                        sizeOption.map((size, index) => (
+                                            <option key={index} value={size.value}>{size.value}</option>
+                                        ))
+                                    }
+                                </select>
                             </div>
                         </div>
-                        {/* <Order show={sendColor} applyColor={applyColor} /> */}
                         <div className="modal-footer">
-                            <Button type="button" className="btn btn-primary" onClick={applyChange}>변경</Button>
+                            <Button type="button" className="btn btn-primary" onClick={optionChange}>변경</Button>
                             <Button type="button" className="btn btn-secondary" onClick={closeModal}>취소</Button>
                         </div>
                     </div>

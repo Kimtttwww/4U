@@ -19,7 +19,10 @@ public class Order {
 	private String zipCode;
 	private String message;
 	private int totalCount;
+	private int coouponNo;
+	private int point;
 	private int totalPrice;
+	private int paymentPrice;
 	private String payment;
 	
 	
