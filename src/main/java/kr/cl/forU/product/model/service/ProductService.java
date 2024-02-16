@@ -12,14 +12,13 @@ public class ProductService {
 	@Autowired
 	ProductDao dao;
 
-	public static Product getProductById(Product product) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-
-	public static Product getProductById(int prodNo) {
-		// TODO Auto-generated method stub
-		return null;
-	}
+    // 상품 번호를 기반으로 제품을 가져오는 메서드
+    public Product getProductById(int prodNo) {
+        return dao.getProductById(prodNo);
+    }
+    
 }
+
+
+
+

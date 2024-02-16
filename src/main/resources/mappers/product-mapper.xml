@@ -15,4 +15,11 @@
     (select count(*) from prod_detail WHERE prod_no = 2)
 ) -->
 
+<select id="getProductById" parameterType="int" resultType="product">
+        SELECT *
+        FROM PRODUCT
+        WHERE PROD_NO = 1
+</select>
+
+
 </mapper>

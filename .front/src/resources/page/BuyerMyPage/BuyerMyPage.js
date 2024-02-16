@@ -1,65 +1,63 @@
+import React, { useEffect, useState } from 'react';
+import { Modal, Button } from 'react-bootstrap';
+import { Link } from 'react-router-dom';
+import axios from 'axios';
+import Cookies from 'js-cookie';
+
 import '../../css/buyerMyPage/UserInfo.css';
 import '../../css/buyerMyPage/Activity.css';
 import '../../css/buyerMyPage/ShoppingBasket.css';
 import '../../css/buyerMyPage/Benefits.css';
 import '../../css/buyerMyPage/Chat.css';
-import { useEffect, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-import axios from 'axios';
 
 export default function BuyerMyPage() {
+  const [modalOpened, setModalOpened] = useState(false);
+  const [cartItems, setCartItems] = useState([]);
+  const [orders, setOrders] = useState([]);
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
 
-  // 비밀번호 확인 모달
-    const [modalOpened, setModalOpened] = useState(false);
+  useEffect(() => {
+    // 구매내역 및 최근 본 상품 로드
+    loadOrders();
+    loadRecentlyViewed();
+  }, []);
 
-    // 장바구니
-    const [cartItems, setCartItems] = useState([
-      { id: 1, name: '[울50%] (기획특가♥/하객룩/데일리룩) 비비안 부클 트위드 세미크롭 자켓', price: 20, image: 'https://atimg.sonyunara.com/files/attrangs/goods/151838/63edff01bdbda.jpg' },
-      { id: 2, name: '[울50%] (기획특가♥/하객룩/데일리룩) 비비안 부클 트위드 세미크롭 자켓', price: 30, image: 'https://atimg.sonyunara.com/files/attrangs/goods/151838/63edff01bdbda.jpg' },
-      { id: 3, name: '[울50%] (기획특가♥/하객룩/데일리룩) 비비안 부클 트위드 세미크롭 자켓', price: 50, image: 'https://atimg.sonyunara.com/files/attrangs/goods/151838/63edff01bdbda.jpg' }
-    ]);
+  // 구매 내역 로드
+  const loadOrders = () => {
+    axios.get("http://localhost:3000/order/history")
+      .then(response => setOrders(response.data))
+      .catch(err => console.log(err));
+  };
 
-    const handleDeleteItem = (id) => {
-      const updatedCartItems = cartItems.filter(item => item.id !== id);
-      setCartItems(updatedCartItems);
-    };
+  // 최근 본 상품 로드
+  const loadRecentlyViewed = () => {
+    const viewedFromCookie = Cookies.get('recentlyViewed');
+    if (viewedFromCookie) {
+      const recentlyViewedItems = JSON.parse(viewedFromCookie);
+      setRecentlyViewed(recentlyViewedItems);
+    }
+  };
 
-    // 구매내역
-    const [orders, setOrders] = useState([]);
-    useEffect(()=>{
-      axios
-      .get( "http://localhost:3000/order/history")
-      .then(
-          (response) =>{
-              console.log(response)
-              setOrders(response.data); //채팅방 목록페이지 조회
-          }
-      )
-      .catch((err)=>console.log(err))
-  }, [])
-  
-    // 최근 본 상품
+  // 장바구니에 상품 추가
+  const addToCart = (item, ea) => {
+    fetch('/addToCart', {
+      method: 'POST',
+      body: JSON.stringify({ item, ea }),
+      headers: {
+        'Content-Type': 'application/json'
+      }
+    })
+      .then(response => response.json())
+      .then(data => console.log(data));
 
-    const [recentlyViewed, setRecentlyViewed] = useState([]);
+    setCartItems([...cartItems, { id: cartItems.length + 1, name: item, image: '상품 이미지 URL' }]);
+  };
 
-    useEffect(() => {
-        // 쿠키에서 최근 본 상품 정보를 읽어옴
-        const cookieValue = document.cookie
-            .split('; ')
-            .find(row => row.startsWith('recentlyViewed='))
-            ?.split('=')[1];
-
-        if (cookieValue) {
-            const productIds = cookieValue.split(',');
-            // productIds를 서버에 보내서 최근 본 상품 정보를 가져올 수 있음
-            // 가져온 상품 정보를 recentlyViewed 상태에 설정
-            setRecentlyViewed(productIds);
-        }
-    }, []);
-
-
-
+  // 장바구니에서 상품 삭제
+  const handleDeleteItem = (id) => {
+    const updatedCart = cartItems.filter(item => item.id !== id);
+    setCartItems(updatedCart);
+  };
 
     return (
       <>
@@ -96,57 +94,68 @@ export default function BuyerMyPage() {
                 </div>
             </div>
 
-      <div className="activity">
+            <div className="activity">
+              <div className="leftContainer">
+                  <div className="activityDetail">
+                      <h2>나의 활동</h2>
+                      <span>구매 내역</span>
+                      <Link to="/order/history">
+                          <button>이동</button>
+                      </Link>
+                  </div>
+              </div>
+              <div className="rightContainer">
+                  {/* 최대 세 개의 구매 내역을 매핑하여 화면에 표시 */}
+                  {orders.slice(0, 3).map((order) => (
+                      <div className="activityItem" key={order.orderNo}>
+                          <Link to={`/order/orderdetail/${order.orderNo}`}>
+                              <div className="atem">
+                                  <div className="atemImg">
+                                      <img src={order.imgName} alt={order.imgName} />
+                                  </div>
+                                  <div className="atemIntro">
+                                      <span>{order.prodName}</span>
+                                  </div>
+                              </div>
+                          </Link>
+                      </div>
+                  ))}
+              </div>
+          </div>
+
+
+            <div className="activity">
         <div className="leftContainer">
           <div className="activityDetail">
             <h2>나의 활동</h2>
-            <span>구매 내역</span>
-            <Link to="/order/history">
-              <button>이동</button>
-            </Link>
+            <span>최근 본 상품</span>
           </div>
         </div>
         <div className="rightContainer">
-          {/* 각 구매 내역을 매핑하여 화면에 표시 */}
-          {orders.map((order) => (
-          <div className="activityItem" key={order.orderNo}>
-            <Link to={`/order/orderdetail/${order.orderNo}`}>
-                <div className="atem">
-                    <div className="atemImg">
-                        <img src={order.image} alt={order.productName} />
-                    </div>
-                    <div className="atemIntro">
-                        <span>{order.orderName}</span>
-                    </div>
+          {/* 최근 본 상품 목록을 화면에 표시 */}
+          {recentlyViewed.map(productId => (
+            <div className="activityItem" key={productId}>
+              {/* productId를 서버에 보내서 해당 상품 정보를 가져올 수 있음 */}
+              {/* 가져온 상품 정보를 화면에 표시 */}
+              <div className="atem">
+                <div className="atemImg">
+                  {/* 상품 이미지 */}
+                  <img src={productId.imgName} alt={productId.imgName} />
                 </div>
-            </Link>
-          </div>
+                <div className="atemIntro">
+                  {/* 상품 이름 */}
+                  <span>{productId.prodName}</span>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
-    </div>
+      </div>
 
-    <div className="activity">
-            <div className="leftContainer">
-                <div className="activityDetail">
-                    <h2>나의 활동</h2>
-                    <span>최근 본 상품</span>
-                    <button>이동</button>
-                </div>
-            </div>
-            <div className="rightContainer">
-                {/* 최근 본 상품 목록을 화면에 표시 */}
-                {recentlyViewed.map(productId => (
-                    <div className="activityItem" key={productId}>
-                        {/* productId를 서버에 보내서 해당 상품 정보를 가져올 수 있음 */}
-                        {/* 가져온 상품 정보를 화면에 표시 */}
-                    </div>
-                ))}
-            </div>
-        </div>
-
-      <div className="shoppingBasket">
+        <div className="shoppingBasket">
       <h2>장바구니</h2>
       <div className="bitems">
+        {/* 장바구니에 추가된 상품 목록을 표시 */}
         {cartItems.map(item => (
           <div className="bitem" key={item.id}>
             <span>{item.name}</span>
@@ -155,6 +164,7 @@ export default function BuyerMyPage() {
           </div>
         ))}
       </div>
+      {/* <button onClick={() => addToCart("추가할 상품 이름", 1)}>장바구니에 추가</button> */}
       <Link to={"/cart/CartList/"}>
         <button className="bMv">장바구니 이동</button>  
       </Link>
@@ -229,5 +239,4 @@ export default function BuyerMyPage() {
     </div>
     </>
   );
-}
-
+}  

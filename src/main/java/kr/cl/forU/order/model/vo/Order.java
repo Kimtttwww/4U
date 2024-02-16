@@ -26,4 +26,5 @@ public class Order {
 	
 	private String prodName;
 	private int Price;
+	private String imgName;
 }
