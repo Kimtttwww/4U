@@ -4,137 +4,172 @@ import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import Leftbar from "../css/components/Leftbar.css";
 import { mainCateAPI, subCateAPI } from "../page/common/LeftbarAPI";
 
-export default function Leftmenubar() {
 
+
+
+export default function Leftmenubar() {
+    console.log("자바스크립트 시작!");
     const [toggle, setToggle] = useState(false);
-    const [barPosition, setBarPosition] = useState(500);
     const [mainCateList, setMainCateList] = useState([]);
     const [subCateList, setSubCateList] = useState([]);
-    const [hoverdMenu, sethoverdMenu] = useState(null);
+    const [rect, setRect] = useState({});
+    const [hoverMainCate, setHoverMainCate] = useState(0);
+    const [hoverSubCate, setHoverSubCate] = useState(0);
+
 
     // leftbar 스크롤감지로 위치이동
     const handleScroll = () => {
         // const position = (500 < window.scrollY ? (500 + window.scrollY) : 500);
-        const position = (800 > window.scrollY ? window.scrollY - 800 : 150);
-        setBarPosition(position);
-    };
+        // const position = (800 > window.scrollY ? window.scrollY - 800 : 150);
 
-    // DB에서 CATE_MAIN 가져오기
-    const loadMainDb = async () => {
-        const mainCate = await mainCateAPI();
-        // console.log(mainCate);
-        setMainCateList(mainCate);
-    };
+        const leftBar = document.querySelector('#leftBar');
+        if (leftBar != null) {
+            leftBar.style.left = "15px";
 
-    // console.log(subCateList);
-
-    const mouseEnterHandler = (mainNo) => {
-
-        console.log(mainNo);
-
-        // DB에서 CATE_SUB 가져오기
-        const loadSubDb = async () => {
-            let tempArr = [];
-            for (const item of mainCateList) {
-                const subCate = await subCateAPI({ "cateMain": mainNo });
-                tempArr.push(subCate);
+            if (window.scrollY >= 620) {
+                leftBar.style.display = 'block';
+                leftBar.style.position = 'fixed';
+                leftBar.style.top = `${90 + 15}px`;
             }
-            setSubCateList([...tempArr]);
-
-        };
-
-
-        // setIsHoverd(mainNo);
-    }
-    // const mouseLeaveHandler = () => {
-    //     setIsHoverd(null);
-    // }
-
-
-    useEffect(() => {
-        window.addEventListener("scroll", handleScroll);
-        loadMainDb();
-    }, []);
-
-    // useEffect(() => {
-    //     if (mainCateList) {
-    //         loadSubDb();
-    //     }
-    // }, [mainCateList]);
-
-    const leftmenu = document.querySelector(".leftmain-area");
-
-
+            else if (window.scrollY > 0 && window.scrollY < 620) {
+                leftBar.style.display = 'block';
+                leftBar.style.position = 'relative';
+                leftBar.style.top = `649px`;
+            }
+        }
+    };
 
     const onIconClick = useCallback(() => {
         setToggle((p) => !p);
     }, []);
 
+    // DB에서 CATE_MAIN 가져오기
+    const loadMainDb = async () => {
+        const mainCate = await mainCateAPI();
+        setMainCateList(mainCate);
+    };
 
+    // CATE_MAIN이 hover된적이 없으면 API호출하여 DB에서 데이터 가져와서 useState()에 저장하기
+    const loadSubDb = async () => {
 
+        if (hoverMainCate == 0)
+            return;
 
+        let isExist = [];
+        if (subCateList?.length > 0)
+            isExist = subCateList?.filter((item) => (item.mainCategory == hoverMainCate));
+
+        if (isExist?.length == 0) {
+            const subCate = await subCateAPI({ "cateMain": hoverMainCate });
+            const obj = {
+                mainCategory: hoverMainCate,
+                subCategory: [...subCate],
+            }
+            setSubCateList([...subCateList, obj]);
+        }
+    }
+
+    // cateMain에 해당하는 cateSub가져오기
+    const subCateHTML = () => {
+        if (hoverMainCate > 0 && subCateList?.length > 0) {
+            const objArr = subCateList?.filter((sub) => (sub.mainCategory == hoverMainCate));
+            if (objArr?.length > 0)
+                return objArr[0].subCategory;
+        }
+        return null;
+    }
+
+    const mouseEnterHandler = (mainNo) => {
+        setHoverMainCate(mainNo);
+    };
+
+    const subMouseEnterHandler = (subNo) => {
+        setHoverSubCate(subNo);
+    }
+
+    const rectHandler = (idx) => {
+        const rect = document.querySelector(`#mainCategory${idx}`).getBoundingClientRect();
+
+        const obj = {
+            top: rect.top,
+            right: rect.right
+        }
+        setRect(obj);
+    }
+
+    useEffect(() => {
+        window.addEventListener("scroll", handleScroll);
+
+        loadMainDb();
+        if (hoverMainCate > 0)
+            rectHandler(hoverMainCate);
+    }, []);
+
+    useEffect(() => {
+        if (hoverMainCate > 0) {
+            loadSubDb();
+        }
+    }, [hoverMainCate])
 
 
     return (
-        // <div className="leftmain-area" style={{ top: barPosition }}>
+        <div className="leftCateListAll" >
+            <div id="leftBar" className={toggle ? "faBarsShow" : "faBarClose"}>
+                <div className="leftBarIcon">
+                    <FontAwesomeIcon className="fontIcon"
+                        icon={toggle ? faClose : faBars}
+                        onClick={onIconClick} />
+                </div>
 
-        <div className={toggle ? "faCloseShow" : "faBarsShow"}
-            style={{ top: barPosition }}>
-            <div>
-                <FontAwesomeIcon
-                    icon={toggle ? faClose : faBars}
-                    onClick={onIconClick} />
-            </div >
-            <div className={toggle ? "leftshow" : "lefthide"}>
-                {mainCateList?.map((main) => (
-                    <div key={main.cateMain} onMouseEnter={() => mouseEnterHandler(main.cateMain)}>
-                        {main.mainName}
-
-                        {/* {mainCateList ? console.log(mainIndex) : null} */}
+                <div>
+                    <div className={toggle ? "leftshow" : "lefthide"}>
+                        <div className="leftCateList">
+                            <div className="leftCateItem">
+                                <div className="mainCateList">
+                                    {
+                                        mainCateList?.map((main, index) => (
+                                            <div className="mainCateList"
+                                                key={main.cateMain}
+                                                id={`mainCategory${index}`}
+                                                onMouseEnter={() => {
+                                                    mouseEnterHandler(main.cateMain);
+                                                    rectHandler(index);
+                                                }}
+                                                onMouseLeave={() => {
+                                                    if (hoverSubCate == 0) {
+                                                        setHoverMainCate(0);
+                                                    }
+                                                }}>
+                                                <div>{main.mainName}</div>
+                                            </div>
+                                        ))
+                                    }
+                                </div>
+                            </div>
+                            <div div className="subCateList"
+                                style={{
+                                    position: 'fixed', top: `${rect.top}px`, left: `${rect.right - 10}px`
+                                }}
+                                onMouseLeave={() => {
+                                    setHoverSubCate(0);
+                                    setHoverMainCate(0);
+                                }}>
+                                {
+                                    subCateHTML()?.map((sub, index) => (
+                                        <div className="subListEle" key={index}
+                                            onMouseEnter={
+                                                () => {
+                                                    subMouseEnterHandler(sub.cateSub);
+                                                }}>
+                                            <a>{sub.subName}</a>
+                                        </div>
+                                    ))
+                                }
+                            </div>
+                        </div>
                     </div>
-                ))}
+                </div>
             </div>
-            <div>
-                {subCateList?.map((sub) => (
-                    <div key={sub.cateMain}>{sub.subName}
-
-                        {/* {subCateList ? console.log(subCateList) : null} */}
-                    </div>
-
-                ))}
-            </div>
-            {/* <div className="leftmenu-best">베스트</div>
-                <div className="leftmenu-new">NEW</div>
-
-                <div className="outer">
-                    <span className="leftmenu-outer">아우터</span>
-                    <div className="leftsub-outer">
-                        <div>패딩</div>
-                        <div>코트</div>
-                        <div>자켓</div>
-                    </div>
-                </div>
-                <div className="top">
-                    <div className="leftmenu-top">상의</div>
-                    <div className="leftsub-top">
-                        <div>원피스</div>
-                        <div>맨투맨</div>
-                        <div>니트</div>
-                    </div>
-                </div>
-                <div className="bottom">
-                    <div className="leftmenu-bottom">하의</div>
-                    <div className="leftsub-bottom">
-                        <div>청바지</div>
-                        <div>스커트</div>
-                        <div>밴딩</div>
-                    </div>
-                </div>
-                <div className="leftmenu-underwear">언더웨어</div>
-                <div className="leftmenu-acc">ACC</div> */}
-
-        </div>
-
-
+        </div >
     )
 }

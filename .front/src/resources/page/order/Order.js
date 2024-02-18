@@ -7,6 +7,8 @@ import { Button } from 'react-bootstrap';
 import axios from "axios";
 import { loadInfoAPI, loadOrderAPI } from "./OrderAPI";
 import { useNavigate } from "react-router-dom";
+import Payment from "./Payment";
+import PaymentAPI from "./PaymentAPI";
 
 export default function Order({ loginUser }) {
 
@@ -82,9 +84,9 @@ export default function Order({ loginUser }) {
         console.log("inputChange?", inputChange);
 
         setInputChange({ ...inputChange, [name]: value });
-
-
     }
+
+
 
 
     // 주문자정보 불러오기 체크박스 체크
@@ -139,11 +141,16 @@ export default function Order({ loginUser }) {
     // 결제하기 버튼 클릭시 
     const paymentReq = () => {
         console.log(inputChange);
-        if (!receiverName || !address || !addressDetail) {
-            alert("배송정보가 모두 입력되지 않았습니다.");
-            return;
-        }
+        // if (!receiverName || !address || !addressDetail) {
+        //     alert("배송정보가 모두 입력되지 않았습니다.");
+        //     return;
+        // }
+
+        return <PaymentAPI />;
     }
+
+
+
     return (
         <div className="order-container">
             <p className="order-write">주문서 작성</p>
@@ -308,6 +315,7 @@ export default function Order({ loginUser }) {
                     </div>
                     <div className="payBtn">
                         <button onClick={paymentReq}>결제하기</button>
+                        <PaymentAPI />
                     </div>
                 </div>
             </div>

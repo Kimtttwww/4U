@@ -15,7 +15,7 @@ export const mainCateAPI = async () => {
 export const subCateAPI = async (data) => {
     try {
         const response = await instance.post("/subCate", data);
-        console.log(data);
+        // console.log(data);
         return response.data;
     } catch (error) {
         return "subCate data없어요...";

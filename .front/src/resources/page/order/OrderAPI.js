@@ -8,7 +8,7 @@ export const loadInfoAPI = async (data) => {
         const response = await instance.post("/loadOrdererInfo", null, {
             params: data
         });
-        console.log(response);
+        // console.log(response);
         return response.data;
     } catch (error) {
         return "Orderer?? data없어요...";
