@@ -43,12 +43,11 @@ export default function Header(props) {
                     </div>
 
                     <div className="logo-container">
-                        <Link to="/" className='logo' onClick={scrollToTop}><img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzS70rzlJpJMXZ0Q6_ChitEnpVLSkcRmUeELLPbIZDFevEM7davlrHs7uMbGUygEnMl2g&usqp=CAU'/></Link>
+                        <Link to="/" className='logo' onClick={scrollToTop}><p>4U</p></Link>
                     </div>
                     <div className="search-container">
                         <input type="text" className="search-input" placeholder="검색어를 입력하세요" />
                         <button className="search-button">
-                            {/* 일단 로고 이미지 아무거나 넣어놓은거임 */}
                             <img src="https://xexymix.jpg3.kr/xexymix/2020/main/menu_view.png" alt="Search Icon" className="search-icon" />
                         </button>
                     </div>
