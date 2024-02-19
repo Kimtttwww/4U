@@ -86,7 +86,7 @@ export default function ProdDetail(props) {
 				</section>
 			</Modal.Body>
 			<Modal.Body>
-				<h3>여기는 채팅~</h3>
+				<h3>여기는 리뷰~</h3>
 			</Modal.Body>
 		</Modal>
 	</>);

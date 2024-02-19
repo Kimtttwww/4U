@@ -19,10 +19,40 @@ export default function ProdList() {
 		}).catch(console.log);
 	}, []);
 	
-	// 상세페이지
+	/**
+	 * 상세페이지에 필요한 값 세팅
+	 * @param {number} prodNo
+	 */
 	function gotoProdDetail(prodNo) {
-		setProduct(prodList.find((prod) => prod?.prodNo == prodNo));
+		setProduct(prodList.find((prod) => prod?.prodNo === prodNo));
 		setShowDetail(true);
+	}
+
+	console.log("test", prodList.sort((a, b) => a.price - b.price));
+
+	/**
+	 * 상품별 색상 종류 표시
+	 * @returns 사진 중 중복 색상을 제거한 후 남은 단일한 색상을 반환
+	 */
+	function colorList(prod) {
+		let arr:Set<number> = new Set(prod.image.map((img) => img.colorNo));
+		let imgList = [];
+
+		for (let i = 0; i < prod.image.length; i++) {
+			let img = prod.image[i];
+			if(arr.has(img.colorNo)) {
+				imgList.push(img);
+				arr.delete(img.colorNo);
+			}
+			if(!arr.size) break;
+		}
+
+		return (
+			imgList.map((img) => {
+				let {imgNo, rgb} = img;
+				return (<span key={imgNo} style={{backgroundColor : rgb}}></span>);
+			})
+		);
 	}
 	
 	return(<>
@@ -34,20 +64,13 @@ export default function ProdList() {
 				{prodList?.length ? prodList.map((prod) => {
 					return(<>
 						<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
-							<img src={prod?.image?.find((img) => img.imgType === 1)?.imgName} alt="상품 이미지" className="prod-img" />
+							<img src={prod?.image?.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
 							<article>
 								<div>{prod.price}</div>
 								<div>{prod.prodName}</div>
 								<div className="prod-color">
-									{/* 색깔(능동적 생성) */
-									prod.image?.length && prod.image.map((img) => {
-										let {color} = img;
-										return (<>
-											<span style={{backgroundColor : color}}></span>
-										</>);
-									}) }
+									{prod.image?.length && colorList(prod)}
 								</div>
-								<div>★⭐🌟✨❤🧡💗💛💘💕💖</div>
 							</article>
 						</section>
 					</>);
@@ -59,6 +82,6 @@ export default function ProdList() {
 			</div>
 		</div>
 
-	 	 {product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}
+	 	{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}
 	</>);
 }

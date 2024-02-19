@@ -1,7 +1,5 @@
 package kr.cl.forU.product.model.vo;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -20,7 +18,7 @@ public class Review {
 	/** 리뷰 내용 */
 	private String reviewContent;
 	/** 작성일 */
-	private Date createDate;
+	private String createDate;
 	/** 별점 */
 	private double rating;
 	/** 상태 */

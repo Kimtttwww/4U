@@ -24,11 +24,13 @@
 
 	<select id="selectProdDetailList" parameterType="int" resultType="prodDetail">
 		SELECT * FROM PROD_DETAIL
-		WHERE PROD_NO = #{prodNo}
+		WHERE PROD_NO = #{prodNo} AND STACK > 0
 	</select>
 
 	<select id="selectProdImageList" parameterType="int" resultType="image">
-		SELECT * FROM IMAGE
+		SELECT IMG_NO, REF_NO, COLOR_NO, IMG_TYPE, IMG_NAME, COLOR_NAME, RGB
+		FROM IMAGE
+		LEFT JOIN PALETTE USING (COLOR_NO)
 		WHERE REF_NO = #{ref_no}
 	</select>
 

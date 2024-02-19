@@ -81,12 +81,15 @@ public class ProductController {
 		return null;
     }
     
-    /** 상품들 조회
+    /**
+     * 상품들 조회
 	 * @return 조회된 상품 리스트
 	 */
     @GetMapping("list")
     public List<Product> selectProductList() {
-        return service.selectProductList();
+    	List<Product> list = service.selectProductList();
+    	log.info("\nlist = {}", list);
+        return list;
     }
     
 }
