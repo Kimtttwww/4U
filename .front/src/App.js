@@ -45,10 +45,12 @@ function App() {
 				</Route>
 
 				{/* ? */}
-				<Route path="/order/" element={<Order loginUser={login} />} />
-
-				{/* ? */}
-				<Route path="/order/history" element={<OrderHt />} />
+				<Route path="/order/">
+					{/* ? */}
+					<Route path="" element={<Order loginUser={login} />} />
+					{/* ? */}
+					<Route path="history" element={<OrderHt />} />
+				</Route>
 
 				{/* 구매자 마이페이지 */}
 				<Route path="/buyer/mypage/" element={<BuyerMyPage />} />

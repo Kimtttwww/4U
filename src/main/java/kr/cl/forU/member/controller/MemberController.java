@@ -5,7 +5,6 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -22,10 +21,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/member")
 @SessionAttributes({"loginMember"})
-
-
-
-
 public class MemberController {
 @Autowired
 private BCryptPasswordEncoder passwordEncoder;
@@ -33,8 +28,6 @@ private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private MemberService service;
-	
-	
 	
 	/** 로그인 팝업창 로그인 요청
 	 * @param m 로그인 시도할 ID, PW 정보
