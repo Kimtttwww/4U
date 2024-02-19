@@ -8,7 +8,6 @@ import { mainCateAPI, subCateAPI } from "../page/common/LeftbarAPI";
 
 
 export default function Leftmenubar() {
-    console.log("자바스크립트 시작!");
     const [toggle, setToggle] = useState(false);
     const [mainCateList, setMainCateList] = useState([]);
     const [subCateList, setSubCateList] = useState([]);
