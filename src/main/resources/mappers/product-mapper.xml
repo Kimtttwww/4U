@@ -2,10 +2,36 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="productMapper">
 
-	<select id="selectProductList" resultType="product">
+	<resultMap type="product" id="productResultSet" autoMapping="true">
+		<id column="PROD_NO" property="prodNo" />
+		<collection property="detail" javaType="list" ofType="prodDetail"
+			select="selectProdDetailList" column="PROD_NO" />
+		<collection property="image" javaType="list" ofType="image"
+			select="selectProdImageList" column="PROD_NO" />
+	</resultMap>
+
+
+	<select id="selectProductList" resultMap="productResultSet">
 		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
 		FROM PRODUCT
 	</select>
+
+	<select id="getProductById" parameterType="int" resultType="product">
+        SELECT *
+        FROM PRODUCT
+        WHERE PROD_NO = 1
+	</select>
+
+	<select id="selectProdDetailList" parameterType="int" resultType="prodDetail">
+		SELECT * FROM PROD_DETAIL
+		WHERE PROD_NO = #{prodNo}
+	</select>
+
+	<select id="selectProdImageList" parameterType="int" resultType="image">
+		SELECT * FROM IMAGE
+		WHERE REF_NO = #{ref_no}
+	</select>
+
 
 
 
@@ -18,12 +44,4 @@
     #{???},
     (select count(*) from prod_detail WHERE prod_no = 2)
 ) -->
-
-<select id="getProductById" parameterType="int" resultType="product">
-        SELECT *
-        FROM PRODUCT
-        WHERE PROD_NO = 1
-</select>
-
-
 </mapper>

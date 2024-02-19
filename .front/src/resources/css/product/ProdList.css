@@ -24,7 +24,6 @@
 /* 각각의 상품들 */
 .product {
 	flex: 0 0 250px;
-	height: 400px;
 	display: flex;
 	flex-direction: column;
 	border: 1px solid black;
@@ -53,7 +52,7 @@
 
 /* 상품 이름 */
 .product div:nth-of-type(2) {
-	height: 40px;
+	height: auto;
 }
 
 /* 상품 색상 박스 */

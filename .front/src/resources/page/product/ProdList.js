@@ -15,6 +15,7 @@ export default function ProdList() {
 		axios.get("/product/list")
 		.then((result) => {
 			setProdList(result.data);
+			console.log(result.data);
 		}).catch(console.log);
 	}, []);
 	
@@ -33,13 +34,20 @@ export default function ProdList() {
 				{prodList?.length ? prodList.map((prod) => {
 					return(<>
 						<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
-							<img src="" alt="상품 이미지" className="prod-img" />
+							<img src={prod?.image?.find((img) => img.imgType === 1)?.imgName} alt="상품 이미지" className="prod-img" />
 							<article>
 								<div>{prod.price}</div>
 								<div>{prod.prodName}</div>
 								<div className="prod-color">
-									{/* 색깔(능동적 생성) */}
-									<span style={{backgroundColor: "chartreuse"}}></span>
+									{/* 색깔(능동적 생성) */
+									prod.image?.length && prod.image.map((img) => {
+										let {color} = img
+										return (
+										<>
+											<span style={ {backgroundColor :  color }}></span>
+										</>)
+									}) 
+									}
 								</div>
 								<div>★⭐🌟✨❤🧡💗💛💘💕💖</div>
 							</article>
