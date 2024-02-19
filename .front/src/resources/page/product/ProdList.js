@@ -44,9 +44,8 @@ export default function ProdList() {
 										let {color} = img;
 										return (<>
 											<span style={{backgroundColor : color}}></span>
-										</>)
-									}) 
-									}
+										</>);
+									}) }
 								</div>
 								<div>★⭐🌟✨❤🧡💗💛💘💕💖</div>
 							</article>

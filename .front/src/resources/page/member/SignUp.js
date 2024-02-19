@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AddressData } from 'react-daum-postcode';
-import "../css/signUp/SignUp.css";
-import DaumPost from './DaumPost';
+import "../../css/member/SignUp.css";
+import DaumPost from '../DaumPost';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {Button, Modal} from 'react-bootstrap';

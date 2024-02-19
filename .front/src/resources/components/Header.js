@@ -31,7 +31,7 @@ export default function Header(props) {
                                     sessionStorage.removeItem("loginMember");
                                     setLogin("");
                                     }}>로그아웃</button>
-                                <Link to={""}>마이페이지</Link>
+                                <Link to={""}>{login.memberName}의 마이페이지</Link>
                             </>
                         ) : (
                             <>

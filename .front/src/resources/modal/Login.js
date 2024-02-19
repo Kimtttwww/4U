@@ -72,7 +72,7 @@ export default function Login(props) {
 				if(result.data) {
 					const loginMember = JSON.stringify(result.data)
 					sessionStorage.setItem('loginMember', loginMember);
-					setLogin(loginMember);
+					setLogin(result.data);
 					setShowLogin(false);
 				} else {
 					setMember({memberId: '', memberPwd: ''});

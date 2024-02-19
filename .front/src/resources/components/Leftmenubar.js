@@ -126,7 +126,7 @@ export default function Leftmenubar() {
                             <div className="leftCateItem">
                                 <div className="mainCateList">
                                     {
-                                        mainCateList?.map((main, index) => (
+                                        mainCateList.length && mainCateList.map((main, index) => (
                                             <div className="mainCateList"
                                                 key={main.cateMain}
                                                 id={`mainCategory${index}`}
