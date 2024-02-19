@@ -22,4 +22,8 @@ public class MemberService {
 		return dao.insertMember(m);
 	}
 	
+	public Member MemberIdMatch(String memberId) {
+		return dao.MemberIdMatch(memberId);
+	}
+	
 }

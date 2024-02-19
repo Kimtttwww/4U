@@ -8,6 +8,7 @@ import {Button, Modal} from 'react-bootstrap';
 import { isFor } from '@babel/types';
 
 const SignUp = () => {
+
     // 회원가입상태값 선언
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
@@ -19,7 +20,7 @@ const SignUp = () => {
     const [addressDetail, setAddressDetail] = useState('');
     const [zipCode, setzipCode] = useState('');
 
-
+    
     // 리다이렉트 문구
     const navigate = useNavigate();
 
@@ -28,6 +29,8 @@ const SignUp = () => {
     const [address, setInputAddressValue] = useState('');
     const [inputZipCodeValue, setInputZipCodeValue] = useState('');
     
+
+
     const handleModalOpen = () => {
         setModalState(true);
     };
@@ -49,23 +52,12 @@ const SignUp = () => {
     
     const [isIdCheck, setIsIdCheck] = useState(false);
     const [isIdAvailable, setIsIdAvailable] = useState(false);
-   
-
-    // 아이디 중복검사 ============================================
-    const handleIdCheck = async () => {
-          const response = await axios.post('http://localhost:8080/member/checkDuplicateId', {
-            memberId: id,
-          }).then((result)=>{
-            if(result){
-                alert("중복아이디있습니다.");
-                return;
-            } else{
-                
-            }
-          }).catch(console.log);
-      };
-
+    const [isIdValid, setIsIdValid] = useState(false);
+    const [isIdCheckClicked, setIsIdCheckClicked] = useState(false);
+    const [isNameValid, setIsNameValid] = useState(false);
+    const [isPhoneValid, setIsPhoneValid] = useState(false);
     
+
     // 아이디 유효성검사 ============================================
 
 
@@ -83,6 +75,11 @@ const SignUp = () => {
     } else{
         setidError('');
     }
+
+    setIsIdValid(false);
+    setIsIdCheckClicked(false);
+
+    setId(newId);
     }
 
 
@@ -147,7 +144,6 @@ const SignUp = () => {
             }
     };
 
-    // 이메일은 @가 무조건 들어가게 ===================================
 
 
 
@@ -160,9 +156,16 @@ const SignUp = () => {
             idError === '' &&
             passwordError === '사용가능한 비밀번호입니다.' &&
             passwordCheck.includes('일치합') &&
-            birthdayError === '굿'
+            birthdayError === '굿' &&
+            isIdValid &&
+            phone !== "" &&
+            address !== "" &&
+            addressDetail !== "" &&
+            name !== ""
         );
-    }, [idError, passwordError, passwordCheck, birthdayError]);
+    }, [idError, passwordError, passwordCheck, birthdayError, isIdValid, phone, address, zipCode, addressDetail, name]);
+
+
 
 
     // 회원가입 눌렀을때 작동하는 방식
@@ -179,6 +182,7 @@ const SignUp = () => {
             email,
             phone
         }
+        console.log(member);
         axios
         .post("http://localhost:3000/member/SignUp", member)
         .then(response => {
@@ -193,6 +197,41 @@ const SignUp = () => {
     }
     }
 //========================================================== 
+
+
+// 중복검사 버튼 ============================================
+const idMatching = async () => {
+
+    let member = {
+        memberId: id
+    };
+
+    setIsIdCheckClicked(true);
+
+    try {
+        const response = await axios.post("/member/SignUp/idCheck", member.memberId);
+
+        
+        if (response.data.memberId === undefined) {
+            alert("사용가능한 아이디입니다.");
+            setIsIdAvailable(true);
+            setIsIdValid(true);
+          
+        } else if (response.data.memberId === member.memberId) {
+            alert("이미 존재하는 아이디입니다.");
+            setIsIdAvailable(false);
+            setIsIdValid(false);
+        }
+    } catch (error) {
+        console.error("중복 처리 검사 에러", error);
+        window.alert("중복 처리 에러 발생");
+    };
+};
+
+
+
+
+
     return (
         <>
 <div className='form-container'>
@@ -208,7 +247,7 @@ const SignUp = () => {
     {idError && (
         <span style={{ color: 'red' }}>{idError}</span>
         )}
-    <button type="submit" class="btn btn-primary">중복확인</button>
+    <button type="button" class="btn btn-primary" onClick={idMatching}>중복확인</button>
       </label>
     </div>
 
@@ -292,8 +331,9 @@ const SignUp = () => {
       style={{ width: '300px' }}/>
     </label>
     </div>
-    <button type="submit" class="btn btn-primary" onClick={handleSignUp} disabled = {!isFormValid}>회원가입</button>
+    <button type="submit" class="btn btn-primary" onClick={handleSignUp} disabled = {!isFormValid }>회원가입</button>
   </fieldset>
+        
 </form>
 </div>
         </>

@@ -16,11 +16,16 @@ public class MemberDao {
 	
 	public Member selectMemberSoft(Member m) {
 		return session.selectOne(map + "selectMemberSoft", m);
+		
 	}
 
 
 	public int insertMember(Member m) {
 		return session.insert(map + "insertMember", m);
+	}
+	
+	public Member MemberIdMatch(String memberId) {
+		return session.selectOne(map + "MemberIdMatch" , memberId);
 	}
 
 }

@@ -41,10 +41,9 @@ export default function ProdList() {
 								<div className="prod-color">
 									{/* 색깔(능동적 생성) */
 									prod.image?.length && prod.image.map((img) => {
-										let {color} = img
-										return (
-										<>
-											<span style={ {backgroundColor :  color }}></span>
+										let {color} = img;
+										return (<>
+											<span style={{backgroundColor : color}}></span>
 										</>)
 									}) 
 									}
