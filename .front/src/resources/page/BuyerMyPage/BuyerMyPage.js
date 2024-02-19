@@ -15,6 +15,18 @@ export default function BuyerMyPage() {
   const [cartItems, setCartItems] = useState([]);
   const [orders, setOrders] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
+  
+ // 세션 저장소에서 로그인 정보 가져오기
+const sessionLoginMember = window.sessionStorage.getItem("loginMember");
+const [loginMember, setLoginMember] = useState(sessionLoginMember ? JSON.parse(sessionLoginMember) : null);
+
+useEffect(() => {
+    // 세션에 로그인 정보가 있는 경우 상태 업데이트
+    if (sessionLoginMember) {
+        setLoginMember(JSON.parse(sessionLoginMember));
+    }
+}, []); // 마운트될 때 한 번만 실행되도록 빈 배열을 전달합니다.
+
 
   useEffect(() => {
     // 구매내역 및 최근 본 상품 로드
@@ -64,13 +76,13 @@ export default function BuyerMyPage() {
         <div className="buyerContainer">
             <div className="userInfo">
                 <div className="userName">
-                    <h2>John doe</h2>
+                  <h2>{loginMember.memberId}</h2>
                 </div>
                 <div className="userRating">
                     <span>Bronze</span>
                 </div>
                 <div className="userIntro">
-                    <span>안녕하세요 John doe입니다.</span>
+                    <span>안녕하세요 {loginMember.memberName}님</span>
                 </div>
                 <div className="userUpdate">
                     <button onClick={() => setModalOpened(true)}>
