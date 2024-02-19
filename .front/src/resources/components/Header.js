@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import "../css/components/Header.css";
+import "../css/common/Header.css";
 
 /** App의 header
  * @props props

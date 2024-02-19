@@ -1,11 +1,8 @@
 import { useCallback, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
-import Leftbar from "../css/components/Leftbar.css";
+import Leftbar from "../css/common/Leftbar.css";
 import { mainCateAPI, subCateAPI } from "../page/common/LeftbarAPI";
-
-
-
 
 export default function Leftmenubar() {
     const [toggle, setToggle] = useState(false);
