@@ -9,5 +9,7 @@ import lombok.NoArgsConstructor;
 @Data
 public class Grade {
 
-	
+	private int gradeNo;
+	private String gradeName;
+	private int pointRate;
 }

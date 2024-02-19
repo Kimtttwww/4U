@@ -1,24 +1,31 @@
 package kr.cl.forU.order.controller;
 
+import java.io.IOException;
 import java.util.List;
 
-import org.apache.catalina.connector.Response;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.siot.IamportRestClient.IamportClient;
+import com.siot.IamportRestClient.exception.IamportResponseException;
+import com.siot.IamportRestClient.response.IamportResponse;
+import com.siot.IamportRestClient.response.Payment;
+
+import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.service.OrderService;
-import kr.cl.forU.order.model.vo.Order;
+import kr.cl.forU.product.model.vo.CategoryMain;
+import kr.cl.forU.product.model.vo.CategorySub;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -30,45 +37,58 @@ public class OrderController {
 	@Autowired
 	OrderService service;
 	
+    @Value("${iamport.key}")
+    private String restApiKey;
+    @Value("${iamport.secret}")
+    private String restApiSecret;
+
+    private IamportClient iamportClient;
+    
+	
 	@PostMapping("/loadOrdererInfo")
-	public ResponseEntity<Member> selectOrdererInfo(
-			@RequestBody Member memberNo,
+	public Member selectOrdererInfo(
+			@RequestParam("memberNo") int memberNo,
 			Model model, 
 			HttpSession session){
+		Member orderer = service.selectOrdererInfo(memberNo);
 		
+		return orderer;
+	}
+	
+
+	@PostMapping("/mainCate")
+	public List<CategoryMain> selectMainCate(){
 		
-		Member member = service.selectOrdererInfo(memberNo);
-		
-//		String phone = member.getPhone().replace("-", "");
-//		member.setPhone(phone);
-//		log.info("phone {}", phone);
-		
-		if(member != null){
-//			session.setAttribute("loginMember", member);
-			return ResponseEntity.status(HttpStatus.OK).body(member);
-		}
-		model.addAttribute("msg", "오류발생");
-		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(member);
+		List<CategoryMain> main = service.selectMainCate();
+		log.info("main ? {}" , main);
+		return main;
+	}
+	
+	@PostMapping("/subCate")
+	public List<CategorySub> selectSubCate(
+			@RequestBody CategoryMain cateMain){
+		List<CategorySub> sub = service.selectSubCate(cateMain.getCateMain());
+		log.info("sub ? {}" , sub);
+		return sub;
 	}
 	
 	
-//	@PostMapping("/loadOrder")
-//	public ResponseEntity<List<Order>> selectOrderInfo(
-//			@RequestBody Member memberNo,
-//			Model model
-//			){
-//		
-//		List<Order> order = service.selectOrderInfo(memberNo);
-//		log.info("order {}", order);
-//		if(order != null){
-//			return ResponseEntity.status(HttpStatus.OK).body(order);
-//		}
-//		model.addAttribute("msg", "오류발생");
-//		return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(order);
-//		
-//	}
-	
-	
+    @PostConstruct
+    public void init() {
+        this.iamportClient = new IamportClient("3581414205741361", "nxBzJ4jQSZalFmcDghVwJf5oCkO2eH0hR5uqSA9xCa50Cj87cflgz1V26TN1UrWTef0IGJJeiRMgxSgC");
+    }
+
+
+    @ResponseBody
+    @PostMapping("/verifyIamport/{imp_uid}")
+    public IamportResponse<Payment> paymentByImpUid(
+            Model model, 
+            HttpSession session, 
+            @PathVariable("imp_uid") String imp_uid) 
+            		throws IamportResponseException, IOException
+    {
+        return iamportClient.paymentByImpUid(imp_uid);
+    }
 	
 	
 }

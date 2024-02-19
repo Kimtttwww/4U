@@ -23,5 +23,15 @@
     "name": "spring.mvc.cors.allow-credentials",
     "type": "java.lang.String",
     "description": "A description for 'spring.mvc.cors.allow-credentials'"
+  },
+  {
+    "name": "iamport.key",
+    "type": "java.lang.String",
+    "description": "A description for 'iamport.key'"
+  },
+  {
+    "name": "iamport.secret",
+    "type": "java.lang.String",
+    "description": "A description for 'iamport.secret'"
   }
 ]}

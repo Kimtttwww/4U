@@ -23,11 +23,8 @@ function App() {
 
 	return (
 		<div className="App">
-			<Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
 
-			<div className="leftsidebar">
-				<Leftmenubar />
-			</div>
+			<Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
 
 			<Routes>
 				{/* 메인 페이지 */}
