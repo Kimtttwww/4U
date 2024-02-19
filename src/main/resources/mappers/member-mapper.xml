@@ -29,4 +29,10 @@
 		
 	</insert>
 	
+	<select id="MemberIdMatch" parameterType="String" resultType="member">
+		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, CREATE_DATE, MEMBER_PWD
+		FROM MEMBER
+		WHERE STATUS = 'Y' AND MEMBER_ID = #{memberId}
+	</select>
+	
 </mapper>
