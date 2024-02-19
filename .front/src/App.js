@@ -1,19 +1,19 @@
 import { Route, Routes } from "react-router-dom";
 import BuyerMyPage from "./resources/page/BuyerMyPage/BuyerMyPage";
 import CartList from "./resources/page/BuyerMyPage/cart/CartList";
-import Mainpage from "./resources/page/Mainpage";
 import Login from "./resources/modal/Login";
 import Order from "./resources/page/order/Order";
 import Payment from "./resources/page/order/Payment";
 import Header from "./resources/components/Header";
 import Footer from "./resources/components/Footer";
 import ProdList from "./resources/page/product/ProdList";
-import SignUp from "./resources/page/SignUp";
+import SignUp from "./resources/page/member/SignUp";
 import UserUpdate from "./resources/page/BuyerMyPage/UserUpdate";
 import { useState } from "react";
 import OrderHt from "./resources/page/BuyerMyPage/orderHistory/OrderHt";
 import Error from "./resources/components/Error";
 import Leftmenubar from "./resources/components/Leftmenubar";
+import Mainpage from "./resources/page/common/Mainpage";
 
 function App() {
 
@@ -23,12 +23,9 @@ function App() {
 
 	return (
 		<div className="App">
+
 			<Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
 
-			<div className="leftsidebar">
-				{/* <Leftmenubar /> */}
-			</div>
-			
 			<Routes>
 				{/* 메인 페이지 */}
 				<Route path="/" element={<Mainpage />} />

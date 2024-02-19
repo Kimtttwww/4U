@@ -1,5 +1,5 @@
 import { Link } from 'react-router-dom';
-import "../css/components/Footer.css";
+import "../css/common/Footer.css";
 
 export default function Footer() {
 
@@ -20,8 +20,7 @@ export default function Footer() {
 				<Link to="">MASTER · 강민구 · attize@naver.com</Link>
 			</div>
 			<div className="footer-text3">
-				{/* 일단 로고 이미지 아무거나 넣어놓은거임 */}
-				<img src='https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTzS70rzlJpJMXZ0Q6_ChitEnpVLSkcRmUeELLPbIZDFevEM7davlrHs7uMbGUygEnMl2g&usqp=CAU'/>
+			<p>4U</p>
 				<p> Copyrightⓒ 4U. ALL RIGHTS RESERVED</p>
 			</div>
 		</div>

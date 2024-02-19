@@ -3,12 +3,23 @@ import ChangeOption from "../../modal/ChangeOption";
 import AvailbleCoupon from "../../modal/AvailableCoupon";
 import '../../css/order/OrderPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { Button } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import axios from "axios";
 import { loadInfoAPI, loadOrderAPI } from "./OrderAPI";
 import { useNavigate } from "react-router-dom";
+import Payment from "./Payment";
+import PaymentAPI from "./PaymentAPI";
+import DaumPost from "../DaumPost"
+import AddressAPI from "../common/AddressAPI"
 
 export default function Order({ loginUser }) {
+
+    const inputObj = {
+        receiverName: "",
+        zipCode: "",
+        address: "",
+        addressDetail: ""
+    }
 
     const navi = useNavigate();
     const [applyColor, setApplyColor] = useState('');
@@ -17,13 +28,31 @@ export default function Order({ loginUser }) {
     const [loadInfo, setLoadInfo] = useState({});
     const [loadInfoChecked, setLoadInfoChecked] = useState(false);
     const [loadPhone, setLoadPhone] = useState();
+    const [isChange, setIsChange] = useState(false);
     const [isOptionChange, setisOptionChange] = useState(false);
     const [delMsg, setDelMsg] = useState('');
     const [inputChange, setInputChange] = useState({
-        receiverName: loadInfo.memberName,
-        address: loadInfo.address,
-        addressDetail: loadInfo.addressDetail
+        receiverName: "",
+        zipCode: "",
+        address: "",
+        addressDetail: ""
     });
+
+
+    // DAUM API
+    const [modalState, setModalState] = useState(false);
+    const [address, setInputAddressValue] = useState('');
+    const [inputZipCodeValue, setInputZipCodeValue] = useState('');
+
+    // 다음 주소창 열리게 하기
+    const toggleModal = () => {
+        setModalState(!modalState);
+    };
+    const onCompletePost = (data: AddressData) => {
+        setModalState(false);
+        setInputAddressValue(data.address);
+        setInputZipCodeValue(data.zonecode);
+    };
 
     const phoneRef = useRef([]);
 
@@ -31,9 +60,21 @@ export default function Order({ loginUser }) {
     const closeModal = () => setisOptionChange(false);
     const openCoupon = () => setisMyCoupon(true);
     const closeCoupon = () => setisMyCoupon(false);
+    const handleModalOpen = () => setModalState(true);
+    const handleModalClose = () => setModalState(false);
+
+    // <button type="button" onClick={toggleModal} class="btn btn-primary">주소 찾기</button>
+    // <AddressAPI show={modalState} onHide={handleModalClose} onCompletePost={onCompletePost}
+    //     dialogClassName='DaumModal' />
+
+    // <Button variant="secondary" className="optionChange-btn"
+    //         onClick={openModal}>  옵션변경</Button>   
+    //     <ChangeOption show={isOptionChange} closeModal={closeModal} sendColor={colorHandler} sendSize={sizeHandler} />
+
 
     // 배송메세지 option Data
     const deliMessage = [
+
         { key: 0, value: "배송메세지를 선택하세요" },
         { key: 1, value: "문앞에 두고 가주세요" },
         { key: 2, value: "경비실에 맡겨주세요" },
@@ -57,38 +98,19 @@ export default function Order({ loginUser }) {
     }
 
 
-
     // 주문자정보 DB에서 가져오기
     const loadFromDb = async () => {
-        const responseData = await loadInfoAPI({ memberNo: loginUser?.memberNo });
-        // console.log(responseData);
+
+        const formData = { memberNo: loginUser?.memberNo }
+
+        const responseData = await loadInfoAPI(formData);
         setLoadInfo(responseData);
     }
 
-
-    // 배송정보에 input이 감지되면 불러오기체크 해제
-    // input의 변경값 담기
-    const { receiverName, address, addressDetail } = inputChange;
-
-    const inputChangeHandler = async (e) => {
-        setLoadInfoChecked(false);
-
-
-        let { name, value } = e.target;
-        console.log(name, value);
-        console.log("inputChange?", inputChange);
-
-        setInputChange({ ...inputChange, [name]: value });
-
-
-    }
-
-
     // 주문자정보 불러오기 체크박스 체크
     const checkedHandler = (e) => {
-        // console.log(e.target.checked);
+        console.log(e.target.checked);
         setLoadInfoChecked(e.target.checked);
-        // inputChangeHandler();
 
         let phoneDb = loadInfo.phone.split('-');
         for (let i = 0; i < 3; i++) {
@@ -96,23 +118,26 @@ export default function Order({ loginUser }) {
                 phoneRef.current[i].value = phoneDb[i];
             } else {
                 phoneRef.current[i].value = "";
-                // setLoadInfo("");
             }
             setLoadInfo(loadInfo);
         }
-
-        if (loadInfo != inputChange) {
-            // checkedHandler();
-            console.log(loadInfo != inputChange, "loadInfo  inputChange 다름 ");
-            // console.log("loadInfo  inputChange 다름 ");
-            setInputChange({});
-        }
+        // if (loadInfo !== inputChange) {
+        //     // checkedHandler();
+        //     console.log(loadInfo !== inputChange, "loadInfo  inputChange 다름 ");
+        // }
     };
 
 
+    // 배송정보에 input이 감지되면 불러오기체크 해제
+    // input의 변경값 담기
 
+    const inputChangeHandler = (e) => {
+        let { name, value } = e.target;
 
-    const delInfoHandler = (e) => {
+        // input이 변경되면 inputChageHandler 에 들어옴 -> isChage true로 만듬..
+        setIsChange(true);
+        setInputChange({ ...inputChange, [name]: value });
+        setLoadInfoChecked(e.target.checked);
     }
 
     // 로그인상태에서만 페이지 접근가능하도록 설정
@@ -129,18 +154,30 @@ export default function Order({ loginUser }) {
         // }).catch((err) => console.log("통신 문제있음"))
     }, []);
 
+
     useEffect(() => {
+        if (!loadInfoChecked) {
+            // loadInfoChecked가 체크해제됨(불러오기 안함)
 
-    })
-
-    // 결제하기 버튼 클릭시 
-    const paymentReq = () => {
-        console.log(inputChange);
-        if (!receiverName || !address || !addressDetail) {
-            alert("배송정보가 모두 입력되지 않았습니다.");
-            return;
+            if (!isChange) {
+                // input 안건듬(변경안함) -> input 전부 공백처리
+                setInputChange(inputObj);
+            }
+            setIsChange(false);
         }
-    }
+        else {
+            // loadInfoChecked가 체크됨(불러오기)
+            setInputChange({
+                receiverName: loadInfo.memberName,
+                zipCode: loadInfo.zipCode,
+                address: loadInfo.address,
+                addressDetail: loadInfo.addressDetail
+            });
+            setIsChange(false);
+        }
+    }, [loadInfoChecked])
+
+
     return (
         <div className="order-container">
             <p className="order-write">주문서 작성</p>
@@ -175,12 +212,6 @@ export default function Order({ loginUser }) {
                         <td>29000</td>
                         <td>1</td>
                         <td><button>삭제</button></td>
-                        {/* {
-                            orderData?.map((order, index) => {
-                                <td key={index} >{order.value}</td>
-                            })
-
-                        } */}
                     </tr>
                 </tbody>
             </table>
@@ -204,7 +235,7 @@ export default function Order({ loginUser }) {
 
                     <div className="receiver-input">
                         <input type="text" id="userName" name="receiverName" style={{ width: "100px" }}
-                            className="margin" value={loadInfoChecked ? loadInfo?.memberName : ""}
+                            className="margin" value={loadInfoChecked ? loadInfo?.memberName : inputChange.receiverName}
                             onChange={inputChangeHandler}
                         />
                         <div className="margin">
@@ -222,25 +253,38 @@ export default function Order({ loginUser }) {
                         <div className="margin">
                             <div>
                                 <input type="number" id="" name="zipCode" style={{ width: "70px" }}
-                                    value={loadInfoChecked ? loadInfo?.zipCode : ""} />
-                                <button>우편번호 찾기</button>
+                                    value={loadInfoChecked ? loadInfo?.zipCode : inputChange.zipCode} />
+
+                                <button type="button" onClick={toggleModal} class="btn btn-primary">주소 찾기</button>
+                                {/* Daum 주소 API 컴포넌트 */}
+                                <Modal show={modalState} onHide={handleModalClose} dialogClassName='DaumModal'>
+
+                                    <AddressAPI onCompletePost={onCompletePost} />
+
+                                </Modal>
+                                {/* <AddressAPI show={modalState} onHide={handleModalClose} onCompletePost={onCompletePost}
+                                    dialogClassName='DaumModal' /> */}
+
+
                             </div>
                             <div>
                                 <input type="text" id="" name="address"
-                                    value={loadInfoChecked ? loadInfo?.address : inputChange?.address}
+                                    value={loadInfoChecked ? loadInfo?.address : inputChange.address}
                                     onChange={inputChangeHandler} />
                                 <input type="text" id="" name="addressDetail"
-                                    value={loadInfoChecked ? loadInfo?.addressDetail : (inputChange ? inputChange.addressDetail : "")}
+                                    value={loadInfoChecked ? loadInfo?.addressDetail : inputChange.addressDetail}
+
                                     onChange={inputChangeHandler} />
                             </div>
                         </div>
-                        <input type="text" id="" name="message" className="margin" />
+                        <input type="text" id="" name="message" className="margin" style={{ width: "200px" }}
+                            value={delMsg} />
                         <select style={{ width: "200px" }}
-                            onChange={applyMsg} value={delMsg} >
+                            onChange={applyMsg}  >
                             {
-                                deliMessage?.map((msg, index) => {
+                                deliMessage?.map((msg, index) =>
                                     <option key={index} value={msg.value}>{msg.value}</option>
-                                })
+                                )
 
                             }
 
@@ -310,7 +354,7 @@ export default function Order({ loginUser }) {
                         </div>
                     </div>
                     <div className="payBtn">
-                        <button onClick={paymentReq}>결제하기</button>
+                        <PaymentAPI />
                     </div>
                 </div>
             </div>

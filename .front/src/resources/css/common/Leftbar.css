@@ -1,0 +1,73 @@
+#leftBar {
+    display: none;
+
+}
+
+.faBarClose,
+.faBarsShow {
+    width: 40px;
+    height: 40px;
+
+}
+
+.faBarsShow {
+    background-color: rgb(241, 197, 223);
+}
+
+.faBarClose {
+
+    height: 40px;
+    background-color: rgb(255, 167, 156);
+    opacity: 0.8;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.leftBarIcon {
+    width: 40px;
+    height: 40px;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    border: 1px solid black;
+}
+
+.fontIcon {
+    width: 50%;
+    height: 50%;
+}
+
+.leftshow {
+    display: block;
+}
+
+.lefthide {
+    display: none;
+}
+
+.leftCateListAll {
+    display: flex;
+}
+
+.leftCateList {
+    display: flex;
+}
+
+.mainCateList {
+    width: 100px;
+    background-color: rgb(241, 178, 226);
+    /* position: fixed; */
+}
+
+.subCateList {
+    width: 100px;
+    background-color: rgb(197, 197, 226);
+
+    /* border: 1px solid black; */
+}
+
+.subListEle {
+    height: 30px;
+}

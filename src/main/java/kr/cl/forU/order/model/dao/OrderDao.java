@@ -8,7 +8,11 @@ import org.springframework.stereotype.Repository;
 
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.vo.Order;
+import kr.cl.forU.product.model.vo.CategoryMain;
+import kr.cl.forU.product.model.vo.CategorySub;
+import lombok.extern.slf4j.Slf4j;
 
+@Slf4j
 @Repository
 public class OrderDao {
 
@@ -23,8 +27,16 @@ public class OrderDao {
         return session.selectOne("orderMapper.findById", orderNo);
     }
 
-	public Member selectOrdererInfo(Member memberNo) {
+	public Member selectOrdererInfo(int memberNo) {
 		return session.selectOne("orderMapper.selectOrdererInfo", memberNo);
+	}
+
+	public List<CategoryMain> selectMainCate() {
+		return session.selectList("orderMapper.selectMainCate");
+	}
+
+	public List<CategorySub> selectSubCate(int cateMainNum) {
+		return session.selectList("orderMapper.selectSubCate", cateMainNum);
 	}
 
 

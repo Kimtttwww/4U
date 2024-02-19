@@ -47,4 +47,6 @@ public class Product {
 	
 	/**	해당 상품의 조합 */
 	private List<ProdDetail> detail;
+	/**	해당 상품의 이미지들 */
+	private List<ProdDetail> image;
 }

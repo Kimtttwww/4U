@@ -2,7 +2,8 @@ import React, { Component, useState } from 'react'
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
-import "../css/mainPage/Mainpage.css";
+import "../../css/common/Mainpage.css";
+import Leftmenubar from '../../components/Leftmenubar';
 // import Button from 'react-bootstrap/Button';
 // import Modal from 'react-bootstrap/Modal';
 
@@ -13,10 +14,12 @@ import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 
+
 export default () => {
 
   return (
     <>
+      <Leftmenubar />
 
 
 
@@ -27,8 +30,8 @@ export default () => {
           slidesPerView={1}
           navigation
           pagination={{ clickable: true }}
-          onSlideChange={() => console.log('slide change')}
-          onSwiper={(swiper) => console.log(swiper)}
+          // onSlideChange={() => console.log('slide change')}
+          // onSwiper={(swiper) => console.log(swiper)}
           autoplay={{ delay: 3000, disableOnInteraction: false }}
         >
           <SwiperSlide className='custom-slide'><img className='bannerImg' src='https://atimg.sonyunara.com/files/attrangs/goods/55939/63e9a881af788.jpg' /></SwiperSlide>

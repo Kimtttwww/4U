@@ -78,6 +78,7 @@ public class ProductController {
             e.printStackTrace();
             return "error-page"; // 예외 처리 페이지로 리다이렉트 또는 에러 메시지 반환
         }
+		return null;
     }
     
     /** 상품들 조회

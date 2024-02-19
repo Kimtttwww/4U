@@ -1,5 +1,6 @@
 import { Modal } from "react-bootstrap";
 import "../css/product/ProdDetail.css"
+import Cookies from "js-cookie";
 
 /**
  * 상품 상세 모달창
@@ -13,6 +14,25 @@ export default function ProdDetail(props) {
 	const {showDetail, setShowDetail, product} = props;
 
 	/** @todo 선색상 후size 이후 추가 함수 */
+
+	/** 
+	 * 장바구니에 상품 추가 기능
+	 * @todo 중복삽입 방지 필요 + 성공 여부 툴팁으로 표시
+	*/
+	function addCartList() {
+		let cartList = Cookies.get('cart');
+
+		if(!cartList) {cartList = [];
+		} else {cartList = JSON.parse(cartList);}
+
+		try {
+			cartList.push({prodNo: product.prodNo, index: 0});
+			Cookies.set('cart', JSON.stringify(cartList), { expires: 7 });
+		} catch (error) {
+			alert("장바구니에 추가되지 않았습니다");
+		}
+		alert("장바구니에 추가되었습니다");
+	}
 
 	return(<>
 		<Modal show={showDetail} onHide={() => {setShowDetail(false)}} size="xl" dialogClassName="one-product" animation={false} keyboard>
@@ -60,7 +80,7 @@ export default function ProdDetail(props) {
 						<h4>12,345 원</h4>
 					</article>
 					<article className="order-action">
-						<button className="btn btn-secondary">장바구니 담기</button>
+						<button className="btn btn-secondary" onClick={addCartList}>장바구니 담기</button>
 						<button className="btn btn-dark">구매하기</button>
 					</article>
 				</section>
