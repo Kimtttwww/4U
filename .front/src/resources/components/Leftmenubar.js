@@ -122,9 +122,10 @@ export default function Leftmenubar() {
                         <div className="leftCateList">
                             <div className="leftCateItem">
                                 <div className="mainCateList">
+                                <p>4u</p>
                                     {
                                         mainCateList.length && mainCateList.map((main, index) => (
-                                            <div className="mainCateList"
+                                            <div className="mainCateListItem"
                                                 key={main.cateMain}
                                                 id={`mainCategory${index}`}
                                                 onMouseEnter={() => {
