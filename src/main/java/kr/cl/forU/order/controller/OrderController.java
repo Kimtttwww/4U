@@ -22,6 +22,7 @@ import com.siot.IamportRestClient.response.Payment;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
+import kr.cl.forU.member.model.vo.CouponUser;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.service.OrderService;
 import kr.cl.forU.product.model.vo.CategoryMain;
@@ -47,12 +48,10 @@ public class OrderController {
 	
 	@PostMapping("/loadOrdererInfo")
 	public Member selectOrdererInfo(
-			@RequestParam("memberNo") int memberNo,
-			Model model, 
-			HttpSession session){
-		Member orderer = service.selectOrdererInfo(memberNo);
+			@RequestParam("memberNo") int memberNo
+			){
 		
-		return orderer;
+		return service.selectOrdererInfo(memberNo);
 	}
 	
 
@@ -60,7 +59,7 @@ public class OrderController {
 	public List<CategoryMain> selectMainCate(){
 		
 		List<CategoryMain> main = service.selectMainCate();
-		log.info("main ? {}" , main);
+//		log.info("main ? {}" , main);
 		return main;
 	}
 	
@@ -68,17 +67,17 @@ public class OrderController {
 	public List<CategorySub> selectSubCate(
 			@RequestBody CategoryMain cateMain){
 		List<CategorySub> sub = service.selectSubCate(cateMain.getCateMain());
-		log.info("sub ? {}" , sub);
+//		log.info("sub ? {}" , sub);
 		return sub;
 	}
 	
-	
+	// 결제API 
     @PostConstruct
     public void init() {
         this.iamportClient = new IamportClient("3581414205741361", "nxBzJ4jQSZalFmcDghVwJf5oCkO2eH0hR5uqSA9xCa50Cj87cflgz1V26TN1UrWTef0IGJJeiRMgxSgC");
     }
 
-
+    // 결제API 연결    
     @ResponseBody
     @PostMapping("/verifyIamport/{imp_uid}")
     public IamportResponse<Payment> paymentByImpUid(
@@ -90,5 +89,17 @@ public class OrderController {
         return iamportClient.paymentByImpUid(imp_uid);
     }
 	
+    
+    @PostMapping("/loadUserCoupon")
+    public List<CouponUser> selectUserCoupon(
+    		@RequestBody CouponUser memberNo
+    		){
+    	log.info("들어는옴? ?????" );
+    	List<CouponUser> list = service.selectUserCoupon(memberNo);
+    	
+    	log.info("list ? {}" , list);
+    	return list;
+    }
+    
 	
 }
