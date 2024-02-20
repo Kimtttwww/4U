@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Image {
+public class Image extends Palette {
 
 	/** 이미지 번호	 */
 	private int imgNo;
@@ -15,12 +15,4 @@ public class Image {
 	private int refNo;
 	/** 이미지 용도(1:썸네일/2:상세/3:리뷰(null)/4:문의(null)) */
 	private int imgType;
-	/** 색상 번호 */
-	private int colorNo;
-	/** 사진 이름 */
-	private String imgName;
-	/** 색상명 */
-	private String colorName;
-	/** 색상코드 */
-	private String rgb;
 }

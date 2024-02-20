@@ -41,7 +41,7 @@ function App() {
             {/* 제품 관련 */}
             <Route path="/product">
                {/* 제품 리스트 */}
-               <Route path="list" element={<ProdList />} />
+               <Route path="list/:cateSub" element={<ProdList />} />
             </Route>
 
             {/* ? */}

@@ -23,8 +23,8 @@ public class ProductService {
 	/** 상품들 조회
 	 * @return 조회된 상품 리스트
 	 */
-	public List<Product> selectProductList() {
-		return dao.selectProductList();
+	public List<Product> selectProductList(int cateSub) {
+		return dao.selectProductList(cateSub);
 	}
 }
 

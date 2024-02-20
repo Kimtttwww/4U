@@ -65,8 +65,10 @@
 .prod-color>span {
 	height: 100%;
 	width: 20px;
+	font-size: 1px;
+	text-align: center;
 	border: 1px solid lightslategray;
-	/* border: 1px solid #f5cfcb; */
 	border-radius: 50%;
+	padding-top: 7px;
 	margin-right: 15px;
 }

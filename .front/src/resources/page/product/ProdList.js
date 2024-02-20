@@ -2,17 +2,19 @@ import { useEffect, useState } from "react";
 import "../../css/product/ProdList.css";
 import ProdDetail from "../../modal/ProdDetail";
 import axios from "axios";
+import { useParams } from "react-router-dom";
 
 /** 상품 리스트 페이지 */
 export default function ProdList() {
 	
-	const [prodList, setProdList] = useState([{}]);
+	const [prodList, setProdList] = useState([]);
 	const [showDetail, setShowDetail] = useState(false);
 	const [product, setProduct] = useState();
+	const {cateSub} = useParams();
 
 	useEffect(() => {
 		// 상품 리스트 불러오기
-		axios.get("/product/list")
+		axios.get("/product/list/" + cateSub)
 		.then((result) => {
 			setProdList(result.data);
 			console.log(result.data);
@@ -28,14 +30,14 @@ export default function ProdList() {
 		setShowDetail(true);
 	}
 
-	console.log("test", prodList.sort((a, b) => a.price - b.price));
+	// console.log("test", prodList.sort((a, b) => a.price - b.price));
 
 	/**
 	 * 상품별 색상 종류 표시
 	 * @returns 사진 중 중복 색상을 제거한 후 남은 단일한 색상을 반환
 	 */
 	function colorList(prod) {
-		let arr:Set<number> = new Set(prod.image.map((img) => img.colorNo));
+		let arr:Set<number> = new Set(prod.detail.map((dtl) => dtl.colorNo));
 		let imgList = [];
 
 		for (let i = 0; i < prod.image.length; i++) {
@@ -50,11 +52,21 @@ export default function ProdList() {
 		return (
 			imgList.map((img) => {
 				let {imgNo, rgb} = img;
-				return (<span key={imgNo} style={{backgroundColor : rgb}}></span>);
+				return (<span onMouseOver={test} style={{backgroundColor: rgb, color: rgb}}>{imgNo}</span>);
 			})
 		);
 	}
 	
+	/**
+	 * 
+	 * @param {SyntheticBaseEvent} e 
+	 */
+	function test(e) {
+		const imgNo = e.target.innerHTML;
+
+
+	}
+
 	return(<>
 		<div className="ProdList">
 			<div className="menu-side-area">
@@ -64,6 +76,7 @@ export default function ProdList() {
 				{prodList?.length ? prodList.map((prod) => {
 					return(<>
 						<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
+							{/* 썸넬 사진을 찾아서 보여주기 */}
 							<img src={prod?.image?.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
 							<article>
 								<div>{prod.price}</div>
