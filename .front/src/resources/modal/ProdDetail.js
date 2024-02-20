@@ -34,6 +34,7 @@ export default function ProdDetail(props) {
 		alert("장바구니에 추가되었습니다");
 	}
 
+	console.log("product\n", product);
 	return(<>
 		<Modal show={showDetail} onHide={() => {setShowDetail(false)}} size="xl" dialogClassName="one-product" animation={false} keyboard>
 			<Modal.Header closeButton />
@@ -86,7 +87,7 @@ export default function ProdDetail(props) {
 				</section>
 			</Modal.Body>
 			<Modal.Body>
-				<h3>여기는 채팅~</h3>
+				<h3>여기는 리뷰~</h3>
 			</Modal.Body>
 		</Modal>
 	</>);

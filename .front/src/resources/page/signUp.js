@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { AddressData } from 'react-daum-postcode';
-import "../../css/member/SignUp.css";
-import DaumPost from '../DaumPost';
+import "../css/signUp/SignUp.css";
+import DaumPost from './DaumPost';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import {Button, Modal} from 'react-bootstrap';
@@ -239,7 +239,6 @@ const idMatching = async () => {
   <fieldset>
     <legend>회원가입</legend>
 
-
     <div class="mb-3">
       <label for="disabledTextInput" class="form-label">아이디:
       <input type="text" value={id} className = "form-control" onChange={(e) => {setId(e.target.value); handleIdChange(e)}} 
@@ -261,7 +260,7 @@ const idMatching = async () => {
 
     <div class="mb-3">
       <label for="disabledTextInput" class="form-label">비밀번호:
-      <input type="password" id="disabledTextInput" class="form-control"  onChange={(e) => {setPassword(e.target.value); handlePasswordChange(e)}}
+      <input type="text" id="disabledTextInput" class="form-control"  onChange={(e) => {setPassword(e.target.value); handlePasswordChange(e)}}
       style={{ width: '300px' }}/>
     {passwordError && (
     <span style={{ color: passwordError.includes('사용가능') ? 'green' : 'red' }}>{passwordError}</span>
@@ -282,7 +281,7 @@ const idMatching = async () => {
 
     <div class="mb-3">
       <label for="disabledTextInput" class="form-label">생년월일:
-      <input type="text" id="disabledTextInput" class="form-control"value={birthday} onChange={(e) => {setBirthday(e.target.value); handleBirthdayCheck(e)}} 
+      <input type="date" id="disabledTextInput" class="form-control"value={birthday} onChange={(e) => {setBirthday(e.target.value); handleBirthdayCheck(e)}} 
       style={{ width: '300px' }}/>
       {birthdayError && (
     <span style={{ color: 'red' }}>{birthdayError}</span>)}
@@ -298,7 +297,7 @@ const idMatching = async () => {
 
     <div class="mb-3">
       <label for="disabledTextInput" class="form-label">전화번호:
-      <input type="text" id="disabledTextInput" class="form-control"value={phone} onChange={(e) => setPhone(e.target.value)} 
+      <input type="number" id="disabledTextInput" class="form-control"value={phone} onChange={(e) => setPhone(e.target.value)} 
       style={{ width: '300px' }}/>
     </label>
     </div>

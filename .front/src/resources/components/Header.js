@@ -43,7 +43,7 @@ export default function Header(props) {
                     </div>
 
                     <div className="logo-container">
-                        <Link to="/" className='logo' onClick={scrollToTop}><p>4U</p></Link>
+                        <Link to="/" className='logo' onClick={scrollToTop}><p><img className="imgLogo" src ="/photo/4U4U.png"/></p></Link>
                     </div>
                     <div className="search-container">
                         <input type="text" className="search-input" placeholder="검색어를 입력하세요" />

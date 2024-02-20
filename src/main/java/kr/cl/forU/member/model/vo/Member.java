@@ -1,7 +1,5 @@
 package kr.cl.forU.member.model.vo;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -26,7 +24,7 @@ public class Member {
 	/** 연락처 */
 	private String birthday;
 	/** 가입일 */
-	private Date createDate;
+	private String createDate;
 	/** 상태 */
 	private String status;
 	/** 주소 */
@@ -34,7 +32,7 @@ public class Member {
 	/** 주소(상세) */
 	private String addressDetail;
 	/** 우편번호 */
-	private int zipCode;
+	private String zipCode;
 	/** 회원등급 */
 	private String grade;
 	/** 포인트 */

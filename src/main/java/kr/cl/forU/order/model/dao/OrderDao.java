@@ -6,6 +6,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.cl.forU.member.model.vo.CouponUser;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.vo.Order;
 import kr.cl.forU.product.model.vo.CategoryMain;
@@ -39,5 +40,11 @@ public class OrderDao {
 		return session.selectList("orderMapper.selectSubCate", cateMainNum);
 	}
 
+	public List<CouponUser> selectUserCoupon(CouponUser memberNo) {
+		return session.selectList("orderMapper.selectUserCoupon", memberNo);
+	}
+
+	
+	
 
 }

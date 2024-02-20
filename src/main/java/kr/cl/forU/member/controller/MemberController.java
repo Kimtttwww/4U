@@ -25,10 +25,6 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/member")
 @SessionAttributes({"loginMember"})
-
-
-
-
 public class MemberController {
 @Autowired
 private BCryptPasswordEncoder passwordEncoder;
@@ -36,8 +32,6 @@ private BCryptPasswordEncoder passwordEncoder;
 	
 	@Autowired
 	private MemberService service;
-	
-	
 	
 	/** 로그인 팝업창 로그인 요청
 	 * @param m 로그인 시도할 ID, PW 정보
@@ -58,7 +52,7 @@ private BCryptPasswordEncoder passwordEncoder;
 	@CrossOrigin(origins = "https://localhost:3000")
 	@PostMapping("/SignUp")
 	public Map<String, Object> insertMember(@RequestBody Member m , HttpServletResponse res) {
-		log.info("dd {}" , m);
+	
 		
 		String encodedPassword = passwordEncoder.encode(m.getMemberPwd());
 		m.setMemberPwd(encodedPassword);
@@ -66,6 +60,16 @@ private BCryptPasswordEncoder passwordEncoder;
 		int result = service.insertMember(m);
 		Map<String, Object> map = new HashMap<>();
 		
+		String formatPhoneOne = (m.getPhone().substring(0,3));
+		log.info("\n 전화번호 = {}", formatPhoneOne);
+		String formatPhoneTwo = (m.getPhone().substring(3,7));
+		log.info("\n 전화번호 = {}", formatPhoneTwo);
+		String formatPhoneThree = (m.getPhone().substring(7,11));
+		log.info("\n 전화번호 = {}", formatPhoneThree);
+		
+		String phoneFinal = (formatPhoneOne + "-" + formatPhoneTwo + "-" + formatPhoneThree);
+		m.setPhone(phoneFinal);
+		log.info("\n 전화번호 = {}", m.getPhone());
 		
 		if(result > 0) {
 			map.put("msg", "회원가입 성공");
@@ -79,7 +83,7 @@ private BCryptPasswordEncoder passwordEncoder;
 	public Member checkMemberId(@RequestBody String memberId , HttpServletResponse res) {
 		
 		Member member = service.MemberIdMatch(memberId);
-	
+		log.info("\nddd = {}", member);
 		if (member == null) {
 			
 			

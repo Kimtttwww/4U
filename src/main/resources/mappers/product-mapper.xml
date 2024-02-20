@@ -11,9 +11,12 @@
 	</resultMap>
 
 
-	<select id="selectProductList" resultMap="productResultSet">
+	<select id="selectProductList" parameterType="int" resultMap="productResultSet">
 		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
 		FROM PRODUCT
+		<where>
+			<if test="cateSub gt 0">AND CATE_SUB = #{cateSub}</if>
+		</where>
 	</select>
 
 	<select id="getProductById" parameterType="int" resultType="product">
@@ -23,14 +26,19 @@
 	</select>
 
 	<select id="selectProdDetailList" parameterType="int" resultType="prodDetail">
-		SELECT * FROM PROD_DETAIL
-		WHERE PROD_NO = #{prodNo}
+		SELECT "INDEX", PROD_NO, "SIZE", STACK, TOP, BOTTOM, COLOR_NO, COLOR_NAME, RGB FROM PROD_DETAIL
+		LEFT JOIN PALETTE USING (COLOR_NO)
+		WHERE PROD_NO = #{prodNo} AND STACK > 0
 	</select>
 
 	<select id="selectProdImageList" parameterType="int" resultType="image">
-		SELECT * FROM IMAGE
-		WHERE REF_NO = #{ref_no}
+		SELECT IMG_NO, REF_NO, COLOR_NO, IMG_TYPE, IMG_NAME, COLOR_NAME, RGB
+		FROM IMAGE
+		LEFT JOIN PALETTE USING (COLOR_NO)
+		WHERE REF_NO = #{refNo}
 	</select>
+	
+	
 
 	<select id="selectCartList" parameterType="int" resultMap="productResultSet">
 		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS

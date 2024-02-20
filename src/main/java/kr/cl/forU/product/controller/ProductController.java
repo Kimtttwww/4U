@@ -12,6 +12,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -30,12 +31,18 @@ public class ProductController {
 	@Autowired
 	ProductService service;
     
-    /** 상품들 조회
+    /**
+     * 상품들 조회
 	 * @return 조회된 상품 리스트
 	 */
-    @GetMapping("/product/list")
-    public List<Product> selectProductList() {
-        return service.selectProductList();
+    @GetMapping("list/{cateSub}")
+    public List<Product> selectProductList(@PathVariable int cateSub) {
+        return service.selectProductList(cateSub);
+    }
+    
+    @GetMapping("/")
+    public List<Product> bestProducts(){
+    	return service.bestProducts();
     }
     
     @GetMapping("/cart/CartList")

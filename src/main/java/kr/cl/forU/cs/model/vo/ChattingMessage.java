@@ -1,7 +1,5 @@
 package kr.cl.forU.cs.model.vo;
 
-import java.sql.Date;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,7 +16,7 @@ public class ChattingMessage {
 	/** 회원 번호 */
 	private int cmWriter;
 	/** 작성일 */
-	private Date createDate;
+	private String createDate;
 	/** 방번호 */
 	private int chatRoomNo;
 	private String status;
