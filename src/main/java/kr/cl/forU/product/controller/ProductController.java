@@ -29,6 +29,7 @@ public class ProductController {
     
     /**
      * 상품들 조회
+     * @param cateSub 필터를 걸 서브 카테고리 값
 	 * @return 조회된 상품 리스트
 	 */
     @GetMapping("list/{cateSub}")

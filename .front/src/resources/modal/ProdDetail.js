@@ -34,6 +34,15 @@ export default function ProdDetail(props) {
 		alert("장바구니에 추가되었습니다");
 	}
 
+	function checkDiscount() {
+		const element;
+		(<>
+			<h5>{product.price}</h5>
+			<h4><pre> → </pre>{product.price * product.discount / 100}</h4>
+		</>);
+			return element;
+	}
+	
 	console.log("product\n", product);
 	return(<>
 		<Modal show={showDetail} onHide={() => {setShowDetail(false)}} size="xl" dialogClassName="one-product" animation={false} keyboard>
@@ -52,8 +61,7 @@ export default function ProdDetail(props) {
 					<h4 style={{fontWeight: "bold"}}>{product.prodName}</h4>
 					<p>{product.prodCap}</p>
 					<article className="prod-price">
-						<h5>50,000</h5>
-						<h4><pre> → </pre>30,000</h4>
+						{checkDiscount(product.discount)}
 					</article>
 					<article className="prod-colors">
 						{/* 유동적 생성 요소 */}

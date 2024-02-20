@@ -52,27 +52,36 @@ export default function ProdList() {
 		return (
 			imgList.map((img) => {
 				let {imgNo, refNo, rgb} = img;
-				return (<span onMouseEnter={(e) => test(e, refNo)} style={{backgroundColor: rgb, color: rgb}}>{imgNo}</span>);
+				return (<span onMouseEnter={(e) => changeImageToColor(e, refNo)} onMouseLeave={(e) => rollbackImage(e, refNo)}
+					style={{backgroundColor: rgb, color: rgb}}>{imgNo}</span>);
 			})
 		);
 	}
 	
 	/**
 	 * 색깔에 커서 올리면 해당 색깔의 상품 이미지가 나오게 하는 함수
-	 * @param {SyntheticBaseEvent} e 
-	 */
-	/**
-	 * 
-	 * @param {*} e 이벤트 객체
-	 * @param {*} prodNo 해당 상품 번호
-	 */
-	function test(e, prodNo) {
-		const imgNo = e.target.innerHTML;
-
-		console.log(e.target);
-		// console.log(prodList[prodNo]?.image?.find((img) => {img.imgNo === imgNo}));
+	 * @param {SyntheticBaseEvent} e 이벤트 객체
+	 * @param {number} prodNo 해당 상품 번호
+	*/
+	function changeImageToColor(e, prodNo) {
+		const imgNo = Number(e.target.innerHTML);
+		const prod = prodList.find((p) => p.prodNo === prodNo);
+		
+		// console.log(prod.image.find((img) => img.imgNo === imgNo));
+		
+		e.target.parentElement.parentElement.previousSibling.src = prod.image.find((img) => img.imgNo === imgNo).imgName;
 	}
+	
+	/**
+	 * 바뀌었던 이미지를 다시 원래 썸넬로 되돌리는 함수
+	 * @param {SyntheticBaseEvent} e 이벤트 객체
+	 * @param {number} prodNo 해당 상품 번호
+	 */
+	function rollbackImage(e, prodNo) {
+		const prod = prodList.find((p) => p.prodNo === prodNo);
 
+		e.target.parentElement.parentElement.previousSibling.src = prod.image.find((img) => img.imgType === 1)?.imgName;
+	}
 	return(<>
 		<div className="ProdList">
 			<div className="menu-side-area">
@@ -83,7 +92,7 @@ export default function ProdList() {
 					return(<>
 						<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
 							{/* 썸넬 사진을 찾아서 보여주기 */}
-							<img src={prod?.image?.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
+							<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
 							<article>
 								<div>{prod.price}</div>
 								<div>{prod.prodName}</div>
