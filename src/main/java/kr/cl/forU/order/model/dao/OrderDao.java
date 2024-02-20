@@ -40,7 +40,7 @@ public class OrderDao {
 		return session.selectList("orderMapper.selectSubCate", cateMainNum);
 	}
 
-	public List<CouponUser> selectUserCoupon(CouponUser memberNo) {
+	public List<CouponUser> selectUserCoupon(int memberNo) {
 		return session.selectList("orderMapper.selectUserCoupon", memberNo);
 	}
 

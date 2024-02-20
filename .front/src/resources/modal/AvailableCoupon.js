@@ -2,10 +2,18 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
 import { loadUserCouponAPI } from '../page/order/OrderAPI';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
-export default function AvailableCoupon({ show, closeCoupon, loginUser }) {
+export default function AvailableCoupon({ show, closeCoupon, loginUser, userCoupon }) {
     /* coupon Modal - */
 
+    const navi = useNavigate();
+    const [applyCoupon, setApplyCoupon] = useState();
+
+
+    const checkCouponHadler = (couponNo) => {
+        setApplyCoupon(couponNo);
+    }
 
 
     return (
@@ -18,21 +26,30 @@ export default function AvailableCoupon({ show, closeCoupon, loginUser }) {
                     <div class="modal-body">
                         <div>
                             {
-                                // userCoupon?.map((item, index) => (
-                                //     <div>
-                                //         <input type='checkbox' id="" name='' />
-                                //         <span>{item.couponName}</span>
-                                //     </div>
-                                // ));
+                                JSON.stringify(userCoupon) === '{}' ?
+                                    (
+                                        ""
+                                    ) : (
+                                        userCoupon?.map((item, index) => (
+                                            <div  >
+                                                <input type='radio' key={index} name={"checkedCoupon"}
+                                                    checked={applyCoupon === item.couponNo}
+                                                    onChange={() => checkCouponHadler(item.couponNo)}
+                                                    value={item.couponNo} />
+                                                <span>
+                                                    {item.couponName + " | "}
+                                                    {item.discount == 0 ? item.discountRate + "%" : item.discount + "원"}
+                                                    {"만료일 : " + item.validityDate}
+                                                </span>
+                                            </div>
+                                        ))
+                                    )
                             }
-                            {/* 쿠폰번호 12345 |
-                            5천원 할인쿠폰 |
-                            만료기간 2024-05-23 */}
                         </div>
 
                     </div>
                     <div class="modal-footer">
-                        <Button type="button" class="btn btn-primary" variant="info">저장</Button>
+                        <Button type="button" class="btn btn-primary" variant="info">사용하기</Button>
                         <Button type="button" class="btn btn-secondary" variant="info"
                             onClick={closeCoupon}>취소</Button>
                     </div>

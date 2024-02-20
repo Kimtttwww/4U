@@ -39,7 +39,7 @@ public class OrderService {
 		return dao.selectSubCate(cateMainNum);
 	}
 
-	public List<CouponUser> selectUserCoupon(CouponUser memberNo) {
+	public List<CouponUser> selectUserCoupon(int memberNo) {
 		return dao.selectUserCoupon(memberNo);
 	}
 

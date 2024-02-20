@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class CouponUser {
+public class CouponUser extends Coupon {
 
 	private int memberNo;
 	private int couponNo;

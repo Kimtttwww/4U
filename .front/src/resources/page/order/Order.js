@@ -61,7 +61,7 @@ export default function Order({ loginUser }) {
     const closeModal = () => setisOptionChange(false);
     const openCoupon = () => {
         setisMyCoupon(true);
-        getUserCoupon();
+        // getUserCoupon();
     }
 
     const closeCoupon = () => setisMyCoupon(false);
@@ -96,8 +96,9 @@ export default function Order({ loginUser }) {
 
     // 주문자정보 DB에서 가져오기
     const loadFromDb = async () => {
-        const formData = { memberNo: loginUser?.memberNo }
-        const responseData = await loadInfoAPI(formData);
+        // const formData = { memberNo: loginUser?.memberNo }
+        const responseData = await loadInfoAPI(loginUser?.memberNo);
+        // console.log(formData);
         setLoadInfo(responseData);
     }
 
@@ -140,11 +141,9 @@ export default function Order({ loginUser }) {
         if (!loginUser || !loginUser.memberNo) {
             return;
         };
-        const formData = { memberNo: loginUser?.memberNo };
-        const responseData = await loadUserCouponAPI(formData);
-        console.log("Order ?", responseData);
-
-        // setUserCoupon(responseData);
+        // const formData = { memberNo: loginUser?.memberNo };
+        const responseData = await loadUserCouponAPI(loginUser?.memberNo);
+        setUserCoupon(responseData);
     };
 
 
@@ -155,6 +154,7 @@ export default function Order({ loginUser }) {
             navi("/");
         }
         loadFromDb();
+        getUserCoupon();
 
         // axios.post("http://localhost:3000/order/loadOrderInfo", { memberNo: loginUser.memberNo })
         // .then((response) => {
@@ -162,7 +162,7 @@ export default function Order({ loginUser }) {
         // }).catch((err) => console.log("통신 문제있음"))
     }, []);
 
-
+    console.log(userCoupon);
     useEffect(() => {
         if (!loadInfoChecked) {
             // loadInfoChecked가 체크해제됨(불러오기 안함)
@@ -313,7 +313,7 @@ export default function Order({ loginUser }) {
                                         onClick={openCoupon}>
                                         사용가능한 쿠폰보기
                                     </Button>
-                                    <AvailbleCoupon show={isMyCoupon} closeCoupon={closeCoupon} loginUser={loginUser} />
+                                    <AvailbleCoupon show={isMyCoupon} closeCoupon={closeCoupon} loginUser={loginUser} userCoupon={userCoupon} />
 
                                 </div>
                                 <span>0원</span>

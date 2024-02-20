@@ -17,15 +17,13 @@ export const loadInfoAPI = async (data) => {
 
 // member의 coupon정보 가져오기
 export const loadUserCouponAPI = async (data) => {
+    console.log("API data? ", data);
     try {
-        const response = await instance.post("/loadUserCoupon", {
-            params: data
-        }, {
+        const response = await instance.post("/loadUserCoupon", data, {
             headers: {
                 'Content-Type': 'application/json'
             }
         });
-        console.log("API ? ", response);
         return response.data;
     } catch (error) {
         return "쿠폰?? data없어요...";

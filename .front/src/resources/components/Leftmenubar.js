@@ -42,6 +42,7 @@ export default function Leftmenubar() {
     // DB에서 CATE_MAIN 가져오기
     const loadMainDb = async () => {
         const mainCate = await mainCateAPI();
+
         setMainCateList(mainCate);
     };
 
@@ -122,7 +123,7 @@ export default function Leftmenubar() {
                         <div className="leftCateList">
                             <div className="leftCateItem">
                                 <div className="mainCateList">
-                                <p>4u</p>
+                                    <p>4u</p>
                                     {
                                         mainCateList.length && mainCateList.map((main, index) => (
                                             <div className="mainCateListItem"

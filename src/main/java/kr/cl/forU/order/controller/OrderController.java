@@ -1,6 +1,7 @@
 package kr.cl.forU.order.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -92,11 +93,10 @@ public class OrderController {
     
     @PostMapping("/loadUserCoupon")
     public List<CouponUser> selectUserCoupon(
-    		@RequestBody CouponUser memberNo
+    		@RequestBody int memberNo
     		){
-    	log.info("들어는옴? ?????" );
     	List<CouponUser> list = service.selectUserCoupon(memberNo);
-    	
+
     	log.info("list ? {}" , list);
     	return list;
     }
