@@ -51,20 +51,26 @@ export default function ProdList() {
 
 		return (
 			imgList.map((img) => {
-				let {imgNo, rgb} = img;
-				return (<span onMouseOver={test} style={{backgroundColor: rgb, color: rgb}}>{imgNo}</span>);
+				let {imgNo, refNo, rgb} = img;
+				return (<span onMouseEnter={(e) => test(e, refNo)} style={{backgroundColor: rgb, color: rgb}}>{imgNo}</span>);
 			})
 		);
 	}
 	
 	/**
-	 * 
+	 * 색깔에 커서 올리면 해당 색깔의 상품 이미지가 나오게 하는 함수
 	 * @param {SyntheticBaseEvent} e 
 	 */
-	function test(e) {
+	/**
+	 * 
+	 * @param {*} e 
+	 * @param {*} prodNo 
+	 */
+	function test(e, prodNo) {
 		const imgNo = e.target.innerHTML;
 
-
+		console.log(e.target);
+		prodList[prodNo].image
 	}
 
 	return(<>
