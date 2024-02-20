@@ -63,14 +63,14 @@ export default function ProdList() {
 	 */
 	/**
 	 * 
-	 * @param {*} e 
-	 * @param {*} prodNo 
+	 * @param {*} e 이벤트 객체
+	 * @param {*} prodNo 해당 상품 번호
 	 */
 	function test(e, prodNo) {
 		const imgNo = e.target.innerHTML;
 
 		console.log(e.target);
-		// prodList[prodNo].image
+		console.log(prodList[prodNo]?.image?.find((img) => {img.imgNo === imgNo}));
 	}
 
 	return(<>
