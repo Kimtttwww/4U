@@ -34,7 +34,7 @@ public class Member {
 	/** 주소(상세) */
 	private String addressDetail;
 	/** 우편번호 */
-	private int zipCode;
+	private String zipCode;
 	/** 회원등급 */
 	private String grade;
 	/** 포인트 */

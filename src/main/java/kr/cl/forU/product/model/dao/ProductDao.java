@@ -26,4 +26,9 @@ public class ProductDao {
 	public List<Product> selectProductList() {
 		return session.selectList(map + "selectProductList");
 	}
+
+	public List<Product> bestProducts() {
+		
+		return session.selectList(map + "bestProducts");
+	}
 }

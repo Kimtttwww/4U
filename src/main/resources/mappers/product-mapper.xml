@@ -31,6 +31,8 @@
 		SELECT * FROM IMAGE
 		WHERE REF_NO = #{ref_no}
 	</select>
+	
+	
 
 
 

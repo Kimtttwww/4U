@@ -89,5 +89,10 @@ public class ProductController {
         return service.selectProductList();
     }
     
+    @GetMapping("/")
+    public List<Product> bestProducts(){
+    	return service.bestProducts();
+    }
+    
 }
 

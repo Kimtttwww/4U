@@ -26,6 +26,11 @@ public class ProductService {
 	public List<Product> selectProductList() {
 		return dao.selectProductList();
 	}
+
+	public List<Product> bestProducts() {
+		
+		return dao.bestProducts();
+	}
 }
 
 
