@@ -25,5 +25,8 @@ public class MemberService {
 	public Member MemberIdMatch(String memberId) {
 		return dao.MemberIdMatch(memberId);
 	}
+
+
+
 	
 }

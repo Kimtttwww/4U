@@ -5,6 +5,7 @@ import "../../../css/order/OrderHt.css";
 
 export default function OrderHt() {
     const [orders, setOrders] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0); // 총 구매 금액 상태 추가
 
     const totalOrders = orders.length;
 
@@ -20,10 +21,20 @@ export default function OrderHt() {
             .catch((err) => console.log(err))
     }, [])
 
+     // 총 구매 금액을 계산하는 함수
+     const calculateTotalPrice = (orderList) => {
+        let total = 0;
+        orderList.forEach((order) => {
+            total += order.price; // 각 주문의 상품 금액을 더함
+        });
+        setTotalPrice(total); // 총 구매 금액 상태 업데이트
+    };
+
     return (
         <>
         <div className="orderContainer">
             <th className="totalOrder">총 주문 수량 : {totalOrders}</th>
+            <th className="totalPrice">총 구매 금액 : {totalPrice}원</th> {/* 총 구매 금액 표시 */}
             <table className="orderTable">
                 <thead className="orderHead">
                     <tr>
