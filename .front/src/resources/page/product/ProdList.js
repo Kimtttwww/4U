@@ -70,7 +70,7 @@ export default function ProdList() {
 		const imgNo = e.target.innerHTML;
 
 		console.log(e.target);
-		console.log(prodList[prodNo]?.image?.find((img) => {img.imgNo === imgNo}));
+		// console.log(prodList[prodNo]?.image?.find((img) => {img.imgNo === imgNo}));
 	}
 
 	return(<>

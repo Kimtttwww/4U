@@ -1,19 +1,22 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import DaumPostcode from 'react-daum-postcode';
 import DaumPost from "../DaumPost"
+import { AddressData } from 'react-daum-postcode';
 
-const postCodeStyle = {
-    width: '100%',
-    height: '600px'
-};
 
-const DaumApi = ({ onCompletePost }) => {
+
+export default function AddressAPI({ onCompletePost }) {
+
+    const postCodeStyle = {
+        width: '100%',
+        height: '600px'
+    };
+
     const [modalOpen, setModalOpen] = useState(true);
 
-    const closeModal = () => {
+    const closeModal = (data: AddressData) => {
         setModalOpen(false);
-        onclose();
     };
 
     return (
@@ -26,10 +29,8 @@ const DaumApi = ({ onCompletePost }) => {
                 <Modal.Body className='DaumModalBody'>
                     <DaumPostcode style={postCodeStyle} onComplete={onCompletePost} autoClose={false} />
                 </Modal.Body>
-
             </div>
         </div>
     );
 };
 
-export default DaumApi;

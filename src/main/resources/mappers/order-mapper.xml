@@ -33,8 +33,13 @@
 		 WHERE CATE_MAIN = #{cateMain}
 	</select>
 
-
-
+	<select id="selectUserCoupon" resultType="couponUser">
+		SELECT *
+		  FROM COUPON_USER
+		  JOIN COUPON USING (COUPON_NO)
+		 WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
 
 
 
