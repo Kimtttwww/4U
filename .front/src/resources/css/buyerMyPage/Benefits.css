@@ -35,8 +35,8 @@
   .pointContainer img,
   .couponContainer img,
   .ratingContainer img {
-    width: 100px; /* 이미지 크기에 맞게 조정 */
-    height: 100px; /* 이미지 크기에 맞게 조정 */
+    width: 80px;
+    height: 80px;
     margin-right: 10px;
   }
   

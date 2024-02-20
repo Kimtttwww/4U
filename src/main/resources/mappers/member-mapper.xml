@@ -35,4 +35,6 @@
 		WHERE STATUS = 'Y' AND MEMBER_ID = #{memberId}
 	</select>
 	
+
+	
 </mapper>

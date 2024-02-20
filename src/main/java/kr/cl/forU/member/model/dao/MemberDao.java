@@ -28,4 +28,7 @@ public class MemberDao {
 		return session.selectOne(map + "MemberIdMatch" , memberId);
 	}
 
+
+
+
 }

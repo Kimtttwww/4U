@@ -30,8 +30,9 @@ useEffect(() => {
 
   useEffect(() => {
     // 구매내역 및 최근 본 상품 로드
-    loadOrders();
+    // loadOrders();
     loadRecentlyViewed();
+
   }, []);
 
   // 구매 내역 로드
@@ -50,27 +51,9 @@ useEffect(() => {
     }
   };
 
-  // 장바구니에 상품 추가
-  const addToCart = (item, ea) => {
-    fetch('/addToCart', {
-      method: 'POST',
-      body: JSON.stringify({ item, ea }),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    })
-      .then(response => response.json())
-      .then(data => console.log(data));
 
-    setCartItems([...cartItems, { id: cartItems.length + 1, name: item, image: '상품 이미지 URL' }]);
-  };
-
-  // 장바구니에서 상품 삭제
-  const handleDeleteItem = (id) => {
-    const updatedCart = cartItems.filter(item => item.id !== id);
-    setCartItems(updatedCart);
-  };
-
+ 
+ 
     return (
       <>
         <div className="buyerContainer">
@@ -79,7 +62,7 @@ useEffect(() => {
                   <h2>{loginMember.memberId}</h2>
                 </div>
                 <div className="userRating">
-                    <span>Bronze</span>
+                    <span>{loginMember.grade}</span>
                 </div>
                 <div className="userIntro">
                     <span>안녕하세요 {loginMember.memberName}님</span>
@@ -166,17 +149,6 @@ useEffect(() => {
 
         <div className="shoppingBasket">
       <h2>장바구니</h2>
-      <div className="bitems">
-        {/* 장바구니에 추가된 상품 목록을 표시 */}
-        {cartItems.map(item => (
-          <div className="bitem" key={item.id}>
-            <span>{item.name}</span>
-            <img src={item.image} alt={item.name}/>
-            <button onClick={() => handleDeleteItem(item.id)}>삭제</button>
-          </div>
-        ))}
-      </div>
-      {/* <button onClick={() => addToCart("추가할 상품 이름", 1)}>장바구니에 추가</button> */}
       <Link to={"/cart/CartList/"}>
         <button className="bMv">장바구니 이동</button>  
       </Link>
@@ -189,31 +161,21 @@ useEffect(() => {
         <div className="leftContainer">
           <div className="pointContainer">
             <div className="pointImg">
-              <img src="logo.svg"/>
+              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWoJo0ob3QTQE50ix6fzNnvnc-Lg9xYlk7Dg&usqp=CAU"/>
             </div>
             <div className="pointInfo">
               <h3>포인트</h3>
-              <span>5000p</span>
+              <span>{loginMember.point}p</span>
             </div>
           </div>
 
           <div className="couponContainer">
             <div className="couponImg">
-              <img src="logo.svg"/>
+              <img src="https://cdn-icons-png.flaticon.com/128/5370/5370348.png"/>
             </div>
             <div className="couponInfo">
               <h3>쿠폰</h3>
               <span>현재 가지고있는 쿠폰 개수 : 0</span>
-            </div>
-          </div>
-
-          <div className="ratingContainer">
-            <div className="ratingImg">
-              <img src="logo.svg"/>
-            </div>
-            <div className="ratingInfo">
-              <h3>회원등급</h3>
-              <span>실버</span>
             </div>
           </div>
 
