@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class ProdDetail {
+public class ProdDetail extends Palette {
 
 	/** 상품번호 */
 	private int prodNo;
@@ -15,8 +15,6 @@ public class ProdDetail {
 	private int index;
 	/** 사이즈 */
 	private String size;
-	/** 색상 */
-	private String color;
 	/** 재고수량 */
 	private int stack;
 	/** 상의기장 */

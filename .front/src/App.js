@@ -17,58 +17,60 @@ import Mainpage from "./resources/page/common/Mainpage";
 
 function App() {
 
-	/** 로그인창 띄울떄 필요한 매개변수 */
-	const [showLogin, setShowLogin] = useState(false);
-	const [login, setLogin] = useState(JSON.parse(sessionStorage.getItem("loginMember") + ""));
+   /** 로그인창 띄울떄 필요한 매개변수 */
+   const [showLogin, setShowLogin] = useState(false);
+   const [login, setLogin] = useState(JSON.parse(sessionStorage.getItem("loginMember") + ""));
 
-	return (
-		<div className="App">
+   return (
+      <div className="App">
 
-			<Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
+         <Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
 
-			<Routes>
-				{/* 메인 페이지 */}
-				<Route path="/" element={<Mainpage />} />
+         <Routes>
+            {/* 메인 페이지 */}
+            <Route path="/" element={<Mainpage />} />
 
-				{/* 회원 관련 */}
-				<Route path="/member">
-					{/* 회원가입 페이지 */}
-					<Route path="signUp" element={<SignUp />} />
-					{/* ? */}
-					<Route path="userupdate" element={<UserUpdate />} />
-				</Route>
+            {/* 회원 관련 */}
+            <Route path="/member">
+               {/* 회원가입 페이지 */}
+               <Route path="signUp" element={<SignUp />} />
+               {/* ? */}
+               <Route path="userupdate" element={<UserUpdate />} />
+            </Route>
 
-				{/* 제품 관련 */}
-				<Route path="/product">
-					{/* 제품 리스트 */}
-					<Route path="list" element={<ProdList />} />
-				</Route>
+            {/* 제품 관련 */}
+            <Route path="/product">
+               {/* 제품 리스트 */}
+               <Route path="list/:cateSub" element={<ProdList />} />
+            </Route>
 
-				{/* ? */}
-				<Route path="/order/" element={<Order loginUser={login} />} />
+            {/* ? */}
+            <Route path="/order/">
+               {/* ? */}
+               <Route path="" element={<Order loginUser={login} />} />
+               {/* ? */}
+               <Route path="history" element={<OrderHt />} />
+            </Route>
 
-				{/* ? */}
-				<Route path="/order/history" element={<OrderHt />} />
+            {/* 구매자 마이페이지 */}
+            <Route path="/buyer/mypage/" element={<BuyerMyPage />} />
 
-				{/* 구매자 마이페이지 */}
-				<Route path="/buyer/mypage/" element={<BuyerMyPage />} />
+            {/* ? */}
+            <Route path="/Payment" element={<Payment />} />
 
-				{/* ? */}
-				<Route path="/Payment" element={<Payment />} />
+            {/* 장바구니 관련 */}
+            <Route path="/cart/CartList/" element={<CartList />} />
 
-				{/* 장바구니 관련 */}
-				<Route path="/cart/CartList/" element={<CartList />} />
+            {/* 그 외의 에러 페이지 */}
+            <Route path="*" element={<Error />} />
+         </Routes>
 
-				{/* 그 외의 에러 페이지 */}
-				<Route path="*" element={<Error />} />
-			</Routes>
+         {/* 로그인 페이지 */}
+         <Login showLogin={showLogin} setShowLogin={setShowLogin} setLogin={setLogin} />
 
-			{/* 로그인 페이지 */}
-			<Login showLogin={showLogin} setShowLogin={setShowLogin} setLogin={setLogin} />
-
-			<Footer />
-		</div>
-	);
+         <Footer />
+      </div>
+   );
 }
 
 export default App;

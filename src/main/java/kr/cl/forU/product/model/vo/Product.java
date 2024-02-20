@@ -1,6 +1,5 @@
 package kr.cl.forU.product.model.vo;
 
-import java.sql.Date;
 import java.util.List;
 
 import lombok.AllArgsConstructor;
@@ -19,7 +18,7 @@ public class Product {
 	/** 상품 설명 */
 	private String prodCap;
 	/** 상품 등록일 */
-	private Date uploadDate;
+	private String uploadDate;
 	/** 상품 가격 */
 	private int Price;
 	/** 상훔의 할인율 */
