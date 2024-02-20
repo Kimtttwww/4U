@@ -70,7 +70,7 @@ export default function ProdList() {
 		const imgNo = e.target.innerHTML;
 
 		console.log(e.target);
-		prodList[prodNo].image
+		// prodList[prodNo].image
 	}
 
 	return(<>
