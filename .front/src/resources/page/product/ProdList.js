@@ -30,8 +30,6 @@ export default function ProdList() {
 		setShowDetail(true);
 	}
 
-	// console.log("test", prodList.sort((a, b) => a.price - b.price));
-
 	/**
 	 * 상품별 색상 종류 표시
 	 * @returns 사진 중 중복 색상을 제거한 후 남은 단일한 색상을 반환
@@ -59,7 +57,7 @@ export default function ProdList() {
 	}
 	
 	/**
-	 * 색깔에 커서 올리면 해당 색깔의 상품 이미지가 나오게 하는 함수
+	 * 색깔에 커서 올리면 해당 색깔의 상품 이미지가 나오게 하는 fn
 	 * @param {SyntheticBaseEvent} e 이벤트 객체
 	 * @param {number} prodNo 해당 상품 번호
 	*/
@@ -73,7 +71,7 @@ export default function ProdList() {
 	}
 	
 	/**
-	 * 바뀌었던 이미지를 다시 원래 썸넬로 되돌리는 함수
+	 * 바뀌었던 이미지를 다시 원래 썸넬로 되돌리는 fn
 	 * @param {SyntheticBaseEvent} e 이벤트 객체
 	 * @param {number} prodNo 해당 상품 번호
 	 */
@@ -82,6 +80,17 @@ export default function ProdList() {
 
 		e.target.parentElement.parentElement.previousSibling.src = prod.image.find((img) => img.imgType === 1)?.imgName;
 	}
+
+	/**
+	 * 숫자형 가격 값을 ','가 포함된 문자형 값으로 변환해주는 fn
+	 * @param {number} num 숫자형 가격 값
+	 * @returns {string} ','가 포함된 문자형 숫자 값
+	 */
+	function priceConverter(num) {
+		let frontNum = Math.floor(num / 1000)
+		return (frontNum ? frontNum + "," : "") + (num % 1000 ? num % 1000 : "000");
+	}
+
 	return(<>
 		<div className="ProdList">
 			<div className="menu-side-area">
@@ -94,6 +103,7 @@ export default function ProdList() {
 							{/* 썸넬 사진을 찾아서 보여주기 */}
 							<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
 							<article>
+								{/* <div>{prod.price}</div> */}
 								<div>{prod.price}</div>
 								<div>{prod.prodName}</div>
 								<div className="prod-color">
@@ -110,6 +120,6 @@ export default function ProdList() {
 			</div>
 		</div>
 
-	 	{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}
+	 	{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} priceConverter={priceConverter} />}
 	</>);
 }

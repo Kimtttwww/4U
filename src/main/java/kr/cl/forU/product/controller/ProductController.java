@@ -20,13 +20,11 @@ import lombok.extern.slf4j.Slf4j;
 @RestController
 @RequestMapping("/product")
 public class ProductController {
-	
-	@Autowired
-	ProductService productService;
 
 	@Autowired
 	ProductService service;
     
+	
     /**
      * 상품들 조회
      * @param cateSub 필터를 걸 서브 카테고리 값
