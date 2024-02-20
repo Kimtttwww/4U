@@ -32,7 +32,11 @@
 		WHERE REF_NO = #{ref_no}
 	</select>
 
-
+	<select id="selectCartList" parameterType="int" resultMap="productResultSet">
+		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
+		FROM PRODUCT
+		WHERE PROD_NO = #{prodNo}
+	</select>
 
 
 
