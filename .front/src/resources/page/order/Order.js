@@ -5,7 +5,7 @@ import '../../css/order/OrderPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
 import axios from "axios";
-import { loadInfoAPI, loadUserCouponAPI } from "./OrderAPI";
+import { loadInfoAPI, loadUserCouponAPI, loadUserPointAPI } from "./OrderAPI";
 import { useNavigate } from "react-router-dom";
 import Payment from "./Payment";
 import PaymentAPI from "./PaymentAPI";
@@ -21,16 +21,21 @@ export default function Order({ loginUser }) {
     }
 
     const navi = useNavigate();
-    const [applyColor, setApplyColor] = useState('');
-    const [applySize, setApplySize] = useState('');
-    const [isMyCoupon, setisMyCoupon] = useState(false);
     const [loadInfo, setLoadInfo] = useState({});
     const [loadInfoChecked, setLoadInfoChecked] = useState(false);
     const [loadPhone, setLoadPhone] = useState();
-    const [isChange, setIsChange] = useState(false);
     const [isOptionChange, setisOptionChange] = useState(false);
+    const [applyColor, setApplyColor] = useState('');
+    const [applySize, setApplySize] = useState('');
+    const [isChange, setIsChange] = useState(false);
+    const [userCoupon, setUserCoupon] = useState({}); // member의 coupon
+    const [openCoupon, setOpenCoupon] = useState(false); // coupon 모달
+    const [applyCoupon, setApplyCoupon] = useState(0); // 사용할 coupon
+    const [changePoint, setChangePoint] = useState(0); // input입력되는 point
+    const [pointAllChecked, setPointAllChecked] = useState(false); // point 전체사용 여부
+    const [applyPoint, setApplyPoint] = useState(); // 사용할 point
+    const [modalState, setModalState] = useState(false); // DAUM API 모달
     const [delMsg, setDelMsg] = useState('');
-    const [userCoupon, setUserCoupon] = useState({});
     const [inputChange, setInputChange] = useState({
         receiverName: "",
         zipCode: "",
@@ -42,8 +47,13 @@ export default function Order({ loginUser }) {
         address: ""
     });
 
-    // DAUM API
-    const [modalState, setModalState] = useState(false);
+    const phoneRef = useRef([]);
+    const openModal = () => setisOptionChange(true);
+    const closeModal = () => setisOptionChange(false);
+    const openCouponModal = () => setOpenCoupon(true);
+    const closeCouponModal = () => setOpenCoupon(false);
+    const handleModalOpen = () => setModalState(true);
+    const handleModalClose = () => setModalState(false);
 
     // 다음 주소창 열리게 하기
     const toggleModal = () => {
@@ -54,20 +64,6 @@ export default function Order({ loginUser }) {
         setModalState(false);
         setZipAndAddress({ zipCode: data.zonecode, address: data.address });
     };
-
-    const phoneRef = useRef([]);
-
-    const openModal = () => setisOptionChange(true);
-    const closeModal = () => setisOptionChange(false);
-    const openCoupon = () => {
-        setisMyCoupon(true);
-        // getUserCoupon();
-    }
-
-    const closeCoupon = () => setisMyCoupon(false);
-    const handleModalOpen = () => setModalState(true);
-    const handleModalClose = () => setModalState(false);
-
 
     // 배송메세지 option Data
     const deliMessage = [
@@ -81,24 +77,22 @@ export default function Order({ loginUser }) {
     // 옵션 색상변경
     const colorHandler = (data) => {
         setApplyColor(data);
-    }
+    };
 
     // 옵션 사이즈변경
     const sizeHandler = (data) => {
         setApplySize(data);
-    }
+    };
 
     // 배송메세지 변경
     const applyMsg = (e) => {
         setDelMsg(e.currentTarget.value);
-    }
-
+    };
 
     // 주문자정보 DB에서 가져오기
     const loadFromDb = async () => {
         // const formData = { memberNo: loginUser?.memberNo }
         const responseData = await loadInfoAPI(loginUser?.memberNo);
-        // console.log(formData);
         setLoadInfo(responseData);
     }
 
@@ -115,13 +109,7 @@ export default function Order({ loginUser }) {
             }
             setLoadInfo(loadInfo);
         }
-        // if (loadInfo !== inputChange) {
-        //     // checkedHandler();
-        //     console.log(loadInfo !== inputChange, "loadInfo  inputChange 다름 ");
-        // }
     };
-
-
 
     // 배송정보에 input이 감지되면 불러오기체크 해제
     // input의 변경값 담기
@@ -135,7 +123,6 @@ export default function Order({ loginUser }) {
     };
 
 
-
     // member의 coupon정보 가져오기
     const getUserCoupon = async () => {
         if (!loginUser || !loginUser.memberNo) {
@@ -146,23 +133,43 @@ export default function Order({ loginUser }) {
         setUserCoupon(responseData);
     };
 
+    // 적용할 coupon
+    const couponHandler = (data) => {
+        const findCoupon = userCoupon.filter(item => item.couponNo == data);
+        if (findCoupon) {
+            const coupon = findCoupon[0].discount == 0 ?
+                findCoupon[0].discountRate : findCoupon[0].discount;
+            setApplyCoupon(coupon);
+        };
+    };
 
-    // 로그인상태에서만 페이지 접근가능하도록 설정
-    useEffect(() => {
-        if (loginUser == null || !loginUser.memberNo) {
-            alert("로그인 후 이용가능합니다.");
-            navi("/");
+    // 적용할 point
+    const pointHandler = (e) => {
+        // 여기 들어왔다? -> input에 변화가 생김
+        // -> 전체사용버튼 해제 + 내포인트보다 더 입력X(input비우기) + changePoint에 값입력받다가 최종 applyPoint에저장
+        let inputPoint = parseInt(e.target.value);
+        setPointAllChecked(false);
+
+        if (loadInfo.point < inputPoint) {
+            e.target.value = "";
+            alert("최대 " + loadInfo.point + "원 사용가능합니다");
+            setChangePoint(0);
+            return;
         }
-        loadFromDb();
-        getUserCoupon();
+        setChangePoint(inputPoint);
+    };
 
-        // axios.post("http://localhost:3000/order/loadOrderInfo", { memberNo: loginUser.memberNo })
-        // .then((response) => {
-        //     setLoadInfo(response.data);
-        // }).catch((err) => console.log("통신 문제있음"))
-    }, []);
+    // point 전체사용하기 check상태값 체크
+    const pointAllCheckedHandler = (e) => {
+        setPointAllChecked(e.target.checked);
+        test = e.target.value;
+        if (!pointAllChecked) {
+            setChangePoint(loadInfo.point);
+        } else {
+            setChangePoint(0);
+        }
+    };
 
-    console.log(userCoupon);
     useEffect(() => {
         if (!loadInfoChecked) {
             // loadInfoChecked가 체크해제됨(불러오기 안함)
@@ -172,8 +179,7 @@ export default function Order({ loginUser }) {
                 setInputChange(inputObj);
             }
             setIsChange(false);
-        }
-        else {
+        } else {
             // loadInfoChecked가 체크됨(불러오기)
             setInputChange({
                 receiverName: loadInfo.memberName,
@@ -183,7 +189,43 @@ export default function Order({ loginUser }) {
             });
             setIsChange(false);
         }
-    }, [loadInfoChecked])
+    }, [loadInfoChecked]);
+
+
+    useEffect(() => {
+        if (!pointAllChecked) {
+            if (!changePoint) {
+                setChangePoint(0);
+            };
+            setChangePoint(changePoint);
+        } else {
+            setChangePoint(loadInfo.point);
+        };
+    }, [pointAllChecked]);
+
+
+    useEffect(() => {
+        console.log("useEffect 들어옴");
+
+        // if (applyCoupon == 0 || changePoint == 0) {
+        //     return;
+        // } 
+        console.log(applyCoupon);
+        console.log(changePoint);
+        setApplyPoint(changePoint);
+
+    }, [applyCoupon, changePoint]);
+
+
+    // 로그인상태에서만 페이지 접근가능하도록 설정
+    useEffect(() => {
+        if (loginUser == null || !loginUser.memberNo) {
+            alert("로그인 후 이용가능합니다.");
+            navi("/");
+        }
+        loadFromDb();
+        getUserCoupon();
+    }, []);
 
 
     return (
@@ -214,7 +256,6 @@ export default function Order({ loginUser }) {
                                 옵션변경
                             </Button>
                             <ChangeOption show={isOptionChange} closeModal={closeModal} sendColor={colorHandler} sendSize={sizeHandler} />
-
                         </td>
                         <td>39000</td>
                         <td>29000</td>
@@ -263,7 +304,7 @@ export default function Order({ loginUser }) {
                                 <input type="number" id="" name="zipCode" style={{ width: "70px" }}
                                     value={loadInfoChecked ? loadInfo?.zipCode : zipAndAddress.zipCode} />
 
-                                <button type="button" onClick={toggleModal} class="btn btn-primary">주소 찾기</button>
+                                <button type="button" onClick={toggleModal} className="btn btn-primary">주소 찾기</button>
                                 {/* Daum 주소 API 컴포넌트 */}
                                 <Modal show={modalState} onHide={handleModalClose} dialogClassName='DaumModal'>
                                     <AddressAPI onCompletePost={onCompletePost} />
@@ -302,32 +343,49 @@ export default function Order({ loginUser }) {
                             <div className="payment-text">
                                 <div>결제예정금액</div>
                                 <div>쿠폰할인</div>
-                                <div>포인트할인</div>
-                                <div>사용가능한 포인트</div>
+                                <div>사용할 포인트</div>
+                                <div style={{ fontSize: '11px' }}>사용가능한 포인트</div>
                             </div>
                             <div className="payment-discount">
-                                <div>99,900원</div>
+                                <div>90,000원</div>
                                 <div className="myCoupon-view">
-                                    <span style={{ marginRight: '10px' }}>0원</span>
-                                    <Button variant="secondary" style={{ width: '130px', height: '25px', fontSize: '10px', padding: '0' }}
-                                        onClick={openCoupon}>
+                                    <input type="number" style={{ width: '80px' }}
+                                        value={applyCoupon} readOnly />원
+
+                                    <Button type="button" variant="secondary"
+                                        style={{ width: '130px', height: '25px', fontSize: '10px', padding: '0', marginLeft: '10px' }}
+                                        onClick={openCouponModal}>
                                         사용가능한 쿠폰보기
                                     </Button>
-                                    <AvailbleCoupon show={isMyCoupon} closeCoupon={closeCoupon} loginUser={loginUser} userCoupon={userCoupon} />
-
+                                    <AvailbleCoupon show={openCoupon} closeModal={closeCouponModal}
+                                        loginUser={loginUser} userCoupon={userCoupon}
+                                        sendCoupon={couponHandler} />
                                 </div>
-                                <span>0원</span>
+                                <span>
+                                    <input type="number" style={{ width: '80px' }} id="applyPoint"
+                                        value={pointAllChecked ? loadInfo.point : applyPoint} onChange={pointHandler} max={loadInfo.point} />원
+                                </span>
                                 <div>
-                                    <span style={{ marginRight: '10px' }}>0원</span>
+                                    <span style={{ marginRight: '10px' }}>{loadInfo.point}원</span>
+                                    <input type="checkbox" checked={pointAllChecked} onChange={pointAllCheckedHandler}
+                                    />
                                     <span>전체사용하기</span>
-                                    <input type="checkbox" />
                                 </div>
                             </div>
                         </div>
                         <div className="payPrice">
                             <span>결제하실 금액</span>
-                            <span>99,000원</span>
-                            <span>900원 절약</span>
+                            <span>
+                                {
+                                    (90000 - applyCoupon - applyPoint)
+                                }원
+                            </span>
+                            <span>
+                                {
+                                    (applyCoupon + applyPoint)
+                                }원 절약
+                                {console.log(applyCoupon, applyPoint)}
+                            </span>
                         </div>
                     </div>
 

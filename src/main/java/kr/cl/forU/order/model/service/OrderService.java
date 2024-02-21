@@ -27,9 +27,7 @@ public class OrderService {
         return dao.findById(orderNo);
     }
 
-	public Member selectOrdererInfo(int memberNo) {
-		return dao.selectOrdererInfo(memberNo);
-	}
+
 
 	public List<CategoryMain> selectMainCate() {
 		return dao.selectMainCate();
@@ -42,6 +40,7 @@ public class OrderService {
 	public List<CouponUser> selectUserCoupon(int memberNo) {
 		return dao.selectUserCoupon(memberNo);
 	}
+
 
 	
 }

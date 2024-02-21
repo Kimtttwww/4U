@@ -4,26 +4,29 @@ import { loadUserCouponAPI } from '../page/order/OrderAPI';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 
-export default function AvailableCoupon({ show, closeCoupon, loginUser, userCoupon }) {
+export default function AvailableCoupon({ show, closeModal, loginUser, userCoupon, sendCoupon }) {
     /* coupon Modal - */
 
     const navi = useNavigate();
-    const [applyCoupon, setApplyCoupon] = useState();
-
+    const [checkCoupon, setCheckCoupon] = useState();
 
     const checkCouponHadler = (couponNo) => {
-        setApplyCoupon(couponNo);
-    }
+        setCheckCoupon(couponNo);
+    };
 
+    const getUseCoupon = () => {
+        sendCoupon(checkCoupon);
+        closeModal(false);
+    };
 
     return (
         <Modal show={show} >
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title fs-5" id="staticBackdropLabel">사용가능한 쿠폰</h3>
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h3 className="modal-title fs-5" id="staticBackdropLabel">사용가능한 쿠폰</h3>
                     </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
                         <div>
                             {
                                 JSON.stringify(userCoupon) === '{}' ?
@@ -31,9 +34,9 @@ export default function AvailableCoupon({ show, closeCoupon, loginUser, userCoup
                                         ""
                                     ) : (
                                         userCoupon?.map((item, index) => (
-                                            <div  >
-                                                <input type='radio' key={index} name={"checkedCoupon"}
-                                                    checked={applyCoupon === item.couponNo}
+                                            <div key={index} >
+                                                <input type='radio' name={"checkedCoupon"}
+                                                    checked={checkCoupon === item.couponNo}
                                                     onChange={() => checkCouponHadler(item.couponNo)}
                                                     value={item.couponNo} />
                                                 <span>
@@ -48,10 +51,11 @@ export default function AvailableCoupon({ show, closeCoupon, loginUser, userCoup
                         </div>
 
                     </div>
-                    <div class="modal-footer">
-                        <Button type="button" class="btn btn-primary" variant="info">사용하기</Button>
-                        <Button type="button" class="btn btn-secondary" variant="info"
-                            onClick={closeCoupon}>취소</Button>
+                    <div className="modal-footer">
+                        <Button type="button" className="btn btn-primary" variant="info"
+                            onClick={getUseCoupon}>사용하기</Button>
+                        <Button type="button" className="btn btn-secondary" variant="info"
+                            onClick={closeModal}>취소</Button>
                     </div>
                 </div>
             </div>

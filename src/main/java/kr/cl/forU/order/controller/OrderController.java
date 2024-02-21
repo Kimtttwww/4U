@@ -23,6 +23,7 @@ import com.siot.IamportRestClient.response.Payment;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
+import kr.cl.forU.member.model.service.MemberService;
 import kr.cl.forU.member.model.vo.CouponUser;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.service.OrderService;
@@ -38,6 +39,8 @@ public class OrderController {
 
 	@Autowired
 	OrderService service;
+	@Autowired
+	MemberService mService;
 	
     @Value("${iamport.key}")
     private String restApiKey;
@@ -46,13 +49,15 @@ public class OrderController {
 
     private IamportClient iamportClient;
     
+    
 	
-	@PostMapping("/loadOrdererInfo")
+	@PostMapping("/loadMemberInfo")
 	public Member selectOrdererInfo(
-			@RequestParam("memberNo") int memberNo
+			@RequestBody int memberNo
 			){
-		
-		return service.selectOrdererInfo(memberNo);
+		Member member = mService.selectMemberInfo(memberNo);
+		log.info("member ? {}", member);
+		return member;
 	}
 	
 
@@ -100,6 +105,9 @@ public class OrderController {
     	log.info("list ? {}" , list);
     	return list;
     }
+    
+    
+
     
 	
 }
