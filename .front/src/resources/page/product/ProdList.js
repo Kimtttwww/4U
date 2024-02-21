@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "../../css/product/ProdList.css";
 import ProdDetail from "../../modal/ProdDetail";
 import axios from "axios";
-import { useParams } from "react-router-dom";
 
 /** 상품 리스트 페이지 */
 export default function ProdList() {
@@ -10,11 +9,10 @@ export default function ProdList() {
 	const [prodList, setProdList] = useState([]);
 	const [showDetail, setShowDetail] = useState(false);
 	const [product, setProduct] = useState();
-	const {cateSub} = useParams();
 
 	useEffect(() => {
 		// 상품 리스트 불러오기
-		axios.get("/product/list/" + cateSub)
+		axios.get("/product/list")
 		.then((result) => {
 			setProdList(result.data);
 			console.log(result.data);

@@ -1,17 +1,14 @@
 package kr.cl.forU.product.controller;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import jakarta.servlet.http.Cookie;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpServletResponse;
 import kr.cl.forU.product.model.service.ProductService;
 import kr.cl.forU.product.model.vo.Product;
 import lombok.extern.slf4j.Slf4j;
@@ -30,9 +27,12 @@ public class ProductController {
      * @param cateSub 필터를 걸 서브 카테고리 값
 	 * @return 조회된 상품 리스트
 	 */
-    @GetMapping("list/{cateSub}")
-    public List<Product> selectProductList(@PathVariable int cateSub) {
-        return service.selectProductList(cateSub);
+    @GetMapping("list")
+    public List<Product> selectProductList(@RequestParam Map<String, String> m) {
+    	if(m.get("cateMain") == null) m.put("cateMain", "0");
+    	if(m.get("cateSub") == null) m.put("cateSub", "0");
+    	
+    	return service.selectProductList(m);
     }
     
     @GetMapping("/")
