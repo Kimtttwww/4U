@@ -93,6 +93,8 @@
 /* 상품 정가 */
 .prod-price>h5 {
 	text-decoration: line-through;
+	color: #ff0000;
+	margin:3px 0 0 10px;
 }
 
 /* 상품 할인 가격 */

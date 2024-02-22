@@ -14,6 +14,10 @@ import OrderHt from "./resources/page/BuyerMyPage/orderHistory/OrderHt";
 import Error from "./resources/components/Error";
 import Leftmenubar from "./resources/components/Leftmenubar";
 import Mainpage from "./resources/page/common/Mainpage";
+import SellerMyPage from "./resources/page/sellerMyPage/SellerMyPage";
+import SellerOrderList from "./resources/page/sellerMyPage/SellerOrderList";
+import SellerManagement from "./resources/page/sellerMyPage/SellerManagement";
+import SellerReview from "./resources/page/sellerMyPage/SellerReview";
 
 function App() {
 
@@ -58,6 +62,16 @@ function App() {
 
             {/* 장바구니 관련 */}
             <Route path="/cart/CartList/" element={<CartList />} />
+
+            {/* 판매자 마이페이지 */}
+            <Route path="/sellerMypage" element={<SellerMyPage />}>
+               {/* 주문 확인 */}
+               <Route path="list" element={<SellerOrderList />} />
+               {/* 상품 관리 */}
+               <Route path="management" element={<SellerManagement />} />
+               {/* 리뷰 관리 */}
+               <Route path="review" element={<SellerReview />} />
+            </Route>
 
             {/* 그 외의 에러 페이지 */}
             <Route path="*" element={<Error />} />

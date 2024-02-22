@@ -101,9 +101,15 @@ export default function ProdList() {
 							{/* 썸넬 사진을 찾아서 보여주기 */}
 							<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
 							<article>
-								{/* <div>{prod.price}</div> */}
-								<div>{prod.price}</div>
-								<div>{prod.prodName}</div>
+								{/* 이름이 가격 위에 있는게 좋을거같아서 올렸는데 맘에 안들면 내려 */}
+								{/* 그리고 이름이 박스 사이즈 넘어가는 길이면 "페이크 레더 스탠드 카라 지퍼 바이커 자켓..." 으로 보이게 바꿨음 */}
+								<div className="prod-name">{prod.prodName}</div>
+								{/* 할인이 없는 상품은 price만 나와야 하고, 할인이 있는 상품은 price, discountRate 두개가 나와야함 */}
+								{/* 가격에 3자리수 마다 "," 찍어주는거 해야함 */}
+							<div className="prod-amount">
+								<div>\{prod.price - (prod.price * (prod.discountRate / 100))}</div>
+								<div>\{prod.price}</div>
+							</div>
 								<div className="prod-color">
 									{prod.image?.length && colorList(prod)}
 								</div>
