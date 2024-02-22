@@ -28,9 +28,6 @@ public class OrderDao {
         return session.selectOne("orderMapper.findById", orderNo);
     }
 
-	public Member selectOrdererInfo(int memberNo) {
-		return session.selectOne("orderMapper.selectOrdererInfo", memberNo);
-	}
 
 	public List<CategoryMain> selectMainCate() {
 		return session.selectList("orderMapper.selectMainCate");
@@ -40,9 +37,10 @@ public class OrderDao {
 		return session.selectList("orderMapper.selectSubCate", cateMainNum);
 	}
 
-	public List<CouponUser> selectUserCoupon(CouponUser memberNo) {
+	public List<CouponUser> selectUserCoupon(int memberNo) {
 		return session.selectList("orderMapper.selectUserCoupon", memberNo);
 	}
+
 
 	
 	

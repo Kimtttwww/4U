@@ -1,7 +1,6 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
-import Order from '../page/order/Order';
 import { Route, Routes } from 'react-router-dom';
 
 
@@ -20,16 +19,16 @@ export default function ChangeOption({ show, closeModal, sendColor, sendSize }) 
 
     const colorHandler = (e) => {
         setCheckColor(e.target.value)
-    }
+    };
     const sizeHandler = (e) => {
         setCheckSize(e.currentTarget.value)
-    }
+    };
 
     const optionChange = () => {
         sendColor(checkColor);
         sendSize(checkSize);
         closeModal(false);
-    }
+    };
 
 
 

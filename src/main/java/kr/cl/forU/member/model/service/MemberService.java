@@ -27,6 +27,11 @@ public class MemberService {
 	}
 
 
+	public Member selectMemberInfo(int memberNo) {
+		return dao.selectMemberInfo(memberNo);
+	}
+
+
 
 	
 }

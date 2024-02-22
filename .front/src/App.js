@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import BuyerMyPage from "./resources/page/BuyerMyPage/BuyerMyPage";
 import CartList from "./resources/page/BuyerMyPage/cart/CartList";
 import Login from "./resources/modal/Login";
@@ -25,7 +25,6 @@ function App() {
       <div className="App">
 
          <Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
-
          <Routes>
             {/* 메인 페이지 */}
             <Route path="/" element={<Mainpage />} />
@@ -43,11 +42,12 @@ function App() {
                {/* 제품 리스트 */}
                <Route path="list" element={<ProdList />} />
             </Route>
-
             {/* ? */}
-            <Route path="/order/">
+            <Route path="/order">
                {/* ? */}
                <Route path="" element={<Order loginUser={login} />} />
+               <Route path="payment" element={<Payment />} />
+
                {/* ? */}
                <Route path="history" element={<OrderHt />} />
             </Route>
@@ -55,8 +55,6 @@ function App() {
             {/* 구매자 마이페이지 */}
             <Route path="/buyer/mypage/" element={<BuyerMyPage />} />
 
-            {/* ? */}
-            <Route path="/Payment" element={<Payment />} />
 
             {/* 장바구니 관련 */}
             <Route path="/cart/CartList/" element={<CartList />} />

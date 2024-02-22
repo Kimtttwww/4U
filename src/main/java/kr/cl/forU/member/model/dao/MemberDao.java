@@ -29,6 +29,11 @@ public class MemberDao {
 	}
 
 
+	public Member selectMemberInfo(int memberNo) {
+		return session.selectOne(map + "selectMemberInfo", memberNo);
+	}
+
+
 
 
 }
