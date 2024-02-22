@@ -2,6 +2,7 @@ import { Modal, Overlay, Tooltip } from "react-bootstrap";
 import "../css/product/ProdDetail.css"
 import Cookies from "js-cookie";
 import { useRef, useState } from "react";
+import { number } from "prop-types";
 
 /**
  * 상품 상세 모달창
@@ -18,6 +19,7 @@ export default function ProdDetail(props) {
 	const [prodBuyList, setProdBuyList] = useState([]);
 	const [sizeList, setSizeList] = useState([]);
 	const [showTooltip, setShowTooltip] = useState(false);
+	const [subImgList, setSubImgList] = useState(product.image.filter((img) => (img.imgType === 2)));
 	const mainImage = useRef();
 	const cartBtn = useRef();
 
@@ -68,15 +70,16 @@ export default function ProdDetail(props) {
 	/**
 	 * 색상 선택시 해당 색상 상품의 사이즈를 보여주기 위한 밑작업 fn
 	 * @param {SyntheticBaseEvent} e 해당 상품이 가진 색상 중 선택한 색상의 요소에서 발생한 이벤트
-	 */
+	*/
 	function filteringSizeList(e) {
 		const colorNo = Number(e.target.innerHTML);
 		const prod = product.detail.filter((dtl) => dtl.colorNo === colorNo);
-
+		
 		setSizeList(prod);
 		setSelectProd({prodNo: product.prodNo});
+		setSubImgList(product.image.filter((img) => (img.imgType === 2 && img.colorNo === colorNo)));
 	}
-
+	
 	/**
 	 * 색상 선택시 해당 색상 상품의 사이즈를 보여주는 fn
 	 * @returns 해당 색상의 상품 사이즈들을 표현하는 태그들
@@ -86,8 +89,8 @@ export default function ProdDetail(props) {
 
 		if(sizeList?.length) {
 			element = sizeList.map((dtl) => (<span className="btn btn-secondary" onClick={addBuyList}>{dtl.size}</span>))
-		} else {element = (<h5>색상을 선택해주세요</h5>);}
-
+		} else {element = (<h6>색상을 선택해주세요</h6>);}
+		
 		return element;
 	}
 
@@ -156,7 +159,7 @@ export default function ProdDetail(props) {
 		return totalPrice;
 	}
 
-	/** 
+	/**
 	 * 장바구니에 상품 추가 fn
 	 */
 	function addCartList() {
@@ -184,6 +187,11 @@ export default function ProdDetail(props) {
 		setTimeout(() => {setShowTooltip(false);}, 1500);
 	}
 
+	/**
+	 * 상세 이미지에 커서 올리면 크게 보여주는 fn
+	 * @todo 이벤트 부여 + src 변경
+	 */
+
 	return(<>
 		<Modal show={showDetail} onHide={() => {setShowDetail(false); setSizeList({}); setProdBuyList([]);}} size="xl" 
 			onShow={() => Cookies.set('recentProduct', product.prodNo)}dialogClassName="one-product" animation={false} keyboard>
@@ -191,18 +199,12 @@ export default function ProdDetail(props) {
 			<Modal.Body className="prod-detail">
 				<section className="prod-imgs">
 					<picture className="prod-main-img">
-						<img ref={mainImage} src={product.image.find((img) => img.imgType === 1)?.imgName} alt="상품 이미지" />
+						<img ref={mainImage} src={product.image.find((img) => img.imgType === 1)?.imgName} alt="주 상품 이미지" />
 					</picture>
 					<picture className="prod-sub-img">
-						{/* 유동적 생성 요소(거의 불가능?) */}
-						<div className="imgView">
-							<img src="" alt="세부 상품 이미지" />
-							<span>2</span>
-							<span>3</span>
-							<span>4</span>
-							<span>5</span>
-							<span>6</span>
-						</div>
+						{/* 유동적 생성 요소(거의 불가능?) */
+						subImgList?.length && subImgList.map((img, i) => (i < 4 ? (<img src={img.imgName} alt="예비 상품 이미지" />) : ""))
+						}
 					</picture>
 				</section>
 				<section className="prod-other">

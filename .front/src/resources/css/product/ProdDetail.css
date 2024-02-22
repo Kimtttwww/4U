@@ -2,11 +2,11 @@
 .one-product {
 	max-width: none!important;
     width: 1200px;
-    height: 800px;
+    height: 850px;
 }
 
 .one-product>.modal-content {
-	height: 95%;
+	height: 100%;
 	overflow: auto;
 }
 
@@ -42,31 +42,21 @@
 /* 상품 main 사진 */
 .prod-main-img>img {
 	height: 100%;
-	border: 1px solid black;
+	border: 1px solid lightslategray;
 }
 
 /* 상품 sub 사진 박스*/
 .prod-sub-img {
-	width: 600px !important;
 	height: 150px;
 	display: flex;
-	overflow: hidden;
-	border: 1px solid black;
 	margin-top: 10px;
 }
 
-.imgView {
-	width: 100%;
-	display: flex;
-	transition: .5s 1s ease-out;
-}
-
 /* 상품 sub 사진들 */
-.prod-sub-img>*>* {
+.prod-sub-img>* {
 	width: 145px;
 	height: 100%;
-	flex-shrink: 0;
-	border: 1px solid red;
+	border: 1px solid lightslategray;
 	margin-right: 5px;
 }
 
