@@ -18,6 +18,10 @@ import SellerMyPage from "./resources/page/sellerMyPage/SellerMyPage";
 import SellerOrderList from "./resources/page/sellerMyPage/SellerOrderList";
 import SellerManagement from "./resources/page/sellerMyPage/SellerManagement";
 import SellerReview from "./resources/page/sellerMyPage/SellerReview";
+import newQna from "./resources/page/Qna/newQna";
+import detailQna from "./resources/page/qna/detailQna";
+import listqna from "./resources/page/qna/listQna";
+
 
 function App() {
 
@@ -46,19 +50,19 @@ function App() {
                {/* 제품 리스트 */}
                <Route path="list" element={<ProdList />} />
             </Route>
+            
             {/* ? */}
             <Route path="/order">
                {/* ? */}
                <Route path="" element={<Order loginUser={login} />} />
+               {/* ? */}
                <Route path="payment" element={<Payment />} />
-
                {/* ? */}
                <Route path="history" element={<OrderHt />} />
             </Route>
 
             {/* 구매자 마이페이지 */}
             <Route path="/buyer/mypage/" element={<BuyerMyPage />} />
-
 
             {/* 장바구니 관련 */}
             <Route path="/cart/CartList/" element={<CartList />} />
@@ -73,8 +77,19 @@ function App() {
                <Route path="review" element={<SellerReview />} />
             </Route>
 
+            {/* QNA */}
+            <Route path="/qna">
+               {/* ? */}
+               <Route path="newqna" element={<newQna/>}/>
+               {/* ? */}
+               <Route path="detailqna" element={<detailQna/>}/>
+               {/* ? */}
+               <Route path="listqna" element={<listQna/>}/>
+            </Route>
+
             {/* 그 외의 에러 페이지 */}
             <Route path="*" element={<Error />} />
+
          </Routes>
 
          {/* 로그인 페이지 */}

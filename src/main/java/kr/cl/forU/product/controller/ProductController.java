@@ -1,9 +1,17 @@
 package kr.cl.forU.product.controller;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLDecoder;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -40,10 +48,29 @@ public class ProductController {
     	return service.bestProducts();
     }
     
-    @GetMapping("CartList")
-    public List<Product> selectCartList() {
-    	return service.selectCartList();
+    @GetMapping("/cart/CartList")
+    public List<Product> selectCartList(@CookieValue(value = "cart", defaultValue = "[]") String cartCookie) {
+        List<Integer> prodNo = extractProdNosFromCart(cartCookie);
+        return service.selectCartList(prodNo);
     }
     
-}
 
+    private List<Integer> extractProdNosFromCart(String cartCookie) {
+        List<Integer> prodNos = new ArrayList<Integer>();
+
+        try {
+            JSONArray cartArray = new JSONArray(URLDecoder.decode(cartCookie, "UTF-8"));
+
+            for (int i = 0; i < cartArray.length(); i++) {
+                JSONObject item = cartArray.getJSONObject(i);
+                int prodNo = item.getInt("prodNo");
+                prodNos.add(prodNo);
+            }
+        } catch (JSONException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+
+        return prodNos;
+    }
+
+}

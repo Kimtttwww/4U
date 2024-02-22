@@ -41,8 +41,15 @@
 	</select>
 	
 	
-
-
+	<select id="selectCartList" resultMap="productResultSet">
+			SELECT P.PROD_NO, P.PROD_NAME, P.PROD_CAP, P.PRICE, P.DISCOUNT_RATE, P.CATE_SUB, P.ORDERED, P.THICKNESS, P.LINING, P.SEE_THROUGH, P.FABRIC, P.PATTERN, P.LINE, P.SEASON, P.UPLOAD_DATE, P.STATUS
+			FROM PRODUCT P
+			JOIN PROD_DETAIL D ON P.PROD_NO = D.PROD_NO
+			WHERE P.PROD_NO IN
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	</select>
 
 
 

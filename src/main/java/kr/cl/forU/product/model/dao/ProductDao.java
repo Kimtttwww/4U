@@ -32,4 +32,8 @@ public class ProductDao {
 		
 		return session.selectList(map + "bestProducts");
 	}
+
+	public List<Product> selectCartList(List<Integer> prodNo) {
+		return session.selectList(map + "selectCartList", prodNo);
+	}
 }
