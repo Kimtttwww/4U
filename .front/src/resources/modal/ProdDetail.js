@@ -1,7 +1,7 @@
-import { Modal } from "react-bootstrap";
+import { Modal, Overlay, Tooltip } from "react-bootstrap";
 import "../css/product/ProdDetail.css"
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useRef, useState } from "react";
 
 /**
  * 상품 상세 모달창
@@ -17,6 +17,9 @@ export default function ProdDetail(props) {
 	const [selectProd, setSelectProd] = useState({});
 	const [prodBuyList, setProdBuyList] = useState([]);
 	const [sizeList, setSizeList] = useState([]);
+	const [showTooltip, setShowTooltip] = useState(false);
+	const mainImage = useRef();
+	const cartBtn = useRef();
 
 	/**
 	 * 할인 유무에 따른 가격 포맷 적용 fn
@@ -112,33 +115,6 @@ export default function ProdDetail(props) {
 	}
 
 	/**
-	 * 색깔에 커서 올리면 해당 색깔의 상품 이미지가 나오게 하는 fn
-	 * @param {SyntheticBaseEvent} e 이벤트 객체
-	 * @param {number} prodNo 해당 상품 번호
-	 * @todo 로컬라이징 필요 + 이벤트 발생 요소 변경 + 부모요소 선택 확인 필요
-	*/
-	// function changeImageToColor(e, prodNo) {
-	// 	const imgNo = Number(e.target.innerHTML);
-	// 	const prod = prodList.find((p) => p.prodNo === prodNo);
-		
-	// 	// console.log(prod.image.find((img) => img.imgNo === imgNo));
-		
-	// 	e.target.parentElement.parentElement.previousSibling.src = prod.image.find((img) => img.imgNo === imgNo).imgName;
-	// }
-	
-	/**
-	 * 바뀌었던 이미지를 다시 원래 썸넬로 되돌리는 fn
-	 * @param {SyntheticBaseEvent} e 이벤트 객체
-	 * @param {number} prodNo 해당 상품 번호
-	 * @todo 로컬라이징 필요 + 이벤트 발생 요소 변경 + 부모요소 선택 확인 필요
-	 */
-	// function rollbackImage(e, prodNo) {
-	// 	const prod = prodList.find((p) => p.prodNo === prodNo);
-
-	// 	e.target.parentElement.parentElement.previousSibling.src = prod.image.find((img) => img.imgType === 1)?.imgName;
-	// }
-
-	/**
 	 * count 증감 동작
 	 * @param {number} index 증감시킬 상품의 옵션
 	 * @param {number} step 증감값(1, -1)
@@ -147,7 +123,7 @@ export default function ProdDetail(props) {
 		const target = prodBuyList.find((dtl) => dtl.index === index, 1);
 		
 		if(step < 0 && target.count === 1) {
-			prodBuyList.splice((dtl) => dtl.index === index);
+			prodBuyList.splice((dtl) => dtl.index === index, 1);
 			setProdBuyList([...prodBuyList]);
 			return;
 		}
@@ -162,8 +138,6 @@ export default function ProdDetail(props) {
 	*/
 	function subProdBuyList(index) {
 		prodBuyList.splice((dtl) => dtl.index === index, 1);
-		console.log("index", index);
-		console.log("prodBuyList", prodBuyList);
 		setProdBuyList([...prodBuyList]);
 	}
 
@@ -183,36 +157,52 @@ export default function ProdDetail(props) {
 	}
 
 	/** 
-	 * 장바구니에 상품 추가 기능
-	 * @todo 중복삽입 방지 필요 + 성공 여부 툴팁으로 표시
-	*/
+	 * 장바구니에 상품 추가 fn
+	 */
 	function addCartList() {
+		if(!prodBuyList.length) {
+			alert("상품을 선택해주세요");
+			return
+		}
 		let cartList = Cookies.get('cart');
-		
-		if(!cartList) {cartList = [];
-		} else {cartList = JSON.parse(cartList);}
-		
+
 		try {
+			if(!cartList) {
+				cartList = [];
+			} else {
+				cartList = JSON.parse(cartList);
+				
+				prodBuyList?.forEach((dtl) => {cartList = cartList.filter((prod) => (prod.prodNo != dtl.prodNo) && (prod.index != dtl.index));});
+			}
+
 			cartList.push(...prodBuyList);
 			Cookies.set('cart', JSON.stringify(cartList), { expires: 7 });
 		} catch (error) {
 			alert("장바구니에 추가되지 않았습니다");
 		}
-		alert("장바구니에 추가되었습니다");
+		setShowTooltip(true);
+		setTimeout(() => {setShowTooltip(false);}, 1500);
 	}
-	
-	test = prodBuyList;
+
 	return(<>
-		<Modal show={showDetail} onHide={() => {setShowDetail(false); setSizeList({}); setProdBuyList([]);}} size="xl" dialogClassName="one-product" animation={false} keyboard>
+		<Modal show={showDetail} onHide={() => {setShowDetail(false); setSizeList({}); setProdBuyList([]);}} size="xl" 
+			onShow={() => Cookies.set('recentProduct', product.prodNo)}dialogClassName="one-product" animation={false} keyboard>
 			<Modal.Header closeButton />
 			<Modal.Body className="prod-detail">
 				<section className="prod-imgs">
 					<picture className="prod-main-img">
-						<img src={product.image.find((img) => img.imgType === 1)?.imgName} alt="상품 이미지" />
+						<img ref={mainImage} src={product.image.find((img) => img.imgType === 1)?.imgName} alt="상품 이미지" />
 					</picture>
 					<picture className="prod-sub-img">
 						{/* 유동적 생성 요소(거의 불가능?) */}
-						<img src="" alt="세부 상품 이미지" />
+						<div className="imgView">
+							<img src="" alt="세부 상품 이미지" />
+							<span>2</span>
+							<span>3</span>
+							<span>4</span>
+							<span>5</span>
+							<span>6</span>
+						</div>
 					</picture>
 				</section>
 				<section className="prod-other">
@@ -223,29 +213,29 @@ export default function ProdDetail(props) {
 					<article className="prod-sizes">{addSizeList()}</article>
 					<ul className="prod-receipt">
 						<h3>선택 상품</h3>
-						{/* 유동적 생성 요소 */
-							prodBuyList && prodBuyList.map((dtl, i) => {
-								return(
-									<li key={dtl.index}>
-										<span>{dtl.colorName} {dtl.size}</span>
-										<span className="prod-count">
-											<span onClick={() => {upDownCount(dtl.index, -1)}}>&lt;</span>
-											<input type="number" name="count" value={dtl.count} readOnly />
-											<span onClick={() => {upDownCount(dtl.index, 1)}}>&gt;</span>
-										</span>
-										<span onClick={() => {subProdBuyList(dtl.index)}}>X</span>
-									</li>
-								);
-							})
-						}
+						{prodBuyList && prodBuyList.map((dtl, i) => (
+							<li key={dtl.index}>
+								<span>{dtl.colorName} {dtl.size} {product.prodName}</span>
+								<span className="prod-count">
+									<span onClick={() => {upDownCount(dtl.index, -1)}}>&lt;</span>
+									<input type="number" name="count" value={dtl.count} readOnly />
+									<span onClick={() => {upDownCount(dtl.index, 1)}}>&gt;</span>
+								</span>
+								<span onClick={() => {subProdBuyList(dtl.index)}}>X</span>
+							</li>
+						)) }
 					</ul>
 					<article className="prod-total">
 						<h5>총 금액</h5>
 						<h4>{prodBuyList.length ? calcPrice() : ""} 원</h4>
 					</article>
 					<article className="order-action">
-						<button className="btn btn-secondary" onClick={addCartList}>장바구니 담기</button>
-						<button className="btn btn-dark">구매하기</button>
+						<button ref={cartBtn} className="btn btn-secondary" onClick={addCartList}>장바구니 담기</button>
+						<Overlay target={cartBtn} show={showTooltip} placement="top">
+							{(props) => (
+								<Tooltip {...props}>장바구니에 추가되었습니다</Tooltip>
+							)}
+						</Overlay>
 					</article>
 				</section>
 			</Modal.Body>
