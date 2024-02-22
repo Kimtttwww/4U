@@ -1,6 +1,7 @@
 package kr.cl.forU.product.model.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -21,10 +22,11 @@ public class ProductService {
     }
     
 	/** 상품들 조회
+	 * @param m 
 	 * @return 조회된 상품 리스트
 	 */
-	public List<Product> selectProductList(int cateSub) {
-		return dao.selectProductList(cateSub);
+	public List<Product> selectProductList(Map<String, String> m ) {
+		return dao.selectProductList(m);
 	}
 
 	public List<Product> bestProducts() {

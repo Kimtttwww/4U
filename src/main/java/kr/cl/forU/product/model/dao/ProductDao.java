@@ -1,6 +1,7 @@
 package kr.cl.forU.product.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,8 +24,8 @@ public class ProductDao {
 	/** 상품들 조회
 	 * @return 조회된 상품 리스트
 	 */
-	public List<Product> selectProductList(int cateSub) {
-		return session.selectList(map + "selectProductList", cateSub);
+	public List<Product> selectProductList(Map<String, String> m) {
+		return session.selectList(map + "selectProductList", m);
 	}
 
 	public List<Product> bestProducts() {

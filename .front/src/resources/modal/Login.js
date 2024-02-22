@@ -107,9 +107,7 @@ export default function Login(props) {
 						ref={(e) => {inputs.current[1] = (e)}} required />
 						<Overlay target={inputs.current[1]} show={showTooltip} placement="bottom">
 							{(props) => (
-								<Tooltip id="overlay-tooltip" {...props}>
-									CapsLock이 켜져 있습니다
-								</Tooltip>
+								<Tooltip {...props}>CapsLock이 켜져 있습니다</Tooltip>
 							)}
 						</Overlay>
 					</div>

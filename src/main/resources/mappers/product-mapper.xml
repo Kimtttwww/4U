@@ -11,11 +11,13 @@
 	</resultMap>
 
 
-	<select id="selectProductList" parameterType="int" resultMap="productResultSet">
+	<select id="selectProductList" parameterType="map" resultMap="productResultSet">
 		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
 		FROM PRODUCT
+		LEFT JOIN CATE_SUB USING (CATE_SUB)
 		<where>
-			<if test="cateSub gt 0">AND CATE_SUB = #{cateSub}</if>
+			<if test='cateMain != "0"'>OR CATE_MAIN = #{cateMain}</if>
+			<if test='cateSub != "0"'>OR CATE_SUB = #{cateSub}</if>
 		</where>
 	</select>
 
