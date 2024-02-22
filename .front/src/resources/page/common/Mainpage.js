@@ -3,7 +3,10 @@ import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "../../css/common/Mainpage.css";
+
 import Leftmenubar from '../../components/Leftmenubar';
+import Rightmenubar from '../../components/Rightmenubar';
+
 // import Button from 'react-bootstrap/Button';
 // import Modal from 'react-bootstrap/Modal';
 
@@ -19,8 +22,9 @@ export default () => {
 
   return (
     <>
-      <Leftmenubar />
-
+      <Leftmenubar /> 
+      <Rightmenubar />
+      
 
 
       <div>
@@ -43,6 +47,7 @@ export default () => {
       </div>
 
       <div className='container'>
+      
         {/*==============================================================================================================================================*/}
         <h1>베스트 상품</h1>
         

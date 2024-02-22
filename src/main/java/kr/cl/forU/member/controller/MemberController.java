@@ -57,8 +57,6 @@ private BCryptPasswordEncoder passwordEncoder;
 		String encodedPassword = passwordEncoder.encode(m.getMemberPwd());
 		m.setMemberPwd(encodedPassword);
 		
-		int result = service.insertMember(m);
-		Map<String, Object> map = new HashMap<>();
 		
 		String formatPhoneOne = (m.getPhone().substring(0,3));
 		log.info("\n 전화번호 = {}", formatPhoneOne);
@@ -70,6 +68,9 @@ private BCryptPasswordEncoder passwordEncoder;
 		String phoneFinal = (formatPhoneOne + "-" + formatPhoneTwo + "-" + formatPhoneThree);
 		m.setPhone(phoneFinal);
 		log.info("\n 전화번호 = {}", m.getPhone());
+		
+		int result = service.insertMember(m);
+		Map<String, Object> map = new HashMap<>();
 		
 		if(result > 0) {
 			map.put("msg", "회원가입 성공");
