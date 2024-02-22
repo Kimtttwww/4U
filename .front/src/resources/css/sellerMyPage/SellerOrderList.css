@@ -1,0 +1,48 @@
+/* 최근 주문내역 테이블 틀 */
+.SellerOrderList {
+    margin: 0 auto;
+    min-height: 61vh;
+}
+
+.SellerOrderList h2{
+    padding: 10px;
+}
+
+/* 테이블 */
+.SellerOrderList table {
+    border:1px solid #ddd;
+    table-layout:fixed;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* th,td 공통 */
+.SellerOrderList th,
+.SellerOrderList td {
+    border:1px solid #ddd;
+    padding: 10px 13px;
+    vertical-align:middle;
+}
+
+/* th 속성 */
+.SellerOrderList th {
+    letter-spacing:0.1em;
+    background:#f8f8f8;
+}
+
+/* td 속성 */
+.SellerOrderList td {
+    line-height:1.4em;
+    word-break:break-all;
+}
+
+/* 최근 주문 내역 앞에 포인트 */
+.SellerOrderList h2:before {
+    display: inline-block;
+    width: 4px;
+    height: 26px;
+    background: #f5cfcb;
+    content: '';
+    margin-right: 10px;
+}

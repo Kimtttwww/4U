@@ -25,7 +25,7 @@ export default function Leftmenubar() {
             if (window.scrollY >= 620) {
                 leftBar.style.display = 'block';
                 leftBar.style.position = 'fixed';
-                leftBar.style.top = `${90 + 15}px`;
+                leftBar.style.top = `${140 + 15}px`;
             }
             else if (window.scrollY > 0 && window.scrollY < 620) {
                 leftBar.style.display = 'block';
@@ -145,7 +145,7 @@ export default function Leftmenubar() {
                             </div>
                             <div div className="subCateList"
                                 style={{
-                                    position: 'fixed', top: `${rect.top}px`, left: `${rect.right - 10}px`
+                                    position: 'fixed', top: `${rect.top}px`, left: `${rect.right - 5}px`
                                 }}
                                 onMouseLeave={() => {
                                     setHoverSubCate(0);

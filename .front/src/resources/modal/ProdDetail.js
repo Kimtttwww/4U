@@ -52,8 +52,8 @@ export default function ProdDetail(props) {
 					<h4 style={{fontWeight: "bold"}}>{product.prodName}</h4>
 					<p>{product.prodCap}</p>
 					<article className="prod-price">
-						<h5>50,000</h5>
-						<h4><pre> → </pre>30,000</h4>
+						<h4>\30,000</h4>
+						<h5>\50,000</h5>
 					</article>
 					<article className="prod-colors">
 						{/* 유동적 생성 요소 */}

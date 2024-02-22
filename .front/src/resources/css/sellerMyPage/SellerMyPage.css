@@ -1,0 +1,43 @@
+/* 주문 확인 전체 틀 */
+.SellerMyPage{
+	display: flex;
+}
+
+/* 사이드 메뉴 틀 */
+.seller-side-area{
+    min-width: 280px;
+	height: 100%;
+	display: flex;
+    flex-direction: column;
+}
+
+/* 사이드 메뉴 해당 메뉴 (색상)표시 */
+.side-area-color{
+    background-color: #f5cfcb;
+    box-shadow: 9px 9px 15px rgba(0, 0, 0, 0.3);
+}
+
+/* 사이드 메뉴 박스 */
+.seller-side-area a{
+    width: 100%;
+    border: 1px solid #ddd;
+    padding: 15px 15px 15px 50px;
+    text-decoration: none;
+    color: #3b3838;
+    font-weight: bold;
+}
+
+/* 관리자 마이페이지 글씨 */
+.seller-side-area h2{
+    margin: 10px;
+}
+
+/* 관리자 마이페이지 앞에 포인트 */
+.seller-side-area h2:before {
+    display: inline-block;
+    width: 4px;
+    height: 26px;
+    background: #f5cfcb;
+    content: '';
+    margin: 0 10px;
+}
