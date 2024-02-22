@@ -47,8 +47,8 @@ public class ProductController {
     
     @GetMapping("/cart/CartList")
     public List<Product> selectCartList(@CookieValue(value = "cart", defaultValue = "[]") String cartCookie) {
-        List<Integer> prodNos = extractProdNosFromCart(cartCookie);
-        return service.selectCartList(prodNos);
+        List<Integer> prodNo = extractProdNosFromCart(cartCookie);
+        return service.selectCartList(prodNo);
     }
     
 

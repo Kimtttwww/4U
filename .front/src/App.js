@@ -14,6 +14,10 @@ import OrderHt from "./resources/page/BuyerMyPage/orderHistory/OrderHt";
 import Error from "./resources/components/Error";
 import Leftmenubar from "./resources/components/Leftmenubar";
 import Mainpage from "./resources/page/common/Mainpage";
+import newQna from "./resources/page/Qna/newQna";
+import detailQna from "./resources/page/qna/detailQna";
+import listqna from "./resources/page/qna/listQna";
+
 
 function App() {
 
@@ -61,8 +65,14 @@ function App() {
             {/* 장바구니 관련 */}
             <Route path="/cart/CartList/" element={<CartList />} />
 
+            {/* QNA */}
+            <Route path="/qna/newqna/" element={<newQna/>}/>
+            <Route path="/qna/detailqna" element={<detailQna/>}/>
+            <Route path="/qna/listqna" element={<listQna/>}/>
+
             {/* 그 외의 에러 페이지 */}
             <Route path="*" element={<Error />} />
+
          </Routes>
 
          {/* 로그인 페이지 */}

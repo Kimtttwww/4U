@@ -32,8 +32,8 @@ public class ProductService {
 		return dao.bestProducts();
 	}
 
-	public List<Product> selectCartList(List<Integer> prodNos) {
-		return dao.selectCartList(prodNos);
+	public List<Product> selectCartList(List<Integer> prodNo) {
+		return dao.selectCartList(prodNo);
 	}
 
 }
