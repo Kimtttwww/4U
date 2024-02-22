@@ -23,11 +23,12 @@ export default function Order({ loginUser }) {
     const navi = useNavigate();
     const [loadInfo, setLoadInfo] = useState({});
     const [loadInfoChecked, setLoadInfoChecked] = useState(false);
-    const [loadPhone, setLoadPhone] = useState();
+    const [phoneParts, setPhoneParts] = useState(['', '', '']);
+    const [changePhoneParts, setChangePhoneParts] = useState(['', '', '']);
     const [isOptionChange, setisOptionChange] = useState(false);
     const [applyColor, setApplyColor] = useState('');
     const [applySize, setApplySize] = useState('');
-    const [isChange, setIsChange] = useState(false);
+    const [isChange, setIsChange] = useState(false); // 주문자정보 변경여부 체크
     const [userCoupon, setUserCoupon] = useState({}); // member의 coupon
     const [openCoupon, setOpenCoupon] = useState(false); // coupon 모달
     const [applyCoupon, setApplyCoupon] = useState(0); // 사용할 coupon
@@ -47,7 +48,6 @@ export default function Order({ loginUser }) {
         address: ""
     });
 
-    const phoneRef = useRef([]);
     const openModal = () => setisOptionChange(true);
     const closeModal = () => setisOptionChange(false);
     const openCouponModal = () => setOpenCoupon(true);
@@ -55,15 +55,20 @@ export default function Order({ loginUser }) {
     const handleModalOpen = () => setModalState(true);
     const handleModalClose = () => setModalState(false);
 
-    // 다음 주소창 열리게 하기
+    // 다음 주소창(주소찾기 버튼) 열리게 하기
     const toggleModal = () => {
+        console.log("zipAndAddress 비움");
+        setZipAndAddress("");
         setModalState(!modalState);
+        setLoadInfoChecked(false);
     };
     // AddressAPI에서 주소데이터 받아오기
     const onCompletePost = (data) => {
         setModalState(false);
         setZipAndAddress({ zipCode: data.zonecode, address: data.address });
     };
+
+    // console.log(zipAndAddress.address);
 
     // 배송메세지 option Data
     const deliMessage = [
@@ -100,28 +105,50 @@ export default function Order({ loginUser }) {
     const checkedHandler = (e) => {
         setLoadInfoChecked(e.target.checked);
 
-        let phoneDb = loadInfo.phone.split('-');
-        for (let i = 0; i < 3; i++) {
-            if (!loadInfoChecked) {
-                phoneRef.current[i].value = phoneDb[i];
-            } else {
-                phoneRef.current[i].value = "";
-            }
-            setLoadInfo(loadInfo);
-        }
+
+
+        // let phoneDb = loadInfo.phone.split('-');
+        // if (!loadInfoChecked) {
+        //     console.log("체크됨?");
+        //     for (let i = 0; i < 3; i++) {
+        //         if (!loadInfoChecked) {
+        //             phoneRef.current[i].value = phoneDb[i];
+        //         } else {
+        //             phoneRef.current[i].value = "";
+        //         }
+        //         setLoadInfo(loadInfo);
+        //     }
+        // } else {
+        //     console.log("체크해제?");
+        //     setLoadInfo(inputChange);
+        // }
     };
 
-    // 배송정보에 input이 감지되면 불러오기체크 해제
-    // input의 변경값 담기
+    // [배송정보]에 input이 감지되면 불러오기체크 해제 -> input의 변경값 담기
     const inputChangeHandler = (e) => {
         let { name, value } = e.target;
 
         // input이 변경되면 inputChageHandler 에 들어옴 -> isChage true로 만듬..
         setIsChange(true);
         setInputChange({ ...inputChange, [name]: value });
+        // setChangePhoneParts({ ...phoneParts, ??})
         setLoadInfoChecked(e.target.checked);
     };
 
+    console.log("phoneParts ?", phoneParts);
+    console.log("changePhoneParts ?", changePhoneParts);
+    // [배송정보]에 연락처 input이 감지되면 불러오기체크 해제 -> input의 변경값 담기
+    const phonePartsHandler = (index, value) => {
+        setLoadInfoChecked(false);
+
+        if (value.length <= 4) {
+            const newPhoneParts = [...changePhoneParts];
+            console.log("newPhoneParts ?", newPhoneParts);
+            newPhoneParts[index] = value;
+            setChangePhoneParts(newPhoneParts);
+        }
+    };
+    console.log(changePhoneParts[2]);
 
     // member의 coupon정보 가져오기
     const getUserCoupon = async () => {
@@ -162,7 +189,6 @@ export default function Order({ loginUser }) {
     // point 전체사용하기 check상태값 체크
     const pointAllCheckedHandler = (e) => {
         setPointAllChecked(e.target.checked);
-        test = e.target.value;
         if (!pointAllChecked) {
             setChangePoint(loadInfo.point);
         } else {
@@ -170,13 +196,48 @@ export default function Order({ loginUser }) {
         }
     };
 
+    // const sendPayment = (data) => {
+    // PG사
+    // 결제수단 //가상계좌 vbank
+    // 주문번호
+    // 결제금액
+    // 주문명
+    // 구매자 이름
+    // 구매자 전화번호
+    // 구매자 이메일
+    // 구매자 주소
+    // 구매자 우편번호
+    // };
+
+    // test = `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`;
+
+
+    // const sendPayment = {
+    //     pg: 'html5_inicis',                           // PG사
+    //     pay_method: 'card',                           // 결제수단 //가상계좌 vbank
+    //     merchant_uid: `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`,  // 주문번호
+    //     amount: applyPoint,                                 // 결제금액
+    //     name: '테스트 결제중',                  // 주문명
+    //     buyer_name: loadInfo.memberName,                           // 구매자 이름
+    //     buyer_tel: loadInfo.phone,                     // 구매자 전화번호
+    //     buyer_email: loadInfo.email,               // 구매자 이메일
+    //     buyer_addr: loadInfo.address + loadInfo.address,                    // 구매자 주소
+    //     buyer_postcode: loadInfo.zipCode                 // 구매자 우편번호
+    // };
+
+    console.log(zipAndAddress);
     useEffect(() => {
         if (!loadInfoChecked) {
             // loadInfoChecked가 체크해제됨(불러오기 안함)
+            console.log("체크해제");
+            console.log(zipAndAddress);
+            setZipAndAddress("");
+            setChangePhoneParts('', '', '');
 
             if (!isChange) {
                 // input 안건듬(변경안함) -> input 전부 공백처리
                 setInputChange(inputObj);
+
             }
             setIsChange(false);
         } else {
@@ -192,6 +253,26 @@ export default function Order({ loginUser }) {
     }, [loadInfoChecked]);
 
 
+    let phone = loadInfo.phone;
+    useEffect(() => {
+        if (loadInfo.phone) {
+            const parts = loadInfo.phone.split('-');
+            setPhoneParts(parts);
+        }
+        const isEqual = phoneParts.every((value, index) => value === changePhoneParts[index]);
+        console.log(isEqual);
+
+        if (!isEqual) {
+            // console.log("phoneParts랑 changePhoneParts 달라요");
+
+
+        } else {
+            console.log("phoneParts랑 changePhoneParts 같아요");
+
+        }
+    }, [phone, changePhoneParts]);
+
+
     useEffect(() => {
         if (!pointAllChecked) {
             if (!changePoint) {
@@ -205,15 +286,7 @@ export default function Order({ loginUser }) {
 
 
     useEffect(() => {
-        console.log("useEffect 들어옴");
-
-        // if (applyCoupon == 0 || changePoint == 0) {
-        //     return;
-        // } 
-        console.log(applyCoupon);
-        console.log(changePoint);
         setApplyPoint(changePoint);
-
     }, [applyCoupon, changePoint]);
 
 
@@ -288,21 +361,30 @@ export default function Order({ loginUser }) {
                             onChange={inputChangeHandler}
                         />
                         <div className="margin">
-                            <select ref={(e) => { phoneRef.current[0] = e }}>
+                            <select defaultValue={'010'}
+                                value={loadInfoChecked ? phoneParts[0] : (changePhoneParts ? changePhoneParts[0] : '')} maxLength={3}
+                                onChange={(e) => phonePartsHandler(0, e.target.value)} >
+                                <option >선택</option>
                                 <option value="010">010</option>
                                 <option value="011">011</option>
                                 <option value="019">019</option>
-                            </select>-
-                            <input type="number" id="phone1" name="miPhone" ref={(e) => { phoneRef.current[1] = e }} style={{ width: "60px" }}
+                            </select>
+                            -
+                            <input type="number" id="phone1" name="miPhone"
+                                value={loadInfoChecked ? phoneParts[1] : (changePhoneParts ? changePhoneParts[1] : '')} maxLength={4}
+                                onChange={(e) => phonePartsHandler(1, e.target.value)} />
+                            -
+                            <input type="number" id="phone2" name="laPhone"
+                                value={loadInfoChecked ? phoneParts[2] : (changePhoneParts ? changePhoneParts[2] : '')} maxLength={4}
+                                onChange={(e) => phonePartsHandler(2, e.target.value)} />
 
-                            />
-                            <input type="number" id="phone2" name="laPhone" ref={(e) => { phoneRef.current[2] = e }} style={{ width: "60px" }} />
+                            {console.log(changePhoneParts[2])}
                         </div>
 
                         <div className="margin">
                             <div>
-                                <input type="number" id="" name="zipCode" style={{ width: "70px" }}
-                                    value={loadInfoChecked ? loadInfo?.zipCode : zipAndAddress.zipCode} />
+                                <input type="number" id="" name="zipCode" readOnly
+                                    value={loadInfoChecked ? loadInfo?.zipCode : (zipAndAddress ? zipAndAddress.zipCode : "")} />
 
                                 <button type="button" onClick={toggleModal} className="btn btn-primary">주소 찾기</button>
                                 {/* Daum 주소 API 컴포넌트 */}
@@ -311,10 +393,10 @@ export default function Order({ loginUser }) {
                                 </Modal>
                             </div>
                             <div>
-                                <input type="text" id="" name="address"
-                                    value={loadInfoChecked ? loadInfo?.address : zipAndAddress.address}
+                                <input type="text" id="" name="address" readOnly style={{ width: "250px", fontSize: "12px" }}
+                                    value={loadInfoChecked ? loadInfo?.address : (zipAndAddress ? zipAndAddress.address : "")}
                                     onChange={inputChangeHandler} />
-                                <input type="text" id="" name="addressDetail"
+                                <input type="text" id="" name="addressDetail" style={{ width: "250px" }}
                                     value={loadInfoChecked ? loadInfo?.addressDetail : inputChange.addressDetail}
                                     onChange={inputChangeHandler} />
                             </div>
@@ -384,7 +466,6 @@ export default function Order({ loginUser }) {
                                 {
                                     (applyCoupon + applyPoint)
                                 }원 절약
-                                {console.log(applyCoupon, applyPoint)}
                             </span>
                         </div>
                     </div>
@@ -404,20 +485,24 @@ export default function Order({ loginUser }) {
                         <div>
                             <div>상품금액</div>
                             <div>할인금액</div>
-                            <div>(총 900원 할인)</div>
+                            <div>(총 {(applyCoupon + applyPoint)}원 할인)</div>
                         </div>
                         <div>
-                            <div>99,900원</div>
-                            <div>900원</div>
-                            <div>90,000원</div>
+                            <div>90000원</div>
+                            <div>
+                                {(applyCoupon + applyPoint)}원
+                            </div>
+                            <div>
+                                {(90000 - applyCoupon - applyPoint)}원
+                            </div>
                         </div>
                     </div>
                     <div className="payBtn">
-                        <PaymentAPI />
+                        <PaymentAPI sendPayment={loadInfo} point={applyPoint} />
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
 
 

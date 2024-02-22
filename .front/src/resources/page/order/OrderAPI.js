@@ -17,7 +17,7 @@ export const loadInfoAPI = async (data) => {
     } catch (error) {
         return "member?? data없어요...";
     }
-};
+}
 
 // member의 coupon정보 가져오기
 export const loadUserCouponAPI = async (data) => {
@@ -31,5 +31,5 @@ export const loadUserCouponAPI = async (data) => {
     } catch (error) {
         return "쿠폰?? data없어요...";
     }
-};
+}
 

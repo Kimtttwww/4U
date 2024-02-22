@@ -1,9 +1,13 @@
 import axios from "axios";
 import { useEffect } from "react";
+import { Link, useNavigate } from "react-router-dom";
 
-export default function PaymentAPI() {
+export default function PaymentAPI({ sendPayment, point }) {
     // const newWindow = window.open('', '_blank');
 
+    const navi = useNavigate();
+
+    // console.log(sendPayment.memberName);
     useEffect(() => {
         const script1 = document.createElement("script");
         script1.src = "https://code.jquery.com/jquery-1.12.4.min.js";
@@ -21,28 +25,28 @@ export default function PaymentAPI() {
         };
     }, []);
 
-
+    let orderData = {};
     const requestPay = () => {
         if (window.IMP) {
             console.log("연결중..");
             const { IMP } = window;
             IMP.init('imp05612074');
 
-            const data = {
+            orderData = {
                 pg: 'html5_inicis',                           // PG사
-                pay_method: 'card',                           // 결제수단
-                merchant_uid: `mid_${new Date().getTime()}`,  // 주문번호
-                amount: 100,                                 // 결제금액
-                name: '아임포트 결제 데이터 분석',                  // 주문명
-                buyer_name: '홍길동',                           // 구매자 이름
-                buyer_tel: '01012341234',                     // 구매자 전화번호
-                buyer_email: 'example@example',               // 구매자 이메일
-                buyer_addr: '신사동 661-16',                    // 구매자 주소
-                buyer_postcode: '06018'                   // 구매자 우편번호
+                pay_method: 'card',                           // 결제수단 //가상계좌 vbank
+                merchant_uid: `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`,  // 주문번호
+                amount: point,                                 // 결제금액
+                name: '샤랄라 원피스 외 1 ',                  // 주문명
+                buyer_name: sendPayment.memberName,                           // 구매자 이름
+                buyer_tel: sendPayment.phone,                     // 구매자 전화번호
+                buyer_email: sendPayment.email,               // 구매자 이메일
+                buyer_addr: sendPayment.address,                    // 구매자 주소
+                buyer_postcode: sendPayment.zipCode                   // 구매자 우편번호
             };
 
             /* 4. 결제 창 호출하기 */
-            IMP.request_pay(data, callback);
+            IMP.request_pay(orderData, callback);
         }
 
         function callback(response) {
@@ -54,6 +58,9 @@ export default function PaymentAPI() {
 
             if (success) {
                 alert('결제 성공');
+                // navi("/order/payment");
+                navi('/order/payment', { state: { orderData } });
+
             } else {
                 alert(`결제 실패: ${error_msg}`);
             }
@@ -83,7 +90,7 @@ export default function PaymentAPI() {
 
     return (
         <div>
-            <button onClick={(e) => { paymentReq(e) }}>결제하기</button>
+            <button onClick={paymentReq}>결제하기</button>
         </div >
     );
 }
