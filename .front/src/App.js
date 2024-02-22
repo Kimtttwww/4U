@@ -18,10 +18,9 @@ import SellerMyPage from "./resources/page/sellerMyPage/SellerMyPage";
 import SellerOrderList from "./resources/page/sellerMyPage/SellerOrderList";
 import SellerManagement from "./resources/page/sellerMyPage/SellerManagement";
 import SellerReview from "./resources/page/sellerMyPage/SellerReview";
-import newQna from "./resources/page/Qna/newQna";
+import newQna from "./resources/page/qna/newQna";
 import detailQna from "./resources/page/qna/detailQna";
 import listqna from "./resources/page/qna/listQna";
-
 
 function App() {
 
