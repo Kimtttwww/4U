@@ -23,6 +23,7 @@ public class CartService {
             cartItems.put(productId, item);
         }
     }
+    
 
     // 장바구니에서 제품 제거
     public void removeFromCart(int productId) {
