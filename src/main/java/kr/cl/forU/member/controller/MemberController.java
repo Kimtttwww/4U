@@ -41,7 +41,7 @@ private BCryptPasswordEncoder passwordEncoder;
 	public Member selectMemberSoft(@RequestBody Member m) {
 		
 		Member member = service.MemberIdMatch(m.getMemberId());
-		if(passwordEncoder.matches(m.getMemberPwd(), member.getMemberPwd())) {
+		if(member != null && passwordEncoder.matches(m.getMemberPwd(), member.getMemberPwd())) {
 			return member;
 		}else {
 			return null;

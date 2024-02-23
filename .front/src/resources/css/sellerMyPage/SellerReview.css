@@ -1,0 +1,42 @@
+/* 리뷰관리 테이블 틀 */
+.SellerReview {
+    margin: 0 auto;
+    min-height: 61vh;
+}
+
+.SellerReview h2{
+    padding: 10px;
+}
+
+/* 리뷰관리 앞에 포인트 */
+.SellerReview h2:before {
+    display: inline-block;
+    width: 4px;
+    height: 26px;
+    background: #f5cfcb;
+    content: '';
+    margin-right: 10px;
+}
+
+/* 테이블 */
+.SellerReview table {
+    border:1px solid #ddd;
+    table-layout:fixed;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+/* th,td 공통 */
+.SellerReview th,
+.SellerReview td {
+    border:1px solid #ddd;
+    padding: 10px 13px;
+    vertical-align:middle;
+}
+
+/* th 속성 */
+.SellerReview th {
+    letter-spacing:0.1em;
+    background:#f8f8f8;
+}

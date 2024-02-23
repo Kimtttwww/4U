@@ -1,6 +1,7 @@
 package kr.cl.forU.order.controller;
 
 import java.io.IOException;
+import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,6 +23,7 @@ import com.siot.IamportRestClient.response.Payment;
 
 import jakarta.annotation.PostConstruct;
 import jakarta.servlet.http.HttpSession;
+import kr.cl.forU.member.model.service.MemberService;
 import kr.cl.forU.member.model.vo.CouponUser;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.service.OrderService;
@@ -37,6 +39,8 @@ public class OrderController {
 
 	@Autowired
 	OrderService service;
+	@Autowired
+	MemberService mService;
 	
     @Value("${iamport.key}")
     private String restApiKey;
@@ -45,13 +49,15 @@ public class OrderController {
 
     private IamportClient iamportClient;
     
+    
 	
-	@PostMapping("/loadOrdererInfo")
+	@PostMapping("/loadMemberInfo")
 	public Member selectOrdererInfo(
-			@RequestParam("memberNo") int memberNo
+			@RequestBody int memberNo
 			){
-		
-		return service.selectOrdererInfo(memberNo);
+		Member member = mService.selectMemberInfo(memberNo);
+		log.info("member ? {}", member);
+		return member;
 	}
 	
 
@@ -92,14 +98,16 @@ public class OrderController {
     
     @PostMapping("/loadUserCoupon")
     public List<CouponUser> selectUserCoupon(
-    		@RequestBody CouponUser memberNo
+    		@RequestBody int memberNo
     		){
-    	log.info("들어는옴? ?????" );
     	List<CouponUser> list = service.selectUserCoupon(memberNo);
-    	
+
     	log.info("list ? {}" , list);
     	return list;
     }
+    
+    
+
     
 	
 }

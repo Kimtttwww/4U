@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Link, Route, Routes } from "react-router-dom";
 import BuyerMyPage from "./resources/page/BuyerMyPage/BuyerMyPage";
 import CartList from "./resources/page/BuyerMyPage/cart/CartList";
 import Login from "./resources/modal/Login";
@@ -14,6 +14,13 @@ import OrderHt from "./resources/page/BuyerMyPage/orderHistory/OrderHt";
 import Error from "./resources/components/Error";
 import Leftmenubar from "./resources/components/Leftmenubar";
 import Mainpage from "./resources/page/common/Mainpage";
+import SellerMyPage from "./resources/page/sellerMyPage/SellerMyPage";
+import SellerOrderList from "./resources/page/sellerMyPage/SellerOrderList";
+import SellerManagement from "./resources/page/sellerMyPage/SellerManagement";
+import SellerReview from "./resources/page/sellerMyPage/SellerReview";
+import newQna from "./resources/page/qna/newQna";
+import detailQna from "./resources/page/qna/detailQna";
+import listqna from "./resources/page/qna/listQna";
 
 function App() {
 
@@ -25,7 +32,6 @@ function App() {
       <div className="App">
 
          <Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
-
          <Routes>
             {/* 메인 페이지 */}
             <Route path="/" element={<Mainpage />} />
@@ -41,13 +47,15 @@ function App() {
             {/* 제품 관련 */}
             <Route path="/product">
                {/* 제품 리스트 */}
-               <Route path="list/:cateSub" element={<ProdList />} />
+               <Route path="list" element={<ProdList />} />
             </Route>
-
+            
             {/* ? */}
-            <Route path="/order/">
+            <Route path="/order">
                {/* ? */}
                <Route path="" element={<Order loginUser={login} />} />
+               {/* ? */}
+               <Route path="payment" element={<Payment />} />
                {/* ? */}
                <Route path="history" element={<OrderHt />} />
             </Route>
@@ -55,14 +63,32 @@ function App() {
             {/* 구매자 마이페이지 */}
             <Route path="/buyer/mypage/" element={<BuyerMyPage />} />
 
-            {/* ? */}
-            <Route path="/Payment" element={<Payment />} />
-
             {/* 장바구니 관련 */}
             <Route path="/cart/CartList/" element={<CartList />} />
 
+            {/* 판매자 마이페이지 */}
+            <Route path="/sellerMypage" element={<SellerMyPage />}>
+               {/* 주문 확인 */}
+               <Route path="list" element={<SellerOrderList />} />
+               {/* 상품 관리 */}
+               <Route path="management" element={<SellerManagement />} />
+               {/* 리뷰 관리 */}
+               <Route path="review" element={<SellerReview />} />
+            </Route>
+
+            {/* QNA */}
+            <Route path="/qna">
+               {/* ? */}
+               <Route path="newqna" element={<newQna/>}/>
+               {/* ? */}
+               <Route path="detailqna" element={<detailQna/>}/>
+               {/* ? */}
+               <Route path="listqna" element={<listQna/>}/>
+            </Route>
+
             {/* 그 외의 에러 페이지 */}
             <Route path="*" element={<Error />} />
+
          </Routes>
 
          {/* 로그인 페이지 */}

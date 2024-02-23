@@ -20,9 +20,9 @@ public class Product {
 	/** 상품 등록일 */
 	private String uploadDate;
 	/** 상품 가격 */
-	private int Price;
+	private int price;
 	/** 상훔의 할인율 */
-	private double discount;
+	private double discountRate;
 	/** 카테고리(소분류) */
 	private int cateSub;
 	/** 삼품이 주문된 수 */
@@ -44,8 +44,9 @@ public class Product {
 	/** 옷에 맞는 계절 */
 	private String season;
 	
+	
 	/**	해당 상품의 조합 */
 	private List<ProdDetail> detail;
 	/**	해당 상품의 이미지들 */
-	private List<ProdDetail> image;
+	private List<Image> image;
 }

@@ -61,7 +61,7 @@ export default function Payment() {
                     </div>
                     <Button type="button" style={{ height: '30px', display: 'flex' }}
                         onClick={openModal}>배송정보 변경</Button>
-                    <ChangeAddress show={address} closeModal={closeModal} />
+                    {/* <ChangeAddress show={address} closeModal={closeModal} /> */}
                 </div>
 
                 <div className="payment-discount-area">
@@ -105,4 +105,5 @@ export default function Payment() {
             </div>
         </div>
     )
+
 }

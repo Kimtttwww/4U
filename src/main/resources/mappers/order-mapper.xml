@@ -2,6 +2,7 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="orderMapper">
 
+
     <select id="findAll" resultType="order">
 		SELECT *
 		FROM "ORDER"
@@ -16,11 +17,6 @@
     </select>
 
 
-	<select id="selectOrdererInfo" parameterType="int" resultType="member">
-		SELECT * 
-		  FROM MEMBER 
-		 WHERE MEMBER_NO = #{memberNo}
-	</select>
 
 	<select id="selectMainCate" resultType="categoryMain">
 		SELECT * 
@@ -33,11 +29,13 @@
 		 WHERE CATE_MAIN = #{cateMain}
 	</select>
 
-	<select id="selectUserCoupon" resultType="couponUser">
-		SELECT *
-		  FROM COUPON_USER
-		  JOIN COUPON USING (COUPON_NO)
+	<select id="selectUserCoupon" parameterType="int" resultType="couponUser">
+		SELECT MEMBER_NO, C.COUPON_NO, TO_CHAR(validity_date, 'YYYY-MM-DD') as validity_date, status, C.COUPON_NAME, C.DISCOUNT_RATE, C.DISCOUNT
+		  FROM COUPON_USER CU 
+		  JOIN COUPON C ON (CU.COUPON_NO = C.COUPON_NO)
 		 WHERE MEMBER_NO = #{memberNo}
+		   AND VALIDITY_DATE > SYSDATE
+		   AND status = 'Y'
 	</select>
 	
 

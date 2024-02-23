@@ -11,11 +11,13 @@
 	</resultMap>
 
 
-	<select id="selectProductList" parameterType="int" resultMap="productResultSet">
+	<select id="selectProductList" parameterType="map" resultMap="productResultSet">
 		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
 		FROM PRODUCT
+		LEFT JOIN CATE_SUB USING (CATE_SUB)
 		<where>
-			<if test="cateSub gt 0">AND CATE_SUB = #{cateSub}</if>
+			<if test='cateMain != "0"'>OR CATE_MAIN = #{cateMain}</if>
+			<if test='cateSub != "0"'>OR CATE_SUB = #{cateSub}</if>
 		</where>
 	</select>
 
@@ -39,8 +41,15 @@
 	</select>
 	
 	
-
-
+	<select id="selectCartList" resultMap="productResultSet">
+			SELECT P.PROD_NO, P.PROD_NAME, P.PROD_CAP, P.PRICE, P.DISCOUNT_RATE, P.CATE_SUB, P.ORDERED, P.THICKNESS, P.LINING, P.SEE_THROUGH, P.FABRIC, P.PATTERN, P.LINE, P.SEASON, P.UPLOAD_DATE, P.STATUS
+			FROM PRODUCT P
+			JOIN PROD_DETAIL D ON P.PROD_NO = D.PROD_NO
+			WHERE P.PROD_NO IN
+	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
+	        #{item}
+	    </foreach>
+	</select>
 
 
 

@@ -2,39 +2,60 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
 import { loadUserCouponAPI } from '../page/order/OrderAPI';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router';
 
-export default function AvailableCoupon({ show, closeCoupon, loginUser }) {
+export default function AvailableCoupon({ show, closeModal, loginUser, userCoupon, sendCoupon }) {
     /* coupon Modal - */
 
+    const navi = useNavigate();
+    const [checkCoupon, setCheckCoupon] = useState();
 
+    const checkCouponHadler = (couponNo) => {
+        setCheckCoupon(couponNo);
+    };
+
+    const getUseCoupon = () => {
+        sendCoupon(checkCoupon);
+        closeModal(false);
+    };
 
     return (
         <Modal show={show} >
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h3 class="modal-title fs-5" id="staticBackdropLabel">사용가능한 쿠폰</h3>
+            <div className="modal-dialog">
+                <div className="modal-content">
+                    <div className="modal-header">
+                        <h3 className="modal-title fs-5" id="staticBackdropLabel">사용가능한 쿠폰</h3>
                     </div>
-                    <div class="modal-body">
+                    <div className="modal-body">
                         <div>
                             {
-                                // userCoupon?.map((item, index) => (
-                                //     <div>
-                                //         <input type='checkbox' id="" name='' />
-                                //         <span>{item.couponName}</span>
-                                //     </div>
-                                // ));
+                                JSON.stringify(userCoupon) === '{}' ?
+                                    (
+                                        ""
+                                    ) : (
+                                        userCoupon?.map((item, index) => (
+                                            <div key={index} >
+                                                <input type='radio' name={"checkedCoupon"}
+                                                    checked={checkCoupon === item.couponNo}
+                                                    onChange={() => checkCouponHadler(item.couponNo)}
+                                                    value={item.couponNo} />
+                                                <span>
+                                                    {item.couponName + " | "}
+                                                    {item.discount == 0 ? item.discountRate + "%" : item.discount + "원"}
+                                                    {"만료일 : " + item.validityDate}
+                                                </span>
+                                            </div>
+                                        ))
+                                    )
                             }
-                            {/* 쿠폰번호 12345 |
-                            5천원 할인쿠폰 |
-                            만료기간 2024-05-23 */}
                         </div>
 
                     </div>
-                    <div class="modal-footer">
-                        <Button type="button" class="btn btn-primary" variant="info">저장</Button>
-                        <Button type="button" class="btn btn-secondary" variant="info"
-                            onClick={closeCoupon}>취소</Button>
+                    <div className="modal-footer">
+                        <Button type="button" className="btn btn-primary" variant="info"
+                            onClick={getUseCoupon}>사용하기</Button>
+                        <Button type="button" className="btn btn-secondary" variant="info"
+                            onClick={closeModal}>취소</Button>
                     </div>
                 </div>
             </div>
