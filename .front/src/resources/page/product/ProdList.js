@@ -3,19 +3,24 @@ import "../../css/product/ProdList.css";
 import ProdDetail from "../../modal/ProdDetail";
 import axios from "axios";
 
-/** 상품 리스트 페이지 */
-export default function ProdList() {
+/**
+ * 상품 리스트 페이지
+ * @param {object} props 객체형태로 제시된 리스트 필터 요소
+ * 	cateMain : 
+ * 	cateSub : 
+ */
+export default function ProdList(props) {
 	
+	const {category} = props;
 	const [prodList, setProdList] = useState([]);
 	const [showDetail, setShowDetail] = useState(false);
 	const [product, setProduct] = useState();
 
 	useEffect(() => {
 		// 상품 리스트 불러오기
-		axios.get("/product/list")
+		axios.get("/product/list", category)
 		.then((result) => {
 			setProdList(result.data);
-			console.log(result.data);
 		}).catch(console.log);
 	}, []);
 	
@@ -85,8 +90,32 @@ export default function ProdList() {
 	 * @returns {string} ','가 포함된 문자형 숫자 값
 	 */
 	function priceConverter(num) {
-		let frontNum = Math.floor(num / 1000)
-		return (frontNum ? frontNum + "," : "") + (num % 1000 ? num % 1000 : "000");
+		let str = num.toString()
+		let numArr = []
+		for (let i = 0; i < Math.ceil(str.length / 3); i++) {
+			numArr.push(str?.charAt(str.length - 3 - i * 3) + str?.charAt(str.length - 2 - i * 3) + str?.charAt(str.length - 1 - i * 3))
+		}
+  
+		return numArr.reverse().toString();
+  }
+
+	/**
+	 * 할인 유무에 따른 가격 포맷 적용 fn
+	 * @param {number} product 해당 물품
+	 * @returns {React.JSX.Element} 할인 유무를 적용하고 ,도 적용한 가격을 표현하는 태그들
+	*/
+	function checkDiscount(product) {
+		let element;
+		
+		if(product.discountRate) {
+			let saledPrice = product.price * (100 - product.discountRate) / 100;
+			element = (<>
+				<div>\{priceConverter(saledPrice)}</div>
+				<div>\{priceConverter(product.price)}</div>
+			</>);
+		} else {element = (<div>\{priceConverter(product.price)}</div>);}
+
+		return element;
 	}
 
 	return(<>
@@ -107,8 +136,8 @@ export default function ProdList() {
 								{/* 할인이 없는 상품은 price만 나와야 하고, 할인이 있는 상품은 price, discountRate 두개가 나와야함 */}
 								{/* 가격에 3자리수 마다 "," 찍어주는거 해야함 */}
 							<div className="prod-amount">
-								<div>\{prod.price - (prod.price * (prod.discountRate / 100))}</div>
-								<div>\{prod.price}</div>
+								
+								{checkDiscount(prod)}
 							</div>
 								<div className="prod-color">
 									{prod.image?.length && colorList(prod)}
@@ -124,6 +153,6 @@ export default function ProdList() {
 			</div>
 		</div>
 
-	 	{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} priceConverter={priceConverter} />}
+	 	{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} priceConverter={priceConverter} checkDiscount={checkDiscount} />}
 	</>);
 }

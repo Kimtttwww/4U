@@ -1,8 +1,8 @@
 /* modal */
 .one-product {
-	max-width: none!important;
-    width: 1200px;
-    height: 850px;
+	max-width: none !important;
+	width: 1200px;
+	height: 850px;
 }
 
 .one-product>.modal-content {
@@ -84,7 +84,7 @@
 .prod-price>h5 {
 	text-decoration: line-through;
 	color: #ff0000;
-	margin:3px 0 0 10px;
+	margin: 3px 0 0 10px;
 }
 
 /* 상품 할인 가격 */
@@ -140,8 +140,6 @@
 	height: 30px;
 	display: flex;
 	justify-content: space-around;
-	/* 구역 확인용 배경색, 추후 삭제 필요 */
-	/* background-color: lightgreen; */
 	border: 1px solid lightslategray;
 	border-radius: 3%;
 	margin: 5px 1px;

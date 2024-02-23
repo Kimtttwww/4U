@@ -11,36 +11,19 @@ import { number } from "prop-types";
  * 	@param {function} setShowDetail 상품 상세 모달창의 표시 여부 state's setter fn
  * 	@param {object} product 상품 상세 모달창에 보여줄 상품 state
  * 	@param {function} priceConverter 숫자형 가격 값을 ','가 포함된 문자형 값으로 변환해주는 fn
+ * 	@param {function} checkDiscount 할인 유무에 따른 가격 포맷 적용 fn
  */
 export default function ProdDetail(props) {
 	
-	const {showDetail, setShowDetail, product, priceConverter} = props;
+	const {showDetail, setShowDetail, product, priceConverter, checkDiscount} = props;
 	const [selectProd, setSelectProd] = useState({});
 	const [prodBuyList, setProdBuyList] = useState([]);
 	const [sizeList, setSizeList] = useState([]);
 	const [showTooltip, setShowTooltip] = useState(false);
-	const [subImgList, setSubImgList] = useState(product.image.filter((img) => (img.imgType === 2)));
+	const [subImgList, setSubImgList] = useState([]);
 	const mainImage = useRef();
 	const cartBtn = useRef();
 
-	/**
-	 * 할인 유무에 따른 가격 포맷 적용 fn
-	 * @param {number} product 해당 물품
-	 * @returns {React.JSX.Element} 할인 유무를 적용하고 ,도 적용한 가격을 표현하는 태그들
-	*/
-	function checkDiscount(product) {
-		let element;
-		
-		if(product.discountRate) {
-			let saledPrice = product.price * (100 - product.discountRate) / 100;
-			element = (<>
-				<h5>{priceConverter(product.price)}</h5>
-				<h4><pre> → </pre>{priceConverter(saledPrice)}&nbsp; <asdf>{product.discountRate}%</asdf></h4>
-			</>);
-		} else {element = (<h4>{product.price}</h4>);}
-
-		return element;
-	}
 
 	/**
 	 * 상품별 색상 종류 표시 fn
@@ -189,12 +172,32 @@ export default function ProdDetail(props) {
 
 	/**
 	 * 상세 이미지에 커서 올리면 크게 보여주는 fn
+	 * @param {SyntheticBaseEvent} e 이벤트 객체
 	 * @todo 이벤트 부여 + src 변경
 	 */
+	function changeImageToSubImg(e) {
+		mainImage.current.src = subImgList.find((img) => img.imgNo == e.target.id)?.imgName
+	}
+
+	/**
+	 * 바뀌었던 이미지를 다시 원래 이미지로 되돌리는 fn
+	 */
+	function rollbackMainImage() {
+		mainImage.current.src = product.image.find((img) => img.imgType === 1)?.imgName;
+	}
+
+	/**
+	 * 상품 상세창 표시 이전 밑작업
+	 * (최근 본 상품 설정 및 상품 서브 이미지 설정)
+	 */
+	function setProd() {
+		Cookies.set('recentProduct', product.prodNo);
+		setSubImgList(product.image.filter((img) => (img.imgType === 2)));
+	}
 
 	return(<>
 		<Modal show={showDetail} onHide={() => {setShowDetail(false); setSizeList({}); setProdBuyList([]);}} size="xl" 
-			onShow={() => Cookies.set('recentProduct', product.prodNo)}dialogClassName="one-product" animation={false} keyboard>
+			onShow={setProd} dialogClassName="one-product" animation={false} keyboard>
 			<Modal.Header closeButton />
 			<Modal.Body className="prod-detail">
 				<section className="prod-imgs">
@@ -202,9 +205,8 @@ export default function ProdDetail(props) {
 						<img ref={mainImage} src={product.image.find((img) => img.imgType === 1)?.imgName} alt="주 상품 이미지" />
 					</picture>
 					<picture className="prod-sub-img">
-						{/* 유동적 생성 요소(거의 불가능?) */
-						subImgList?.length && subImgList.map((img, i) => (i < 4 ? (<img src={img.imgName} alt="예비 상품 이미지" />) : ""))
-						}
+						{subImgList?.length && subImgList.map((img, i) => (i < 4 ? (<img id={img.imgNo} src={img.imgName}
+						 	alt={(i + 1) + "번 상세 상품 이미지"} onMouseEnter={changeImageToSubImg} onMouseLeave={rollbackMainImage} />) : "") ) }
 					</picture>
 				</section>
 				<section className="prod-other">
@@ -234,9 +236,7 @@ export default function ProdDetail(props) {
 					<article className="order-action">
 						<button ref={cartBtn} className="btn btn-secondary" onClick={addCartList}>장바구니 담기</button>
 						<Overlay target={cartBtn} show={showTooltip} placement="top">
-							{(props) => (
-								<Tooltip {...props}>장바구니에 추가되었습니다</Tooltip>
-							)}
+							{(props) => (<Tooltip {...props}>장바구니에 추가되었습니다</Tooltip>)}
 						</Overlay>
 					</article>
 				</section>
