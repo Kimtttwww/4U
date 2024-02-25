@@ -38,6 +38,10 @@ public class ProductService {
 		return dao.selectCartList(prodNo);
 	}
 
+	public Product selectProdName(int prodNo) {
+		return dao.selectProdName(prodNo);
+	}
+
 }
 
 

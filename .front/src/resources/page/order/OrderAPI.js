@@ -2,10 +2,10 @@ import axios from "axios";
 
 // const baseURL = "http://localhost:3000/order";
 const instance = axios.create({ baseURL: "http://localhost:3000/order" });
+const instanceProd = axios.create({ baseURL: "http://localhost:3000/product" });
 
 // member 정보 가져오기
 export const loadInfoAPI = async (data) => {
-
     try {
         const response = await instance.post("/loadMemberInfo", data, {
             headers: {
@@ -13,7 +13,6 @@ export const loadInfoAPI = async (data) => {
             }
         });
         return response.data;
-        console.log("API member data? ", response);
     } catch (error) {
         return "member?? data없어요...";
     }
@@ -30,6 +29,20 @@ export const loadUserCouponAPI = async (data) => {
         return response.data;
     } catch (error) {
         return "쿠폰?? data없어요...";
+    }
+}
+
+// 주문할 상품정보 가져오기
+export const loadProdNameAPI = async (data) => {
+    try {
+        const response = await instanceProd.post("/loadProdName", data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        return "상품명?? data없어요...";
     }
 }
 

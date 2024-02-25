@@ -11,8 +11,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
@@ -51,6 +54,7 @@ public class ProductController {
     @GetMapping("/cart/CartList")
     public List<Product> selectCartList(@CookieValue(value = "cart", defaultValue = "[]") String cartCookie) {
         List<Integer> prodNo = extractProdNosFromCart(cartCookie);
+        log.info("prodNo" + prodNo);
         return service.selectCartList(prodNo);
     }
     
@@ -60,7 +64,7 @@ public class ProductController {
 
         try {
             JSONArray cartArray = new JSONArray(URLDecoder.decode(cartCookie, "UTF-8"));
-
+           
             for (int i = 0; i < cartArray.length(); i++) {
                 JSONObject item = cartArray.getJSONObject(i);
                 int prodNo = item.getInt("prodNo");
@@ -72,5 +76,28 @@ public class ProductController {
 
         return prodNos;
     }
+    
+    
+    @PostMapping("/loadProdName")
+    public List<Product> selectProdName(@RequestBody int[] prodNo) {
+    	List<Product> prodName = new ArrayList<>();
+    	for(int idx = 0; idx < prodNo.length; idx++) {
+    		prodName.add(service.selectProdName(prodNo[idx]));
+        	
+    	}
+    	log.info("prodName ? {}", prodName.toString());
+   
+    	return prodName;
+    }
+    
+//    @PostMapping("/loadProdName")
+//    public ResponseEntity<String> selectProdName(@RequestBody Map<String, Object> requestBody) {
+//        // 요청 본문에서 prodNo를 추출
+//        int prodNo = (int) requestBody.get("prodNo");
+//        log.info("prodNo ? {}", prodNo);
+//       
+//
+//        return ResponseEntity.ok("Success");
+//    }
 
 }

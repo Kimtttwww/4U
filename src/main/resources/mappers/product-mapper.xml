@@ -51,7 +51,11 @@
 	    </foreach>
 	</select>
 
-
+	<select id="selectProdName" parameterType="int" resultType="product">
+		SELECT PROD_NO, PROD_NAME, PRICE, DISCOUNT_RATE
+		  FROM PRODUCT
+		 WHERE PROD_NO = #{prodNo}
+	</select>
 
 <!-- 나중에 쓸 예정, 지우지 말 것 -->
 <!-- INSERT INTO prod_detail(

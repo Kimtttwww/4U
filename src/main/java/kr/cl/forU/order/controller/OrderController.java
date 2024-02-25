@@ -1,7 +1,6 @@
 package kr.cl.forU.order.controller;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +10,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
@@ -56,7 +54,6 @@ public class OrderController {
 			@RequestBody int memberNo
 			){
 		Member member = mService.selectMemberInfo(memberNo);
-		log.info("member ? {}", member);
 		return member;
 	}
 	
@@ -65,7 +62,6 @@ public class OrderController {
 	public List<CategoryMain> selectMainCate(){
 		
 		List<CategoryMain> main = service.selectMainCate();
-//		log.info("main ? {}" , main);
 		return main;
 	}
 	
@@ -73,7 +69,6 @@ public class OrderController {
 	public List<CategorySub> selectSubCate(
 			@RequestBody CategoryMain cateMain){
 		List<CategorySub> sub = service.selectSubCate(cateMain.getCateMain());
-//		log.info("sub ? {}" , sub);
 		return sub;
 	}
 	
@@ -90,8 +85,8 @@ public class OrderController {
             Model model, 
             HttpSession session, 
             @PathVariable("imp_uid") String imp_uid) 
-            		throws IamportResponseException, IOException
-    {
+            		throws IamportResponseException, IOException{
+    
         return iamportClient.paymentByImpUid(imp_uid);
     }
 	
@@ -102,7 +97,6 @@ public class OrderController {
     		){
     	List<CouponUser> list = service.selectUserCoupon(memberNo);
 
-    	log.info("list ? {}" , list);
     	return list;
     }
     
