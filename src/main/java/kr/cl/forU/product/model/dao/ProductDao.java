@@ -7,6 +7,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 
 @Repository
@@ -39,6 +40,10 @@ public class ProductDao {
 
 	public Product selectProdName(int prodNo) {
 		return session.selectOne(map + "selectProdName", prodNo);
+	}
+
+	public List<ProdDetail> selectProdDetailList(int prodNo) {
+		return session.selectList(map + "selectProdDetailList", prodNo);
 	}
 	
 	

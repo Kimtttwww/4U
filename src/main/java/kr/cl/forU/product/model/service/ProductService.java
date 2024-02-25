@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.cl.forU.product.model.dao.ProductDao;
+import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 
 @Service
@@ -40,6 +41,10 @@ public class ProductService {
 
 	public Product selectProdName(int prodNo) {
 		return dao.selectProdName(prodNo);
+	}
+
+	public List<ProdDetail> selectProdDetailList(int prodNo) {
+		return dao.selectProdDetailList(prodNo);
 	}
 
 }

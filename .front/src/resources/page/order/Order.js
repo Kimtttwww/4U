@@ -57,13 +57,15 @@ export default function Order({ loginUser }) {
         address: ""
     });
 
-    console.log("cartItems", cartItems);
+
     const openModal = () => setisOptionChange(true);
     const closeModal = () => setisOptionChange(false);
     const openCouponModal = () => setOpenCoupon(true);
     const closeCouponModal = () => setOpenCoupon(false);
     const handleModalOpen = () => setModalState(true);
     const handleModalClose = () => setModalState(false);
+
+    const [optionNum, setOptionNum] = useState(null);
 
     // 다음 주소창(주소찾기 버튼) 열리게 하기
     const toggleModal = () => {
@@ -186,8 +188,14 @@ export default function Order({ loginUser }) {
         }
     };
 
+    // 주문상품 삭제버튼 클릭시 
+    const orderDelete = (prodNo) => {
+        setOrderProd(orderProd?.filter((order) => order.prodNo !== prodNo));
+    };
 
-
+    const optionChangeHandler = (index) => {
+        // setOptionNum(index);
+    }
 
     // const sendPayment = (data) => {
     // PG사
@@ -261,7 +269,7 @@ export default function Order({ loginUser }) {
     const getProdName = async () => {
 
         if (cartItems == null) {
-            setCartItems(Cookies.get('cart'));
+            setCartItems(JSON.parse(Cookies.get('cart')));
         }
 
         const itemArr = [];
@@ -273,15 +281,11 @@ export default function Order({ loginUser }) {
     };
 
     useEffect(() => {
-
-        console.log(" orderProd?", orderProd);
-        console.log("cartItems? ", cartItems);
-        if (orderProd.length > 0 && cartItems?.length > 0) {
+        if (orderProd.length > 0 && cartItems != null) {
             // 쿠키에서 담아온 배열 객체에 추가적인 정보를 더 넣ㅇ기 위해서 합칠거임
             let arr = [];
             orderProd?.map((order) => {
-                order = { ...order, ...cartItems.filter((item) => item.prodNo == order.prodNo)[0] };
-                console.log("order? ", order);
+                order = { ...order, ...cartItems?.filter((item) => item.prodNo == order.prodNo)[0] };
                 arr.push(order);
             })
             setOrderProd(arr);
@@ -307,39 +311,35 @@ export default function Order({ loginUser }) {
                     </tr>
                 </thead>
                 <tbody>
+
                     {
                         orderProd?.map((item, index) => {
                             return (
                                 <tr key={index}>
                                     <td>[이미지]</td>
                                     <td>{item.prodName}</td>
-                                    <td>{item.size}/{item.colorName}</td>
+                                    <td>
+                                        {item.size}/{item.colorName}
+
+                                        <Button variant="secondary" className="optionChange-btn"
+                                            onClick={() => {
+                                                openModal();
+                                                setOptionNum(index);
+                                            }}
+                                        >
+                                            옵션변경
+                                        </Button>
+
+                                        {optionNum == null ? <></> :
+                                            <ChangeOption show={isOptionChange} closeModal={closeModal} sendColor={colorHandler} sendSize={sizeHandler} option={orderProd[optionNum]} />}
+                                    </td>
                                     <td>{item.price}</td>
                                     <td>{item.count}</td>
+                                    <td><button onClick={() => { orderDelete(item.prodNo) }}>삭제</button></td>
                                 </tr>
                             );
                         })
-                        // items?.map((item, index) =>
-
-                        // )
                     }
-                    <tr>
-                        <td>[이미지]</td>
-                        <td>샤랄라 원피스</td>
-                        <td className="apply-option">
-                            L/블랙
-                            <label>{applySize}/{applyColor}</label>
-                            <Button variant="secondary" className="optionChange-btn"
-                                onClick={openModal}>
-                                옵션변경
-                            </Button>
-                            <ChangeOption show={isOptionChange} closeModal={closeModal} sendColor={colorHandler} sendSize={sizeHandler} />
-                        </td>
-                        <td>39000</td>
-                        <td>29000</td>
-                        <td>1</td>
-                        <td><button>삭제</button></td>
-                    </tr>
                 </tbody>
             </table>
             <span className="totalPrice">총 주문금액</span>

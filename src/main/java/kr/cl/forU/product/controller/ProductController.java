@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.cl.forU.product.model.service.ProductService;
+import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 import lombok.extern.slf4j.Slf4j;
 
@@ -90,14 +91,13 @@ public class ProductController {
     	return prodName;
     }
     
-//    @PostMapping("/loadProdName")
-//    public ResponseEntity<String> selectProdName(@RequestBody Map<String, Object> requestBody) {
-//        // 요청 본문에서 prodNo를 추출
-//        int prodNo = (int) requestBody.get("prodNo");
-//        log.info("prodNo ? {}", prodNo);
-//       
-//
-//        return ResponseEntity.ok("Success");
-//    }
+
+    @PostMapping("/loadProdDetail")
+    public List<ProdDetail> selectProdDetailList(@RequestBody int prodNo){
+    	log.info(" selectProdDetailList ", service.selectProdDetailList(prodNo));
+    	return service.selectProdDetailList(prodNo);
+    }
+    
+    
 
 }

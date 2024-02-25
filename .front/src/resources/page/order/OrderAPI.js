@@ -46,3 +46,17 @@ export const loadProdNameAPI = async (data) => {
     }
 }
 
+// 주문할 상품정보(prodDetail-option) 가져오기
+export const loadProdDetilAPI = async (data) => {
+    try {
+        const response = await instanceProd.post("/loadProdDetail", data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        console.log(response.data);
+        return response.data;
+    } catch (error) {
+        return "상품detail?? data없어요...";
+    }
+}
