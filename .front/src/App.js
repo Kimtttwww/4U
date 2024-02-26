@@ -44,11 +44,8 @@ function App() {
                <Route path="userupdate" element={<UserUpdate />} />
             </Route>
 
-            {/* 제품 관련 */}
-            <Route path="/product">
-               {/* 제품 리스트 */}
-               <Route path="list" element={<ProdList />} />
-            </Route>
+            {/* 제품 리스트 */}
+            <Route path="/product/list" element={<ProdList />} />
             
             {/* ? */}
             <Route path="/order">

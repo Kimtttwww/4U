@@ -13,14 +13,14 @@ public class Review {
 	private int reviewNo;
 	/** 상품번호 */
 	private int prodNo;
-	/** 회원 번호 */
+	/** 리뷰 작성자 번호 */
 	private int memberNo;
 	/** 리뷰 내용 */
 	private String reviewContent;
 	/** 작성일 */
 	private String createDate;
 	/** 별점 */
-	private double rating;
+	private int rating;
 	/** 상태 */
 	private String status;
 	/** 키 */
@@ -35,4 +35,8 @@ public class Review {
 	private String istruetosize;
 	/** 참조리뷰번호 */
 	private int pReviewNo;
+	
+	/**	리뷰 작성자 이름 */
+	private String memberName;
+	
 }

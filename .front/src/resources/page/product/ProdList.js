@@ -16,12 +16,16 @@ export default function ProdList(props) {
 	const [showDetail, setShowDetail] = useState(false);
 	const [product, setProduct] = useState();
 
+
 	useEffect(() => {
 		// 상품 리스트 불러오기
 		axios.get("/product/list", category)
 		.then((result) => {
 			setProdList(result.data);
-		}).catch(console.log);
+		}).catch((error) => {
+			console.log(error);
+			alert("상품을 불러오는 중 문제가 발생했습니다");
+		});
 	}, []);
 	
 	/**
@@ -68,8 +72,6 @@ export default function ProdList(props) {
 		const imgNo = Number(e.target.innerHTML);
 		const prod = prodList.find((p) => p.prodNo === prodNo);
 		
-		// console.log(prod.image.find((img) => img.imgNo === imgNo));
-		
 		e.target.parentElement.parentElement.previousSibling.src = prod.image.find((img) => img.imgNo === imgNo).imgName;
 	}
 	
@@ -110,10 +112,10 @@ export default function ProdList(props) {
 		if(product.discountRate) {
 			let saledPrice = product.price * (100 - product.discountRate) / 100;
 			element = (<>
-				<div>\{priceConverter(saledPrice)}</div>
-				<div>\{priceConverter(product.price)}</div>
+				<span>\{priceConverter(saledPrice)}</span>
+				<span>\{priceConverter(product.price)}</span>
 			</>);
-		} else {element = (<div>\{priceConverter(product.price)}</div>);}
+		} else {element = (<span>\{priceConverter(product.price)}</span>);}
 
 		return element;
 	}

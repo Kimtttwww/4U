@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import kr.cl.forU.product.model.dao.ProductDao;
 import kr.cl.forU.product.model.vo.Product;
+import kr.cl.forU.product.model.vo.Review;
 
 @Service
 public class ProductService {
@@ -36,6 +37,15 @@ public class ProductService {
 
 	public List<Product> selectCartList(List<Integer> prodNo) {
 		return dao.selectCartList(prodNo);
+	}
+
+	/**
+     * 해당 상품의 리뷰들 조회
+     * @param prodNo 리뷰들을 조회할 상품의 번호
+	 * @return 조회된 상품 리스트
+	 */
+	public List<Review> selectReviewList(int prodNo) {
+		return dao.selectReviewList(prodNo);
 	}
 
 }

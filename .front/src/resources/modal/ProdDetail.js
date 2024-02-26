@@ -3,6 +3,7 @@ import "../css/product/ProdDetail.css"
 import Cookies from "js-cookie";
 import { useRef, useState } from "react";
 import { number } from "prop-types";
+import ProdReview from "../page/product/ProdReview";
 
 /**
  * 상품 상세 모달창
@@ -157,7 +158,6 @@ export default function ProdDetail(props) {
 				cartList = [];
 			} else {
 				cartList = JSON.parse(cartList);
-				
 				prodBuyList?.forEach((dtl) => {cartList = cartList.filter((prod) => (prod.prodNo != dtl.prodNo) && (prod.index != dtl.index));});
 			}
 
@@ -212,8 +212,8 @@ export default function ProdDetail(props) {
 				<section className="prod-other">
 					<h4 style={{fontWeight: "bold"}}>{product.prodName}</h4>
 					<p>{product.prodCap}</p>
-					<article className="prod-price">{checkDiscount(product)}</article>
 					<article className="prod-colors">{colorList()}</article>
+					<article className="prod-price">{checkDiscount(product)}</article>
 					<article className="prod-sizes">{addSizeList()}</article>
 					<ul className="prod-receipt">
 						<h3>선택 상품</h3>
@@ -241,8 +241,8 @@ export default function ProdDetail(props) {
 					</article>
 				</section>
 			</Modal.Body>
-			<Modal.Body>
-				<h3>여기는 리뷰~</h3>
+			<Modal.Body className="prod-review">
+				<ProdReview prodNo={product.prodNo} />
 			</Modal.Body>
 		</Modal>
 	</>);

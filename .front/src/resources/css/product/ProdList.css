@@ -48,7 +48,7 @@
 }
 
 /* 금액(원가) 위치 조정 및 색상 */
-.prod-amount div:nth-child(2) {
+.prod-amount span:nth-child(2) {
 	margin-left: 10px;
 	text-decoration: line-through;
 	color: #ff0000;

@@ -80,6 +80,17 @@
 	display: flex;
 }
 
+.prod-price>span {
+	font-weight: 400;
+	font-size: 25px;
+}
+
+.prod-price>span:nth-child(2) {
+	margin-left: 10px;
+	color: red;
+	text-decoration: line-through;
+}
+
 /* 상품 정가 */
 .prod-price>h5 {
 	text-decoration: line-through;

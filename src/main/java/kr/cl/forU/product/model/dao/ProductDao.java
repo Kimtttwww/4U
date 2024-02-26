@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.cl.forU.product.model.vo.Product;
+import kr.cl.forU.product.model.vo.Review;
 
 @Repository
 public class ProductDao {
@@ -21,7 +22,8 @@ public class ProductDao {
         return session.selectOne(map + "getProductById", prodNo);
     }
 	
-	/** 상품들 조회
+	/**
+	 * 상품들 조회
 	 * @return 조회된 상품 리스트
 	 */
 	public List<Product> selectProductList(Map<String, String> m) {
@@ -35,5 +37,14 @@ public class ProductDao {
 
 	public List<Product> selectCartList(List<Integer> prodNo) {
 		return session.selectList(map + "selectCartList", prodNo);
+	}
+
+	/**
+     * 해당 상품의 리뷰들 조회
+     * @param prodNo 리뷰들을 조회할 상품의 번호
+	 * @return 조회된 상품 리스트
+	 */
+	public List<Review> selectReviewList(int prodNo) {
+		return session.selectList(map + "selectReviewList", prodNo);
 	}
 }
