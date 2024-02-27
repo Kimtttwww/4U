@@ -39,12 +39,17 @@
 	</select>
 	
 
+	<select id="selectRecentOrders" parameterType="String" resultType="RecentOrders">
+		SELECT ORDER_NO, ORDER_DATE, PROD_NAME, SIZE, COLOR_NAME, COUNT, ORDER_NAME
+		FROM ORDER_PROD OP
+		LEFT JOIN ORDER USING (ORDER_NO)
+		LEFT JOIN PRODUCT USING (PROD_NO)
+		LEFT JOIN PROD_DETAIL PD ON (OP.PROD_NO = PD.PROD_NO) AND (OP.INDEX = PD.INDEX)
+		LEFT JOIN PALETTE PAL ON (PD.COLOR_NO = PAL.COLOR_NO)
+		WHERE ORDER_DATE = #{orderDate}
+	</select>
 
-
-
-
-
-
+	
 
 
 

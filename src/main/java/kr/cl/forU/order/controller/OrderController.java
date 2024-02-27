@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -25,6 +26,7 @@ import kr.cl.forU.member.model.service.MemberService;
 import kr.cl.forU.member.model.vo.CouponUser;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.service.OrderService;
+import kr.cl.forU.order.model.vo.RecentOrders;
 import kr.cl.forU.product.model.vo.CategoryMain;
 import kr.cl.forU.product.model.vo.CategorySub;
 import lombok.extern.slf4j.Slf4j;
@@ -100,8 +102,8 @@ public class OrderController {
     	return list;
     }
     
-    
-
-    
-	
+    @GetMapping("/list")
+    public List<RecentOrders> selectRecentOrders(@RequestParam("orderDate") String orderDate) {
+        return service.selectRecentOrders(orderDate);
+    }
 }

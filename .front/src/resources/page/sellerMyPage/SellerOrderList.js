@@ -2,7 +2,7 @@ import "../../css/sellerMyPage/SellerOrderList.css";
 
 export default function SellerOrderList (){
 
-
+    
 
     return (
             <div className="SellerOrderList">

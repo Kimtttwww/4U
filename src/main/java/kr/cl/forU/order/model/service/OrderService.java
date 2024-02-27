@@ -9,6 +9,7 @@ import kr.cl.forU.member.model.vo.CouponUser;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.dao.OrderDao;
 import kr.cl.forU.order.model.vo.Order;
+import kr.cl.forU.order.model.vo.RecentOrders;
 import kr.cl.forU.product.model.vo.CategoryMain;
 import kr.cl.forU.product.model.vo.CategorySub;
 
@@ -41,6 +42,9 @@ public class OrderService {
 		return dao.selectUserCoupon(memberNo);
 	}
 
+	public List<RecentOrders> selectRecentOrders(String orderDate) {
+		return dao.selectRecentOrders(orderDate);
+	}
 
 	
 }
