@@ -7,6 +7,7 @@ import org.json.JSONObject;
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -84,5 +85,13 @@ public class ProductController {
     public List<Review> selectReviewList(@PathVariable int prodNo) {
         return service.selectReviewList(prodNo);
     }
+
+    @GetMapping("/productSearch")
+    private List<Product> extractProdFromCate(@RequestParam HashMap<String, String> map) {
+    	// 주소창에 color 라는 이름을 쓰면 됩니다.
+    	return service.extractProdFromCate(map);
+    }
+    
+    
 
 }

@@ -1,5 +1,6 @@
 package kr.cl.forU.product.model.service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -48,8 +49,9 @@ public class ProductService {
 		return dao.selectReviewList(prodNo);
 	}
 
+	public List<Product> extractProdFromCate(HashMap<String, String> map) {
+	
+		return dao.extractProdFromCate(map);
+	}
+
 }
-
-
-
-

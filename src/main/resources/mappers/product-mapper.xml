@@ -19,6 +19,7 @@
 			<if test='cateMain != "0"'>OR CATE_MAIN = #{cateMain}</if>
 			<if test='cateSub != "0"'>OR CATE_SUB = #{cateSub}</if>
 		</where>
+		
 	</select>
 
 	<select id="getProductById" parameterType="int" resultType="product">
@@ -59,6 +60,25 @@
 	</select>
 
 <!-- 상품 등록시 쓸 예정, 지우지 말 것 -->
+	<select id = "searchByCate" resultMap = "productResultSet">
+		
+		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
+		FROM PRODUCT
+		LEFT JOIN CATE_SUB USING (CATE_SUB)
+		LEFT JOIN PROD_DETAIL USING (PROD_NO)
+		
+		<where>
+			<if test='colorNo != "NULL"'>OR COLOR_NO = #{colorNo}</if>
+			<if test='size != "NULL"'>OR SIZE = #{size}</if>
+			<if test='fabric != "NULL"'>OR FABRIC = #{fabric}</if>
+			<if test='lining != "NULL"'>OR FABRIC = #{lining}</if>
+			<if test='seeThrough != "NULL"'>OR SEE_THROUGH = #{seeThrough}</if>
+			<if test='thickness != "NULL"'>THICKNESS = #{thickness}</if>
+		</where>
+		
+	</select>
+
+<!-- 나중에 쓸 예정, 지우지 말 것 -->
 <!-- INSERT INTO prod_detail(
     PROD_NO,
     "INDEX"

@@ -1,5 +1,6 @@
 package kr.cl.forU.product.model.dao;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -47,4 +48,9 @@ public class ProductDao {
 	public List<Review> selectReviewList(int prodNo) {
 		return session.selectList(map + "selectReviewList", prodNo);
 	}
+	
+	public List<Product> extractProdFromCate(HashMap<String, String> m) {
+		return session.selectList(map + "searchByCate", m);
+	}
+	
 }
