@@ -12,7 +12,6 @@ import '../../css/buyerMyPage/Chat.css';
 
 export default function BuyerMyPage() {
   const [modalOpened, setModalOpened] = useState(false);
-  const [cartItems, setCartItems] = useState([]);
   const [orders, setOrders] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
   
@@ -42,17 +41,15 @@ useEffect(() => {
       .catch(err => console.log(err));
   };
 
-  // 최근 본 상품 로드
-  const loadRecentlyViewed = () => {
-    const viewedFromCookie = Cookies.get('recentlyViewed');
-    if (viewedFromCookie) {
-      const recentlyViewedItems = JSON.parse(viewedFromCookie);
-      setRecentlyViewed(recentlyViewedItems);
-    }
-  };
-
-
- 
+// 최근 본 상품 로드
+const loadRecentlyViewed = () => {
+  const viewedFromCookie = Cookies.get('recentProduct');
+  if (viewedFromCookie) {
+    // 숫자를 배열로 래핑하여 설정
+    const recentlyViewedItems = [parseInt(viewedFromCookie)];
+    setRecentlyViewed(recentlyViewedItems);
+  }
+};
  
     return (
       <>

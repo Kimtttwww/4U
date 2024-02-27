@@ -1,0 +1,63 @@
+.qnaContainer {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f9f9f9;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.qnaContainer h1 {
+    font-size: 24px;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.qnaList {
+    list-style: none;
+    padding: 0;
+}
+
+.qnaList li {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    padding: 15px;
+    margin-bottom: 15px;
+}
+
+.qnaList li h2 {
+    font-size: 20px;
+    margin-bottom: 10px;
+    color: #333;
+}
+
+.qnaList li p {
+    font-size: 16px;
+    margin-bottom: 5px;
+    color: #666;
+}
+
+.qnaList li p:last-child {
+    margin-bottom: 0;
+}
+
+.answerStatus {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.qnaList {
+    list-style: none;
+}
+
+.answerBox {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease;
+    border-top: 1px solid #666;
+}
+
+.answerBox.expanded {
+    max-height: 1000px; /* 적절한 높이로 설정하세요. */
+}
