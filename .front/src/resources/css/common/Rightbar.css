@@ -1,13 +1,27 @@
-
 .rightBar {
-    width: 40px;
-    display: flex;
-    flex-direction: column; 
-    position: fixed;
-    right: 0;
-  }
-  
-  .categoryImg {
-    width: 40px;
-    margin-bottom: 10px; 
-  }
+  top: 30%;
+  width: 60px;
+  display: flex;
+  flex-direction: column; 
+  position: fixed;
+  right: 0.5%;
+  text-decoration: none;
+  background-color: #f8dedb;
+  border-radius: 15px;
+}
+
+.rightBar a{
+  text-decoration: none;
+  padding: 5px 10px;
+}
+
+.categoryImg {
+  width: 40px;
+  margin-bottom: 10px; 
+}
+
+.rightBar i {
+  background-size: cover;
+  font-size: 24px;
+}
+

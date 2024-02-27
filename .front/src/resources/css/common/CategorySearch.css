@@ -1,0 +1,25 @@
+.CategorySearch div{
+    display: flex;
+}
+
+.CategorySearch h3{
+    width: 120px;
+    margin: 10px;
+}
+
+.cateInput-box{
+    display: flex;
+    justify-content: center;
+}
+
+.cateInput-box input{
+    padding: 5px;
+    border: 1px solid #000;
+    border-bottom: 1px solid #f5cfcb;
+    border-top: none;
+    border-left: none;
+    border-right: none;
+    outline: none;
+    width: 250px;
+    text-align: center;
+}

@@ -22,11 +22,11 @@ export default function SellerManagement (){
                             <tr>
                                 <th>대분류</th>
                                 <th>소분류</th>
-                                <th>등록일</th>
+                                <th>상품 등록일</th>
                                 <th>상품명</th>
                                 <th>정상가</th>
                                 <th>할인가</th>
-                                <th>총 판매수량</th>
+                                <th>총 주문 수량</th>
                                 <th>상태</th>
                             </tr>
                         </thead>

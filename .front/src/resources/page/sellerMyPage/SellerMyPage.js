@@ -3,7 +3,7 @@ import "../../css/sellerMyPage/SellerMyPage.css";
 import { useState } from "react";
 
 export default function SellerMyPage (){
-    const [sideColor, setSideColor] = useState("/sellerMypage/mypageList");
+    const [sideColor, setSideColor] = useState("/sellerMypage/list");
 
     const handleClick = (link) => {
         setSideColor(link);

@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 import kr.cl.forU.member.model.vo.CouponUser;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.vo.Order;
+import kr.cl.forU.order.model.vo.RecentOrders;
 import kr.cl.forU.product.model.vo.CategoryMain;
 import kr.cl.forU.product.model.vo.CategorySub;
 import lombok.extern.slf4j.Slf4j;
@@ -41,6 +42,9 @@ public class OrderDao {
 		return session.selectList("orderMapper.selectUserCoupon", memberNo);
 	}
 
+	public List<RecentOrders> selectRecentOrders(String orderDate) {
+		return session.selectList("orderMapper.selectRecentOrders", orderDate);
+	}
 
 	
 	

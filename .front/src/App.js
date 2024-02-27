@@ -21,6 +21,7 @@ import SellerReview from "./resources/page/sellerMyPage/SellerReview";
 import newQna from "./resources/page/qna/newQna";
 import detailQna from "./resources/page/qna/detailQna";
 import listqna from "./resources/page/qna/listQna";
+import CategorySearch from "./resources/modal/CategorySearch";
 
 function App() {
 
@@ -58,6 +59,8 @@ function App() {
                <Route path="payment" element={<Payment />} />
                {/* ? */}
                <Route path="history" element={<OrderHt />} />
+               {/* 카테고리 검색 */}
+               <Route path="cateSearch" element={<CategorySearch />} />
             </Route>
 
             {/* 구매자 마이페이지 */}
