@@ -1,6 +1,6 @@
 // import { useState, useEffect } from 'react';
 
-// export default function newQna() {
+export default function NewQna() {
 
 //     const sessionLoginMember = window.sessionStorage.getItem("loginMember");
 //     const [loginMember, setLoginMember] = useState(sessionLoginMember ? JSON.parse(sessionLoginMember) : null);
@@ -41,4 +41,4 @@
 //     <script type="text/javascript" src="js/file_attach.js"></script>
 //         </>
 //     );
-// }
+}

@@ -19,9 +19,8 @@ import SellerOrderList from "./resources/page/sellerMyPage/SellerOrderList";
 import SellerManagement from "./resources/page/sellerMyPage/SellerManagement";
 import SellerReview from "./resources/page/sellerMyPage/SellerReview";
 import ListQna from "./resources/page/qna/ListQna";
-import newQna from "./resources/page/qna/newQna";
-import detailQna from "./resources/page/qna/detailQna";
-import listqna from "./resources/page/qna/listQna";
+import NewQna from "./resources/page/qna/NewQna";
+// import DetailQna from "./resources/page/qna/detailQna";
 import CategorySearch from "./resources/modal/CategorySearch";
 
 function App() {

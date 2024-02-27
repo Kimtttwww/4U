@@ -6,7 +6,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.cl.forU.member.model.vo.CouponUser;
-import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.dao.OrderDao;
 import kr.cl.forU.order.model.vo.Order;
 import kr.cl.forU.order.model.vo.RecentOrders;
