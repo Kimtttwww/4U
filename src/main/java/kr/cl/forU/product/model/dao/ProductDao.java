@@ -8,6 +8,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
+import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 import kr.cl.forU.product.model.vo.Review;
 
@@ -20,7 +21,7 @@ public class ProductDao {
 
 
     public Product getProductById(int prodNo) {
-        return session.selectOne(map + "getProductById", prodNo);
+		return session.selectOne(map + "getProductById", prodNo);
     }
 	
 	/**
@@ -32,7 +33,6 @@ public class ProductDao {
 	}
 
 	public List<Product> bestProducts() {
-		
 		return session.selectList(map + "bestProducts");
 	}
 
@@ -51,6 +51,14 @@ public class ProductDao {
 	
 	public List<Product> extractProdFromCate(HashMap<String, String> m) {
 		return session.selectList(map + "searchByCate", m);
+	}
+
+	public Product selectProdName(int prodNo) {
+		return session.selectOne(map + "selectProdName", prodNo);
+	}
+
+	public List<ProdDetail> selectProdDetailList(int prodNo) {
+		return session.selectList(map + "selectProdDetailList", prodNo);
 	}
 	
 }

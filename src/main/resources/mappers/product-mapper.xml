@@ -29,9 +29,11 @@
 	</select>
 
 	<select id="selectProdDetailList" parameterType="int" resultType="prodDetail">
-		SELECT "INDEX", PROD_NO, "SIZE", STACK, TOP, BOTTOM, COLOR_NO, COLOR_NAME, RGB FROM PROD_DETAIL
+		SELECT "INDEX", PROD_NO, "SIZE", STACK, TOP, BOTTOM, COLOR_NO, COLOR_NAME, RGB 
+		FROM PROD_DETAIL
 		LEFT JOIN PALETTE USING (COLOR_NO)
 		WHERE PROD_NO = #{prodNo} AND STACK > 0
+		ORDER BY "INDEX", "SIZE" DESC
 	</select>
 
 	<select id="selectProdImageList" parameterType="int" resultType="image">
@@ -59,6 +61,12 @@
 		WHERE R.STATUS = 'Y' AND PROD_NO = #{prodNo}
 	</select>
 
+	<select id="selectProdName" parameterType="int" resultType="product">
+		SELECT PROD_NO, PROD_NAME, PRICE, DISCOUNT_RATE
+		  FROM PRODUCT
+		 WHERE PROD_NO = #{prodNo}
+	</select>
+	
 <!-- 상품 등록시 쓸 예정, 지우지 말 것 -->
 	<select id = "searchByCate" resultMap = "productResultSet">
 		

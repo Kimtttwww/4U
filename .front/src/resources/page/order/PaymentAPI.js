@@ -24,7 +24,7 @@ export default function PaymentAPI({ sendPayment, point }) {
             document.head.removeChild(script2);
         };
     }, []);
-
+    test = sendPayment
     let orderData = {};
     const requestPay = () => {
         if (window.IMP) {
@@ -36,7 +36,7 @@ export default function PaymentAPI({ sendPayment, point }) {
                 pg: 'html5_inicis',                           // PG사
                 pay_method: 'card',                           // 결제수단 //가상계좌 vbank
                 merchant_uid: `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`,  // 주문번호
-                amount: point,                                 // 결제금액
+                amount: 100 + point,                                 // 결제금액
                 name: '샤랄라 원피스 외 1 ',                  // 주문명
                 buyer_name: sendPayment.memberName,                           // 구매자 이름
                 buyer_tel: sendPayment.phone,                     // 구매자 전화번호

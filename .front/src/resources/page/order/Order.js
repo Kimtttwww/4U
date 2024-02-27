@@ -4,21 +4,25 @@ import AvailbleCoupon from "../../modal/AvailableCoupon";
 import '../../css/order/OrderPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
-import axios from "axios";
-import { loadInfoAPI, loadUserCouponAPI, loadUserPointAPI } from "./OrderAPI";
+import { loadInfoAPI, loadProdNameAPI, loadUserCouponAPI, loadUserPointAPI } from "./OrderAPI";
 import { useNavigate } from "react-router-dom";
 import Payment from "./Payment";
 import PaymentAPI from "./PaymentAPI";
 import AddressAPI from "../common/AddressAPI"
+import Cookies from "js-cookie";
 
 export default function Order({ loginUser }) {
 
     const inputObj = {
         receiverName: "",
+        phone1: "",
+        phone2: "",
+        phone3: "",
         zipCode: "",
         address: "",
         addressDetail: ""
     }
+
 
     const navi = useNavigate();
     const [loadInfo, setLoadInfo] = useState({});
@@ -26,8 +30,8 @@ export default function Order({ loginUser }) {
     const [phoneParts, setPhoneParts] = useState(['', '', '']);
     const [changePhoneParts, setChangePhoneParts] = useState(['', '', '']);
     const [isOptionChange, setisOptionChange] = useState(false);
-    const [applyColor, setApplyColor] = useState('');
-    const [applySize, setApplySize] = useState('');
+    // const [applyColor, setApplyColor] = useState('');
+    // const [applySize, setApplySize] = useState('');
     const [isChange, setIsChange] = useState(false); // 주문자정보 변경여부 체크
     const [userCoupon, setUserCoupon] = useState({}); // member의 coupon
     const [openCoupon, setOpenCoupon] = useState(false); // coupon 모달
@@ -37,8 +41,16 @@ export default function Order({ loginUser }) {
     const [applyPoint, setApplyPoint] = useState(); // 사용할 point
     const [modalState, setModalState] = useState(false); // DAUM API 모달
     const [delMsg, setDelMsg] = useState('');
+    const [orderProd, setOrderProd] = useState([]);
+    // const [cartItems, setCartItems] = useState(JSON.parse(Cookies.get('cart')));
+    const [orderIndex, setOrderIndex] = useState(0);
+    const [cartItems, setCartItems] = useState(null);
+    const [prodCount, setProdCount] = useState();
     const [inputChange, setInputChange] = useState({
         receiverName: "",
+        phone1: "010",
+        phone2: "",
+        phone3: "",
         zipCode: "",
         address: "",
         addressDetail: ""
@@ -48,6 +60,7 @@ export default function Order({ loginUser }) {
         address: ""
     });
 
+
     const openModal = () => setisOptionChange(true);
     const closeModal = () => setisOptionChange(false);
     const openCouponModal = () => setOpenCoupon(true);
@@ -55,20 +68,25 @@ export default function Order({ loginUser }) {
     const handleModalOpen = () => setModalState(true);
     const handleModalClose = () => setModalState(false);
 
+    console.log(orderProd);
+
     // 다음 주소창(주소찾기 버튼) 열리게 하기
     const toggleModal = () => {
-        console.log("zipAndAddress 비움");
-        setZipAndAddress("");
         setModalState(!modalState);
         setLoadInfoChecked(false);
+        setIsChange(true);
     };
+
     // AddressAPI에서 주소데이터 받아오기
     const onCompletePost = (data) => {
         setModalState(false);
-        setZipAndAddress({ zipCode: data.zonecode, address: data.address });
+        const dataName = {
+            "zipCode": data.zonecode,
+            "address": data.address,
+            "addressDetail": ""
+        };
+        setInputChange({ ...inputChange, ...dataName });
     };
-
-    // console.log(zipAndAddress.address);
 
     // 배송메세지 option Data
     const deliMessage = [
@@ -79,15 +97,6 @@ export default function Order({ loginUser }) {
         { key: 4, value: "소화전에 넣어주세요" }
     ];
 
-    // 옵션 색상변경
-    const colorHandler = (data) => {
-        setApplyColor(data);
-    };
-
-    // 옵션 사이즈변경
-    const sizeHandler = (data) => {
-        setApplySize(data);
-    };
 
     // 배송메세지 변경
     const applyMsg = (e) => {
@@ -96,59 +105,36 @@ export default function Order({ loginUser }) {
 
     // 주문자정보 DB에서 가져오기
     const loadFromDb = async () => {
-        // const formData = { memberNo: loginUser?.memberNo }
         const responseData = await loadInfoAPI(loginUser?.memberNo);
         setLoadInfo(responseData);
     }
 
-    // 주문자정보 불러오기 체크박스 체크
+    // 주문자정보 불러오기 체크박스 핸들러
     const checkedHandler = (e) => {
         setLoadInfoChecked(e.target.checked);
 
-
-
-        // let phoneDb = loadInfo.phone.split('-');
-        // if (!loadInfoChecked) {
-        //     console.log("체크됨?");
-        //     for (let i = 0; i < 3; i++) {
-        //         if (!loadInfoChecked) {
-        //             phoneRef.current[i].value = phoneDb[i];
-        //         } else {
-        //             phoneRef.current[i].value = "";
-        //         }
-        //         setLoadInfo(loadInfo);
-        //     }
-        // } else {
-        //     console.log("체크해제?");
-        //     setLoadInfo(inputChange);
-        // }
+        if (e.target.checked) {
+            setInputChange({
+                receiverName: loadInfo?.memberName,
+                phone1: (loadInfo.phone).split('-')[0],
+                phone2: (loadInfo.phone).split('-')[1],
+                phone3: (loadInfo.phone).split('-')[2],
+                zipCode: loadInfo?.zipCode,
+                address: loadInfo?.address,
+                addressDetail: loadInfo?.addressDetail
+            });
+        };
     };
 
     // [배송정보]에 input이 감지되면 불러오기체크 해제 -> input의 변경값 담기
     const inputChangeHandler = (e) => {
+        setLoadInfoChecked(false);
         let { name, value } = e.target;
-
         // input이 변경되면 inputChageHandler 에 들어옴 -> isChage true로 만듬..
         setIsChange(true);
         setInputChange({ ...inputChange, [name]: value });
-        // setChangePhoneParts({ ...phoneParts, ??})
-        setLoadInfoChecked(e.target.checked);
     };
 
-    console.log("phoneParts ?", phoneParts);
-    console.log("changePhoneParts ?", changePhoneParts);
-    // [배송정보]에 연락처 input이 감지되면 불러오기체크 해제 -> input의 변경값 담기
-    const phonePartsHandler = (index, value) => {
-        setLoadInfoChecked(false);
-
-        if (value.length <= 4) {
-            const newPhoneParts = [...changePhoneParts];
-            console.log("newPhoneParts ?", newPhoneParts);
-            newPhoneParts[index] = value;
-            setChangePhoneParts(newPhoneParts);
-        }
-    };
-    console.log(changePhoneParts[2]);
 
     // member의 coupon정보 가져오기
     const getUserCoupon = async () => {
@@ -196,6 +182,39 @@ export default function Order({ loginUser }) {
         }
     };
 
+    // 해당 상품의 수량 증가
+    const increaseCount = (index) => {
+        const prodCount = orderProd[index].count++;
+        setProdCount(prodCount);
+        orderProd[index].count = prodCount;
+        setOrderProd(prevOrderProd => {
+            const updateProdCount = [...prevOrderProd];
+            updateProdCount[index].count++;
+            return updateProdCount;
+        });
+    };
+
+    // 해당 상품의 수량 감소
+    const decreaseCount = (index) => {
+        if (orderProd[index].count <= 1) {
+            alert("1보다 작을 수 없습니다.");
+        } else {
+            const prodCount = orderProd[index].count--;
+            setProdCount(prodCount);
+            orderProd[index].count = prodCount;
+            setOrderProd(prevOrderProd => {
+                const updateProdCount = [...prevOrderProd];
+                updateProdCount[index].count--;
+                return updateProdCount;
+            });
+        };
+    };
+
+    // 주문상품 삭제버튼 클릭시 
+    const orderDelete = (prodNo) => {
+        setOrderProd(orderProd?.filter((order) => order.prodNo !== prodNo));
+    };
+
     // const sendPayment = (data) => {
     // PG사
     // 결제수단 //가상계좌 vbank
@@ -212,66 +231,17 @@ export default function Order({ loginUser }) {
     // test = `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`;
 
 
-    // const sendPayment = {
-    //     pg: 'html5_inicis',                           // PG사
-    //     pay_method: 'card',                           // 결제수단 //가상계좌 vbank
-    //     merchant_uid: `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`,  // 주문번호
-    //     amount: applyPoint,                                 // 결제금액
-    //     name: '테스트 결제중',                  // 주문명
-    //     buyer_name: loadInfo.memberName,                           // 구매자 이름
-    //     buyer_tel: loadInfo.phone,                     // 구매자 전화번호
-    //     buyer_email: loadInfo.email,               // 구매자 이메일
-    //     buyer_addr: loadInfo.address + loadInfo.address,                    // 구매자 주소
-    //     buyer_postcode: loadInfo.zipCode                 // 구매자 우편번호
-    // };
-
-    console.log(zipAndAddress);
     useEffect(() => {
         if (!loadInfoChecked) {
             // loadInfoChecked가 체크해제됨(불러오기 안함)
-            console.log("체크해제");
-            console.log(zipAndAddress);
-            setZipAndAddress("");
-            setChangePhoneParts('', '', '');
 
             if (!isChange) {
-                // input 안건듬(변경안함) -> input 전부 공백처리
+                // input 변경내용 없음 -> input 전부 공백처리
                 setInputChange(inputObj);
-
             }
-            setIsChange(false);
-        } else {
-            // loadInfoChecked가 체크됨(불러오기)
-            setInputChange({
-                receiverName: loadInfo.memberName,
-                zipCode: loadInfo.zipCode,
-                address: loadInfo.address,
-                addressDetail: loadInfo.addressDetail
-            });
-            setIsChange(false);
         }
+        setIsChange(false);
     }, [loadInfoChecked]);
-
-
-    let phone = loadInfo.phone;
-    useEffect(() => {
-        if (loadInfo.phone) {
-            const parts = loadInfo.phone.split('-');
-            setPhoneParts(parts);
-        }
-        const isEqual = phoneParts.every((value, index) => value === changePhoneParts[index]);
-        console.log(isEqual);
-
-        if (!isEqual) {
-            // console.log("phoneParts랑 changePhoneParts 달라요");
-
-
-        } else {
-            console.log("phoneParts랑 changePhoneParts 같아요");
-
-        }
-    }, [phone, changePhoneParts]);
-
 
     useEffect(() => {
         if (!pointAllChecked) {
@@ -292,13 +262,62 @@ export default function Order({ loginUser }) {
 
     // 로그인상태에서만 페이지 접근가능하도록 설정
     useEffect(() => {
-        if (loginUser == null || !loginUser.memberNo) {
-            alert("로그인 후 이용가능합니다.");
-            navi("/");
-        }
+        // if (loginUser == null || !loginUser.memberNo) {
+        //     // alert("로그인 후 이용가능합니다.");
+        //     navi("/");
+        // }
         loadFromDb();
         getUserCoupon();
+        getProdName();
+        console.log("초기랜더링 데이터 로딩...");
     }, []);
+
+    useEffect(() => {
+        if (modalState) {
+            const modal = document.querySelector("#modal");
+            modal.parentElement.addEventListener('click', (e) => {
+                e.stopPropagation();
+            });
+            const closeBtn = document.querySelector(".modal-header").children[1];
+            closeBtn.addEventListener('click', (e) => { setModalState(false); });
+        }
+    }, [modalState])
+
+
+    // 쿠키에 담아놓은 주문할 상품 꺼내오기
+    const getProdName = async () => {
+
+        if (cartItems == null) {
+            setCartItems(JSON.parse(Cookies.get('cart')));
+        };
+
+        if (orderProd.length === 0) {
+            console.log("orderProd 가져오는중...");
+            const prodNoArr = [];
+            const prodNos = cartItems?.map(item => {
+                prodNoArr.push(item.prodNo)
+            });
+            const responseData = await loadProdNameAPI(prodNoArr);
+            setOrderProd([...orderProd, ...responseData]);
+        };
+    };
+
+    useEffect(() => {
+
+        if (orderProd.length > 0 && cartItems != null) {
+            // 쿠키에서 담아온 배열 객체에 추가적인 정보를 더 넣기 위해서 합칠거임
+            let arr = [];
+            orderProd?.map((order) => {
+                order = {
+                    ...order, ...cartItems?.filter(
+                        (item) => item.prodNo == order.prodNo)[0]
+                };
+                arr.push(order);
+            })
+            setOrderProd(arr);
+            setCartItems(null);
+        };
+    }, [orderProd]);
 
 
     return (
@@ -318,23 +337,41 @@ export default function Order({ loginUser }) {
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <td>[이미지]</td>
-                        <td>샤랄라 원피스</td>
-                        <td className="apply-option">
-                            L/블랙
-                            <label>{applySize}/{applyColor}</label>
-                            <Button variant="secondary" className="optionChange-btn"
-                                onClick={openModal}>
-                                옵션변경
-                            </Button>
-                            <ChangeOption show={isOptionChange} closeModal={closeModal} sendColor={colorHandler} sendSize={sizeHandler} />
-                        </td>
-                        <td>39000</td>
-                        <td>29000</td>
-                        <td>1</td>
-                        <td><button>삭제</button></td>
-                    </tr>
+
+                    {
+                        orderProd?.map((item, index) => {
+                            return (
+                                <tr key={index}>
+                                    <td>[이미지]</td>
+                                    <td>{item.prodName}</td>
+                                    <td>
+                                        <div>{item.colorName}/{item.size}</div>
+
+                                        <Button variant="secondary" className="optionChange-btn"
+                                            onClick={() => {
+                                                openModal();
+                                                setOrderIndex(index);
+                                            }}
+                                        >
+                                            옵션변경
+                                        </Button>
+
+                                        <ChangeOption show={isOptionChange}
+                                            closeModal={closeModal}
+                                            orderProd={orderProd[orderIndex]}
+                                        />
+                                    </td>
+                                    <td>{item.price}</td>
+                                    <td>
+                                        {item.count}
+                                        <button onClick={() => increaseCount(index)}>∧</button>
+                                        <button onClick={() => decreaseCount(index)}>∨</button>
+                                    </td>
+                                    <td><button onClick={() => { orderDelete(item.prodNo) }}>삭제</button></td>
+                                </tr>
+                            );
+                        })
+                    }
                 </tbody>
             </table>
             <span className="totalPrice">총 주문금액</span>
@@ -361,40 +398,39 @@ export default function Order({ loginUser }) {
                             onChange={inputChangeHandler}
                         />
                         <div className="margin">
-                            <select defaultValue={'010'}
-                                value={loadInfoChecked ? phoneParts[0] : (changePhoneParts ? changePhoneParts[0] : '')} maxLength={3}
-                                onChange={(e) => phonePartsHandler(0, e.target.value)} >
+                            <select defaultValue={'010'} name="phone1"
+                                value={loadInfoChecked ? (loadInfo?.phone).split('-')[0] : inputChange?.phone1} maxLength={3}
+                                onChange={inputChangeHandler} >
                                 <option >선택</option>
                                 <option value="010">010</option>
                                 <option value="011">011</option>
                                 <option value="019">019</option>
                             </select>
                             -
-                            <input type="number" id="phone1" name="miPhone"
-                                value={loadInfoChecked ? phoneParts[1] : (changePhoneParts ? changePhoneParts[1] : '')} maxLength={4}
-                                onChange={(e) => phonePartsHandler(1, e.target.value)} />
+                            <input type="number" id="phone2" name="phone2"
+                                value={loadInfoChecked ? (loadInfo?.phone).split('-')[1] : inputChange?.phone2} maxLength={4}
+                                onChange={inputChangeHandler} />
                             -
-                            <input type="number" id="phone2" name="laPhone"
-                                value={loadInfoChecked ? phoneParts[2] : (changePhoneParts ? changePhoneParts[2] : '')} maxLength={4}
-                                onChange={(e) => phonePartsHandler(2, e.target.value)} />
-
-                            {console.log(changePhoneParts[2])}
+                            <input type="number" id="phone3" name="phone3"
+                                value={loadInfoChecked ? (loadInfo?.phone).split('-')[2] : inputChange?.phone3} maxLength={4}
+                                // onChange={(e) => phonePartsHandler(2, e.target.value)} />
+                                onChange={inputChangeHandler} />
                         </div>
 
                         <div className="margin">
                             <div>
                                 <input type="number" id="" name="zipCode" readOnly
-                                    value={loadInfoChecked ? loadInfo?.zipCode : (zipAndAddress ? zipAndAddress.zipCode : "")} />
+                                    value={loadInfoChecked ? loadInfo?.zipCode : inputChange.zipCode} />
 
                                 <button type="button" onClick={toggleModal} className="btn btn-primary">주소 찾기</button>
                                 {/* Daum 주소 API 컴포넌트 */}
-                                <Modal show={modalState} onHide={handleModalClose} dialogClassName='DaumModal'>
+                                <Modal id="modal" show={modalState} onHide={handleModalClose} dialogClassName='DaumModal' >
                                     <AddressAPI onCompletePost={onCompletePost} />
                                 </Modal>
                             </div>
                             <div>
                                 <input type="text" id="" name="address" readOnly style={{ width: "250px", fontSize: "12px" }}
-                                    value={loadInfoChecked ? loadInfo?.address : (zipAndAddress ? zipAndAddress.address : "")}
+                                    value={loadInfoChecked ? loadInfo?.address : inputChange.address}
                                     onChange={inputChangeHandler} />
                                 <input type="text" id="" name="addressDetail" style={{ width: "250px" }}
                                     value={loadInfoChecked ? loadInfo?.addressDetail : inputChange.addressDetail}
@@ -445,7 +481,7 @@ export default function Order({ loginUser }) {
                                 </div>
                                 <span>
                                     <input type="number" style={{ width: '80px' }} id="applyPoint"
-                                        value={pointAllChecked ? loadInfo.point : applyPoint} onChange={pointHandler} max={loadInfo.point} />원
+                                        value={pointAllChecked ? loadInfo.point : applyPoint} onChange={pointHandler} max={loadInfo.point} min={0} />원
                                 </span>
                                 <div>
                                     <span style={{ marginRight: '10px' }}>{loadInfo.point}원</span>

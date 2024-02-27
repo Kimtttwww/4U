@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.cl.forU.product.model.dao.ProductDao;
+import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 import kr.cl.forU.product.model.vo.Review;
 
@@ -20,7 +21,7 @@ public class ProductService {
 
     // 상품 번호를 기반으로 제품을 가져오는 메서드
     public Product getProductById(int prodNo) {
-        return dao.getProductById(prodNo);
+		return dao.getProductById(prodNo);
     }
     
 	/** 상품들 조회
@@ -32,7 +33,6 @@ public class ProductService {
 	}
 
 	public List<Product> bestProducts() {
-		
 		return dao.bestProducts();
 	}
 
@@ -50,8 +50,15 @@ public class ProductService {
 	}
 
 	public List<Product> extractProdFromCate(HashMap<String, String> map) {
-	
 		return dao.extractProdFromCate(map);
+	}
+
+	public Product selectProdName(int prodNo) {
+		return dao.selectProdName(prodNo);
+	}
+
+	public List<ProdDetail> selectProdDetailList(int prodNo) {
+		return dao.selectProdDetailList(prodNo);
 	}
 
 }
