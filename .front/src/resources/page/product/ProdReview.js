@@ -19,7 +19,7 @@ export default function ProdReview(props) {
 		axios.get("/product/review/" + prodNo)
 		.then((data) => {
 			setReviewList(data?.data);
-			console.log(data?.data);
+			console.log("reviewList", data?.data);
 		}).catch((error) => {
 			console.log(error);
 			alert("리뷰를 불러오는 중 문제가 발생했습니다");
@@ -27,12 +27,12 @@ export default function ProdReview(props) {
 	}, []);
 
 	function printRating(rating) {
-		let element = "";
+		let element = [];
 		for (let i = 0; i < 5; i++) {
-			if(i <= rating) {
-				element += (<img src="/photo/point.svg" alt={i+"점"} />);
+			if(i + 1 <= rating) {
+				element.push(<img src="/photo/point.svg" alt={i+1+"점"} />);
 			} else {
-				element += (<img src="/photo/noPoint.svg" alt={i+"점"} />);
+				element.push(<img src="/photo/noPoint.svg" alt={i+1+"점"} />);
 			}
 		}
 		return element;
@@ -46,12 +46,12 @@ export default function ProdReview(props) {
 				return(
 					<article className="review">
 						<picture className="ratingBox">
-							{printRating(review.rating)}
+							{printRating(review.rating).map(img => img)}
 						</picture>
 						<span>작성자명</span>
 						<span>선택적 입력사항</span>
 						<span>작성일자</span>
-						<textarea className="review-content"></textarea>
+						<p className="review-content"></p>
 					</article>
 				)
 			}) }

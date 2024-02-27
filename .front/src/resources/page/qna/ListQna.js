@@ -6,20 +6,18 @@ export default function ListQna() {
     
     const sessionLoginMember = window.sessionStorage.getItem("loginMember");
     const [loginMember, setLoginMember] = useState(sessionLoginMember ? JSON.parse(sessionLoginMember) : null);
+    const [listQna, setListQna] = useState([]); // Q&A 목록을 저장할 상태
+    const [expandedIndex, setExpandedIndex] = useState(null);
 
     useEffect(() => {
+        // 페이지가 로드될 때 Q&A 목록을 서버에서 가져오는 함수 호출
+        fetchQnaList();
+
         // 세션에 로그인 정보가 있는 경우 상태 업데이트
         if (sessionLoginMember) {
             setLoginMember(JSON.parse(sessionLoginMember));
         }
     }, []); // 마운트될 때 한 번만 실행되도록 빈 배열을 전달합니다.
-
-    const [listQna, setListQna] = useState([]); // Q&A 목록을 저장할 상태
-
-    useEffect(() => {
-        // 페이지가 로드될 때 Q&A 목록을 서버에서 가져오는 함수 호출
-        fetchQnaList();
-    }, []); // 컴포넌트가 처음 렌더링될 때만 실행
 
     // Q&A 목록을 가져오는 함수
     const fetchQnaList = async () => {
@@ -31,13 +29,10 @@ export default function ListQna() {
             console.error('Error fetching Q&A list:', error);
         }
     };
-
-    const [expandedIndex, setExpandedIndex] = useState(null);
     
     const toggleAnswer = (index) => {
         setExpandedIndex(index === expandedIndex ? null : index);
     };
-
 
     return (
         <div className='qnaContainer'>
