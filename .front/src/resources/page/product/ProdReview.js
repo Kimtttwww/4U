@@ -16,6 +16,7 @@ export default function ProdReview(props) {
 	
 
 	useEffect(() => {
+		// 해당 상품의 리뷰 목록 조회
 		axios.get("/product/review/" + prodNo)
 		.then((data) => {
 			setReviewList(data?.data);
@@ -26,8 +27,15 @@ export default function ProdReview(props) {
 		});
 	}, []);
 
+	/**
+	 * 각 리뷰별 평점 출력 fn
+	 * @param {number} rating 해당 리뷰의 평점
+	 * @returns 평점을 표현하는 태그들
+	 */
 	function printRating(rating) {
 		let element = [];
+		if(!rating) rating = 0;
+
 		for (let i = 0; i < 5; i++) {
 			if(i + 1 <= rating) {
 				element.push(<img src="/photo/point.svg" alt={i+1+"점"} />);
@@ -38,30 +46,63 @@ export default function ProdReview(props) {
 		return element;
 	}
 
+	/**
+	 * 각 리뷰별 작성자 정보 출력 fn
+	 * @returns 작성자 정보를 표현하는 태그들
+	 */
+	function printMember() {return review.height && review.weight ? (<p>{review.height} / {review.weight}</p>) : ""}
+	
+	/**
+	 * 각 리뷰별 기타 정보 출력 fn
+	 * @returns 기타 정보를 표현하는 태그들
+	 */
+	function printOther() {
+		let element = [];
+
+		if(review.top) element.push(<p>상의 {review.top}</p>);
+		if(review.bottom) element.push(<p>하의 {review.bottom}</p>);
+		if(review.isTrueToSize) element.push(<p>{review.isTrueToSize}</p>);
+
+		return element;
+	}
+
 	return (<>
 		<h2>구매 후기</h2>
 
 		<section className="review-list">
-			{reviewList.length && reviewList.map((review) => {
-				return(
-					<article className="review">
+			{reviewList.length && reviewList.map((review) => (
+				<article key={review.reviewNo} className="review">
+					<figure>
 						<picture className="ratingBox">
-							{printRating(review.rating).map(img => img)}
+							{printRating(review.rating)}
 						</picture>
-						<span>작성자명</span>
-						<span>선택적 입력사항</span>
-						<span>작성일자</span>
-						<p className="review-content"></p>
-					</article>
-				)
-			}) }
+						<figcaption className="review-content">
+							{review?.reviewContent}
+						</figcaption>
+					</figure>
+					<aside className="reviewer">
+						<div>
+							<p>{review.memberName} / {review.createDate.split(" ")[0]}</p>
+							{printMember()}
+						</div>
+						<div>
+							{printOther()}
+						</div>
+					</aside>
+				</article>
+			)) }
 		</section>
 
 		<section className="review-write">
-			
+			{/* 리뷰 작성 영역 작업하기 */}
 		</section>
 
 		<space>
+			<br/><br/><br/><br/><br/>
+			<br/><br/><br/><br/><br/>
+			<br/><br/><br/><br/><br/>
+			<br/><br/><br/><br/><br/>
+			<br/><br/><br/><br/><br/>
 			<br/><br/><br/><br/><br/>
 			<br/><br/><br/><br/><br/>
 			<br/><br/><br/><br/><br/>

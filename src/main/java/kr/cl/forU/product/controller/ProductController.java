@@ -43,9 +43,6 @@ public class ProductController {
 	 */
     @GetMapping("list")
     public List<Product> selectProductList(@RequestParam Map<String, String> m) {
-    	if(m.get("cateMain") == null) m.put("cateMain", "0");
-    	if(m.get("cateSub") == null) m.put("cateSub", "0");
-    	
     	return service.selectProductList(m);
     }
     

@@ -32,7 +32,7 @@ public class Review {
 	/** 하의사이즈 */
 	private String bottom;
 	/** 정사이즈 */
-	private String istruetosize;
+	private String isTrueToSize;
 	/** 참조리뷰번호 */
 	private int pReviewNo;
 	

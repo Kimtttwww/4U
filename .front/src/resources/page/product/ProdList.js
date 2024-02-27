@@ -19,7 +19,7 @@ export default function ProdList(props) {
 
 	useEffect(() => {
 		// 상품 리스트 불러오기
-		axios.get("/product/list", category)
+		axios.get("/product/list")
 		.then((result) => {
 			setProdList(result.data);
 		}).catch((error) => {

@@ -16,8 +16,8 @@
 		FROM PRODUCT
 		LEFT JOIN CATE_SUB USING (CATE_SUB)
 		<where>
-			<if test='cateMain != "0"'>OR CATE_MAIN = #{cateMain}</if>
-			<if test='cateSub != "0"'>OR CATE_SUB = #{cateSub}</if>
+			<if test='cateMain != null'>AND CATE_MAIN IN (#{cateMain})</if>
+			<if test='cateSub != null'>AND CATE_SUB IN (#{cateSub})</if>
 		</where>
 		
 	</select>
@@ -54,10 +54,9 @@
 	</select>
 
 	<select id="selectReviewList" parameterType="int" resultType="review">
-		SELECT REVIEW_NO, PROD_NO, R.MEMBER_NO, MEMBER_NAME, REVIEW_CONTENT, R.CREATE_DATE, RATING, HEIGHT, WEIGHT, TOP, BOTTOM, ISTRUETOSIZE
+		SELECT REVIEW_NO, PROD_NO, MEMBER_NO, MEMBER_NAME, REVIEW_CONTENT, R.CREATE_DATE, RATING, HEIGHT, WEIGHT, TOP, BOTTOM, ISTRUETOSIZE
 		FROM REVIEW R
-		LEFT JOIN MEMBER ON(R.MEMBER_NO = MEMBER.MEMBER_NO)
-		<!-- LEFT JOIN MEMBER USING (MEMBER_NO) -->
+		LEFT JOIN MEMBER USING (MEMBER_NO)
 		WHERE R.STATUS = 'Y' AND PROD_NO = #{prodNo}
 	</select>
 

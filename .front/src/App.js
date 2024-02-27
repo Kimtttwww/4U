@@ -20,7 +20,7 @@ import SellerManagement from "./resources/page/sellerMyPage/SellerManagement";
 import SellerReview from "./resources/page/sellerMyPage/SellerReview";
 import ListQna from "./resources/page/qna/ListQna";
 import NewQna from "./resources/page/qna/NewQna";
-// import DetailQna from "./resources/page/qna/detailQna";
+// import DetailQna from "./resources/page/qna/DetailQna";
 import CategorySearch from "./resources/modal/CategorySearch";
 
 function App() {

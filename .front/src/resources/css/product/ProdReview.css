@@ -12,7 +12,8 @@
 
 /* 좌측 리뷰 목록 박스 */
 .review-list {
-	width: 55%;
+	width: calc(55% - 10px);
+	margin: 0 5px;
 }
 
 /* 단일 리뷰 박스 */
@@ -21,57 +22,82 @@
 	height: 140px;
 	display: flex;
 	flex-wrap: wrap;
-	align-content: flex-start;
-	border: 1px solid lightslategray;
+	border: 2px solid lightslategray;
 	border-radius: 10px;
 	margin-bottom: 20px;
 }
 
 /* 리뷰 박스 안 내용들 박스 */
-.review>* {
-	flex: 0 0 20%;
-	height: 20%;
-	text-align: center;
+.review>figure {
+	width: 65%;
+	margin: 0;
+	border-right: 1px solid lightslategray;
+	border-top-left-radius: 10px;
+	border-bottom-left-radius: 10px;
 }
 
 /* 평점 박스 */
 .ratingBox {
-	flex: 0 0 30%;
+	width: 100%;
+	height: 30%;
 	display: flex;
 	justify-content: center;
 	align-items: center;
 	border-top-left-radius: 10px;
+	padding: 5px 0;
 }
 
 /* 평점 이미지 */
 .ratingBox>img {
-	flex: 0 1 15%;
-	max-height: 100%;
-	border-top-left-radius: 10px;
-}
-
-/* 상단 4개 정보 중 평점 제외 나머지 span */
-.review>span {
-	font-size: small;
-	padding: 5px 0;
-}
-
-/* 부가정보 란 */
-.review>*:nth-child(3) {
-	flex: 0 0 30%;
+	height: 100%;
+	margin: 0 3px;
 }
 
 /* 리뷰 내용 */
-.review>.review-content {
-	flex: 0 0 100%;
-	height: 80%;
+.review-content {
+	height: 70%;
 	text-align: start;
 	border-bottom-left-radius: 10px;
+	padding: 10px 20px;
+}
+
+/* 리뷰어 정보 박스 */
+.reviewer {
+	width: 35%;
+	border-top-right-radius: 10px;
 	border-bottom-right-radius: 10px;
-	padding: 0 20px;
+}
+
+/* 리뷰어 정보 박스 안 모든 박스 */
+.reviewer>* {
+	width: 100%;
+	display: flex;
+	flex-direction: column;
+	justify-content: space-evenly;
+	align-items: center;
+	overflow: hidden;
+	white-space: nowrap;
+	border-top-right-radius: 10px;
+	border-bottom-right-radius: 10px;
+}
+
+/* 리뷰어 정보 박스 안 사용자 정보 박스 */
+.reviewer>div:nth-child(1) {
+	height: 40%;
+}
+
+/* 리뷰어 정보 박스 안 사용자 정보 박스 */
+.reviewer>div:nth-child(2) {
+	height: 60%;
 }
 
 /* 우측 리뷰 작성 박스 */
 .review-write {
-	width: 45%;
+	width: calc(45% - 10px);
+	min-height: 100px;
+	height: fit-content;
+	position: sticky;
+	top: 25px;
+	background-color: lightyellow;
+	margin: 0 5px;
 }

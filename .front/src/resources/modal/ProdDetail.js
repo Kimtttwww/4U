@@ -149,7 +149,7 @@ export default function ProdDetail(props) {
 	function addCartList() {
 		if(!prodBuyList.length) {
 			alert("상품을 선택해주세요");
-			return
+			return;
 		}
 		let cartList = Cookies.get('cart');
 
@@ -173,18 +173,13 @@ export default function ProdDetail(props) {
 	/**
 	 * 상세 이미지에 커서 올리면 크게 보여주는 fn
 	 * @param {SyntheticBaseEvent} e 이벤트 객체
-	 * @todo 이벤트 부여 + src 변경
 	 */
-	function changeImageToSubImg(e) {
-		mainImage.current.src = subImgList.find((img) => img.imgNo == e.target.id)?.imgName
-	}
+	function changeImageToSubImg(e) {mainImage.current.src = subImgList.find((img) => img.imgNo == e.target.id)?.imgName}
 
 	/**
 	 * 바뀌었던 이미지를 다시 원래 이미지로 되돌리는 fn
 	 */
-	function rollbackMainImage() {
-		mainImage.current.src = product.image.find((img) => img.imgType === 1)?.imgName;
-	}
+	function rollbackMainImage() {mainImage.current.src = product.image.find((img) => img.imgType === 1)?.imgName}
 
 	/**
 	 * 상품 상세창 표시 이전 밑작업
