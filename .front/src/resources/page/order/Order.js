@@ -30,8 +30,8 @@ export default function Order({ loginUser }) {
     const [phoneParts, setPhoneParts] = useState(['', '', '']);
     const [changePhoneParts, setChangePhoneParts] = useState(['', '', '']);
     const [isOptionChange, setisOptionChange] = useState(false);
-    const [applyColor, setApplyColor] = useState('');
-    const [applySize, setApplySize] = useState('');
+    // const [applyColor, setApplyColor] = useState('');
+    // const [applySize, setApplySize] = useState('');
     const [isChange, setIsChange] = useState(false); // 주문자정보 변경여부 체크
     const [userCoupon, setUserCoupon] = useState({}); // member의 coupon
     const [openCoupon, setOpenCoupon] = useState(false); // coupon 모달
@@ -42,7 +42,10 @@ export default function Order({ loginUser }) {
     const [modalState, setModalState] = useState(false); // DAUM API 모달
     const [delMsg, setDelMsg] = useState('');
     const [orderProd, setOrderProd] = useState([]);
-    const [cartItems, setCartItems] = useState(JSON.parse(Cookies.get('cart')));
+    // const [cartItems, setCartItems] = useState(JSON.parse(Cookies.get('cart')));
+    const [orderIndex, setOrderIndex] = useState(0);
+    const [cartItems, setCartItems] = useState(null);
+    const [prodCount, setProdCount] = useState();
     const [inputChange, setInputChange] = useState({
         receiverName: "",
         phone1: "010",
@@ -65,7 +68,7 @@ export default function Order({ loginUser }) {
     const handleModalOpen = () => setModalState(true);
     const handleModalClose = () => setModalState(false);
 
-    const [optionNum, setOptionNum] = useState(null);
+    console.log(orderProd);
 
     // 다음 주소창(주소찾기 버튼) 열리게 하기
     const toggleModal = () => {
@@ -94,15 +97,6 @@ export default function Order({ loginUser }) {
         { key: 4, value: "소화전에 넣어주세요" }
     ];
 
-    // 옵션 색상변경
-    const colorHandler = (data) => {
-        setApplyColor(data);
-    };
-
-    // 옵션 사이즈변경
-    const sizeHandler = (data) => {
-        setApplySize(data);
-    };
 
     // 배송메세지 변경
     const applyMsg = (e) => {
@@ -188,14 +182,38 @@ export default function Order({ loginUser }) {
         }
     };
 
+    // 해당 상품의 수량 증가
+    const increaseCount = (index) => {
+        const prodCount = orderProd[index].count++;
+        setProdCount(prodCount);
+        orderProd[index].count = prodCount;
+        setOrderProd(prevOrderProd => {
+            const updateProdCount = [...prevOrderProd];
+            updateProdCount[index].count++;
+            return updateProdCount;
+        });
+    };
+
+    // 해당 상품의 수량 감소
+    const decreaseCount = (index) => {
+        if (orderProd[index].count <= 1) {
+            alert("1보다 작을 수 없습니다.");
+        } else {
+            const prodCount = orderProd[index].count--;
+            setProdCount(prodCount);
+            orderProd[index].count = prodCount;
+            setOrderProd(prevOrderProd => {
+                const updateProdCount = [...prevOrderProd];
+                updateProdCount[index].count--;
+                return updateProdCount;
+            });
+        };
+    };
+
     // 주문상품 삭제버튼 클릭시 
     const orderDelete = (prodNo) => {
         setOrderProd(orderProd?.filter((order) => order.prodNo !== prodNo));
     };
-
-    const optionChangeHandler = (index) => {
-        // setOptionNum(index);
-    }
 
     // const sendPayment = (data) => {
     // PG사
@@ -251,6 +269,7 @@ export default function Order({ loginUser }) {
         loadFromDb();
         getUserCoupon();
         getProdName();
+        console.log("초기랜더링 데이터 로딩...");
     }, []);
 
     useEffect(() => {
@@ -265,27 +284,34 @@ export default function Order({ loginUser }) {
     }, [modalState])
 
 
-    // 주문할 상품 쿠키에서 꺼내오기
+    // 쿠키에 담아놓은 주문할 상품 꺼내오기
     const getProdName = async () => {
 
         if (cartItems == null) {
             setCartItems(JSON.parse(Cookies.get('cart')));
-        }
+        };
 
-        const itemArr = [];
-        const prodNos = cartItems?.map(item => {
-            itemArr.push(item.prodNo)
-        });
-        const responseData = await loadProdNameAPI(itemArr);
-        setOrderProd([...orderProd, ...responseData]);
+        if (orderProd.length === 0) {
+            console.log("orderProd 가져오는중...");
+            const prodNoArr = [];
+            const prodNos = cartItems?.map(item => {
+                prodNoArr.push(item.prodNo)
+            });
+            const responseData = await loadProdNameAPI(prodNoArr);
+            setOrderProd([...orderProd, ...responseData]);
+        };
     };
 
     useEffect(() => {
+
         if (orderProd.length > 0 && cartItems != null) {
-            // 쿠키에서 담아온 배열 객체에 추가적인 정보를 더 넣ㅇ기 위해서 합칠거임
+            // 쿠키에서 담아온 배열 객체에 추가적인 정보를 더 넣기 위해서 합칠거임
             let arr = [];
             orderProd?.map((order) => {
-                order = { ...order, ...cartItems?.filter((item) => item.prodNo == order.prodNo)[0] };
+                order = {
+                    ...order, ...cartItems?.filter(
+                        (item) => item.prodNo == order.prodNo)[0]
+                };
                 arr.push(order);
             })
             setOrderProd(arr);
@@ -319,22 +345,28 @@ export default function Order({ loginUser }) {
                                     <td>[이미지]</td>
                                     <td>{item.prodName}</td>
                                     <td>
-                                        {item.size}/{item.colorName}
+                                        <div>{item.colorName}/{item.size}</div>
 
                                         <Button variant="secondary" className="optionChange-btn"
                                             onClick={() => {
                                                 openModal();
-                                                setOptionNum(index);
+                                                setOrderIndex(index);
                                             }}
                                         >
                                             옵션변경
                                         </Button>
 
-                                        {optionNum == null ? <></> :
-                                            <ChangeOption show={isOptionChange} closeModal={closeModal} sendColor={colorHandler} sendSize={sizeHandler} option={orderProd[optionNum]} />}
+                                        <ChangeOption show={isOptionChange}
+                                            closeModal={closeModal}
+                                            orderProd={orderProd[orderIndex]}
+                                        />
                                     </td>
                                     <td>{item.price}</td>
-                                    <td>{item.count}</td>
+                                    <td>
+                                        {item.count}
+                                        <button onClick={() => increaseCount(index)}>∧</button>
+                                        <button onClick={() => decreaseCount(index)}>∨</button>
+                                    </td>
                                     <td><button onClick={() => { orderDelete(item.prodNo) }}>삭제</button></td>
                                 </tr>
                             );
