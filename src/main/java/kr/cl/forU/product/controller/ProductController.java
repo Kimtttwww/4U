@@ -72,5 +72,26 @@ public class ProductController {
 
         return prodNos;
     }
+    
+    @GetMapping("/productSearch")
+    private List<Product> extractProdFromCate(@RequestParam(value = "colorNo", required = false)Integer colorNo, 
+    		@RequestParam(value = "size", required = false)String size, 
+    		@RequestParam(value = "fabric", required = false)String fabric,
+    		@RequestParam(value = "lining", required = false)String lining,
+    		@RequestParam(value = "seeThrough", required = false)String seeThrough,
+    		@RequestParam(value = "thickness", required = false)String thickness
+    		) {
+    	
+    	return service.extractProdFromCate(colorNo, size, fabric, lining, seeThrough, thickness);
+    	
+   
+    	
+    
+    
+    }
+    
+    // 주소창에 color 라는 이름을 쓰면 됩니다.
+    // required = false 하는 이유 -> required true 로 했을때 null값을 받을수 없음
+    
 
 }

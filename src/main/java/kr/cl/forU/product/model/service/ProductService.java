@@ -38,6 +38,12 @@ public class ProductService {
 		return dao.selectCartList(prodNo);
 	}
 
+	public List<Product> extractProdFromCate(Integer colorNo, String size, String fabric, String lining,
+			String seeThrough, String thickness) {
+	
+		return dao.extractProdFromCate(colorNo, size, fabric, lining, seeThrough, thickness);
+	}
+
 }
 
 

@@ -36,4 +36,11 @@ public class ProductDao {
 	public List<Product> selectCartList(List<Integer> prodNo) {
 		return session.selectList(map + "selectCartList", prodNo);
 	}
+
+	public List<Product> extractProdFromCate(Integer colorNo, String size, String fabric, String lining,
+			String seeThrough, String thickness) {
+		
+		return session.selectList(map + "searchByCate", colorNo, size, fabric, lining, seeThrough, thickness);
+	}
+	
 }
