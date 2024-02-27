@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Modal } from 'react-bootstrap';
 import DaumPostcode from 'react-daum-postcode';
-import DaumPost from "../DaumPost"
+import DaumPost from "./DaumPost"
 import { AddressData } from 'react-daum-postcode';
 
 
