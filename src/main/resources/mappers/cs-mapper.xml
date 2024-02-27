@@ -2,5 +2,19 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="csMapper">
 
+    <resultMap id="qnaResultMap" type="qna">
+        <id column="QNA_NO" property="qnaNo"/>
+        <result column="STATUS" property="status"/>
+        <!-- 다른 열에 대한 매핑 추가 -->
+    </resultMap>
+
+ 	<select id="findQnaList" parameterType="int" resultMap="qnaResultMap"> 
+        SELECT *
+        FROM QNA Q
+        JOIN MEMBER M ON (Q.QNA_WRITER = M.MEMBER_NO)
+        WHERE Q.STATUS = 'Y'
+        ORDER BY QNA_NO
+    </select>
+
 
 </mapper>

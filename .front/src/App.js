@@ -18,9 +18,11 @@ import SellerMyPage from "./resources/page/sellerMyPage/SellerMyPage";
 import SellerOrderList from "./resources/page/sellerMyPage/SellerOrderList";
 import SellerManagement from "./resources/page/sellerMyPage/SellerManagement";
 import SellerReview from "./resources/page/sellerMyPage/SellerReview";
-import newQna from "./resources/page/qna/newQna";
-import detailQna from "./resources/page/qna/detailQna";
-import listqna from "./resources/page/qna/listQna";
+import ListQna from "./resources/page/qna/ListQna";
+// import newQna from "./resources/page/qna/newQna";
+// import detailQna from "./resources/page/qna/detailQna";
+
+
 
 function App() {
 
@@ -73,14 +75,14 @@ function App() {
                <Route path="review" element={<SellerReview />} />
             </Route>
 
-            {/* QNA */}
+             {/* QNA */}
             <Route path="/qna">
                {/* ? */}
-               <Route path="newqna" element={<newQna/>}/>
+               {/* <Route path="newqna" element={<newQna/>}/> */}
                {/* ? */}
-               <Route path="detailqna" element={<detailQna/>}/>
+               {/* <Route path="detailqna" element={<detailQna/>}/> */}
                {/* ? */}
-               <Route path="listqna" element={<listQna/>}/>
+               <Route path="listqna" element={<ListQna/>}/>
             </Route>
 
             {/* 그 외의 에러 페이지 */}
