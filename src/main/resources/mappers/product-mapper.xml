@@ -85,6 +85,14 @@
 		</where>
 		
 	</select>
+	
+	
+	<select id="selectColors" resultType="palette">
+		SELECT COLOR_NO, COLOR_NAME, RGB
+		FROM PALETTE
+	</select>
+	
+	
 
 <!-- 나중에 쓸 예정, 지우지 말 것 -->
 <!-- INSERT INTO prod_detail(

@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import kr.cl.forU.product.model.dao.ProductDao;
+import kr.cl.forU.product.model.vo.Palette;
 import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 import kr.cl.forU.product.model.vo.Review;
@@ -59,6 +60,11 @@ public class ProductService {
 
 	public List<ProdDetail> selectProdDetailList(int prodNo) {
 		return dao.selectProdDetailList(prodNo);
+	}
+
+	public List<Palette> selectColors() {
+		// TODO Auto-generated method stub
+		return dao.selectColors();
 	}
 
 }

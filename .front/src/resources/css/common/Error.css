@@ -7,11 +7,11 @@
 .error404_container a > span {border-bottom: 1px solid #fff;}
 
 .error404_container .glitch {display: block;position: relative;white-space: nowrap;}
-.error404_container .glitch:before {text-shadow: 1px 0 #000;animation: noise 3s infinite linear alternate-reverse;}
+.error404_container .glitch::before {text-shadow: 1px 0 #000;animation: noise 3s infinite linear alternate-reverse;}
 
-.error404_container , .glitch:before {background: #fff 0 0 repeat;}
+.error404_container , .glitch::before {background: #fff 0 0 repeat;}
 
-.error404_container .glitch:before, .error_404_container .glitch:after {content: attr(data-text);width: 100%;position: absolute;left: -2px;top: 0;color: #fff;overflow: hidden;clip: rect(0, 900px, 0, 0);}
+.error404_container .glitch::before, .error_404_container .glitch:after {content: attr(data-text);width: 100%;position: absolute;left: -2px;top: 0;color: #fff;overflow: hidden;clip: rect(0, 900px, 0, 0);}
 
 
 @keyframes noise {

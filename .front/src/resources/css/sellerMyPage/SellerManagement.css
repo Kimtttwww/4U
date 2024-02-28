@@ -39,7 +39,7 @@
 }
 
 /* 전체 상품관리 앞에 포인트 */
-.SellerManagement h2:before {
+.SellerManagement h2::before {
     display: inline-block;
     width: 4px;
     height: 26px;
@@ -80,5 +80,5 @@
 }
 
 .seller-search button:hover{
-    box-shadow: 7px 7px 15px rgba(0, 0, 0, 0.3);
+    background-color: rgba(0, 0, 0, 0.637);
 }

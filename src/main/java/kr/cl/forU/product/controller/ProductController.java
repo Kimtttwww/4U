@@ -22,6 +22,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.cl.forU.product.model.service.ProductService;
+import kr.cl.forU.product.model.vo.Palette;
 import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 import kr.cl.forU.product.model.vo.Review;
@@ -110,6 +111,11 @@ public class ProductController {
     public List<ProdDetail> selectProdDetailList(@RequestBody int prodNo){
     	log.info(" selectProdDetailList ", service.selectProdDetailList(prodNo));
     	return service.selectProdDetailList(prodNo);
+    }
+    
+    @GetMapping("/palettes")
+    public List<Palette> selectColors() {
+        return service.selectColors();
     }
 
 }
