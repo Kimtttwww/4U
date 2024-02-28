@@ -1,69 +1,66 @@
- .rightBar {
-    width: 40px;
-    display: flex;
-    flex-direction: column; 
-    position: fixed;
-    right: 0px;
-  }
-  
-  .categoryImg {
-    width: 40px;
-    margin-bottom: 10px; 
-  }
+.rightBar {
+  width: 40px;
+  display: flex;
+  flex-direction: column; 
+  position: fixed;
+  right: 0px;
+}
 
-  .container {
-    background-color: white;
-  }
 
-  .sidebar {
-    background-color: #E3ECF1;
-    border-left: 4px solid #202020;
-    position: fixed;
-    top: 0;
-    bottom: 0;
-    right: 0;
-    transition: 0.4s ease;
-    color: #202020;
-    height: 100%;
-    z-index: 99;
-  }
+.container {
+  background-color: white;
+}
 
-  .button {
-    position: relative;
-    left: -50px;
-    top: 10px;
-    width: 40px;
-    height: 40px;
-    z-index: 99;
-    transition: 0.8s ease;
-    border: 2px solid #202020;
-    border-radius: 40px;
-    overflow: hidden;
-  }
+.sidebar {
+  background-color: #E3ECF1;
+  border-left: 4px solid #202020;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  transition: 0.4s ease;
+  color: #202020;
+  height: 100%;
+  z-index: 99;
+}
 
-  .openBtn {
-    width: 100%;
-    height: 100%;
-  }
+.button {
+  position: relative;
+  left: -50px;
+  top: 10px;
+  width: 40px;
+  height: 40px;
+  z-index: 99;
+  transition: 0.8s ease;
+  border: 2px solid #202020;
+  border-radius: 40px;
+  overflow: hidden;
+}
 
-  .content {
-    padding: 40px 40px 0 20px;
-    position: relative;
-    width: 100%;
-  }
-  
-  .icon {
-    margin: 0;
-    color: #202020;
-  }
+.openBtn {
+  width: 100%;
+  height: 100%;
+}
 
-  .sideBarContent{
-    position: fixed;
-    width: 600px;
-    height: 100%;
-    right: 40px;
-    background-color: pink;
-  }
+.content {
+  padding: 40px 40px 0 20px;
+  position: relative;
+  width: 100%;
+}
+
+.icon {
+  margin: 0;
+  color: #202020;
+}
+
+.sideBarContent{
+  position: fixed;
+  width: 600px;
+  height: 100%;
+  right: 40px;
+  background-color: pink;
+}
+
 .rightBar {
   top: 30%;
   width: 60px;

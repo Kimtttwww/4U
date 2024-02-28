@@ -22,6 +22,8 @@ import ListQna from "./resources/page/qna/ListQna";
 import NewQna from "./resources/page/qna/NewQna";
 // import DetailQna from "./resources/page/qna/DetailQna";
 import CategorySearch from "./resources/modal/CategorySearch";
+import BuyerCoupon from "./resources/page/BuyerMyPage/BuyerCoupon";
+import SellerRegistration from "./resources/page/sellerMyPage/SellerRegistration";
 
 function App() {
 
@@ -62,16 +64,20 @@ function App() {
 
             {/* 구매자 마이페이지 */}
             <Route path="/buyer/mypage/" element={<BuyerMyPage />} />
+            <Route path="/BuyerCoupon" element={<BuyerCoupon />} />
+
 
             {/* 장바구니 관련 */}
             <Route path="/cart/CartList/" element={<CartList />} />
-
+            
             {/* 판매자 마이페이지 */}
             <Route path="/sellerMypage" element={<SellerMyPage />}>
                {/* 주문 확인 */}
                <Route path="list" element={<SellerOrderList />} />
                {/* 상품 관리 */}
                <Route path="management" element={<SellerManagement />} />
+               {/* 상품 관리 탭 등록 하기 */}
+               <Route path="management/registration" element={<SellerRegistration />} />
                {/* 리뷰 관리 */}
                <Route path="review" element={<SellerReview />} />
             </Route>

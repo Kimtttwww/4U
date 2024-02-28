@@ -75,8 +75,7 @@
     box-shadow: -10px -10px 15px rgba(0, 0, 0, 0.3);
     border-radius: 10px;
     /* border: 1px solid black; */
-    margin: 4px;
-    padding-left: 20px;
+    margin: 6px;
 }
 
 .subListEle {
@@ -102,6 +101,6 @@
 
 /* 메인 카테고리 요소 */
 .mainCateListItem div{
-    width: 130px;
+    width: 100px;
     padding: 6px 6px 6px 10px;
 }
