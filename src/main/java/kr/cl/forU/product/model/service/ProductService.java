@@ -61,4 +61,8 @@ public class ProductService {
 		return dao.selectProdDetailList(prodNo);
 	}
 
+	public boolean reviewerCheck(HashMap<String, Integer> m) {
+		return dao.reviewerCheck(m);
+	}
+
 }

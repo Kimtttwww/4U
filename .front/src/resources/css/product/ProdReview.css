@@ -12,7 +12,7 @@
 
 /* 좌측 리뷰 목록 박스 */
 .review-list {
-	width: calc(55% - 10px);
+	width: calc(52.5% - 10px);
 	margin: 0 5px;
 }
 
@@ -93,11 +93,34 @@
 
 /* 우측 리뷰 작성 박스 */
 .review-write {
-	width: calc(45% - 10px);
+	width: calc(47.5% - 10px);
 	min-height: 100px;
 	height: fit-content;
+	display: flex;
 	position: sticky;
 	top: 25px;
-	background-color: lightyellow;
+	border: 1px solid lightslategray;
+	border-radius: 10px;
 	margin: 0 5px;
+}
+
+/* 리뷰 작성 박스 */
+.review-write>section {
+	width: 50%;
+}
+
+/* 리뷰 평점 작성 박스 */
+.review-write .ratingBox {
+	height: 25%;
+	margin: 0 0 10px;
+}
+
+/* 리뷰 작성 박스 */
+.review-write .row {
+	margin: 5px 0;
+}
+
+/* 기장 입력창 잡것 제거 */
+.review-write input::-webkit-outer-spin-button, .review-write input::-webkit-inner-spin-button {
+	-webkit-appearance: none;
 }

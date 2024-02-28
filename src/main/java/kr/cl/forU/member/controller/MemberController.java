@@ -22,12 +22,12 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/member")
 @SessionAttributes({"loginMember"})
 public class MemberController {
-@Autowired
-private BCryptPasswordEncoder passwordEncoder;
-	
-	
+
 	@Autowired
 	private MemberService service;
+	@Autowired
+	private BCryptPasswordEncoder passwordEncoder;
+	
 	
 	/** 로그인 팝업창 로그인 요청
 	 * @param m 로그인 시도할 ID, PW 정보
@@ -75,6 +75,7 @@ private BCryptPasswordEncoder passwordEncoder;
 		}
 		return map;
 	}
+	
 	@CrossOrigin(origins = "https://localhost:3000")
 	@PostMapping("SignUp/idCheck")
 	public Member checkMemberId(@RequestBody String memberId , HttpServletResponse res) {

@@ -84,6 +84,12 @@
 		</where>
 		
 	</select>
+	
+	<select id="reviewerCheck" parameterType="hashMap" resultType="int">
+		SELECT COUNT(*) FROM ORDER_PROD
+		LEFT JOIN "ORDER" USING(ORDER_NO)
+		WHERE PROD_NO = #{prodNo} AND MEMBER_NO = #{memberNo}
+	</select>
 
 <!-- 나중에 쓸 예정, 지우지 말 것 -->
 <!-- INSERT INTO prod_detail(

@@ -5,9 +5,8 @@ import axios from "axios";
 
 /**
  * 상품 리스트 페이지
- * @param {object} props 객체형태로 제시된 리스트 필터 요소
- * 	cateMain : 
- * 	cateSub : 
+ * @props props 객체형태로 제시된 리스트 필터 요소
+ * 	@param {string | number} () cateMain, cateSub, size, color, seeThrough, ...
  */
 export default function ProdList(props) {
 	
@@ -19,7 +18,7 @@ export default function ProdList(props) {
 
 	useEffect(() => {
 		// 상품 리스트 불러오기
-		axios.get("/product/list")
+		axios.get("/product/list", category)
 		.then((result) => {
 			setProdList(result.data);
 		}).catch((error) => {

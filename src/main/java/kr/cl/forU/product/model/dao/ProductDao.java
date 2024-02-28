@@ -60,5 +60,9 @@ public class ProductDao {
 	public List<ProdDetail> selectProdDetailList(int prodNo) {
 		return session.selectList(map + "selectProdDetailList", prodNo);
 	}
+
+	public boolean reviewerCheck(HashMap<String, Integer> m) {
+		return (int) session.selectOne(map + "reviewerCheck", m) > 0;
+	}
 	
 }
