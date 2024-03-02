@@ -35,19 +35,66 @@
 		  JOIN COUPON C ON (CU.COUPON_NO = C.COUPON_NO)
 		 WHERE MEMBER_NO = #{memberNo}
 		   AND VALIDITY_DATE > SYSDATE
-		   AND status = 'Y'
+		   AND STATUS = 'Y'
 	</select>
 	
+	<insert id="insertOrder" parameterType="order" >
+		INSERT INTO "ORDER"
+		VALUES (
+			SEQ_ORDER_NO.NEXTVAL, #{memberNo}, #{orderName}, SYSDATE, #{receiver},
+			#{receivePhone}, #{address}, #{addressDetail}, #{zipCode}, #{message},
+			#{totalCount}, #{couponNo}, #{point}, #{totalPrice} , #{paymentPrice}, '카드'
+		)
+	</insert>
+
+	<insert id="insertOrderProd"  >
+		INSERT INTO ORDER_PROD
+		VALUES (
+			SEQ_ORDER_NO.CURRVAL, #{index}, #{prodNo}, #{count}, #{price}
+		) 
+	</insert>
+	
+
+	<select id="selectOrderNo" resultType="int">
+		SELECT COUNT(*) AS total_rows
+		FROM "ORDER"
+	</select>
+
+	<update id="updateCouponUser" parameterType="couponUser" >
+		UPDATE COUPON_USER
+		   SET STATUS = 'N'
+		 WHERE COUPON_NO = #{couponNo}
+		   AND MEMBER_NO = #{memberNo}
+	</update>
 
 
+	
+	<select id="selectUserTotalPay" parameterType="int" resultType="int">
+		SELECT SUM(PAYMENT_PRICE) as totalPay
+		  FROM "ORDER" 
+		 WHERE MEMBER_NO = #{memberNo}
+	</select>
 
-
-
-
-
-
-
-
-
-
+	<insert id="insertOrderNotice" >
+		INSERT INTO NOTICE
+		VALUES (
+			SEQ_NOTICE_NO.NEXTVAL, 2, 1
+		)
+	</insert>
+	
+	<select id="orderByMember">
+		SELECT *
+		  FROM "ORDER"
+		  LEFT JOIN ORDER_PROD USING ORDER_NO
+		 WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
 </mapper>

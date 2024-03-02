@@ -1,16 +1,15 @@
 package kr.cl.forU.order.model.vo;
 
-import kr.cl.forU.member.model.vo.Member;
+import java.util.List;
+
 import lombok.AllArgsConstructor;
-import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+@Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Data
-@Builder
-public class Order{
+public class OrderDTO {
 	private int orderNo;
 	private int memberNo;
 	private String orderName;
@@ -29,8 +28,12 @@ public class Order{
 	private String payment;
 	
 	
+	// OrderProd 객체 만들기 위한 변수
+	private List<Integer> index;	// 컬러 사이즈 를 알수 있는 키값
+	private List<Integer> prodNo;
+	private List<Integer> count;
+	private List<Integer> price;
 	
-	private String prodName;
-	private int price;
-	private String imgName;
+	// 주문금액에 따른 grade 등급처리를 위한 변수
+	private int gradeNo;
 }

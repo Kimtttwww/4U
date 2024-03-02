@@ -29,17 +29,30 @@
 		
 	</insert>
 	
+
+	
 	<select id="MemberIdMatch" parameterType="String" resultType="member">
 		SELECT MEMBER_NO, MEMBER_ID, MEMBER_NAME, CREATE_DATE, MEMBER_PWD
 		FROM MEMBER
 		WHERE STATUS = 'Y' AND MEMBER_ID = #{memberId}
 	</select>
-	
 
 	<select id="selectMemberInfo" parameterType="int" resultType="member">
-		SELECT * 
+		SELECT *
 		  FROM MEMBER 
 		 WHERE MEMBER_NO = #{memberNo}
 	</select>
+	
+	<update id="updateMemberPoint" parameterType="member">
+		UPDATE MEMBER
+		   SET POINT = POINT-#{point}
+		 WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
+	<update id="updateMemberGrade" parameterType = "member">
+		UPDATE MEMBER
+		   SET GRADE_NO=#{gradeNo}
+		 WHERE MEMBER_NO = #{memberNo}		
+	</update>
 	
 </mapper>

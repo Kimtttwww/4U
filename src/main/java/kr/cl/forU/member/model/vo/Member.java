@@ -1,12 +1,14 @@
 package kr.cl.forU.member.model.vo;
 
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
+@Builder
 public class Member {
 
 	/** 회원 번호 */
@@ -34,7 +36,7 @@ public class Member {
 	/** 우편번호 */
 	private String zipCode;
 	/** 회원등급 */
-	private String grade;
+	private int gradeNo;
 	/** 포인트 */
 	private int point;
 }

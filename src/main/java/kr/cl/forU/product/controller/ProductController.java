@@ -74,30 +74,26 @@ public class ProductController {
         } catch (JSONException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
         return prodNos;
     }
     
     
     @PostMapping("/loadProdName")
     public List<Product> selectProdName(@RequestBody int[] prodNo) {
+    	
     	List<Product> prodName = new ArrayList<>();
     	for(int idx = 0; idx < prodNo.length; idx++) {
     		prodName.add(service.selectProdName(prodNo[idx]));
-        	
     	}
-    	log.info("prodName ? {}", prodName.toString());
-   
     	return prodName;
     }
     
 
     @PostMapping("/loadProdDetail")
     public List<ProdDetail> selectProdDetailList(@RequestBody int prodNo){
-    	log.info(" selectProdDetailList ", service.selectProdDetailList(prodNo));
+    	
     	return service.selectProdDetailList(prodNo);
     }
-    
     
 
 }

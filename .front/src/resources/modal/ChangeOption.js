@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react';
 import { Button, Modal } from 'react-bootstrap';
 import { Route, Routes } from 'react-router-dom';
 import { loadProdDetilAPI } from '../page/order/OrderAPI';
+import { object } from 'prop-types';
 
 
 export default function ChangeOption({ show, closeModal, orderProd }) {
@@ -10,6 +11,7 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
     const [dbResponse, setDbResponse] = useState([]);
     const [checkColor, setCheckColor] = useState();
     const [checkSize, setCheckSize] = useState();
+    const [checkIndex, setCheckIndex] = useState();
     const [prodColor, setProdColor] = useState([]);
     const [prodSize, setProdSize] = useState([]);
 
@@ -25,21 +27,24 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
         setCheckSize(e.target.value)
     };
 
+    // 최종 마무리 변경 !! 버튼까지 눌러서 변경 완벽하게 끝남; 여기서 변경된 변수들로 인덱스 찾아서 넣어놔야 함;
     const optionChange = (e) => {
         orderProd.colorName = checkColor;
         orderProd.size = checkSize;
+
         closeModal(false);
     };
 
     // DB에서 prodNo의 상품데이터 가져오기
     const getDBData = async (data) => {
-        const response = await loadProdDetilAPI(orderProd.prodNo);
-        setDbResponse([...response]);
+        if (Object.keys(orderProd).length > 0) {
+            const response = await loadProdDetilAPI(orderProd.prodNo);
+            setDbResponse([...response]);
+        }
     };
 
     // 옵션변경 prodNo의 모든 colorName 가져오기
     const getProdColor = () => {
-        // console.log("getProdColor 들어옴? ");
         setProdColor(Array.from(new Set(dbResponse?.map((obj) => obj.colorName))));
     };
 
@@ -48,10 +53,18 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
         setProdSize(dbResponse?.filter((obj) => obj.colorName == checkColor));
     };
 
+    // 선택한 색상/사이즈에 맞는 인덱스 가져오기
+    const getProdIndex = (key) => {
+        let index = null;
+        for (let item of dbResponse) {
+            if (item.colorName == checkColor && item.size == checkSize) {
+                index = item[key];
+                break;
+            }
+        }
+        orderProd.index = index;
+    };
 
-    useEffect(() => {
-        getDBData();
-    }, []);
 
     useEffect(() => {
         if (!orderProd || orderProd == undefined) {
@@ -79,6 +92,11 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
         };
     }, [checkColor]);
 
+    useEffect(() => {
+        if (checkSize) {
+            getProdIndex('index');
+        };
+    }, [checkColor, checkSize]);
 
     return (
         <Modal show={show}  >

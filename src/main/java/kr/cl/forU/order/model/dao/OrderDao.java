@@ -7,13 +7,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.cl.forU.member.model.vo.CouponUser;
-import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.vo.Order;
+import kr.cl.forU.order.model.vo.OrderProd;
 import kr.cl.forU.product.model.vo.CategoryMain;
 import kr.cl.forU.product.model.vo.CategorySub;
-import lombok.extern.slf4j.Slf4j;
 
-@Slf4j
+
 @Repository
 public class OrderDao {
 
@@ -39,6 +38,30 @@ public class OrderDao {
 
 	public List<CouponUser> selectUserCoupon(int memberNo) {
 		return session.selectList("orderMapper.selectUserCoupon", memberNo);
+	}
+
+	public int insertOrder(Order order) {
+		return session.insert("orderMapper.insertOrder", order);
+	}
+
+	public int selectOrderNo() {
+		return session.selectOne("orderMapper.selectOrderNo");
+	}
+
+	public int insertOrderProd(OrderProd orderProd) {
+		return session.insert("orderMapper.insertOrderProd", orderProd);
+	}
+
+	public int updateCouponUser(CouponUser coupon) {
+		return session.update("orderMapper.updateCouponUser", coupon);
+	}
+
+	public int selectUserTotalPay(int memberNo) {
+		return session.selectOne("orderMapper.selectUserTotalPay", memberNo);
+	}
+
+	public int insertOrderNotice() {
+		return session.insert("orderMapper.insertOrderNotice");
 	}
 
 

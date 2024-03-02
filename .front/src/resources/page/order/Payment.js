@@ -4,8 +4,10 @@ import ChangeAddress from "../../modal/ChangeAddress";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 
-export default function Payment() {
+export default function Payment({ orderData, orderProd }) {
 
+    console.log("orderData ?", orderData);
+    console.log("orderProd ?", orderProd);
     const [address, setAddress] = useState(false);
     const openModal = () => setAddress(true);
     const closeModal = () => setAddress(false);
