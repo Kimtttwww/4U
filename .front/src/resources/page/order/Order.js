@@ -4,7 +4,7 @@ import AvailbleCoupon from "../../modal/AvailableCoupon";
 import '../../css/order/OrderPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
-import { userInfoAPI, loadProdDetilAPI, loadProdNameAPI, loadUserCouponAPI, loadUserPointAPI } from "./OrderAPI";
+import { userInfoAPI, loadProdDetilAPI, loadProdNameAPI, loadUserCouponAPI, loadUserPointAPI, loadProdImgAPI } from "./OrderAPI";
 import { useNavigate } from "react-router-dom";
 import Payment from "./Payment";
 import PaymentAPI from "./PaymentAPI";
@@ -25,13 +25,12 @@ export default function Order({ loginUser }) {
 
 
     const navi = useNavigate();
+    const [orderProd, setOrderProd] = useState([]);
     const [userInfo, setuserInfo] = useState({});
     const [userInfoChecked, setuserInfoChecked] = useState(false);
     const [phoneParts, setPhoneParts] = useState(['', '', '']);
     const [changePhoneParts, setChangePhoneParts] = useState(['', '', '']);
     const [isOptionChange, setisOptionChange] = useState(false);
-    // const [applyColor, setApplyColor] = useState('');
-    // const [applySize, setApplySize] = useState('');
     const [isChange, setIsChange] = useState(false); // 주문자정보 변경여부 체크
     const [userCoupon, setUserCoupon] = useState({}); // member의 coupon
     const [openCoupon, setOpenCoupon] = useState(false); // coupon 모달
@@ -41,10 +40,8 @@ export default function Order({ loginUser }) {
     const [pointAllChecked, setPointAllChecked] = useState(false); // point 전체사용 여부
     const [modalState, setModalState] = useState(false); // DAUM API 모달
     const [delMsg, setDelMsg] = useState('');
-    const [orderProd, setOrderProd] = useState([]);
     const [cartItems, setCartItems] = useState(JSON.parse(Cookies.get('cart')));
     const [orderIndex, setOrderIndex] = useState(0);
-    // const [cartItems, setCartItems] = useState(null);
     const [prodCount, setProdCount] = useState();
     const [totalPrice, setTotalPrice] = useState(0);
     const [discountPrice, setdiscountPrice] = useState(0);
@@ -61,7 +58,7 @@ export default function Order({ loginUser }) {
         zipCode: "",
         address: ""
     });
-
+    const [prodImgs, setProdImgs] = useState([]);
 
     const openModal = () => setisOptionChange(true);
     const closeModal = () => setisOptionChange(false);
@@ -70,7 +67,96 @@ export default function Order({ loginUser }) {
     const handleModalOpen = () => setModalState(true);
     const handleModalClose = () => setModalState(false);
 
-    // console.log("orderProd?", orderProd);
+
+
+    // 쿠키에 담아놓은 주문할 상품데이터 꺼내오기
+    const getProdName = async () => {
+
+        if (cartItems == null) {
+            setCartItems(JSON.parse(Cookies.get('cart')));
+        };
+
+        if (orderProd.length === 0) {
+            const prodNoArr = [];
+            cartItems?.map(item => {
+                prodNoArr.push(item.prodNo)
+            });
+
+            if (prodNoArr.length > 0) {
+                const responseData = await loadProdNameAPI(prodNoArr);
+                const imgResponse = await loadProdImgAPI(prodNoArr);
+                setOrderProd([...orderProd, ...responseData]);
+                setProdImgs([...prodImgs, ...imgResponse]);
+            };
+        };
+    };
+
+
+    // 해당 상품의 수량 증가
+    const increaseCount = (index) => {
+        const prodCount = orderProd[index].count++;
+        setProdCount(prodCount);
+        orderProd[index].count = prodCount;
+        setOrderProd(prevOrderProd => {
+            const updateProdCount = [...prevOrderProd];
+            updateProdCount[index].count++;
+            return updateProdCount;
+        });
+    };
+
+    // 해당 상품의 수량 감소
+    const decreaseCount = (index) => {
+        if (orderProd[index].count <= 1) {
+            alert("1보다 작을 수 없습니다.");
+        } else {
+            const prodCount = orderProd[index].count--;
+            setProdCount(prodCount);
+            orderProd[index].count = prodCount;
+            setOrderProd(prevOrderProd => {
+                const updateProdCount = [...prevOrderProd];
+                updateProdCount[index].count--;
+                return updateProdCount;
+            });
+        };
+    };
+
+    // 주문상품 삭제버튼 클릭시 
+    const orderDelete = (prodNo) => {
+        setOrderProd(orderProd?.filter((order) => order.prodNo !== prodNo));
+    };
+
+    // 주문자정보 DB에서 가져오기
+    const loadFromDb = async () => {
+        const responseData = await userInfoAPI(loginUser?.memberNo);
+        setuserInfo(responseData);
+    };
+
+
+    // 주문자정보 불러오기 체크박스 핸들러
+    const checkedHandler = (e) => {
+        setuserInfoChecked(e.target.checked);
+
+        if (e.target.checked) {
+            setInputChange({
+                receiverName: userInfo?.memberName,
+                phone1: (userInfo.phone).split('-')[0],
+                phone2: (userInfo.phone).split('-')[1],
+                phone3: (userInfo.phone).split('-')[2],
+                zipCode: userInfo?.zipCode,
+                address: userInfo?.address,
+                addressDetail: userInfo?.addressDetail
+            });
+        };
+    };
+
+    // [배송정보]에 input이 감지되면 불러오기체크 해제 -> input의 변경값 담기
+    const inputChangeHandler = (e) => {
+        setuserInfoChecked(false);
+        let { name, value } = e.target;
+        // input이 변경되면 inputChageHandler 에 들어옴 -> isChage true로 만듬..
+        setIsChange(true);
+        setInputChange({ ...inputChange, [name]: value });
+    };
 
     // 다음 주소창(주소찾기 버튼) 열리게 하기
     const toggleModal = () => {
@@ -103,38 +189,6 @@ export default function Order({ loginUser }) {
     // 배송메세지 변경
     const applyMsg = (e) => {
         setDelMsg(e.currentTarget.value);
-    };
-
-    // 주문자정보 DB에서 가져오기
-    const loadFromDb = async () => {
-        const responseData = await userInfoAPI(loginUser?.memberNo);
-        setuserInfo(responseData);
-    }
-
-    // 주문자정보 불러오기 체크박스 핸들러
-    const checkedHandler = (e) => {
-        setuserInfoChecked(e.target.checked);
-
-        if (e.target.checked) {
-            setInputChange({
-                receiverName: userInfo?.memberName,
-                phone1: (userInfo.phone).split('-')[0],
-                phone2: (userInfo.phone).split('-')[1],
-                phone3: (userInfo.phone).split('-')[2],
-                zipCode: userInfo?.zipCode,
-                address: userInfo?.address,
-                addressDetail: userInfo?.addressDetail
-            });
-        };
-    };
-
-    // [배송정보]에 input이 감지되면 불러오기체크 해제 -> input의 변경값 담기
-    const inputChangeHandler = (e) => {
-        setuserInfoChecked(false);
-        let { name, value } = e.target;
-        // input이 변경되면 inputChageHandler 에 들어옴 -> isChage true로 만듬..
-        setIsChange(true);
-        setInputChange({ ...inputChange, [name]: value });
     };
 
 
@@ -184,45 +238,9 @@ export default function Order({ loginUser }) {
         setPointAllChecked(e.target.checked);
         if (!pointAllChecked) {
             setChangePoint(userInfo.point);
-            // setApplyPoint(userInfo.point);
         } else {
             setChangePoint(0);
-            // setApplyPoint(0);
         }
-    };
-
-
-    // 해당 상품의 수량 증가
-    const increaseCount = (index) => {
-        const prodCount = orderProd[index].count++;
-        setProdCount(prodCount);
-        orderProd[index].count = prodCount;
-        setOrderProd(prevOrderProd => {
-            const updateProdCount = [...prevOrderProd];
-            updateProdCount[index].count++;
-            return updateProdCount;
-        });
-    };
-
-    // 해당 상품의 수량 감소
-    const decreaseCount = (index) => {
-        if (orderProd[index].count <= 1) {
-            alert("1보다 작을 수 없습니다.");
-        } else {
-            const prodCount = orderProd[index].count--;
-            setProdCount(prodCount);
-            orderProd[index].count = prodCount;
-            setOrderProd(prevOrderProd => {
-                const updateProdCount = [...prevOrderProd];
-                updateProdCount[index].count--;
-                return updateProdCount;
-            });
-        };
-    };
-
-    // 주문상품 삭제버튼 클릭시 
-    const orderDelete = (prodNo) => {
-        setOrderProd(orderProd?.filter((order) => order.prodNo !== prodNo));
     };
 
 
@@ -230,8 +248,6 @@ export default function Order({ loginUser }) {
     const dataByPayment = {
         applyCoupon, applyPoint, delMsg, totalPrice, discountPrice
     };
-
-
 
     // test = `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`;
 
@@ -252,13 +268,10 @@ export default function Order({ loginUser }) {
         if (!pointAllChecked) {
             if (!changePoint) {
                 setChangePoint(0);
-                // setApplyPoint(0);
             };
             setChangePoint(changePoint);
-            // setApplyPoint(changePoint);
         } else {
             setChangePoint(userInfo.point);
-            // setApplyPoint(userInfo.point);
         };
     }, [pointAllChecked]);
 
@@ -293,27 +306,6 @@ export default function Order({ loginUser }) {
     }, [modalState])
 
 
-    // 쿠키에 담아놓은 주문할 상품데이터 꺼내오기
-    const getProdName = async () => {
-
-        if (cartItems == null) {
-            setCartItems(JSON.parse(Cookies.get('cart')));
-        };
-
-        if (orderProd.length === 0) {
-            const prodNoArr = [];
-            cartItems?.map(item => {
-                prodNoArr.push(item.prodNo)
-            });
-            if (prodNoArr.length > 0) {
-                // console.log(prodNoArr.le);
-                const responseData = await loadProdNameAPI(prodNoArr);
-                // const indexs = await loadProdDetilAPI(prodNoArr);
-                setOrderProd([...orderProd, ...responseData]);
-            }
-        };
-    };
-
 
 
     useEffect(() => {
@@ -335,11 +327,6 @@ export default function Order({ loginUser }) {
         const allPrice = orderProd.reduce((total, product) =>
             total + (product.price * product.count), 0);
         setTotalPrice(allPrice);
-
-        // const allCount = orderProd.reduce((total, product) =>
-        //     total + (product.count), 0)
-        // console.log(allCount);
-        // console.log(orderProd);
     }, [orderProd, prodCount]);
 
 
@@ -366,7 +353,9 @@ export default function Order({ loginUser }) {
                             return (
                                 <tr key={index}>
 
-                                    <td>[이미지]</td>
+
+                                    <img className="orderProdImg"
+                                        src={prodImgs.filter((img) => item.prodNo == img.refNo)[1].imgName} />
                                     <td>{item.prodName}</td>
                                     <td>
                                         <div>{item.colorName}/{item.size}</div>
@@ -392,7 +381,7 @@ export default function Order({ loginUser }) {
                                         <button onClick={() => decreaseCount(index)}>∨</button>
                                     </td>
                                     <td>{(item.price * item.count).toLocaleString()}원</td>
-                                    <td><button onClick={() => { orderDelete(item.prodNo) }}>삭제</button></td>
+                                    <td><button onClick={() => { orderDelete(item.prodNo) }}>Ⅹ</button></td>
                                 </tr>
                             );
                         })
@@ -535,12 +524,12 @@ export default function Order({ loginUser }) {
                         </div>
                     </div>
 
-                    <span className="order-payment-title">결제하기</span>
-                    <div className="payment-method">
+                    {/* <span className="order-payment-title">결제하기</span> */}
+                    {/* <div className="payment-method">
                         <button>카드결제</button>
                         <button>무통장입금</button>
                         <button>페이결제</button>
-                    </div>
+                    </div> */}
                 </div>
 
 
@@ -567,7 +556,7 @@ export default function Order({ loginUser }) {
                             dataByPayment={dataByPayment} //쿠폰,포인트,배송메세지, 할인전 총금액, 할인금액 
                             changeInfo={inputChange} // 새로운 배송지정보
                             orderProd={orderProd} //주문하는 상품
-
+                            prodImgs={prodImgs}
                         />
                     </div>
                 </div>

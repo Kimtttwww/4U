@@ -17,7 +17,6 @@ public class MemberService {
 		return dao.selectMemberSoft(m);
 	}
 
-
 	public int insertMember(Member m) {
 		return dao.insertMember(m);
 	}
@@ -25,7 +24,6 @@ public class MemberService {
 	public Member MemberIdMatch(String memberId) {
 		return dao.MemberIdMatch(memberId);
 	}
-
 
 	public Member selectMemberInfo(int memberNo) {
 		return dao.selectMemberInfo(memberNo);
@@ -37,6 +35,10 @@ public class MemberService {
 	
 	public int updateMemberGrade(Member m){
 		return dao.updateMemberGrade(m);
+	}
+
+	public int selectPointRate(int memberNo) {
+		return dao.selectPointRate(memberNo);
 	}
 
 

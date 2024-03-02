@@ -43,6 +43,11 @@ public class MemberDao {
 	}
 
 
+	public int selectPointRate(int memberNo) {
+		return session.selectOne(map + "selectPointRate", memberNo);
+	}
+
+
 
 
 }

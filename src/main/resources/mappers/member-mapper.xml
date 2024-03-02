@@ -55,4 +55,25 @@
 		 WHERE MEMBER_NO = #{memberNo}		
 	</update>
 	
+	<insert id="insertGradeCoupon">
+		INSERT INTO COUPON_USER
+		VALUES (
+			SEQ_COUPON_USER_NO.NEXTVAL, #{memberNo}, #{couponNo}, SYSDATE+10, DEFAULT
+		)
+	</insert>
+	
+	<select id="selectPointRate" parameterType="int" resultType="int">
+		SELECT POINT_RATE
+		  FROM MEMBER
+		  JOIN GRADE USING (GRADE_NO)
+		 WHERE MEMBER_NO = #{memberNo}
+	</select>
+	
+	
+
+	
+	
+	
+	
+	
 </mapper>

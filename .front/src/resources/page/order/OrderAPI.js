@@ -32,6 +32,20 @@ export const loadUserCouponAPI = async (data) => {
     }
 }
 
+// 주문할 상품이미지 가져오기
+export const loadProdImgAPI = async (data) => {
+    try {
+        const response = await instanceProd.post("/loadProdImg", data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        return "img?? data없어요...";
+    }
+}
+
 // 주문할 상품정보 가져오기
 export const loadProdNameAPI = async (data) => {
     try {
@@ -70,7 +84,6 @@ export const insertOrderAPI = async (data) => {
                 'Content-Type': 'application/json'
             }
         });
-        console.log(response.data);
         return response.data;
     } catch (error) {
         return "insert?? 실패...";
@@ -78,12 +91,23 @@ export const insertOrderAPI = async (data) => {
 }
 
 export const selectOrderNoAPI = async () => {
-
     try {
         const response = await instance.get("/selectOrderNo");
-
         return response.data;
     } catch (error) {
         return "insert?? 실패...";
+    }
+}
+
+export const selectPointRateAPI = async (data) => {
+    try {
+        const response = await instance.post("/selectPointRate", data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        return response.data;
+    } catch (error) {
+        return "gradeRate?? 실패...";
     }
 }

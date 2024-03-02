@@ -1,16 +1,40 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import PaymentPage from "../../css/order/PaymentPage.css";
 import ChangeAddress from "../../modal/ChangeAddress";
 import { Button } from "react-bootstrap";
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
+import { selectPointRateAPI } from "./OrderAPI";
 
-export default function Payment({ orderData, orderProd }) {
+export default function Payment() {
 
-    console.log("orderData ?", orderData);
-    console.log("orderProd ?", orderProd);
-    const [address, setAddress] = useState(false);
-    const openModal = () => setAddress(true);
-    const closeModal = () => setAddress(false);
+    const location = useLocation();
+    const orderProd = location.state.orderProd;
+    const totalPrice = location.state.totalPrice;
+    const paymentPrice = location.state.paymentPrice;
+    const message = location.state.message;
+    const prodImgs = location.state.prodImgs;
+
+    const [changeAddress, setChangeAddress] = useState(false);
+    const openModal = () => setChangeAddress(true);
+    const closeModal = () => setChangeAddress(false);
+
+    const { buyer_name, buyer_addr, merchant_uid } = location.state.payData;
+    const { memberNo, memberName, phone, gradeNo, pointRate } = location.state.userInfo;
+    const { receiverName, address, phone1, phone2, phone3 } = location.state.changeInfo;;
+    const changePhone = phone1 + "-" + phone2 + "-" + phone3;
+    const receiverPhone = changePhone != null ? changePhone : phone
+
+
+    const getPointRate = async () => {
+        const response = await selectPointRateAPI(memberNo);
+        location.state.userInfo.pointRate = response;
+    };
+    const accumulate = paymentPrice * (pointRate / 100);
+
+    useEffect(() => {
+        getPointRate();
+    }, [])
+
 
     return (
         <div className="payment-container">
@@ -20,7 +44,7 @@ export default function Payment({ orderData, orderProd }) {
             <div className="payment-complate-prod">
                 <div className="payment-prod-title">
                     <p>주문하신 상품</p>
-                    <span>주문번호 000000</span>
+                    <span>주문번호 {merchant_uid}</span>
                 </div>
 
                 <table className="payment-prod-table">
@@ -29,21 +53,25 @@ export default function Payment({ orderData, orderProd }) {
                             <td>이미지</td>
                             <td>상품명</td>
                             <td>옵션</td>
-                            <td>수량</td>
                             <td>상품금액</td>
+                            <td>수량</td>
                             <td>주문금액</td>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>[이미지]</td>
-                            <td>샤랄라 원피스</td>
-                            <td>L/블랙
-                            </td>
-                            <td>39000</td>
-                            <td>29000</td>
-                            <td>1</td>
-                        </tr>
+                        {
+                            orderProd?.map((item, index) => (
+                                <tr key={index}>
+                                    <img className="orderProdImg"
+                                        src={prodImgs.filter((img) => item.prodNo == img.refNo)[1].imgName} />
+                                    <td>{item.prodName}</td>
+                                    <td>{item.colorName}/{item.size}</td>
+                                    <td>{(item.price).toLocaleString()}</td>
+                                    <td>{item.count}</td>
+                                    <td>{(item.price * item.count).toLocaleString()}</td>
+                                </tr>
+                            ))
+                        }
                     </tbody>
                 </table>
 
@@ -52,18 +80,20 @@ export default function Payment({ orderData, orderProd }) {
                     <div className="payment-delivery-text">
                         <span>주문하시는 분</span>
                         <span>받으시는 분</span>
-                        <span>배송지주소</span>
                         <span>연락처</span>
+                        <span>배송지주소</span>
+                        <span>배송메모</span>
                     </div>
                     <div className="payment-delivery-receiver">
-                        <span>홍길동</span>
-                        <span>둘리</span>
-                        <span>요리보고 조리봐도</span>
-                        <span>010-2222-3333</span>
+                        <span>{buyer_name}</span>
+                        <span>{receiverName}</span>
+                        <span>{receiverPhone}</span>
+                        <span>{buyer_addr}</span>
+                        <span>{message}</span>
                     </div>
                     <Button type="button" style={{ height: '30px', display: 'flex' }}
                         onClick={openModal}>배송정보 변경</Button>
-                    {/* <ChangeAddress show={address} closeModal={closeModal} /> */}
+                    {/* <ChangeAddress show={changeAddress} closeModal={closeModal} /> */}
                 </div>
 
                 <div className="payment-discount-area">
@@ -72,18 +102,13 @@ export default function Payment({ orderData, orderProd }) {
                         <div className="payment-discount-content1">
                             <div>
                                 <span>총 상품금액</span>
-                                <span>69,000원</span>
-                            </div>
-                            <div>
                                 <span>할인혜택</span>
-                                <span>10,000원</span>
+                                <span>최종 결제금액</span>
                             </div>
                             <div>
-                                <span>최종 결제금액</span>
-                                <div style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <span>59,000원</span>
-                                    <span>10000원 절약</span>
-                                </div>
+                                <span>{totalPrice.toLocaleString()}원</span>
+                                <span>{(totalPrice - paymentPrice).toLocaleString()}원</span>
+                                <span>{paymentPrice.toLocaleString()}원</span>
                             </div>
                         </div>
                     </div>
@@ -94,10 +119,16 @@ export default function Payment({ orderData, orderProd }) {
 
                         </div>
                         <div className="payment-discount-content2">
-                            <span>적립예정액</span>
-                            <span>500포인트</span>
+                            <div>
+                                <div>적립예정액</div>
+                                <div>{accumulate > 0 ? accumulate : "로딩중.."}원</div>
+                            </div>
+                            <ul>
+                                <li>주문/결제페이지에 안내된 적립예정액과 실제 지급적립액은 다를 수 있습니다.</li>
+                                <li>적립예정액은 배송완료 이후 자동으로 부여되며, 반품할 경우 차감됩니다</li>
+                                <li>적립예정액은 최종 결제금액에 따라 계산됩니다(단, 쿠폰, 포인트 사용금액 제외)</li>
+                            </ul>
                         </div>
-
                     </div>
                 </div>
             </div>

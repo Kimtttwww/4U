@@ -43,7 +43,7 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
         }
     };
 
-    // 옵션변경 prodNo의 모든 colorName 가져오기
+    // 옵션변경 prodNo의 모든 colorName 가져오기(중복제거)
     const getProdColor = () => {
         setProdColor(Array.from(new Set(dbResponse?.map((obj) => obj.colorName))));
     };
@@ -98,13 +98,16 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
         };
     }, [checkColor, checkSize]);
 
+
+
     return (
         <Modal show={show}  >
             <div id="optionChangeModal" >
                 <div >
                     <div className="modal-content">
                         <div className="modal-header">
-                            <h3 className="modal-title fs-5" id="staticBackdropLabel">옵션변경</h3>
+                            <h3 className="modal-title fs-5"
+                                id="staticBackdropLabel">옵션변경</h3>
                         </div>
                         <div className="modal-body optionBody" >
                             <div className="form-check-1">

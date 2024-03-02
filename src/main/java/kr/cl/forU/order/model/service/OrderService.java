@@ -11,9 +11,10 @@ import kr.cl.forU.order.model.vo.Order;
 import kr.cl.forU.order.model.vo.OrderProd;
 import kr.cl.forU.product.model.vo.CategoryMain;
 import kr.cl.forU.product.model.vo.CategorySub;
+import lombok.extern.slf4j.Slf4j;
 
 
-
+@Slf4j
 @Service
 public class OrderService {
 
@@ -52,7 +53,16 @@ public class OrderService {
 	}
 
 	public int insertOrderProd(OrderProd orderProd) {
-		return dao.insertOrderProd(orderProd);
+		
+		int result = dao.insertOrderProd(orderProd);
+		if(result > 0) {
+			dao.insertOrderNotice();
+			log.info("dao.insertOrderNotice() 성공? {}", dao.insertOrderNotice());
+			return result;
+		}else {
+			log.info("dao.insertOrderNotice()  실패");
+			return 0; 
+		}
 	}
 
 	public int updateCouponUser(CouponUser coupon) {
@@ -63,9 +73,9 @@ public class OrderService {
 		return dao.selectUserTotalPay(memberNo);
 	}
 
-	public int insertOrderNotice() {
-		return dao.insertOrderNotice();
-	}
+//	public int insertOrderNotice() {
+//		return dao.insertOrderNotice();
+//	}
 
 
 	

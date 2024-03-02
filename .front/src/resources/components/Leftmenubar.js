@@ -42,9 +42,9 @@ export default function Leftmenubar() {
     // DB에서 CATE_MAIN 가져오기
     const loadMainDb = async () => {
         const mainCate = await mainCateAPI();
-
         setMainCateList(mainCate);
     };
+
 
     // CATE_MAIN이 hover된적이 없으면 API호출하여 DB에서 데이터 가져와서 useState()에 저장하기
     const loadSubDb = async () => {

@@ -53,7 +53,6 @@
 			SEQ_ORDER_NO.CURRVAL, #{index}, #{prodNo}, #{count}, #{price}
 		) 
 	</insert>
-	
 
 	<select id="selectOrderNo" resultType="int">
 		SELECT COUNT(*) AS total_rows
@@ -67,8 +66,6 @@
 		   AND MEMBER_NO = #{memberNo}
 	</update>
 
-
-	
 	<select id="selectUserTotalPay" parameterType="int" resultType="int">
 		SELECT SUM(PAYMENT_PRICE) as totalPay
 		  FROM "ORDER" 

@@ -30,6 +30,7 @@ import kr.cl.forU.order.model.service.OrderService;
 import kr.cl.forU.order.model.vo.Order;
 import kr.cl.forU.order.model.vo.OrderDTO;
 import kr.cl.forU.order.model.vo.OrderProd;
+import kr.cl.forU.product.model.service.ProductService;
 import kr.cl.forU.product.model.vo.CategoryMain;
 import kr.cl.forU.product.model.vo.CategorySub;
 import lombok.extern.slf4j.Slf4j;
@@ -44,6 +45,8 @@ public class OrderController {
 	OrderService service;
 	@Autowired
 	MemberService mService;
+	@Autowired
+	ProductService pService;
 
 	@Value("${iamport.key}")
 	private String restApiKey;
@@ -51,6 +54,7 @@ public class OrderController {
 	private String restApiSecret;
 
 	private IamportClient iamportClient;
+//	private boolean couponIssued = false;
 
 	@GetMapping("/selectOrderNo")
 	public ResponseEntity<Integer> selectOrderNo() {
@@ -128,6 +132,7 @@ public class OrderController {
     			.paymentPrice(orderDTO.getPaymentPrice())
     			.payment(orderDTO.getPayment()).build();
     	
+    	log.info("orderDTO.getPoint() > {}" , orderDTO.getPoint());
     	int result = service.insertOrder(order);
     	
     	if(result == 1) {
@@ -141,13 +146,10 @@ public class OrderController {
         				.count(orderDTO.getCount().get(idx))
         				.price(orderDTO.getPrice().get(idx))
         				.build();
-    			result = service.insertOrderProd(orderProd);
+    			service.insertOrderProd(orderProd);
     		}
-    		
-    		
     	}else {
     		log.info("insertOrder 실패 ㅠㅠ");
-    		return 0;
     	}
     	
     	if(orderDTO.getCouponNo() > 0) {
@@ -156,8 +158,8 @@ public class OrderController {
 					.memberNo(orderDTO.getMemberNo())
 					.couponNo(orderDTO.getCouponNo())
 					.build();
-			 result = service.updateCouponUser(coupon);
-			 return 3;
+			  service.updateCouponUser(coupon);
+			
 		}else {
 			log.info("updateCouponUser 실패!!");
 		}
@@ -168,62 +170,86 @@ public class OrderController {
 					.memberNo(orderDTO.getMemberNo())
 					.point(orderDTO.getPoint())
 					.build();
-			result = mService.updateMemberPoint(m);
-			return 4;
+			 mService.updateMemberPoint(m);
+			
 		}else {
 			log.info("updateMemberPoint 실패!!");
 		}
 		
 		// 주문테이블에 넣는 것이 최종 성공이 완료가 되면..
 		// 등급업 함수를 호출하면 된다,..
+		log.info("기존 GradeNo  ? {}", orderDTO.getGradeNo());
 		setGrade(orderDTO.getMemberNo());
-		
+		log.info("변경 GradeNo  ? {}", orderDTO.getGradeNo());
 	
-		if(service.insertOrderNotice() > 0) {
-			return 5;
-		}else {
-			return 99;
-		}
+		
+		return 6;
     }
 	
 
 	public void setGrade(int memberNo) {
 		// 기본 브론즈1 / 30만원(이상)-실버2 	60만원-골드3 	100만원-다이아4 	200만원-VIP5
 		// 등급과 토탈구매금액을 체크해서 update해주기
-		
+		// 등급업되면 축하쿠폰 발행하기
+		log.info("멤버grade 업데이트 함수들어옴");
 		Member member = mService.selectMemberInfo(memberNo);
 		int totalPay = service.selectUserTotalPay(memberNo);
 			
-		if(totalPay >= 0 && totalPay <= 300000) {
-			// 브론즈
+		log.info("totalPay ? {}", totalPay);
+		
+		
+//		if(totalPay > 300000  && totalPay <= 600000) {
+//			// silver
+//			member.setGradeNo(2);
+//		}
+//		else if(totalPay > 600000  && totalPay <= 1000000) {
+//			// gold
+//			member.setGradeNo(3);
+//		}
+//		else if(totalPay > 1000000  && totalPay <= 2000000) {
+//			// dia
+//			member.setGradeNo(4);
+//		}
+//		else {
+//			//vip
+//			member.setGradeNo(5);
+//		}
+		
+		
+		if(totalPay > 2000000) { //vip
+			member.setGradeNo(5);
+		}else if(totalPay > 1000000) { // dia
+			member.setGradeNo(4);
+		}else if(totalPay > 600000) { // gold
+			member.setGradeNo(3);
+		}else if(totalPay > 300000) { // silver
+			member.setGradeNo(2);
+		}else {
 			member.setGradeNo(1);
 		}
-		else if(totalPay > 300000  && totalPay <= 600000) {
-			// silver
-			member.setGradeNo(2);
-		}
-		else if(totalPay > 600000  && totalPay <= 1000000) {
-			// gold
-			member.setGradeNo(3);
-		}
-		else if(totalPay > 1000000  && totalPay <= 2000000) {
-			// dia
-			member.setGradeNo(4);
-		}
-		else {
-			//vip
-			member.setGradeNo(5);
-		}
+		log.info("GradeNo ? {}", member.getGradeNo());
 		
-	
 		if(member.getGradeNo() != 1) {
 			if(mService.updateMemberGrade(member) > 0) {
-				log.info("멤버grade 업데이트 성공했댜~");
+				log.info("멤버grade 업데이트 성공했댜~ {}", member.getGradeNo());
 			}else {
-				log.info("멤버grade 업데이트 실패");
+				log.info("멤버grade 업데이트 실패 {}", member.getGradeNo());
 			}
 		}
-	
+		
+		
+//		int gradeCoupon = mService.insertGradeCoupon();
 	}
+	
+	
+	@PostMapping("/selectPointRate")
+    public int selectGradeRate(
+    		@RequestBody int memberNo
+    		) {
+		
+		return mService.selectPointRate(memberNo);
+	}
+	
+
 	
 }
