@@ -91,3 +91,27 @@
   font-size: 24px;
 }
 
+
+.productContainer {
+  display: flex;
+  flex-direction: row;
+  
+}
+
+.productContainer > div {
+  
+  margin-right: 10px; 
+
+}
+
+.cateSeeThrough{
+  line-height: 33px;
+  border: 1px solid #e3e3e3;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.cateSeeThrough.active{
+  background-color: black;
+  color: white;
+}

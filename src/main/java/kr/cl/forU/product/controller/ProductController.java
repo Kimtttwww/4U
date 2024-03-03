@@ -43,9 +43,10 @@ public class ProductController {
 	 */
     @GetMapping("list")
     public List<Product> selectProductList(@RequestParam Map<String, String> m) {
-    	if(m.get("cateMain") == null) m.put("cateMain", "0");
-    	if(m.get("cateSub") == null) m.put("cateSub", "0");
     	
+//    	if(m.get("cateMain") == null) m.put("cateMain", "0");
+//    	if(m.get("cateSub") == null) m.put("cateSub", "0");
+    System.out.println(m.get("cateSub"));
     	return service.selectProductList(m);
     }
     
@@ -112,4 +113,23 @@ public class ProductController {
     	return service.selectProdDetailList(prodNo);
     }
 
+    @GetMapping("/category")
+    public HashMap<String, List> selectFilterList() {
+        
+    	return service.selectFilterList();
+       // catemain 1:n
+       // catesub 1:n
+       // color 1:n
+       // size (하드코딩) 1:5
+       // seethrough 비침 덜비침 적당함 등등
+       // 이 전체가 filter list 그래서 hashmap 형태로 담아야함 
+       // 프론트에서 이러한 키밸류가 필요
+       // filter.list. 변수명
+       // 프론트에서 let[catemain,catesub,thickness,seethrough,color} = filterList
+       // cateMain.map((cm) => {
+        		// input type = "checkbox name = " id = "" span = {cm}
+    	// select count from product group by see_through
+    
+        		}
+    
 }
