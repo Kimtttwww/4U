@@ -13,8 +13,6 @@ import kr.cl.forU.product.model.vo.CategoryMain;
 import kr.cl.forU.product.model.vo.CategorySub;
 
 import kr.cl.forU.order.model.vo.OrderProd;
-import kr.cl.forU.product.model.vo.CategoryMain;
-import kr.cl.forU.product.model.vo.CategorySub;
 
 
 @Repository

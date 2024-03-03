@@ -1,6 +1,5 @@
 package kr.cl.forU.order.model.vo;
 
-import kr.cl.forU.member.model.vo.Member;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
