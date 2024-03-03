@@ -38,6 +38,7 @@ public class MemberController {
 		
 		Member member = service.MemberIdMatch(m.getMemberId());
 		if(member != null && passwordEncoder.matches(m.getMemberPwd(), member.getMemberPwd())) {
+			member.setMemberPwd(null);
 			return member;
 		}else {
 			return null;

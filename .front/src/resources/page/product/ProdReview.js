@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "../../css/product/ProdReview.css";
 import axios from "axios";
 import { Button, Col, Form, InputGroup, Row } from "react-bootstrap";
+import Cookies from "js-cookie";
 
 /**
  * 해당 상품의 리뷰들
@@ -19,8 +20,8 @@ export default function ProdReview(props) {
 	const ratingImages = useRef([]);
 
 	useEffect(() => {
-		let strLoginMember = sessionStorage.getItem("loginMember");
-
+		let strLoginMember = Cookies.get("loginMember");
+		
 		if(strLoginMember) {
 			strLoginMember = JSON.parse(strLoginMember);
 			setLoginMember(strLoginMember);

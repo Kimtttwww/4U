@@ -184,18 +184,20 @@ export default function ProdDetail(props) {
 	/**
 	 * 상품 상세창 표시 이전 밑작업
 	 * (최근 본 상품 설정 및 상품 서브 이미지 설정)
-	 * @todo 최근 상품 3개 까지 증가 필요, 최근이 0에 가깝게
 	 */
-	function setProd() {
-		// set = Cookies.get('recentProduct');
-
-		Cookies.set('recentProduct', [ product.prodNo]);
+	function setRecentProduct() {
+		let recentProduct = Cookies.get('recentProduct');
+		
+		if(recentProduct){recentProduct = [product.prodNo, ...JSON.parse(recentProduct)].slice(0, 3)
+		} else {recentProduct = [product.prodNo]}
+		
+		Cookies.set('recentProduct', JSON.stringify(recentProduct));
 		setSubImgList(product.image.filter((img) => (img.imgType === 2)));
 	}
 
 	return(<>
 		<Modal show={showDetail} onHide={() => {setShowDetail(false); setSizeList({}); setProdBuyList([]);}} size="xl" 
-			onShow={setProd} dialogClassName="one-product" animation={false} keyboard>
+			onShow={setRecentProduct} dialogClassName="one-product" animation={false} keyboard>
 			<Modal.Header closeButton />
 			<Modal.Body className="prod-detail">
 				<section className="prod-imgs">

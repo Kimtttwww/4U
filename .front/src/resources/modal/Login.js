@@ -2,6 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import "../css/member/Login.css";
 import axios from "axios";
 import { Modal, Overlay, Tooltip } from "react-bootstrap";
+import Cookies from "js-cookie";
 
 /**
  * 로그인 모달창 
@@ -71,8 +72,9 @@ export default function Login(props) {
 			axios.post("/member/login", member)
 			.then((result) => {
 				if(result.data) {
-					const loginMember = JSON.stringify(result.data)
-					sessionStorage.setItem('loginMember', loginMember);
+					const loginMember = JSON.stringify(result.data);
+					
+					Cookies.set('loginMember', loginMember);
 					setLogin(result.data);
 					setShowLogin(false);
 				} else {
