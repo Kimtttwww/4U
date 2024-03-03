@@ -3,6 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import Leftbar from "../css/common/Leftbar.css";
 import { mainCateAPI, subCateAPI } from "../page/common/LeftbarAPI";
+import { Link } from "react-router-dom";
 
 export default function Leftmenubar() {
     const [toggle, setToggle] = useState(false);
@@ -45,7 +46,7 @@ export default function Leftmenubar() {
         setMainCateList(mainCate);
     };
 
-
+    // console.log(mainCateList);
     // CATE_MAIN이 hover된적이 없으면 API호출하여 DB에서 데이터 가져와서 useState()에 저장하기
     const loadSubDb = async () => {
 
@@ -70,11 +71,13 @@ export default function Leftmenubar() {
     const subCateHTML = () => {
         if (hoverMainCate > 0 && subCateList?.length > 0) {
             const objArr = subCateList?.filter((sub) => (sub.mainCategory == hoverMainCate));
+            // console.log(" objArr ?", objArr);
             if (objArr?.length > 0)
                 return objArr[0].subCategory;
         }
         return null;
-    }
+    };
+
 
     const mouseEnterHandler = (mainNo) => {
         setHoverMainCate(mainNo);
@@ -82,6 +85,13 @@ export default function Leftmenubar() {
 
     const subMouseEnterHandler = (subNo) => {
         setHoverSubCate(subNo);
+    };
+
+    const mainCateClickHandler = (no) => {
+        console.log(no);
+    }
+    const subCateClickHandler = (subNo) => {
+        // console.log(subNo)
     }
 
     const rectHandler = (idx) => {
@@ -124,6 +134,7 @@ export default function Leftmenubar() {
                             <div className="leftCateItem">
                                 <div className="mainCateList">
                                     <p>4u</p>
+                                    {console.log(mainCateList)}
                                     {
                                         mainCateList.length && mainCateList.map((main, index) => (
                                             <div className="mainCateListItem"
@@ -137,8 +148,10 @@ export default function Leftmenubar() {
                                                     if (hoverSubCate == 0) {
                                                         setHoverMainCate(0);
                                                     }
-                                                }}>
-                                                <div>{main.mainName}</div>
+                                                }}
+
+                                            >
+                                                <Link to={`/product/list/mainNo=${main.cateMain}`} >{main.mainName}</Link>
                                             </div>
                                         ))
                                     }
@@ -154,15 +167,20 @@ export default function Leftmenubar() {
                                 }}>
                                 {
                                     subCateHTML()?.map((sub, index) => (
+
                                         <div className="subListEle" key={index}
                                             onMouseEnter={
                                                 () => {
                                                     subMouseEnterHandler(sub.cateSub);
-                                                }}>
+                                                }}
+                                            onClick={subCateClickHandler(sub.cateSub)}>
+
                                             <a>{sub.subName}</a>
+                                            {console.log(sub)}
                                         </div>
                                     ))
                                 }
+
                             </div>
                         </div>
                     </div>
