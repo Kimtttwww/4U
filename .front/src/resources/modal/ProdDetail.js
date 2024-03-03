@@ -184,9 +184,12 @@ export default function ProdDetail(props) {
 	/**
 	 * 상품 상세창 표시 이전 밑작업
 	 * (최근 본 상품 설정 및 상품 서브 이미지 설정)
+	 * @todo 최근 상품 3개 까지 증가 필요, 최근이 0에 가깝게
 	 */
 	function setProd() {
-		Cookies.set('recentProduct', product.prodNo);
+		// set = Cookies.get('recentProduct');
+
+		Cookies.set('recentProduct', [ product.prodNo]);
 		setSubImgList(product.image.filter((img) => (img.imgType === 2)));
 	}
 
