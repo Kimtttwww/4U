@@ -51,6 +51,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    
 }
 
 .DaumModal {
@@ -60,4 +61,60 @@
 
 .DaumModalBody{
     height: 700px;
+}
+
+
+
+
+
+.form-container fieldset{
+    background-image: url('../../../../public/photo/SignUpBack.png');
+    background-size: 100% 100%;
+    padding: 90px;
+    width: 705px;
+}
+
+.form-container legend{
+    text-align: center;
+    margin: 20px 0;
+}
+
+.form-container input{
+    border: 1px solid #585757;
+    margin-top: 5px;
+}
+
+.form-container input:focus{
+    outline: 3px solid #f88f84;
+    border: 1px solid #f88f84;
+}
+
+.doubleCheck-btn{
+    margin: 10px 3px;
+    background-color: #585757;
+    border: 1px solid #585757;
+}
+
+.address-btn{
+    margin: 10px 0;
+    background-color: #585757;
+    border: 1px solid #585757;
+}
+
+.inroll-btn{
+    margin-left: 200px;
+    padding: 15px 20px;
+    font-size: 20px;
+    background-color: #585757;
+    border: 1px solid #585757;
+}
+
+.inroll-btn:disabled{
+    background-color: #585757;
+    border: 1px solid #585757;
+}
+
+.form-container button:hover{
+    background-color: #f88f84;
+    border: 1px solid #f88f84;
 }
