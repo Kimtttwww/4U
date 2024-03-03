@@ -20,7 +20,21 @@ export default function ProdReview(props) {
 
 	useEffect(() => {
 		let strLoginMember = sessionStorage.getItem("loginMember");
-		
+
+		if(strLoginMember) {
+			strLoginMember = JSON.parse(strLoginMember);
+			setLoginMember(strLoginMember);
+
+			axios.get("/product/review/check?prodNo=" + prodNo + "&memberNo=" + strLoginMember?.memberNo)
+			.then((data) => {setIsBuyed(data.data)})
+			.catch((error) => {
+				console.log(error);
+				alert("정보를 불러오는 중 문제가 발생했습니다");
+			});
+		}
+	}, []);
+
+	useEffect(() => {
 		// 해당 상품의 리뷰 목록 조회
 		axios.get("/product/review/" + prodNo)
 		.then((data) => {
@@ -29,19 +43,7 @@ export default function ProdReview(props) {
 			console.log(error);
 			alert("리뷰를 불러오는 중 문제가 발생했습니다");
 		});
-		
-		if(strLoginMember) {
-			strLoginMember = JSON.parse(strLoginMember);
-			setLoginMember(strLoginMember);
-
-			axios.get("/product/review/check", {prodNo, memberNo: strLoginMember?.memberNo})
-			.then((data) => {setIsBuyed(data.data)})
-			.catch((error) => {
-				console.log(error);
-				alert("정보를 불러오는 중 문제가 발생했습니다");
-			});
-		}
-	}, []);
+	}, [validated]);
 
 	/**
 	 * 각 리뷰별 평점 출력 fn
@@ -71,7 +73,7 @@ export default function ProdReview(props) {
 	 * @param {object} review 하나씩 꺼내 반복중인 리뷰
 	 * @returns 작성자 정보를 표현하는 태그들
 	 */
-	function printMember(review) {return review.height && review.weight ? (<p>{review.height} / {review.weight}</p>) : ""}
+	function printMember(review) {return review.height && review.weight ? (<p>{review.height}cm / {review.weight}kg</p>) : ""}
 	
 	/**
 	 * 각 리뷰별 기타 정보 출력 fn
@@ -97,6 +99,11 @@ export default function ProdReview(props) {
 			alert("로그인 후 이용 가능합니다");
 			return;
 		}
+		
+		if (!isBuyed) {
+			alert("상품 구매자만 리뷰 작성 가능합니다");
+			return;
+		}
 
 		if(e.target.id.includes("img")) {
 			const num = Number(e.target.id.charAt(e.target.id.length - 1));
@@ -114,29 +121,35 @@ export default function ProdReview(props) {
 	/**
 	 * 리뷰 등록 조건 체크 밎 리뷰 등록 fn
 	 * @param {SyntheticBaseEvent} e 이벤트 객체
-	 * @todo 나중에 리뷰 입력 검사 fn으로 개조 예정
 	 */
-	function handleSubmit(event) {
-		event.preventDefault();	// 페이지 이동을 막음(추정)
-		event.stopPropagation();	// ???
+	function handleSubmit(e) {
+		e.preventDefault();	// 페이지 이동을 막음(추정)
+		e.stopPropagation();	// ???
 
 		if(!loginMember) {
 			alert("로그인 후 이용 가능합니다");
 			return;
 		}
-		
-		if (event.currentTarget.checkValidity()) {	// 필수 작성 여부 체크
-			const {rating, reviewContent} = review;
 
-			if(rating && reviewContent) {
-				
-			}
-
-
-			setReview({});
+		if (!isBuyed) {
+			alert("상품 구매자만 리뷰 작성 가능합니다");
+			return;
 		}
 		
-		setValidated(true);
+		if (e.currentTarget.checkValidity()) {	// 필수 작성 여부 체크
+			axios.post("/product/review", {...review, prodNo, memberNo:loginMember.memberNo})
+			.then((data) => {
+				if(data) alert("리뷰가 작성되었습니다");
+				else alert("리뷰 등록 중 문제가 발생했습니다");
+			}).catch((error) => {
+				console.log(error);
+				alert("리뷰 작성 중 문제가 발생했습니다");
+			});
+			
+			e.target.reset();
+			setReview({});
+		}
+		setValidated(!e.currentTarget.checkValidity());
 	};
 
 	return (<>
@@ -215,18 +228,5 @@ export default function ProdReview(props) {
 				</Row>
 			</section>
 		</Form>
-
-		<space>
-			<br/><br/><br/><br/><br/>
-			<br/><br/><br/><br/><br/>
-			<br/><br/><br/><br/><br/>
-			<br/><br/><br/><br/><br/>
-			<br/><br/><br/><br/><br/>
-			<br/><br/><br/><br/><br/>
-			<br/><br/><br/><br/><br/>
-			<br/><br/><br/><br/><br/>
-			<br/><br/><br/><br/><br/>
-			<br/><br/><br/><br/><br/>
-		</space>
 	</>);
 }

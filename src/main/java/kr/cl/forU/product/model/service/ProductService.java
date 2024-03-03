@@ -67,13 +67,22 @@ public class ProductService {
      * @param m 상품번호(prodNo)와 회원번호(memberNo)가 필요, 없으면 기본값 0
      * @return 해당 회원이 특정 상품을 구매 했었는지 여부
      */
-	public boolean reviewerCheck(HashMap<String, Integer> m) {
+	public boolean reviewerCheck(Map<String, Integer> m) {
 		return dao.reviewerCheck(m);
 	}
 
 	public List<Palette> selectColors() {
 		// TODO Auto-generated method stub
 		return dao.selectColors();
+	}
+
+	/**
+     * 리뷰 작성
+     * @param r 사용자가 작성한 리뷰
+     * @return 등록 성공 여부
+     */
+	public boolean insertReview(Review r) {
+		return dao.insertReview(r);
 	}
 
 }

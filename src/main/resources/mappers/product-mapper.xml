@@ -84,7 +84,7 @@
 		</where>
 		
 	</select>
-	
+	 
 	<select id="reviewerCheck" parameterType="hashMap" resultType="int">
 		SELECT COUNT(*) FROM ORDER_PROD
 		LEFT JOIN "ORDER" USING(ORDER_NO)
@@ -96,6 +96,10 @@
 		FROM PALETTE
 	</select>
 	
+	<insert id="insertReview" parameterType="review">
+		INSERT INTO REVIEW(REVIEW_NO, PROD_NO, MEMBER_NO, REVIEW_CONTENT, RATING, HEIGHT, WEIGHT, TOP, BOTTOM, ISTRUETOSIZE)
+		VALUES(SEQ_REVIEW_NO.NEXTVAL, #{prodNo}, #{memberNo}, #{reviewContent}, #{rating}, #{height}, #{weight}, #{top}, #{bottom}, #{isTrueToSize})
+	</insert>
 	
 
 <!-- 나중에 쓸 예정, 지우지 말 것 -->
