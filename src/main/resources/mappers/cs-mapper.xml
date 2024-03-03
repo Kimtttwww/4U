@@ -15,6 +15,17 @@
         WHERE Q.STATUS = 'Y'
         ORDER BY QNA_NO
     </select>
+    
+    <update id="addAnswer">
+    	UPDATE QNA 
+		SET QNA_ANSWER = #{qnaAnswer} , ANSWER_DATE = SYSDATE
+		WHERE QNA_NO = #{qnaNo} AND STATUS = 'Y'
+    </update>
+    
+    <insert id="newQna">
+    	INSERT INTO QNA (QNA_NO, QNA_WRITER, QNA_TITLE, QNA_CONTENT)
+    	VALUES (SEQ_QNA_NO.NEXTVAL, #{qnaWriter}, #{qnaTitle}, #{qnaContent})
+    </insert>
 
 
 </mapper>

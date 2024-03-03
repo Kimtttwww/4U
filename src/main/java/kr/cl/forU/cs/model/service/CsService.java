@@ -18,5 +18,13 @@ public class CsService {
     	return dao.findQnaList();
     }
 
+	public int addAnswer(QNA newAnswer) {
+		return dao.addAnswer(newAnswer);
+	}
+
+	public int newQna(QNA newQna) {
+		return dao.newQna(newQna);
+	}
+
 
 }

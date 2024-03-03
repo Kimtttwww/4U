@@ -61,3 +61,22 @@
 .answerBox.expanded {
     max-height: 1000px; /* 적절한 높이로 설정하세요. */
 }
+
+.answerBox textarea {
+    width : 700px;
+    height: 100px;
+    resize: none;
+}
+.newQnaModal {
+    display: flex;
+    flex-direction: column;
+}
+
+.qnaTitle {
+    margin-bottom: 3%;
+}
+
+.qnaContent {
+    resize: none;
+    height: 300px;
+}

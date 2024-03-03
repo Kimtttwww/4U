@@ -14,6 +14,7 @@ export default function BuyerMyPage() {
   const [modalOpened, setModalOpened] = useState(false);
   const [orders, setOrders] = useState([]);
   const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [listQna, setListQna] = useState([]);
   
  // 세션 저장소에서 로그인 정보 가져오기
 const sessionLoginMember = window.sessionStorage.getItem("loginMember");
@@ -48,6 +49,19 @@ const loadRecentlyViewed = () => {
     // 숫자를 배열로 래핑하여 설정
     const recentlyViewedItems = [parseInt(viewedFromCookie)];
     setRecentlyViewed(recentlyViewedItems);
+  }
+};
+
+useEffect(() => {
+  fetchQnaList();
+}, []);
+
+const fetchQnaList = async () => {
+  try {
+      const response = await axios.get('/qna/listqna');
+      setListQna(response.data);
+  } catch (error) {
+      console.error('Error fetching Q&A list:', error);
   }
 };
  
@@ -181,27 +195,31 @@ const loadRecentlyViewed = () => {
 
       <div className="chat">
         <div className="leftContainer">
-          <h2>채팅 내역</h2>
+          <h2>고객 센터</h2>
         </div>
         <div className="rightContainer">
-          <div className="customerService">
-            <div className="chatImg">
-              <img src="logo.svg"/>
-            </div>
-            <div className="chatInfo">
-              <h3>고객센터와 채팅</h3>
-              <span>어제</span>
-              <a>대화 보기</a>
-            </div>
-          </div>
           <div className="proposal">
           <div className="chatImg">
-              <img src="logo.svg"/>
+              <img src="https://cdn-icons-png.flaticon.com/512/6369/6369389.png"/>
             </div>
             <div className="chatInfo">
               <h3>제품 건의</h3>
-              <span>2일 전</span>
-              <a>건의 사항 보기</a>
+              <span>
+                {listQna.length > 0 && listQna.reduce((latestDate, qna) => {
+                  const qnaDate = new Date(qna.createDate);
+                  const currentDate = new Date();
+                  // 날짜의 시분초를 모두 0으로 설정합니다.
+                  qnaDate.setHours(0, 0, 0, 0);
+                  currentDate.setHours(0, 0, 0, 0);
+                  // 날짜의 차이를 계산합니다.
+                  const timeDiff = currentDate.getTime() - qnaDate.getTime();
+                  // 일(day)로 변환합니다.
+                  const diffDays = Math.ceil(timeDiff / (1000 * 3600 * 24));
+                  // "n 일 전" 형식으로 반환합니다.
+                  return diffDays > 0 ? `${diffDays}일 전` : '오늘';
+                }, listQna[0].createDate)}
+              </span>
+              <Link to={"/qna/listqna/"}>건의 사항 보기</Link>
             </div>
           </div>
         </div>

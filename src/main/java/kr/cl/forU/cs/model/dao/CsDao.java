@@ -18,4 +18,12 @@ public class CsDao {
 	public List<QNA> findQnaList() {
 		return session.selectList(map + "findQnaList");
 	}
+
+	public int addAnswer(QNA newAnswer) {
+		return session.update(map + "addAnswer", newAnswer);
+	}
+
+	public int newQna(QNA newQna) {
+		return session.insert(map + "newQna", newQna);
+	}
 }
