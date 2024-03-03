@@ -1,13 +1,19 @@
 import axios from "axios";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { insertOrderAPI, selectOrderNoAPI } from "./OrderAPI";
+import Cookies from "js-cookie";
 
-export default function PaymentAPI({ sendPayment, point }) {
-    // const newWindow = window.open('', '_blank');
+export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderProd, prodImgs }) {
+
 
     const navi = useNavigate();
+    const [orderNo, setOrderNo] = useState(0);
+    const { memberNo, memberName, address, addressDetail, email, phone, zipCode, gradeNo } = userInfo;
+    const { receiverName, phone1, phone2, phone3 } = changeInfo;
+    const { applyCoupon, applyPoint, delMsg, discountPrice, totalPrice } = dataByPayment;
 
-    // console.log(sendPayment.memberName);
+
     useEffect(() => {
         const script1 = document.createElement("script");
         script1.src = "https://code.jquery.com/jquery-1.12.4.min.js";
@@ -19,13 +25,54 @@ export default function PaymentAPI({ sendPayment, point }) {
 
         document.head.appendChild(script2);
 
+        // OrderNo Setting
+        setOrderNo(getOrderNo());
+
         return () => {
             document.head.removeChild(script1);
             document.head.removeChild(script2);
         };
     }, []);
-    test = sendPayment
+
+
+
+    let prodName = "";
+    if (orderProd.length > 0) {
+        prodName = Object.keys(orderProd).length > 0 ? `${orderProd[0].prodName} 외 ` : orderProd[0].prodName;
+    };
+    const count = orderProd.length;
+    const buyerName = receiverName == "" ? memberName : receiverName;
+    const buyerTel = (phone1 || phone2 || phone3) ? phone1 + phone2 + phone3 : phone;
+    const addr = (changeInfo.address == "") ? userInfo.address : changeInfo.address;
+    const addrDetail = (changeInfo.addressDetail == "") ? userInfo.addressDetail : changeInfo.addressDetail;
+    const zip = (changeInfo.zipCode == "") ? userInfo.zipCode : changeInfo.zipCode;
+    const couponNo = Object.keys(applyCoupon).length > 0 ? applyCoupon.couponNo : 0;
+    const payPrice = totalPrice - discountPrice - applyPoint;
+
+    const insertToDb = async (insertData) => {
+        const responseData = await insertOrderAPI(insertData);
+    };
+
+    const getOrderNo = async () => {
+        const responseData = await selectOrderNoAPI();
+        return responseData;
+    };
+
+    const getObjData = (arr, key) => {
+        let responseArr = [];
+        arr.map((item) => {
+            if (item[key] != null) {
+                responseArr.push(item[key]);
+            };
+        });
+        return responseArr;
+    };
+
+    getObjData(JSON.parse(Cookies.get('cart')), 'index');
+    // console.log(`${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`);
+    // `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}` 
     let orderData = {};
+
     const requestPay = () => {
         if (window.IMP) {
             console.log("연결중..");
@@ -35,19 +82,20 @@ export default function PaymentAPI({ sendPayment, point }) {
             orderData = {
                 pg: 'html5_inicis',                           // PG사
                 pay_method: 'card',                           // 결제수단 //가상계좌 vbank
-                merchant_uid: `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`,  // 주문번호
-                amount: 100 + point,                                 // 결제금액
-                name: '샤랄라 원피스 외 1 ',                  // 주문명
-                buyer_name: sendPayment.memberName,                           // 구매자 이름
-                buyer_tel: sendPayment.phone,                     // 구매자 전화번호
-                buyer_email: sendPayment.email,               // 구매자 이메일
-                buyer_addr: sendPayment.address,                    // 구매자 주소
-                buyer_postcode: sendPayment.zipCode                   // 구매자 우편번호
+                merchant_uid: new Date().getTime(),   // 주문번호
+                amount: payPrice,                                 // 결제금액
+                name: prodName,                             // 주문명
+                buyer_name: userInfo.memberName,                // 구매자 이름
+                buyer_tel: buyerTel,                     // 구매자 전화번호
+                buyer_email: userInfo.email,               // 구매자 이메일
+                buyer_addr: addr + " " + addrDetail,          // 구매자 주소
+                buyer_postcode: zip                    // 구매자 우편번호
             };
-
+            console.log(orderData);
             /* 4. 결제 창 호출하기 */
             IMP.request_pay(orderData, callback);
-        }
+        };
+
 
         function callback(response) {
             const {
@@ -56,22 +104,51 @@ export default function PaymentAPI({ sendPayment, point }) {
                 error_msg
             } = response;
 
+
             if (success) {
                 alert('결제 성공');
-                // navi("/order/payment");
-                navi('/order/payment', { state: { orderData } });
 
+                const insertData = {
+                    memberNo: memberNo,
+                    orderName: memberName,
+                    receiver: buyerName,
+                    receivePhone: buyerTel,
+                    address: addr,
+                    addressDetail: addrDetail,
+                    zipCode: zip,
+                    couponNo: couponNo,
+                    point: applyPoint,
+                    message: delMsg,
+                    totalPrice: totalPrice,
+                    paymentPrice: payPrice,
+                    totalCount: count,
+                    index: getObjData(orderProd, 'index'),
+                    prodNo: getObjData(orderProd, 'prodNo'),
+                    count: getObjData(orderProd, 'count'),
+                    price: getObjData(orderProd, 'price'),
+                    gradeNo: gradeNo,
+                };
+
+                insertToDb(insertData);
+                console.log("orderData ?", orderData);
+                console.log("insertData ?", insertData);
+                navi('/order/payment', {
+                    state: {
+                        payData: orderData, userInfo: userInfo, changeInfo: changeInfo, orderProd: orderProd,
+                        totalPrice: totalPrice, paymentPrice: payPrice, message: delMsg, prodImgs: prodImgs
+                    }
+                });
             } else {
-                alert(`결제 실패: ${error_msg}`);
+                alert(`결제 실패 : ${error_msg}`);
             }
         };
     };
 
     // 결제하기 버튼 클릭시 
-    const paymentReq = (e) => {
+    const paymentReq = (data, e) => {
 
-        e.preventDefault();
-        // if (!receiverName || !address || !addressDetail) {
+        // e.preventDefault();
+        // if (!phone || !address || !addressDetail) {
         //     alert("배송정보가 모두 입력되지 않았습니다.");
         //     return;
         // }
@@ -81,6 +158,9 @@ export default function PaymentAPI({ sendPayment, point }) {
         //     "_blank",
         //     "width=500, height=500"
         // );
+        console.log(data);
+        console.log(orderData);
+
 
         requestPay();
 

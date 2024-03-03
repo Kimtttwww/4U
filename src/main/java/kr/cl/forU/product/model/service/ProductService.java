@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import kr.cl.forU.product.model.dao.ProductDao;
 import kr.cl.forU.product.model.vo.Palette;
+import kr.cl.forU.product.model.vo.Image;
 import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 import kr.cl.forU.product.model.vo.Review;
@@ -83,6 +84,10 @@ public class ProductService {
      */
 	public boolean insertReview(Review r) {
 		return dao.insertReview(r);
+	}
+
+	public List<Image> selectProdImageList(int prodNo) {
+		return dao.selectProdImageList(prodNo);
 	}
 
 }

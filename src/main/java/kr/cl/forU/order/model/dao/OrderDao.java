@@ -12,6 +12,11 @@ import kr.cl.forU.order.model.vo.RecentOrders;
 import kr.cl.forU.product.model.vo.CategoryMain;
 import kr.cl.forU.product.model.vo.CategorySub;
 
+import kr.cl.forU.order.model.vo.OrderProd;
+import kr.cl.forU.product.model.vo.CategoryMain;
+import kr.cl.forU.product.model.vo.CategorySub;
+
+
 @Repository
 public class OrderDao {
 
@@ -42,6 +47,33 @@ public class OrderDao {
 	public List<RecentOrders> selectRecentOrders(String orderDate) {
 		return session.selectList("orderMapper.selectRecentOrders", orderDate);
 	}
+	
+	public int insertOrder(Order order) {
+		return session.insert("orderMapper.insertOrder", order);
+	}
+
+	public int selectOrderNo() {
+		return session.selectOne("orderMapper.selectOrderNo");
+	}
+
+	public int insertOrderProd(OrderProd orderProd) {
+		return session.insert("orderMapper.insertOrderProd", orderProd);
+	}
+
+	public int updateCouponUser(CouponUser coupon) {
+		return session.update("orderMapper.updateCouponUser", coupon);
+	}
+
+	public int selectUserTotalPay(int memberNo) {
+		return session.selectOne("orderMapper.selectUserTotalPay", memberNo);
+	}
+
+	public int insertOrderNotice() {
+		return session.insert("orderMapper.insertOrderNotice");
+	}
+
+
+	
 	
 
 }

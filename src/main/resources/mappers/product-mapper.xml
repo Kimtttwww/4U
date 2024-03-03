@@ -101,6 +101,16 @@
 		VALUES(SEQ_REVIEW_NO.NEXTVAL, #{prodNo}, #{memberNo}, #{reviewContent}, #{rating}, #{height}, #{weight}, #{top}, #{bottom}, #{isTrueToSize})
 	</insert>
 	
+	<select id="selectImgByProdNo">
+		 SELECT *
+           FROM( SELECT *
+		           FROM IMAGE
+		          WHERE REF_NO=#{prodNo}
+		            AND IMG_TYPE=1)
+          WHERE ROWNUM=1
+	</select>
+
+
 
 <!-- 나중에 쓸 예정, 지우지 말 것 -->
 <!-- INSERT INTO prod_detail(

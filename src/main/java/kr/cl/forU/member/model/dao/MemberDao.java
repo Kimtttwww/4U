@@ -33,6 +33,20 @@ public class MemberDao {
 		return session.selectOne(map + "selectMemberInfo", memberNo);
 	}
 
+	public int updateMemberPoint(Member m) {
+		return session.update(map + "updateMemberPoint", m);
+	}
+
+	public int updateMemberGrade(Member m) {
+		// TODO Auto-generated method stub
+		return session.update(map + "updateMemberGrade", m);
+	}
+
+
+	public int selectPointRate(int memberNo) {
+		return session.selectOne(map + "selectPointRate", memberNo);
+	}
+
 
 
 

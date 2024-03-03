@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import kr.cl.forU.product.model.service.ProductService;
 import kr.cl.forU.product.model.vo.Palette;
+import kr.cl.forU.product.model.vo.Image;
 import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 import kr.cl.forU.product.model.vo.Review;
@@ -73,7 +74,6 @@ public class ProductController {
         } catch (JSONException | UnsupportedEncodingException e) {
             e.printStackTrace();
         }
-
         return prodNos;
     }
     
@@ -95,18 +95,16 @@ public class ProductController {
 
     @PostMapping("/loadProdName")
     public List<Product> selectProdName(@RequestBody int[] prodNo) {
+    	
     	List<Product> prodName = new ArrayList<>();
     	for(int idx = 0; idx < prodNo.length; idx++) {
     		prodName.add(service.selectProdName(prodNo[idx]));
     	}
-    	log.info("prodName ? {}", prodName.toString());
-
     	return prodName;
     }
 
     @PostMapping("/loadProdDetail")
     public List<ProdDetail> selectProdDetailList(@RequestBody int prodNo){
-    	log.info(" selectProdDetailList ", service.selectProdDetailList(prodNo));
     	return service.selectProdDetailList(prodNo);
     }
     
@@ -138,4 +136,23 @@ public class ProductController {
         return service.insertReview(r);
     }
     
+    @PostMapping("/loadProdImg")
+	public List<Image> selectProdImageList(@RequestBody int[] prodNo){
+		List<Image> imgList = new ArrayList<>();
+		
+		for (int idx = 0; idx < prodNo.length; idx++) {
+			imgList.addAll(service.selectProdImageList(prodNo[idx]));
+		}
+				
+		log.info("Img List ??{}", imgList );
+		return imgList;
+	}
+
+	
+	
+	
+	
+	
+	
+	
 }

@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.cl.forU.product.model.vo.Palette;
+import kr.cl.forU.product.model.vo.Image;
 import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 import kr.cl.forU.product.model.vo.Review;
@@ -60,6 +61,10 @@ public class ProductDao {
 
 	public List<ProdDetail> selectProdDetailList(int prodNo) {
 		return session.selectList(map + "selectProdDetailList", prodNo);
+	}
+
+	public List<Image> selectProdImageList(int prodNo) {
+		return session.selectList(map + "selectProdImageList", prodNo);
 	}
 	
 	/**
