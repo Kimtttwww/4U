@@ -19,8 +19,6 @@ import SellerOrderList from "./resources/page/sellerMyPage/SellerOrderList";
 import SellerManagement from "./resources/page/sellerMyPage/SellerManagement";
 import SellerReview from "./resources/page/sellerMyPage/SellerReview";
 import ListQna from "./resources/page/qna/ListQna";
-import NewQna from "./resources/page/qna/NewQna";
-// import DetailQna from "./resources/page/qna/DetailQna";
 import CategorySearch from "./resources/modal/CategorySearch";
 import BuyerCoupon from "./resources/page/BuyerMyPage/BuyerCoupon";
 import SellerRegistration from "./resources/page/sellerMyPage/SellerRegistration";
@@ -84,10 +82,6 @@ function App() {
 
              {/* QNA */}
             <Route path="/qna">
-               {/* ? */}
-               {/* <Route path="newqna" element={<newQna/>}/> */}
-               {/* ? */}
-               {/* <Route path="detailqna" element={<detailQna/>}/> */}
                {/* ? */}
                <Route path="listqna" element={<ListQna/>}/>
             </Route>

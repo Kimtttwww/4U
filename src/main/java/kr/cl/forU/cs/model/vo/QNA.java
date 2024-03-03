@@ -22,4 +22,5 @@ public class QNA {
 	private String status;
 	
 	private String memberId;
+	private String memberNo;
 }
