@@ -52,7 +52,7 @@ export default function ProdList(props) {
 			}
 			if(!arr.size) break;
 		}
-
+		
 		return (
 			imgList.map((img) => {
 				let {imgNo, refNo, rgb} = img;

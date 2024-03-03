@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="productMapper">
 
 	<resultMap type="product" id="productResultSet" autoMapping="true">
@@ -9,7 +9,7 @@
 		<collection property="image" javaType="list" ofType="image"
 			select="selectProdImageList" column="PROD_NO" />
 	</resultMap>
-
+	
 
 	<select id="selectProductList" parameterType="map" resultMap="productResultSet">
 		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
@@ -19,9 +19,7 @@
 			<if test='cateMain != null'>AND CATE_MAIN IN (#{cateMain})</if>
 			<if test='cateSub != null'>AND CATE_SUB IN (#{cateSub})</if>
 		</where>
-		
 	</select>
-
 	<select id="getProductById" parameterType="int" resultType="product">
         SELECT *
         FROM PRODUCT
@@ -110,8 +108,43 @@
           WHERE ROWNUM=1
 	</select>
 
-
-
+	<select id = "selectCateMainList" resultType = "CategoryMain">
+		SELECT CATE_MAIN, MAIN_NAME
+		FROM CATE_MAIN	
+	</select>
+	
+	<select id = "selectseeThroughList" resultType = "String">
+		SELECT SEE_THROUGH
+		FROM PRODUCT
+		GROUP BY SEE_THROUGH
+	</select>
+	
+	<select id = "selectColorList" resultType = "Palette">
+		SELECT COLOR_NO , COLOR_NAME, RGB
+		FROM PALETTE
+	</select>
+	
+	<select id = "selectCateSubList" resultType = "CategorySub">
+		SELECT CATE_SUB, SUB_NAME
+		FROM CATE_SUB
+	</select>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 <!-- 나중에 쓸 예정, 지우지 말 것 -->
 <!-- INSERT INTO prod_detail(
     PROD_NO,
@@ -120,4 +153,6 @@
     #{???},
     (select count(*) from prod_detail WHERE prod_no = 2)
 ) -->
+
+
 </mapper>

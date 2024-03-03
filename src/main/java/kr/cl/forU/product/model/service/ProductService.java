@@ -1,5 +1,6 @@
 package kr.cl.forU.product.model.service;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -89,5 +90,27 @@ public class ProductService {
 	public List<Image> selectProdImageList(int prodNo) {
 		return dao.selectProdImageList(prodNo);
 	}
+	public HashMap<String, List> selectFilterList() {
+		HashMap<String , List> map = new HashMap<>();
+		ArrayList<String> size = new ArrayList<>();
+		
+		map.put("cateMain", dao.selectCateMainList());
+		map.put("cateSub", dao.selectCateSubList());
+		map.put("color", dao.selectColorList());
+		map.put("seeThrough", dao.selectseeThroughList());
+		
+		size.add("XS");
+		size.add("S");
+		size.add("M");
+		size.add("L");
+		size.add("XL");
+		map.put("size", size);
+		
+		return map;
+	}
+	// 사이즈는 별개로
+	
+	
+	
 
 }

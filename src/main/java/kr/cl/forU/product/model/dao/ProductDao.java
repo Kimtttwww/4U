@@ -1,15 +1,20 @@
 package kr.cl.forU.product.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
+import org.junit.experimental.categories.Categories;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import kr.cl.forU.product.model.vo.Palette;
 import kr.cl.forU.product.model.vo.Image;
+import kr.cl.forU.product.model.vo.CategoryMain;
+import kr.cl.forU.product.model.vo.CategorySub;
+import kr.cl.forU.product.model.vo.Palette;
 import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 import kr.cl.forU.product.model.vo.Review;
@@ -88,5 +93,34 @@ public class ProductDao {
 	public boolean insertReview(Review r) {
 		return session.insert(map + "insertReview", r) > 0;
 	}
+	/**
+	 * 
+	 * 필터링 select
+	 * @return
+	 */
+	public List<CategoryMain> selectCateMainList() {
+		
+		return session.selectList(map + "selectCateMainList");
+	}
+
+	public List<CategorySub> selectCateSubList() {
+		
+		return session.selectList(map + "selectCateSubList");
+	}
+
+	public List<Palette> selectColorList() {
+		
+		return session.selectList(map + "selectColorList");
+	}
+
+	public List<String> selectseeThroughList() {
+		
+		return session.selectList(map + "selectseeThroughList");
+		
+	}
+	
+	
+	
+
 	
 }
