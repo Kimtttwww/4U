@@ -58,6 +58,7 @@ public class OrderController {
 	private IamportClient iamportClient;
 //	private boolean couponIssued = false;
 
+
 	@GetMapping("/selectOrderNo")
 	public ResponseEntity<Integer> selectOrderNo() {
 		int num = service.selectOrderNo();
@@ -239,18 +240,14 @@ public class OrderController {
 		return service.selectRecentOrders(orderDate);
 	}
 	
+	@GetMapping("/history")
+	public List<Order> getAllOrders(@RequestParam int memberNo) {
+		return service.getAllOrders(memberNo);
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+	@GetMapping("/oghistory")
+	public List<Order> selectOgOrder(@RequestParam int memberNo) {
+	return service.selectOgOrder(memberNo);
+	}
 	
 }

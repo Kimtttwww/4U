@@ -59,6 +59,28 @@ public class ProductController {
 
 	@GetMapping("/cart/CartList")
 	public List<Product> selectCartList(@CookieValue(value = "cart", defaultValue = "[]") String cartCookie) {
+		List<Map<String, Object>> list = new ArrayList<>();
+		
+		try {
+			JSONArray cartItems = new JSONArray(cartCookie);
+			for (int i = 0; i < cartItems.length(); i++) {
+					JSONObject item = cartItems.getJSONObject(i);
+					Map<String, Object> map = new HashMap<>();
+					map.put("prodNo", item.getInt("prodNo"));
+					map.put("index", item.getInt("index"));
+					map.put("size", item.getString("size"));
+					list.add(map);
+			}
+		} catch (JSONException e) {
+			e.printStackTrace();
+		}
+
+		return service.selectCartList(list);
+	}
+
+
+	@GetMapping("/cart/CartList")
+	public List<Product> selectCartList(@CookieValue(value = "cart", defaultValue = "[]") String cartCookie) {
 		List<Integer> prodNo = extractProdNosFromCart(cartCookie);
 		log.info("prodNo" + prodNo);
 		return service.selectCartList(prodNo);

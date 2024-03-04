@@ -27,18 +27,18 @@ export default function ListQna() {
 		fetchQnaList();
 	}, []);
 
-	const fetchQnaList = async () => {
-		try {
-			const response = await axios.get('/qna/listqna');
-			setListQna(response.data);
-		} catch (error) {
-			console.error('Error fetching Q&A list:', error);
-		}
-	};
-	
-	const toggleAnswer = (index) => {
-		setExpandedIndex(index === expandedIndex ? null : index);
-	};
+    const fetchQnaList = async () => {
+        try {
+            const response = await axios.get(`/qna/listqna?memberNo=${loginMember.memberNo}`);
+            setListQna(response.data);
+        } catch (error) {
+            console.error('Error fetching Q&A list:', error);
+        }
+    };
+    
+    const toggleAnswer = (index) => {
+        setExpandedIndex(index === expandedIndex ? null : index);
+    };
 
 	const handleNewQnaTitleChange = (e) => {
 		setNewQnaTitle(e.target.value);
@@ -126,43 +126,43 @@ export default function ListQna() {
 				</Modal.Footer>
 			</Modal>
 
-			<ul className='qnaList'>
-				{currentItems.map((qna, index) => (
-					<li key={index} onClick={() => toggleAnswer(index)}>
-						<h2>{qna.qnaTitle}</h2>
-						<p>{qna.qnaContent}</p>
-						<p>작성자: {qna.memberId}</p>
-						<p>작성일자: {qna.createDate}</p>
-						<div className="answerStatus">
-							{qna.qnaAnswer ? <p>답변 완료</p> : <p>답변 대기</p>}
-							{loginMember.memberName === '장현진' && qna.qnaAnswer === null && (
-								<button onClick={() => setShowAnswerBox(!showAnswerBox)}>답변</button>
-							)}
-						</div>
-						{qna.qnaAnswer !== null && (
-							<div className={`answerBox ${expandedIndex === index ? 'expanded' : ''}`}>
-								<p>{qna.qnaAnswer}</p>
-								<p>{qna.answerDate}</p>
-							</div>
-						)}
-						{qna.qnaAnswer === null && (
-							<div className={`answerBox ${expandedIndex === index ? 'expanded' : ''}`}>
-								<textarea value={answerText} onChange={handleAnswerChange}  onClick={(e) => e.stopPropagation()} />
-								<button onClick={() => handleAnswerSubmit(index)}>제출</button>
-							</div>
-						)}
-					</li>
-				))}
-			</ul>
-			<div>
-				<button onClick={() => prevPage()}>이전</button>
-				{pageNumbers.map(number => (
-					<button key={number} onClick={() => paginate(number)}>
-						{number}
-					</button>
-				))}
-				<button onClick={() => nextPage()}>다음</button>
-			</div>
-		</div>
-	);
+            <ul className='qnaList'>
+                {currentItems.map((qna, index) => (
+                    <li key={index} onClick={() => toggleAnswer(index)}>
+                        <h2>{qna.qnaTitle}</h2>
+                        <p>{qna.qnaContent}</p>
+                        <p>작성자: {qna.memberId}</p>
+                        <p>작성일자: {qna.createDate}</p>
+                        <div className="answerStatus">
+                            {qna.qnaAnswer ? <p>답변 완료</p> : <p>답변 대기</p>}
+                            {loginMember.memberName === '장현진' && qna.qnaAnswer === null && (
+                                <button onClick={() => setShowAnswerBox(!showAnswerBox)}>답변</button>
+                            )}
+                        </div>
+                        {qna.qnaAnswer !== null && (
+                            <div className={`answerBox ${expandedIndex === index ? 'expanded' : ''}`}>
+                                <p>{qna.qnaAnswer}</p>
+                                <p>{qna.answerDate}</p>
+                            </div>
+                        )}
+                        {loginMember.memberName === '장현진' && qna.qnaAnswer === null && (
+                            <div className={`answerBox ${expandedIndex === index ? 'expanded' : ''}`}>
+                                <textarea value={answerText} onChange={handleAnswerChange}  onClick={(e) => e.stopPropagation()} />
+                                <button onClick={() => handleAnswerSubmit(index)}>제출</button>
+                            </div>
+                        )}
+                    </li>
+                ))}
+            </ul>
+            <div>
+                <button onClick={() => prevPage()}>이전</button>
+                {pageNumbers.map(number => (
+                    <button key={number} onClick={() => paginate(number)}>
+                        {number}
+                    </button>
+                ))}
+                <button onClick={() => nextPage()}>다음</button>
+            </div>
+        </div>
+    );
 }

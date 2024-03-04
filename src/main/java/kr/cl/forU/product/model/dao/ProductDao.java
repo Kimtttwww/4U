@@ -41,10 +41,10 @@ public class ProductDao {
 		return session.selectList(map + "bestProducts");
 	}
 
-	public List<Product> selectCartList(List<Integer> prodNo) {
-		return session.selectList(map + "selectCartList", prodNo);
+	public List<Product> selectCartList(List<Map<String, Object>> list) {
+		return session.selectList(map + "selectCartList", list);
 	}
-
+	
 	/**
      * 해당 상품의 리뷰들 조회
      * @param prodNo 리뷰들을 조회할 상품의 번호
@@ -146,6 +146,8 @@ public class ProductDao {
 	
 		return session.selectList(map + "selectPrice");
 	}
+
+
 	
 	
 	

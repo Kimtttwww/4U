@@ -4,13 +4,33 @@
 
 
     <select id="findAll" resultType="order">
-		SELECT *
+		SELECT DISTINCT *
 		FROM "ORDER"
 		JOIN ORDER_PROD OP USING (ORDER_NO) 
 		JOIN PRODUCT PR USING (PROD_NO)
-		JOIN IMAGE IG ON (PROD_NO = REF_NO)
-		ORDER BY PROD_NO DESC
+        WHERE MEMBER_NO = #{memberNo}
+		ORDER BY ORDER_NO ASC
     </select>
+    
+    <select id="selectOgOrder" resultType="order">
+    	SELECT *
+    	FROM "ORDER"
+    	WHERE MEMBER_NO = #{memberNo}
+    	ORDER BY ORDER_NO ASC
+    </select>
+    
+<!-- SELECT DISTINCT * -->
+<!-- FROM "ORDER" -->
+<!-- JOIN ORDER_PROD  USING (ORDER_NO)  -->
+<!-- JOIN PRODUCT  USING (PROD_NO) -->
+<!-- JOIN ( -->
+<!--     SELECT MIN(IMG_NO) AS MIN_IMG_NO, IMG_NAME, REF_NO -->
+<!--     FROM IMAGE -->
+<!--     GROUP BY REF_NO, IMG_NAME -->
+<!-- ) I -->
+<!-- ON (PROD_NO = I.REF_NO) -->
+<!-- WHERE MEMBER_NO = 3 -->
+<!-- ORDER BY ORDER_NO ASC; -->
 
     <select id="findById" parameterType="int" resultType="order">
         SELECT * FROM "ORDER" WHERE ORDER_NO = #{orderNo}
