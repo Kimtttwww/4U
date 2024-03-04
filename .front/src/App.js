@@ -7,6 +7,7 @@ import Payment from "./resources/page/order/Payment";
 import Header from "./resources/components/Header";
 import Footer from "./resources/components/Footer";
 import ProdList from "./resources/page/product/ProdList";
+import Rightmenubar from "./resources/components/Rightmenubar";
 import SignUp from "./resources/page/member/SignUp";
 import UserUpdate from "./resources/page/BuyerMyPage/UserUpdate";
 import { useState } from "react";

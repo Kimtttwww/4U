@@ -1,5 +1,6 @@
 package kr.cl.forU.product.model.dao;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +33,7 @@ public class ProductDao {
 	 * 상품들 조회
 	 * @return 조회된 상품 리스트
 	 */
-	public List<Product> selectProductList(Map<String, String> m) {
+	public List<Product> selectProductList(Map<String, ArrayList> m) {
 		return session.selectList(map + "selectProductList", m);
 	}
 
@@ -114,6 +115,15 @@ public class ProductDao {
 		
 		return session.selectList(map + "selectseeThroughList");
 		
+	}
+
+	public List<String> selectLining() {
+		return session.selectList(map + "selectLining");
+	}
+
+	public List<Integer> selectPrice() {
+	
+		return session.selectList(map + "selectPrice");
 	}
 	
 	

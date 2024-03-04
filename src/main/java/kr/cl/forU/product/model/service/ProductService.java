@@ -31,7 +31,7 @@ public class ProductService {
 	 * @param m 
 	 * @return 조회된 상품 리스트
 	 */
-	public List<Product> selectProductList(Map<String, String> m ) {
+	public List<Product> selectProductList(Map<String, ArrayList> m ) {
 		return dao.selectProductList(m);
 	}
 
@@ -96,8 +96,10 @@ public class ProductService {
 		
 		map.put("cateMain", dao.selectCateMainList());
 		map.put("cateSub", dao.selectCateSubList());
-		map.put("color", dao.selectColorList());
-		map.put("seeThrough", dao.selectseeThroughList());
+		map.put("color", dao.selectColorList()); // 색상
+		map.put("seeThrough", dao.selectseeThroughList()); // 옷의 비침 정도 
+		map.put("lining", dao.selectLining()); // 옷의 안감
+		map.put("price", dao.selectPrice()); // 가격
 		
 		size.add("XS");
 		size.add("S");

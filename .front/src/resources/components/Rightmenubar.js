@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/common/Rightbar.css";
 
 
 export default function Rightmenubar() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [cateMain, setCateMain] = useState("");
+
   const [cateSub, setCateSub] = useState("");
   const [product, setProduct] = useState(null);
-
+  const navigate = useNavigate();
+//===================================================
   const [selectedSeeThrough, setSelectedSeeThrough] = useState([]);
   const [selectedThickness, setSelectedThickness] = useState([]);
   const [selectedLine, setSelectedLine] = useState([]);
-  const [selectedColor, setSelectedColor] = useState([]);
+  const [selectedCategory, setSelectedCategory] = useState([]);
+  const [selectedColorNos, setSelectedColorNos] = useState([]);
 
+ 
+//===================================================
   useEffect(() => {
-    axios.get("/product/category")
+    axios.get("/product/category") // 컨트롤러 주소
     .then(response => {setProduct(response.data)
       console.log(response.data);}
       )
@@ -36,14 +40,47 @@ export default function Rightmenubar() {
      
       setSelectedSeeThrough([...selectedSeeThrough, value]);
     }
+
+    console.log(selectedSeeThrough)
   };
 
-  const handleClickThickness = (value) => {
-    if (selectedThickness.includes(value)) {
-      setSelectedThickness(selectedThickness.filter(item => item !== value));
+  const handleClickCategory = (category) => {
+    if (selectedCategory.includes(category)) {
+      setSelectedCategory(selectedCategory.filter(item => item !== category));
     } else {
-      setSelectedThickness([...selectedThickness, value]);
+      setSelectedCategory([...selectedCategory, category]);
     }
+  };
+
+
+  // 버튼 눌렀을때 ProdList.js로 넘어가야함
+  // const handleButtonClick = () => {
+  //   console.log("About to navigate");
+  //   navigate("/product/list", { 
+  //     state: { 
+  //       selectedSeeThrough: selectedSeeThrough,
+  //       selectedCategory: selectedCategory
+  //     }
+  //   });
+  //   console.log("Navigation request sent");
+  // };
+  const handleButtonClick = () => {
+    console.log("1");
+    let cateMain = [];
+    test = [selectedCategory, product.cateMain]
+
+    selectedCategory.forEach((mainName) => {
+      cateMain.push(product.cateMain.find((category) => category.mainName == mainName))
+    });
+    cateMain = cateMain.map((category) => category.cateMain);
+        
+    navigate("/product/list");
+    let selectedItems = {
+      selectedSeeThrough ,
+      selectedCategory: cateMain,
+      selectedColorNos
+    };
+    sessionStorage.setItem("selectedItems", JSON.stringify(selectedItems));
   };
 
   const handleClickLine = (value) => {
@@ -54,13 +91,6 @@ export default function Rightmenubar() {
     }
   };
 
-  const handleColor = (value) => {
-    if(selectedColor.includes(value)){
-      setSelectedColor(selectedColor.filter(item=> item !== value));
-    } else {
-      setSelectedColor([...selectedColor, value]);
-    }
-  }
   //==============================================
 
   const scrollToTop = () => {
@@ -81,7 +111,6 @@ export default function Rightmenubar() {
   const handleClick = () => {
     axios.get("/product/category")
     .then(response => setProduct(response.data))
-
   };
 
   return (
@@ -107,223 +136,82 @@ export default function Rightmenubar() {
           <div className="sideBarContent">
           
             {/* <button onClick={handleClick}>cateSub 넘어가지나</button> */}
-            <div>
-            {product && (
-
-  <div className="productContainer">
-    {product.cateMain.map((product) => (
-      <div key={product.mainName}>{product.cateMain} {product.mainName}</div>
-    ))}
-  </div>
-)}
+          
+            <div className="cateTitle">
+              옷 분류
             </div>
             
+            <div className="productContainer">
+            
+
+  {product.cateMain.map((product) => (
+    <a 
+      key={product.mainName} 
+      className={`cateSeeThrough ${selectedCategory.includes(product.mainName) ? 'active' : ''}`}
+      onClick={() => handleClickCategory(product.mainName)}
+    >
+      {product.cateMain} {product.mainName}
+    </a>
+  ))}   
+</div>
+
             <div className="cateTitle">
               비침
             </div>
-            <a
-            className={`cateSeeThrough ${selectedSeeThrough.includes('withTransparency') ? 'active' : ''}`}
-            onClick={() => handleClickSeeThrough('withTransparency')}
-            >
-            비침있음
-            </a>
-            <a
-            className={`cateSeeThrough ${selectedSeeThrough.includes('withoutTransparency') ? 'active' : ''}`}
-            onClick={() => handleClickSeeThrough('withoutTransparency')}
-            >
-            비침없음
-            </a>
-           
-            <div className="cateTitle">
-            두께
-            </div>
-            <a
-        className={`cateSeeThrough ${selectedThickness.includes('thin') ? 'active' : ''}`}
-        onClick={() => handleClickThickness('thin')}
-      >
-        얇음
-      </a>
-      <a
-        className={`cateSeeThrough ${selectedThickness.includes('thick') ? 'active' : ''}`}
-        onClick={() => handleClickThickness('thick')}
-      >
-        두꺼움
-      </a>
-
-      <div className="cateTitle">
-            라인
-            </div>
-            <a
-       className={`cateSeeThrough ${selectedLine.includes('exist') ? 'active' : ''}`}
-       onClick={() => handleClickLine('exist')}
-     >
-       있음
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('notExist') ? 'active' : ''}`}
-       onClick={() => handleClickLine('notExist')}
-     >
-       없음
-     </a>
-
-     <div className="cateTitle">
-            색상
-            </div>
-            <a
-       className={`cateSeeThrough ${selectedLine.includes('blue') ? 'active' : ''}`}
-       onClick={() => handleClickLine('blue')}
-     >
-       블루
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('red') ? 'active' : ''}`}
-       onClick={() => handleClickLine('red')}
-     >
-       레드
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('green') ? 'active' : ''}`}
-       onClick={() => handleClickLine('green')}
-     >
-       그린
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('black') ? 'active' : ''}`}
-       onClick={() => handleClickLine('black')}
-     >
-       블랙
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('ivory') ? 'active' : ''}`}
-       onClick={() => handleClickLine('ivory')}
-     >
-       아이보리
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('purple') ? 'active' : ''}`}
-       onClick={() => handleClickLine('purple')}
-     >
-       퍼플
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('white') ? 'active' : ''}`}
-       onClick={() => handleClickLine('white')}
-     >
-       화이트
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('khaki') ? 'active' : ''}`}
-       onClick={() => handleClickLine('khaki')}
-     >
-       카키
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('brown') ? 'active' : ''}`}
-       onClick={() => handleClickLine('brown')}
-     >
-       브라운
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('gray') ? 'active' : ''}`}
-       onClick={() => handleClickLine('gray')}
-     >
-       그레이
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('navy') ? 'active' : ''}`}
-       onClick={() => handleClickLine('navy')}
-     >
-       네이비
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('beige') ? 'active' : ''}`}
-       onClick={() => handleClickLine('beige')}
-     >
-       베이지
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('orange') ? 'active' : ''}`}
-       onClick={() => handleClickLine('orange')}
-     >
-       오렌지
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('yellow') ? 'active' : ''}`}
-       onClick={() => handleClickLine('yellow')}
-     >
-       옐로우
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('pink') ? 'active' : ''}`}
-       onClick={() => handleClickLine('pink')}
-     >
-       핑크
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('violet') ? 'active' : ''}`}
-       onClick={() => handleClickLine('violet')}
-     >
-       바이올렛
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('gold') ? 'active' : ''}`}
-       onClick={() => handleClickLine('gold')}
-     >
-       골드
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('silver') ? 'active' : ''}`}
-       onClick={() => handleClickLine('silver')}
-     >
-       실버
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('denim') ? 'active' : ''}`}
-       onClick={() => handleClickLine('denim')}
-     >
-       데님
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('wine') ? 'active' : ''}`}
-       onClick={() => handleClickLine('wine')}
-     >
-       와인
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('coffee') ? 'active' : ''}`}
-       onClick={() => handleClickLine('coffee')}
-     >
-       커피
-     </a>
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('cream ') ? 'active' : ''}`}
-       onClick={() => handleClickLine('cream')}
-     >
-       크림
-     </a>
-
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('indigoblue') ? 'active' : ''}`}
-       onClick={() => handleClickLine('indigoblue')}
-     >
-       인디고블루
-     </a>
-
-     <a
-       className={`cateSeeThrough ${selectedLine.includes('skyblue') ? 'active' : ''}`}
-       onClick={() => handleClickLine('skyblue')}
-     >
-       스카이블루
-     </a>
-
-
-        </div>
         
+    <div>
+    {product.seeThrough.map((seeThrough) => (
+      <a
+        className={`cateSeeThrough ${selectedSeeThrough.includes(seeThrough) ? 'active' : ''}`}
+        onClick={() => handleClickSeeThrough(seeThrough)}
+      >
+        {seeThrough}
+      </a>
+    ))}
+    
+   
+  </div>  
 
-       
+          
 
-  
-  )}
+     
+  <div className="flexContainer">
+  {product.color.map((color) => (
+    <a
+      key={color.colorNo}
+      href={"#" + color.colorNo}
+      style={{
+        display: 'block',
+        width: '20px',
+        height: '20px',
+        borderRadius: '50%',
+        backgroundColor: color.rgb,
+        marginRight: '10px',
+        border: `3px solid ${selectedColorNos.includes(color.colorNo) ? 'white' : 'black'}`,
+        textDecoration: 'none',
+        color: '#000'
+      }}
+      className="colorCircle"
+      onClick={(e) => {
+        e.preventDefault();
+        if (selectedColorNos.includes(color.colorNo)) {
+          setSelectedColorNos(selectedColorNos.filter(no => no !== color.colorNo));
+        } else {
+          setSelectedColorNos([...selectedColorNos, color.colorNo]);
+        }
+      }}
+    >
+      {color.colorName}
+    </a>
+  ))}
+</div>
+            <br/>
+            <br/>
+    <button className="cateButton" type ="submit" onClick={handleButtonClick}>상품찾기</button>
+        </div>
+    )}
+        
+    
   </>
   );
 }

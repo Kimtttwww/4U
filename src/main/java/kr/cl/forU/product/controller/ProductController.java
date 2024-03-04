@@ -44,7 +44,9 @@ public class ProductController {
 	 * @return 조회된 상품 리스트
 	 */
     @GetMapping("list")
-    public List<Product> selectProductList(@RequestParam Map<String, String> m) {
+    public List<Product> selectProductList(@RequestParam Map<String, ArrayList> m) {
+    	System.out.println(m.get("seeThrough"));
+    	System.out.println(m.get("cateMain"));
     	return service.selectProductList(m);
     }
     
@@ -166,5 +168,7 @@ public class ProductController {
     	// select count from product group by see_through
     
         		}
+    
+   
     
 }

@@ -10,7 +10,6 @@
 			select="selectProdImageList" column="PROD_NO" />
 	</resultMap>
 	
-
 	<select id="selectProductList" parameterType="map" resultMap="productResultSet">
 		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
 		FROM PRODUCT
@@ -25,7 +24,7 @@
         FROM PRODUCT
         WHERE PROD_NO = 1
 	</select>
-
+	
 	<select id="selectProdDetailList" parameterType="int" resultType="prodDetail">
 		SELECT "INDEX", PROD_NO, "SIZE", STACK, TOP, BOTTOM, COLOR_NO, COLOR_NAME, RGB 
 		FROM PROD_DETAIL
@@ -33,7 +32,7 @@
 		WHERE PROD_NO = #{prodNo} AND STACK > 0
 		ORDER BY "INDEX", "SIZE" DESC
 	</select>
-
+	
 	<select id="selectProdImageList" parameterType="int" resultType="image">
 		SELECT IMG_NO, REF_NO, COLOR_NO, IMG_TYPE, IMG_NAME, COLOR_NAME, RGB
 		FROM IMAGE
@@ -127,6 +126,18 @@
 	<select id = "selectCateSubList" resultType = "CategorySub">
 		SELECT CATE_SUB, SUB_NAME
 		FROM CATE_SUB
+	</select>
+	
+	<select id = "selectLining" resultType = "String">
+		SELECT LINING
+		FROM PRODUCT
+		GROUP BY LINING
+	</select>
+	
+	<select id = "selectPrice" resultType = "int">
+		SELECT PRICE
+	FROM PRODUCT
+	WHERE PRICE BETWEEN 0 AND 400000
 	</select>
 	
 	

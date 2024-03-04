@@ -2,30 +2,53 @@ import { useEffect, useState } from "react";
 import "../../css/product/ProdList.css";
 import ProdDetail from "../../modal/ProdDetail";
 import axios from "axios";
-
+import Rightmenubar from "../../components/Rightmenubar";
+import qs from 'qs';
 /**
  * 상품 리스트 페이지
  * @props props 객체형태로 제시된 리스트 필터 요소
  * 	@param {string | number} () cateMain, cateSub, size, color, seeThrough, ...
  */
-export default function ProdList(props) {
+export default function ProdList() {
 	
-	const {category} = props;
 	const [prodList, setProdList] = useState([]);
 	const [showDetail, setShowDetail] = useState(false);
 	const [product, setProduct] = useState();
 
+	// useEffect(() => {
+	// 	// 상품 리스트 불러오기
+	// 	axios.get("/product/list", category)
+	// 	.then((result) => {
+	// 		setProdList(result.data);
+	// 	}).catch((error) => {
+	// 		console.log(error);
+	// 		alert("상품을 불러오는 중 문제가 발생했습니다");
+	// 	});
+	// }, []);
 
-	useEffect(() => {
-		// 상품 리스트 불러오기
-		axios.get("/product/list", category)
-		.then((result) => {
-			setProdList(result.data);
-		}).catch((error) => {
-			console.log(error);
-			alert("상품을 불러오는 중 문제가 발생했습니다");
-		});
-	}, []);
+
+const api = axios.create({
+  paramsSerializer: function(params) {
+    return qs.stringify(params, {arrayFormat: 'repeat'})
+  }
+});
+
+// ...
+
+useEffect(() => {
+  let selectedItems = JSON.parse(sessionStorage.getItem("selectedItems"));
+  console.log(selectedItems);
+
+  api.get("/product/list", {
+    params: selectedItems
+  })
+  .then((result) => {
+    setProdList(result.data);
+  }).catch((error) => {
+    console.log(error);
+    alert("상품을 불러오는 중 문제가 발생했습니다");
+  });
+}, []);
 	
 	/**
 	 * 상세페이지에 필요한 값 세팅
