@@ -1,8 +1,10 @@
+/* 전체 틀 */
 .order-container {
     width: 750px;
     margin: 0 auto;
 }
 
+/* 주문서 작성 타이틀 텍스트 */
 .order-write {
     font-size: 50px;
     font-weight: bold;
@@ -11,13 +13,17 @@
     margin: 50px 0;
 }
 
+/* 각 타이틀 텍스트 폰트 크기 */
 .order-prod-title,
 .order-delivery-title,
 .order-paymentInfo-title,
 .order-payment-title {
+    display: inline-block;
     font-size: 25px;
+    margin: 20px 0;
 }
 
+/* 주문상품(총수량) - 장바구니*/
 .order-prod-table {
     width: 800px;
 }
@@ -35,6 +41,7 @@
     width: 100px;
 }
 
+/* 오더.js파일에 이런 클래스명 없음 */
 .apply-option {
     display: flex;
     justify-content: space-around;
@@ -53,6 +60,7 @@
     font-weight: bold;
 }
 
+/* 배송정보 */
 .delivery-info input[type=text] {
     height: 25px;
 }
@@ -66,17 +74,19 @@
     height: 30px;
 }
 
-.delivery-info,
+/* .delivery-info,
 .order-paymentInfo-content {
-    margin-bottom: 50px;
     border: 1px solid black;
+} */
+
+.ordererInfo{
+    margin: 5px 0 15px 0;
 }
 
-
+/* 배송정보 틀 */
 .order-delivery-content {
     display: flex;
     flex-direction: row;
-    margin-left: 25px;
 }
 
 .receiver-text {
@@ -85,42 +95,168 @@
     justify-content: center;
 }
 
-.memo {
+/* .memo {
     margin-top: 30px;
+} */
+
+.receiver-text span{
+    padding: 15px;
+    border: 1px solid #c4c2c2;
+    border-left: none;
+    background-color: #f3f3f3;
+    width: 180px;
+}
+.receiver-text span:nth-child(2){
+    border-top: none;
+}
+.receiver-text span:nth-child(3){
+    height: 70px;
+    border-top: none;
+    line-height: 40px
 }
 
-.margin {
-    margin-bottom: 15px;
+.receiver-text span:nth-child(4){
+    border-top: none;
+}
+.receiver-input{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-.margin>select {
-    height: 20px;
-    margin-right: 5px;
+/* 수령자명 인풋 태그 */
+.receiver-input>input:nth-child(1){
+    padding: 27px;
+    border: 1px solid #c4c2c2;
+    border-left: none;
+    border-right: none;
+    background-color: #fff;
 }
 
-.ordererInfo {
-    margin: 20px;
+/* 연락처 인풋 태그 */
+.receiver-input>div:nth-child(2){
+    padding: 14.5px;
+    border: 1px solid #c4c2c2;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    background-color: #fff;
+}
+.order-phone-box>select{
+    height: 25px;
 }
 
+/* 배송지 주소 인풋 태그 */
+.receiver-input>div:nth-child(3){
+    padding: 2px;
+    border: 1px solid #c4c2c2;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    background-color: #fff;
+}
+
+.order-address div{
+    display: flex;
+    align-items: center;
+}
+
+.order-address>div:nth-child(1)>input{
+    margin: 5px 5px 5px 10px;
+}
+.order-address>div:nth-child(2) input{
+    font-size: 12px;
+    margin: 0 5px 5px 10px;
+    flex: 1;
+}
+
+/* 주소 찾기 버튼 */
+.btn-primary{
+    padding: 1px 5px;
+    border-radius: 3px;
+    margin-left: 5px;
+    border: none;
+}
+
+/* 배송 메모 인풋 태그 */
+.receiver-input>div:nth-child(4){
+    display: flex;
+    padding: 3px;
+    border: 1px solid #c4c2c2;
+    border-left: none;
+    border-right: none;
+    border-top: none;
+    background-color: #fff;
+}
+
+.receiver-input>div:nth-child(4)>input{
+    margin: 9px;
+    height: 29px;
+    width: 300px;
+}
+.receiver-input>div:nth-child(4)>select{
+    margin: 9px;
+}
+
+/* 결제정보 */
 .paymnet-area {
     display: flex;
-    justify-content: space-between;
-    margin-bottom: 50px;
+    flex-direction: column;
 }
 
 .payment-info {
     display: flex;
-    margin: 10px;
 }
 
 .payment-text {
     width: 180px;
 }
 
+/* 결제예정금액,쿠폰할인,사용할 포인트,사용가능한 포인트 div */
+.payment-text div{
+    padding: 15px;
+    border: 1px solid #c4c2c2;
+    border-left: none;
+    background-color: #f3f3f3;
+    width: 180px;
+}
+.payment-text div:nth-child(2),
+.payment-text div:nth-child(3),
+.payment-text div:nth-child(4) {
+    border-top: none;
+}
+
+/* 결제 금액 내용들 000원~ 포인트 전체사용하기 까지 div,span */
 .payment-discount {
-    margin-left: 10px;
     display: flex;
     flex-direction: column;
+    width: 100%;
+}
+
+.payment-discount div{
+    border: 1px solid #c4c2c2;
+    border-left: none;
+    border-right: none;
+    background-color: #fff;
+}
+.payment-discount div:nth-child(1){
+    padding: 15px;
+}
+.payment-discount div:nth-child(2){
+    border-top: none;
+    padding: 12px;
+}
+.payment-discount>span{
+    border: 1px solid #c4c2c2;
+    border-left: none;
+    background-color: #fff;
+    border-top: none;
+    padding: 12px;
+    border-right: none;
+}
+.payment-discount div:nth-child(4) {
+    border-top: none;
+    padding: 15px;
 }
 
 .myCoupon-view {
@@ -128,16 +264,22 @@
 }
 
 .payPrice {
-    border-top: 1px solid black;
-    background-color: burlywood;
+    background-color: #fcdeb8;
     height: 50px;
     display: flex;
-    justify-content: space-around;
     align-items: center;
+    border-bottom: 1px solid #c4c2c2;
 }
 
-.payPrice>span {
+.payPrice span {
     font-weight: bold;
+    display: inline-block;
+    padding: 13px;
+}
+
+.payPrice>span:nth-child(1){
+    border-right: 1px solid #c4c2c2;
+    width: 180px;
 }
 
 .payment-method {
@@ -151,36 +293,46 @@
     cursor: pointer;
 }
 
+/* 최종 결제 금액 */
 .payment-right {
-    border: 1px solid black;
-    margin-left: 20px;
     border-radius: 20px;
-    background-color: rgb(236, 175, 152);
-    width: 300px;
     display: flex;
     flex-direction: column;
+    align-items: center;
 }
 
-.payment-right>p {
-    font-size: 25px;
-    font-weight: bold;
-    display: flex;
-    justify-content: center;
-    margin-top: 27px;
-}
 
 .payment-right-content {
     display: flex;
-    justify-content: space-around;
     margin-top: 20px;
     font-size: 17px;
+    flex-wrap: wrap;
+    border: 1px solid #000;
+    border-radius: 10px;
+    background-color: #f3f3f3;
+    height: 80px;
+    padding: 0 70px;
 }
+.payment-right-content>p,
+.payment-right-content>div:nth-child(2)>div {
+    font-size: 35px;
+    font-weight: bold;
+    margin: 10px 20px;
+}
+
+.payment-right-content>div:nth-child(3)>div,
+.payment-right-content>div:nth-child(4)>div {
+    line-height: 35px;
+    margin: 0 5px;
+    color: #696868;
+}
+
 
 .payBtn {
     display: flex;
     justify-content: center;
     margin-top: 25px;
-    margin-bottom: 20px;
+    margin-bottom: 60px;
 }
 
 .payment-right button {
