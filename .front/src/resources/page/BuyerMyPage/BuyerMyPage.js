@@ -11,59 +11,52 @@ import '../../css/buyerMyPage/Benefits.css';
 import '../../css/buyerMyPage/Chat.css';
 
 export default function BuyerMyPage() {
-  const [modalOpened, setModalOpened] = useState(false);
-  const [orders, setOrders] = useState([]);
-  const [recentlyViewed, setRecentlyViewed] = useState([]);
-  const [listQna, setListQna] = useState([]);
-  
- // 세션 저장소에서 로그인 정보 가져오기
-const sessionLoginMember = Cookies.get("loginMember");
-const [loginMember, setLoginMember] = useState(sessionLoginMember ? JSON.parse(sessionLoginMember) : null);
 
-useEffect(() => {
-    // 세션에 로그인 정보가 있는 경우 상태 업데이트
-    if (sessionLoginMember) {
-        setLoginMember(JSON.parse(sessionLoginMember));
-    }
-}, []); // 마운트될 때 한 번만 실행되도록 빈 배열을 전달합니다.
+	const [modalOpened, setModalOpened] = useState(false);
+	const [orders, setOrders] = useState([]);
+	const [recentlyViewed, setRecentlyViewed] = useState([]);
+	const [listQna, setListQna] = useState([]);
+
+	// 세션 저장소에서 로그인 정보 가져오기
+	const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
 
 
-  useEffect(() => {
-    // 구매내역 및 최근 본 상품 로드
-    // loadOrders();
-    loadRecentlyViewed();
+	useEffect(() => {
+		// 구매내역 및 최근 본 상품 로드
+		// loadOrders();
+		loadRecentlyViewed();
 
-  }, []);
+	}, []);
 
-  // 구매 내역 로드
-  const loadOrders = () => {
-    axios.get("http://localhost:3000/order/history")
-      .then(response => setOrders(response.data))
-      .catch(err => console.log(err));
-  };
+	// 구매 내역 로드
+	const loadOrders = () => {
+		axios.get("http://localhost:3000/order/history")
+		.then(response => setOrders(response.data))
+		.catch(err => console.log(err));
+	};
 
-// 최근 본 상품 로드
-const loadRecentlyViewed = () => {
-  const viewedFromCookie = Cookies.get('recentProduct');
-  if (viewedFromCookie) {
-    // 숫자를 배열로 래핑하여 설정
-    const recentlyViewedItems = [parseInt(viewedFromCookie)];
-    setRecentlyViewed(recentlyViewedItems);
-  }
-};
+	// 최근 본 상품 로드
+	const loadRecentlyViewed = () => {
+		const viewedFromCookie = Cookies.get('recentProduct');
+		if (viewedFromCookie) {
+			// 숫자를 배열로 래핑하여 설정
+			const recentlyViewedItems = [parseInt(viewedFromCookie)];
+			setRecentlyViewed(recentlyViewedItems);
+		}
+	};
 
-useEffect(() => {
-  fetchQnaList();
-}, []);
+	useEffect(() => {
+		fetchQnaList();
+	}, []);
 
-const fetchQnaList = async () => {
-  try {
-      const response = await axios.get(`/qna/listqna?memberNo=${loginMember.memberNo}`);
-      setListQna(response.data);
-  } catch (error) {
-      console.error('Error fetching Q&A list:', error);
-  }
-};
+	const fetchQnaList = async () => {
+	try {
+		const response = await axios.get(`/qna/listqna?memberNo=${loginMember.memberNo}`);
+		setListQna(response.data);
+	} catch (error) {
+		console.error('Error fetching Q&A list:', error);
+	}
+	};
  
     return (
       <>

@@ -12,7 +12,7 @@ import Cookies from "js-cookie";
 export default function ProdReview(props) {
 	
 	const {prodNo} = props;
-	const [loginMember, setLoginMember] = useState(null);
+	const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
 	const [reviewList, setReviewList] = useState([]);
 	const [isBuyed, setIsBuyed] = useState(false);
 	const [review, setReview] = useState({});
@@ -23,13 +23,8 @@ export default function ProdReview(props) {
 	const reviewInputs = useRef([]);
 
 	useEffect(() => {
-		let strLoginMember = Cookies.get("loginMember");
-		
-		if(strLoginMember) {
-			strLoginMember = JSON.parse(strLoginMember);
-			setLoginMember(strLoginMember);
-
-			axios.get("/product/review/check?prodNo=" + prodNo + "&memberNo=" + strLoginMember?.memberNo)
+		if(loginMember) {
+			axios.get("/product/review/check?prodNo=" + prodNo + "&memberNo=" + loginMember?.memberNo)
 			.then((data) => {setIsBuyed(data.data)})
 			.catch((error) => {
 				console.log(error);

@@ -60,7 +60,7 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
 
     const getObjData = (arr, key) => {
         let responseArr = [];
-        arr.map((item) => {
+        arr?.map((item) => {
             if (item[key] != null) {
                 responseArr.push(item[key]);
             };
@@ -68,7 +68,7 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
         return responseArr;
     };
 
-    getObjData(JSON.parse(Cookies.get('cart')), 'index');
+    getObjData(Cookies.get('cart') ? JSON.parse(Cookies.get('cart')) : [], 'index');
     // console.log(`${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`);
     // `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}` 
     let orderData = {};

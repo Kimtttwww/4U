@@ -30,7 +30,7 @@ function App() {
 
    /** 로그인창 띄울떄 필요한 매개변수 */
    const [showLogin, setShowLogin] = useState(false);
-   const [login, setLogin] = useState(JSON.parse(Cookies.get("loginMember") + ""));
+   const [login, setLogin] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
 
    return (
       <div className="App">
