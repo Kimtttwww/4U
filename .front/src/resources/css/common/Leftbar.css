@@ -95,7 +95,7 @@ a {
 
 .mainCateListItem:hover,
 .subListEle:hover {
-    color: #fff;
+    /* color: #fff; */
     cursor: pointer;
     /* text-shadow: #fff 1px 1px, #000 0px 0px, #000 1px 1px, #000 2px 2px; */
 }

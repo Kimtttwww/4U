@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import "../../css/product/ProdList.css";
 import ProdDetail from "../../modal/ProdDetail";
 import axios from "axios";
@@ -8,7 +8,6 @@ import { useParams } from "react-router";
 import Leftmenubar from "../../components/Leftmenubar";
 import { Link } from "react-router-dom";
 
-export const MainContext = createContext();
 
 /**
  * 상품 리스트 페이지
@@ -28,11 +27,8 @@ export default function ProdList(props) {
 	const [mainList, setMainList] = useState([]);
 	const [subList, setSubList] = useState([]);
 	const [mainName, setMainName] = useState();
-	const [checkedSub, setCheckedSub] = useState(null);
-
-	// console.log("Prodlist > mainNo : " + mainNo + ", subNo : " + subNo);
-
-
+	const [checkedSub, setCheckedSub] = useState(subNo);
+	console.log("Prodlist > mainNo : " + mainNo + ", subNo : " + subNo);
 
 
 	// DB에서 CATE_MAIN 가져오기
@@ -45,7 +41,6 @@ export default function ProdList(props) {
 	const getMainCateNo = async () => {
 		const response = await loadMainProdAPI(mainNo);
 		setProdBycateMain([...response]);
-		// setProdBycate([...response]);
 	};
 
 	// DB에서 cateMain에 해당하는 CATE_SUB 가져오기
@@ -79,10 +74,14 @@ export default function ProdList(props) {
 		return null;
 	};
 
+	// subCate 선택시 스타일부여
 	const subCateHovered = (subNo) => {
-		console.log(subNo);
 		setCheckedSub(subNo);
 	};
+
+	useEffect(() => {
+		console.log("checkedSub ??", checkedSub);
+	}, [checkedSub])
 
 	useEffect(() => {
 		getMainCateNo();
@@ -97,28 +96,16 @@ export default function ProdList(props) {
 			});
 	}, []);
 
-
 	useEffect(() => {
-		// console.log("1 mainNo 바뀜  mainNo : ", mainNo);
-
-
-
 		if (subNo > 0 && subNo !== undefined) {
 			getProdSubNo();
-		}
-
-		// console.log("prodBycateSub ?", prodBycateSub);
-		// const nameBymainNo = mainList?.find(item => item.cateMain == mainNo);
-		// if (nameBymainNo) {
-		// 	setMainName(nameBymainNo.mainName);
-		// };
+		};
+		setCheckedSub(subNo);
 	}, [subNo]);
 
 	useEffect(() => {
-		// console.log("mainNo : ?", mainNo);
 		loadSubDb();
 		if (subNo == undefined) {
-			// console.log("2 subNo == undefined 임 -> 메인카테 prod불러와야함");
 			getMainCateNo();
 			setProdBycateSub(null);
 		};
@@ -126,8 +113,9 @@ export default function ProdList(props) {
 		if (nameBymainNo) {
 			setMainName(nameBymainNo.mainName);
 		};
-		// console.log(" prodBycateMain >>>?", prodBycateSub);
-	}, [mainNo, mainList])
+	}, [mainNo, mainList]);
+
+
 
 	/**
 	 * 상세페이지에 필요한 값 세팅
@@ -220,8 +208,12 @@ export default function ProdList(props) {
 		return element;
 	}
 
+
+
+
+
 	// console.log("subNo ??", subNo, "subNo ??", subNo);
-	// console.log(subNo === subNo)
+	console.log(checkedSub)
 	return (
 		<>
 			<h1 className="mainCateName">{mainName}</h1>
@@ -230,10 +222,15 @@ export default function ProdList(props) {
 					subCateHTML()?.map((sub, index) => (
 						<div className="subListEle" key={index}>
 							<Link to={`/product/list/${mainNo}/${sub.cateSub}`}
-								// onClick={() => subCateHovered(subNo)}
-								className={subNo === sub.cateSub ? 'subCatechecked' : ''}>
+								onClick={() => subCateHovered(sub.cateSub)}
+								defaultChecked={checkedSub}
+								style={{
+									color: checkedSub === sub.cateSub ? 'blue' : 'black',
+									fontWeight: checkedSub === sub.cateSub ? 'bold' : '200',
+									fontSize: checkedSub === sub.cateSub ? '20px' : '15px'
+								}}
+							>
 								{sub.subName}
-								{console.log(subNo, sub.cateSub)}
 							</Link>
 						</div>
 					))
@@ -241,7 +238,7 @@ export default function ProdList(props) {
 			</h5 >
 			<div className="ProdList">
 				<div className="menu-side-area">
-					<Leftmenubar />
+					<Leftmenubar checkedSub={checkedSub} />
 				</div>
 				<div className="products">
 					{

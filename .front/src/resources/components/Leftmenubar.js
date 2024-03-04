@@ -8,7 +8,7 @@ import ProdList from "../page/product/ProdList";
 import MainCateList from "../page/product/MainCateList";
 
 
-export default function Leftmenubar() {
+export default function Leftmenubar({ selectSubCate }) {
 
     const { mainNo, subNo } = useParams();
     const navi = useNavigate();
@@ -18,6 +18,8 @@ export default function Leftmenubar() {
     const [rect, setRect] = useState({});
     const [hoverMainCate, setHoverMainCate] = useState(0);
     const [hoverSubCate, setHoverSubCate] = useState(0);
+
+
 
     // leftbar 스크롤감지로 위치이동
     const handleScroll = () => {
@@ -98,6 +100,7 @@ export default function Leftmenubar() {
 
 
     const mouseEnterHandler = (mainNo) => {
+        console.log("mainNo ??", mainNo);
         setHoverMainCate(mainNo);
     };
 
@@ -172,6 +175,10 @@ export default function Leftmenubar() {
                                                         //     setHoverMainCate(0);
                                                         // }
                                                     }}
+                                                    style={{
+                                                        color: hoverMainCate === main.cateMain ? 'blue' : 'black',
+                                                        fontWeight: hoverMainCate === main.cateMain ? 'bold' : '200'
+                                                    }}
                                                 // onClick={() => { mainCateClickHandler(main.cateMain) }}
                                                 >
                                                     {/* {main.cateMain} */}
@@ -188,6 +195,7 @@ export default function Leftmenubar() {
                                 <div div className="subCateList"
                                     style={{
                                         position: 'fixed', top: `${rect.top}px`, left: `${rect.right - 10}px`
+
                                     }}
                                     onMouseLeave={() => {
                                         setHoverSubCate(0);
@@ -201,6 +209,10 @@ export default function Leftmenubar() {
                                                     () => {
                                                         subMouseEnterHandler(sub.cateSub);
                                                     }}
+                                                style={{
+                                                    color: hoverSubCate === sub.cateSub ? 'red' : 'yellow',
+                                                    fontWeight: hoverSubCate === sub.cateSub ? 'bold' : '200'
+                                                }}
                                             // onClick={subCateClickHandler(sub.cateSub)}
                                             >
                                                 <Link to={`/product/list/${hoverMainCate}/${sub.cateSub}`} >{sub.subName}</Link>
