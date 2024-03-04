@@ -7,6 +7,8 @@ import { mainCateListAPI, subCateListAPI } from "../common/LeftbarAPI";
 import { useParams } from "react-router";
 import Leftmenubar from "../../components/Leftmenubar";
 import { Link } from "react-router-dom";
+import Rightmenubar from "../../components/Rightmenubar";
+import qs from 'qs';
 
 
 /**
@@ -27,6 +29,16 @@ export default function ProdList() {
 	const [checkedSub, setCheckedSub] = useState(subNo);
 	console.log("Prodlist > mainNo : " + mainNo + ", subNo : " + subNo);
 
+	// useEffect(() => {
+	// 	// 상품 리스트 불러오기
+	// 	axios.get("/product/list", category)
+	// 	.then((result) => {
+	// 		setProdList(result.data);
+	// 	}).catch((error) => {
+	// 		console.log(error);
+	// 		alert("상품을 불러오는 중 문제가 발생했습니다");
+	// 	});
+	// }, []);
 
 	// DB에서 CATE_MAIN 가져오기
 	const loadMainDb = async () => {
@@ -114,6 +126,30 @@ export default function ProdList() {
 
 
 
+
+const api = axios.create({
+  paramsSerializer: function(params) {
+    return qs.stringify(params, {arrayFormat: 'repeat'})
+  }
+});
+
+// ...
+
+useEffect(() => {
+  let selectedItems = JSON.parse(sessionStorage.getItem("selectedItems"));
+  console.log(selectedItems);
+
+  api.get("/product/list", {
+    params: selectedItems
+  })
+  .then((result) => {
+    setProdList(result.data);
+  }).catch((error) => {
+    console.log(error);
+    alert("상품을 불러오는 중 문제가 발생했습니다");
+  });
+}, []);
+	
 	/**
 	 * 상세페이지에 필요한 값 세팅
 	 * @param {number} prodNo
