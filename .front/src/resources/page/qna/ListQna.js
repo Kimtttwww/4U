@@ -5,8 +5,7 @@ import '../../css/qna/ListQna.css';
 import Cookies from 'js-cookie';
 
 export default function ListQna() {
-	const sessionLoginMember = Cookies.get("loginMember");
-	const [loginMember, setLoginMember] = useState(sessionLoginMember ? JSON.parse(sessionLoginMember) : null);
+	const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
 	const [listQna, setListQna] = useState([]);
 	const [expandedIndex, setExpandedIndex] = useState(null);
 	const [showAnswerBox, setShowAnswerBox] = useState(false);
@@ -17,11 +16,6 @@ export default function ListQna() {
 	const [currentPage, setCurrentPage] = useState(1);
 	const itemsPerPage = 5;
 
-	useEffect(() => {
-		if (sessionLoginMember) {
-			setLoginMember(JSON.parse(sessionLoginMember));
-		}
-	}, []);
 
 	useEffect(() => {
 		fetchQnaList();

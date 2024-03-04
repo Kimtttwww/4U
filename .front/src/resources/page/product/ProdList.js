@@ -132,9 +132,7 @@ export default function ProdList() {
 
 	// ...
 	useEffect(() => {
-		let selectedItems = Cookies.get("selectedItems");
-		if(selectedItems) selectedItems = JSON.parse(selectedItems);
-		console.log(selectedItems);
+		let selectedItems = Cookies.get("selectedItems") ? JSON.parse(Cookies.get("selectedItems")) : {};
 
 		api.get("/product/list", {params: selectedItems})
 		.then((result) => {
