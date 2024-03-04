@@ -49,6 +49,7 @@ public class ProductController {
 	 */
 	@GetMapping("list")
 	public List<Product> selectProductList(@RequestParam Map<String, List> m) {
+		log.info("\nm = {}", m);
 		return service.selectProductList(m);
 	}
 
