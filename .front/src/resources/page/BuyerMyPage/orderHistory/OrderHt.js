@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import "../../../css/order/OrderHt.css";
+import Cookies from "js-cookie";
 
 export default function OrderHt() {
     const [orders, setOrders] = useState([]);
@@ -9,7 +10,7 @@ export default function OrderHt() {
     const [showOrders, setShowOrders] = useState(false); // orders를 보여줄지 여부를 관리하는 상태
     const [selectedOrder, setSelectedOrder] = useState(null); // 선택된 주문 번호를 저장하는 상태
 
-    const sessionLoginMember = window.sessionStorage.getItem("loginMember");
+    const sessionLoginMember = Cookies.get("loginMember");
     const [loginMember, setLoginMember] = useState(sessionLoginMember ? JSON.parse(sessionLoginMember) : null);
 
     useEffect(() => {

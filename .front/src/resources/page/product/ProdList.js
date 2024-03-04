@@ -9,6 +9,7 @@ import Leftmenubar from "../../components/Leftmenubar";
 import { Link } from "react-router-dom";
 import Rightmenubar from "../../components/Rightmenubar";
 import qs from 'qs';
+import Cookies from "js-cookie";
 
 
 /**
@@ -20,9 +21,6 @@ export default function ProdList() {
 	const [prodList, setProdList] = useState([]);
 	const [showDetail, setShowDetail] = useState(false);
 	const [product, setProduct] = useState();
-	const [prodBycateMain, setProdBycateMain] = useState([]);
-	const [prodBycateSub, setProdBycateSub] = useState([]);
-	const [prodBycate, setProdBycate] = useState([]);
 	const [mainList, setMainList] = useState([]);
 	const [subList, setSubList] = useState([]);
 	const [mainName, setMainName] = useState();
@@ -49,16 +47,18 @@ export default function ProdList() {
 
 	// DB에서 mainCate No에 대한 상품들 가져오기
 	const getMainCateNo = async () => {
-		const response = await loadMainProdAPI(mainNo);
-		setProdBycateMain([...response]);
+		if(mainNo) {
+			const response = await loadMainProdAPI(mainNo);
+			setProdList([...response]);
+		}
 	};
 
 	// DB에서 cateMain에 해당하는 CATE_SUB 가져오기
 	const loadSubDb = async () => {
-		// if (subNo == undefined) {
-		const subCate = await subCateListAPI(mainNo);
-		setSubList([...subCate]);
-		// };
+		if(mainNo) {
+			const subCate = await subCateListAPI(mainNo);
+			setSubList([...subCate]);
+		}
 	};
 
 	// DB에서 mainNo-subNo에 대한 상품들 가져오기
@@ -69,7 +69,7 @@ export default function ProdList() {
 				cateSub: subNo
 			};
 			const response = await loadSubProdAPI(data);
-			setProdBycateSub([...response]);
+			setProdList([...response]);
 		};
 	};
 
@@ -117,7 +117,6 @@ export default function ProdList() {
 		loadSubDb();
 		if (subNo == undefined) {
 			getMainCateNo();
-			setProdBycateSub(null);
 		};
 		const nameBymainNo = mainList?.find(item => item.cateMain == mainNo);
 		if (nameBymainNo) {
@@ -125,31 +124,26 @@ export default function ProdList() {
 		};
 	}, [mainNo, mainList]);
 
+	const api = axios.create({
+		paramsSerializer: function(params) {
+			return qs.stringify(params, {arrayFormat: 'repeat'})
+		}
+	});
 
+	// ...
+	useEffect(() => {
+		let selectedItems = Cookies.get("selectedItems");
+		if(selectedItems) selectedItems = JSON.parse(selectedItems);
+		console.log(selectedItems);
 
-
-const api = axios.create({
-  paramsSerializer: function(params) {
-    return qs.stringify(params, {arrayFormat: 'repeat'})
-  }
-});
-
-// ...
-
-useEffect(() => {
-  let selectedItems = JSON.parse(sessionStorage.getItem("selectedItems"));
-  console.log(selectedItems);
-
-  api.get("/product/list", {
-    params: selectedItems
-  })
-  .then((result) => {
-    setProdList(result.data);
-  }).catch((error) => {
-    console.log(error);
-    alert("상품을 불러오는 중 문제가 발생했습니다");
-  });
-}, []);
+		api.get("/product/list", {params: selectedItems})
+		.then((result) => {
+			setProdList(result.data);
+		}).catch((error) => {
+			console.log(error);
+			alert("상품을 불러오는 중 문제가 발생했습니다");
+		});
+	}, []);
 	
 	/**
 	 * 상세페이지에 필요한 값 세팅
@@ -242,108 +236,53 @@ useEffect(() => {
 		return element;
 	}
 
-
-
-
-
-	// console.log("subNo ??", subNo, "subNo ??", subNo);
-	console.log(checkedSub)
 	return (
 		<>
 			<h1 className="mainCateName">{mainName}</h1>
 			<h5 className="subCateName">
-				{
-					subCateHTML()?.map((sub, index) => (
-						<div className="subListEle" key={index}>
-							<Link to={`/product/list/${mainNo}/${sub.cateSub}`}
-								onClick={() => subCateHovered(sub.cateSub)}
-								defaultChecked={checkedSub}
-								style={{
-									color: checkedSub === sub.cateSub ? 'blue' : 'black',
-									fontWeight: checkedSub === sub.cateSub ? 'bold' : '200',
-									fontSize: checkedSub === sub.cateSub ? '20px' : '15px'
-								}}
-							>
-								{sub.subName}
-							</Link>
-						</div>
-					))
-				}
+				{subCateHTML()?.map((sub, index) => (
+					<div className="subListEle" key={index}>
+						<Link to={`/product/list/${mainNo}/${sub.cateSub}`}
+							onClick={() => subCateHovered(sub.cateSub)}
+							defaultChecked={checkedSub}
+							style={{
+								color: checkedSub === sub.cateSub ? 'blue' : 'black',
+								fontWeight: checkedSub === sub.cateSub ? 'bold' : '200',
+								fontSize: checkedSub === sub.cateSub ? '20px' : '15px'
+							}}
+						>
+							{sub.subName}
+						</Link>
+					</div>
+				))}
 			</h5 >
 			<div className="ProdList">
 				<div className="menu-side-area">
 					<Leftmenubar checkedSub={checkedSub} />
 				</div>
 				<div className="products">
-					{
-						prodBycateSub && prodBycateSub?.length > 0 ? prodBycateSub.map((prod) => {
-							return (
-								<>
-									<section key={prod.prodNo} className="product"
-										onClick={() => gotoProdDetail(prod.prodNo)}
-									>
-										<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
-										<article>
-											<div className="prod-name">{prod.prodName}</div>
-											<div className="prod-amount">
-												{checkDiscount(prod)}
-											</div>
-											<div className="prod-color">
-												{prod.image?.length && colorList(prod)}
-											</div>
-										</article>
-									</section>
-								</>
-							)
-						}) :
-							prodBycateMain?.length ? prodBycateMain.map((prod) => {
-								return (
-									<>
-										<section key={prod.prodNo} className="product"
-											onClick={() => gotoProdDetail(prod.prodNo)}
-										>
-											<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
-											<article>
-												<div className="prod-name">{prod.prodName}</div>
-												<div className="prod-amount">
-													{checkDiscount(prod)}
-												</div>
-												<div className="prod-color">
-													{prod.image?.length && colorList(prod)}
-												</div>
-											</article>
-										</section>
-									</>
-								);
-							})
-								:
-								prodList?.length ? prodList.map((prod) => {
-									return (
-										<>
-											<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
-												{/* 썸넬 사진을 찾아서 보여주기 */}
-												<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
-												<article>
-													{/* 이름이 가격 위에 있는게 좋을거같아서 올렸는데 맘에 안들면 내려 */}
-													{/* 그리고 이름이 박스 사이즈 넘어가는 길이면 "페이크 레더 스탠드 카라 지퍼 바이커 자켓..." 으로 보이게 바꿨음 */}
-													<div className="prod-name">{prod.prodName}</div>
-													{/* 할인이 없는 상품은 price만 나와야 하고, 할인이 있는 상품은 price, discountRate 두개가 나와야함 */}
-													{/* 가격에 3자리수 마다 "," 찍어주는거 해야함 */}
-													<div className="prod-amount">
+					{prodList?.length ? prodList.map((prod) => {
+						return (<>
+							<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
+								{/* 썸넬 사진을 찾아서 보여주기 */}
+								<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
+								<article>
+									{/* 이름이 가격 위에 있는게 좋을거같아서 올렸는데 맘에 안들면 내려 */}
+									{/* 그리고 이름이 박스 사이즈 넘어가는 길이면 "페이크 레더 스탠드 카라 지퍼 바이커 자켓..." 으로 보이게 바꿨음 */}
+									<div className="prod-name">{prod.prodName}</div>
+									{/* 할인이 없는 상품은 price만 나와야 하고, 할인이 있는 상품은 price, discountRate 두개가 나와야함 */}
+									{/* 가격에 3자리수 마다 "," 찍어주는거 해야함 */}
+									<div className="prod-amount">
 
-														{checkDiscount(prod)}
-													</div>
-													<div className="prod-color">
-														{prod.image?.length && colorList(prod)}
-													</div>
-												</article>
-											</section>
-										</>
-									);
-								})
-									:
-									<div>선택한 상품이 없습니다</div>
-					}
+										{checkDiscount(prod)}
+									</div>
+									<div className="prod-color">
+										{prod.image?.length && colorList(prod)}
+									</div>
+								</article>
+							</section>
+						</>);
+					}) : <div>선택한 상품이 없습니다</div>}
 				</div>
 			</div>
 

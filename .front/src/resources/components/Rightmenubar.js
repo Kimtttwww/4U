@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/common/Rightbar.css";
+import Cookies from "js-cookie";
 
 
 export default function Rightmenubar() {
@@ -80,7 +81,7 @@ export default function Rightmenubar() {
       selectedCategory: cateMain,
       selectedColorNos
     };
-    sessionStorage.setItem("selectedItems", JSON.stringify(selectedItems));
+    Cookies.set("selectedItems", JSON.stringify(selectedItems));
   };
 
   const handleClickLine = (value) => {
