@@ -22,12 +22,13 @@ import ListQna from "./resources/page/qna/ListQna";
 import CategorySearch from "./resources/modal/CategorySearch";
 import BuyerCoupon from "./resources/page/BuyerMyPage/BuyerCoupon";
 import SellerRegistration from "./resources/page/sellerMyPage/SellerRegistration";
+import Cookies from "js-cookie";
 
 function App() {
 
    /** 로그인창 띄울떄 필요한 매개변수 */
    const [showLogin, setShowLogin] = useState(false);
-   const [login, setLogin] = useState(JSON.parse(sessionStorage.getItem("loginMember") + ""));
+   const [login, setLogin] = useState(JSON.parse(Cookies.get("loginMember") + ""));
 
    return (
       <div className="App">

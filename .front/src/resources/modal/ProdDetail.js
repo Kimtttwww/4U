@@ -191,7 +191,7 @@ export default function ProdDetail(props) {
 		if(recentProduct){recentProduct = [product.prodNo, ...JSON.parse(recentProduct)].slice(0, 3)
 		} else {recentProduct = [product.prodNo]}
 		
-		Cookies.set('recentProduct', JSON.stringify(recentProduct));
+		Cookies.set('recentProduct', JSON.stringify([...new Set(recentProduct)]));
 		setSubImgList(product.image.filter((img) => (img.imgType === 2)));
 	}
 

@@ -115,6 +115,14 @@ public class ProductDao {
 		return session.selectList(map + "selectseeThroughList");
 		
 	}
+
+	public boolean updateReview(Review r) {
+		return session.update(map + "updateReview", r) > 0;
+	}
+
+	public boolean deleteReview(int reviewNo) {
+		return session.update(map + "deleteReview", reviewNo) > 0;
+	}
 	
 	
 	

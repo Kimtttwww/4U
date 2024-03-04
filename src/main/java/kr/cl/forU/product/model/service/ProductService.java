@@ -109,6 +109,14 @@ public class ProductService {
 		return map;
 	}
 	// 사이즈는 별개로
+
+	public boolean updateReview(Review r) {
+		return dao.updateReview(r);
+	}
+
+	public boolean deleteReview(int reviewNo) {
+		return dao.deleteReview(reviewNo);
+	}
 	
 	
 	

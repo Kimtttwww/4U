@@ -30,10 +30,11 @@
 /* 리뷰 박스 안 내용들 박스 */
 .review>figure {
 	width: 65%;
-	margin: 0;
+	position: relative;
 	border-right: 1px solid lightslategray;
 	border-top-left-radius: 10px;
 	border-bottom-left-radius: 10px;
+	margin: 0;
 }
 
 /* 평점 박스 */
@@ -59,6 +60,14 @@
 	text-align: start;
 	border-bottom-left-radius: 10px;
 	padding: 10px 20px;
+}
+
+/* 리뷰 박스 안 내용들 박스 */
+.review>figure>label {
+	position: absolute;
+	bottom: 5px;
+	right: 10px;
+	cursor: pointer;
 }
 
 /* 리뷰어 정보 박스 */
@@ -111,13 +120,18 @@
 
 /* 리뷰 평점 작성 박스 */
 .review-write .ratingBox {
-	height: 25%;
+	height: 55px;
 	margin: 0 0 10px;
 }
 
 /* 리뷰 작성 박스 */
 .review-write .row {
 	margin: 5px 0;
+}
+
+/* 리뷰작성 박스 안 내용들 설명 */
+.review-write .form-floating label{
+	left: 12px;
 }
 
 /* 기장 입력창 잡것 제거 */

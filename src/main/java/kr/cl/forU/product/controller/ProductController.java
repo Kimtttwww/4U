@@ -13,6 +13,7 @@ import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CookieValue;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -28,6 +29,8 @@ import kr.cl.forU.product.model.vo.ProdDetail;
 import kr.cl.forU.product.model.vo.Product;
 import kr.cl.forU.product.model.vo.Review;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.PutMapping;
+
 
 @Slf4j
 @RestController
@@ -165,6 +168,26 @@ public class ProductController {
         		// input type = "checkbox name = " id = "" span = {cm}
     	// select count from product group by see_through
     
-        		}
+	}
     
+    /**
+     * 리뷰 수정
+     * @param r 사용자가 수정한 리뷰
+     * @return 리뷰 수정 성공 여부
+     */
+    @PutMapping("review")
+    public boolean updateReview(@RequestBody Review r) {
+    	log.info("\nr = {}", r);
+        return service.updateReview(r);
+    }
+    
+    /**
+     * 리뷰 삭제
+     * @param reviewNo 삭제할 리뷰 번호
+     * @return 리뷰 삭제 성공 여부
+     */
+    @DeleteMapping("review/{reviewNo}")
+    public boolean deleteReview(@PathVariable int reviewNo) {
+		return service.deleteReview(reviewNo);
+	}
 }

@@ -17,7 +17,7 @@ export default function BuyerMyPage() {
   const [listQna, setListQna] = useState([]);
   
  // 세션 저장소에서 로그인 정보 가져오기
-const sessionLoginMember = window.sessionStorage.getItem("loginMember");
+const sessionLoginMember = Cookies.get("loginMember");
 const [loginMember, setLoginMember] = useState(sessionLoginMember ? JSON.parse(sessionLoginMember) : null);
 
 useEffect(() => {

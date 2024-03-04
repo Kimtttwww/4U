@@ -129,9 +129,23 @@
 		FROM CATE_SUB
 	</select>
 	
+	<update id="updateReview" parameterType="review">
+		UPDATE REVIEW
+		SET REVIEW_CONTENT = #{reviewContent},
+			RATING = #{rating},
+			HEIGHT = #{height},
+			WEIGHT = #{weight},
+			TOP = #{top},
+			BOTTOM = #{bottom},
+			ISTRUETOSIZE = #{isTrueToSize}
+		WHERE REVIEW_NO = #{reviewNo} AND MEMBER_NO = #{memberNo}
+	</update>
 	
-	
-	
+	<update id="deleteReview" parameterType="int">
+		UPDATE REVIEW
+		SET STATUS = 'N'
+		WHERE REVIEW_NO = #{reviewNo}
+	</update>
 	
 	
 	

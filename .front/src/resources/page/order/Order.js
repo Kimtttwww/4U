@@ -22,8 +22,7 @@ export default function Order({ loginUser }) {
         address: "",
         addressDetail: ""
     }
-
-
+    
     const navi = useNavigate();
     const [orderProd, setOrderProd] = useState([]);
     const [userInfo, setuserInfo] = useState({});
@@ -185,7 +184,6 @@ export default function Order({ loginUser }) {
         { key: 4, value: "소화전에 넣어주세요" }
     ];
 
-
     // 배송메세지 변경
     const applyMsg = (e) => {
         setDelMsg(e.currentTarget.value);
@@ -243,14 +241,10 @@ export default function Order({ loginUser }) {
         }
     };
 
-
     // 결제하기 버튼 클릭시 보낼 데이터들
     const dataByPayment = {
         applyCoupon, applyPoint, delMsg, totalPrice, discountPrice
     };
-
-    // test = `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`;
-
 
     useEffect(() => {
         if (!userInfoChecked) {
