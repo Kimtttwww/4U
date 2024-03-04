@@ -96,30 +96,43 @@ public class ProductDao {
 	 * @return
 	 */
 	public List<CategoryMain> selectCateMainList() {
-		
 		return session.selectList(map + "selectCateMainList");
 	}
 
 	public List<CategorySub> selectCateSubList() {
-		
 		return session.selectList(map + "selectCateSubList");
 	}
 
 	public List<Palette> selectColorList() {
-		
 		return session.selectList(map + "selectColorList");
 	}
 
 	public List<String> selectseeThroughList() {
-		
 		return session.selectList(map + "selectseeThroughList");
-		
 	}
 
+	public List<Product> selectMainCateList(int cateMain) {
+		return session.selectList(map + "selectMainCateList", cateMain);
+	}
+
+	public List<Product> selectSubCateList(HashMap<String, Integer> map2) {
+		return session.selectList(map + "selectSubCateList", map2);
+	}
+
+	/**
+     * 리뷰 수정
+     * @param r 사용자가 수정한 리뷰
+     * @return 리뷰 수정 성공 여부
+     */
 	public boolean updateReview(Review r) {
 		return session.update(map + "updateReview", r) > 0;
 	}
 
+	/**
+     * 리뷰 삭제
+     * @param reviewNo 삭제할 리뷰 번호
+     * @return 리뷰 삭제 성공 여부
+     */
 	public boolean deleteReview(int reviewNo) {
 		return session.update(map + "deleteReview", reviewNo) > 0;
 	}

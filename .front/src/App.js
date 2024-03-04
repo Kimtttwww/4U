@@ -23,6 +23,7 @@ import CategorySearch from "./resources/modal/CategorySearch";
 import BuyerCoupon from "./resources/page/BuyerMyPage/BuyerCoupon";
 import SellerRegistration from "./resources/page/sellerMyPage/SellerRegistration";
 import Cookies from "js-cookie";
+import MainCateList from "./resources/page/product/MainCateList";
 
 function App() {
 
@@ -48,7 +49,9 @@ function App() {
 
             {/* 제품 리스트 */}
             <Route path="/product/list" element={<ProdList />} />
-            
+            <Route path="/product/list/:mainNo" element={<ProdList />} />
+            <Route path="/product/list/:mainNo/:subNo" element={<ProdList />} />
+
             {/* ? */}
             <Route path="/order">
                {/* ? */}
@@ -68,7 +71,7 @@ function App() {
 
             {/* 장바구니 관련 */}
             <Route path="/cart/CartList/" element={<CartList />} />
-            
+
             {/* 판매자 마이페이지 */}
             <Route path="/sellerMypage" element={<SellerMyPage />}>
                {/* 주문 확인 */}
@@ -81,10 +84,10 @@ function App() {
                <Route path="review" element={<SellerReview />} />
             </Route>
 
-             {/* QNA */}
+            {/* QNA */}
             <Route path="/qna">
                {/* ? */}
-               <Route path="listqna" element={<ListQna/>}/>
+               <Route path="listqna" element={<ListQna />} />
             </Route>
 
             {/* 그 외의 에러 페이지 */}

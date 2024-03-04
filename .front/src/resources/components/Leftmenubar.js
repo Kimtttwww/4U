@@ -1,11 +1,17 @@
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faBars, faClose } from "@fortawesome/free-solid-svg-icons";
 import Leftbar from "../css/common/Leftbar.css";
-import { mainCateAPI, subCateAPI } from "../page/common/LeftbarAPI";
-import { Link } from "react-router-dom";
+import { mainCateListAPI, subCateListAPI } from "../page/common/LeftbarAPI";
+import { Link, useNavigate, useParams } from "react-router-dom";
+import ProdList from "../page/product/ProdList";
+import MainCateList from "../page/product/MainCateList";
 
-export default function Leftmenubar() {
+
+export default function Leftmenubar({ selectSubCate }) {
+
+    const { mainNo, subNo } = useParams();
+    const navi = useNavigate();
     const [toggle, setToggle] = useState(false);
     const [mainCateList, setMainCateList] = useState([]);
     const [subCateList, setSubCateList] = useState([]);
@@ -14,25 +20,36 @@ export default function Leftmenubar() {
     const [hoverSubCate, setHoverSubCate] = useState(0);
 
 
+
     // leftbar 스크롤감지로 위치이동
     const handleScroll = () => {
         // const position = (500 < window.scrollY ? (500 + window.scrollY) : 500);
         // const position = (800 > window.scrollY ? window.scrollY - 800 : 150);
 
+        // console.log("left > mainNo : " + mainNo + ", subNo : " + subNo);
+
         const leftBar = document.querySelector('#leftBar');
+        const bannerImg = document.querySelector('.swiper-wrapper');
         if (leftBar != null) {
             leftBar.style.left = "15px";
-
-            if (window.scrollY >= 620) {
+            if (bannerImg != null) {
+                if (window.scrollY >= 620) {
+                    leftBar.style.display = 'block';
+                    leftBar.style.position = 'fixed';
+                    leftBar.style.top = `${140 + 15}px`;
+                }
+                else if (window.scrollY >= 0 && window.scrollY < 620) {
+                    leftBar.style.display = 'block';
+                    leftBar.style.position = 'relative';
+                    leftBar.style.top = `649px`;
+                }
+            }
+            else {
                 leftBar.style.display = 'block';
                 leftBar.style.position = 'fixed';
                 leftBar.style.top = `${140 + 15}px`;
             }
-            else if (window.scrollY > 0 && window.scrollY < 620) {
-                leftBar.style.display = 'block';
-                leftBar.style.position = 'relative';
-                leftBar.style.top = `649px`;
-            }
+
         }
     };
 
@@ -42,11 +59,14 @@ export default function Leftmenubar() {
 
     // DB에서 CATE_MAIN 가져오기
     const loadMainDb = async () => {
-        const mainCate = await mainCateAPI();
+        const mainCate = await mainCateListAPI();
         setMainCateList(mainCate);
-    };
 
-    // console.log(mainCateList);
+    };
+    // const mainCateClickHandler = (no) => {
+    //     console.log(no);
+    // }
+
     // CATE_MAIN이 hover된적이 없으면 API호출하여 DB에서 데이터 가져와서 useState()에 저장하기
     const loadSubDb = async () => {
 
@@ -58,7 +78,8 @@ export default function Leftmenubar() {
             isExist = subCateList?.filter((item) => (item.mainCategory == hoverMainCate));
 
         if (isExist?.length == 0) {
-            const subCate = await subCateAPI({ "cateMain": hoverMainCate });
+            // const subCate = await subCateListAPI({ "cateMain": hoverMainCate });
+            const subCate = await subCateListAPI(hoverMainCate);
             const obj = {
                 mainCategory: hoverMainCate,
                 subCategory: [...subCate],
@@ -67,11 +88,10 @@ export default function Leftmenubar() {
         }
     }
 
-    // cateMain에 해당하는 cateSub가져오기
+    // cateMain No에 해당하는 cateSub가져오기
     const subCateHTML = () => {
         if (hoverMainCate > 0 && subCateList?.length > 0) {
             const objArr = subCateList?.filter((sub) => (sub.mainCategory == hoverMainCate));
-            // console.log(" objArr ?", objArr);
             if (objArr?.length > 0)
                 return objArr[0].subCategory;
         }
@@ -80,6 +100,7 @@ export default function Leftmenubar() {
 
 
     const mouseEnterHandler = (mainNo) => {
+        console.log("mainNo ??", mainNo);
         setHoverMainCate(mainNo);
     };
 
@@ -87,105 +108,125 @@ export default function Leftmenubar() {
         setHoverSubCate(subNo);
     };
 
-    const mainCateClickHandler = (no) => {
-        console.log(no);
-    }
-    const subCateClickHandler = (subNo) => {
-        // console.log(subNo)
-    }
 
     const rectHandler = (idx) => {
         const rect = document.querySelector(`#mainCategory${idx}`).getBoundingClientRect();
-
         const obj = {
             top: rect.top,
             right: rect.right
         }
         setRect(obj);
-    }
+    };
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
-
+        const leftBar = document.querySelector("#leftBar");
+        const bannerImg = document.querySelector('.swiper-wrapper');
+        if (bannerImg == null && leftBar != null) {
+            leftBar.style.left = "15px";
+            leftBar.style.display = 'block';
+            leftBar.style.position = 'fixed';
+            leftBar.style.top = `${140 + 15}px`;
+        }
         loadMainDb();
         if (hoverMainCate > 0)
             rectHandler(hoverMainCate);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
     useEffect(() => {
         if (hoverMainCate > 0) {
             loadSubDb();
-        }
-    }, [hoverMainCate])
+            setHoverMainCate(hoverMainCate);
+        };
+        // console.log(hoverSubCate);
+    }, [hoverMainCate, hoverSubCate]);
+
 
 
     return (
-        <div className="leftCateListAll" >
-            <div id="leftBar" className={toggle ? "faBarsShow" : "faBarClose"}>
-                <div className="leftBarIcon">
-                    <FontAwesomeIcon className="fontIcon"
-                        icon={toggle ? faClose : faBars}
-                        onClick={onIconClick} />
-                </div>
+        <>
+            <div className="leftCateListAll" >
 
-                <div>
-                    <div className={toggle ? "leftshow" : "lefthide"}>
-                        <div className="leftCateList">
-                            <div className="leftCateItem">
-                                <div className="mainCateList">
-                                    <p>4u</p>
-                                    {console.log(mainCateList)}
+                <div id="leftBar" className={toggle ? "faBarsShow" : "faBarClose"}>
+                    <div className="leftBarIcon">
+                        <FontAwesomeIcon className="fontIcon"
+                            icon={toggle ? faClose : faBars}
+                            onClick={onIconClick} />
+                    </div>
+
+                    <div>
+                        <div className={toggle ? "leftshow" : "lefthide"}>
+                            <div className="leftCateList">
+                                <div className="leftCateItem">
+                                    <div className="mainCateList">
+                                        <p>4u</p>
+                                        {
+                                            mainCateList?.length && mainCateList.map((main, index) => (
+                                                <div className="mainCateListItem"
+                                                    key={main.cateMain}
+                                                    id={`mainCategory${index}`}
+                                                    onMouseEnter={() => {
+                                                        mouseEnterHandler(main.cateMain);
+                                                        rectHandler(index);
+                                                    }}
+                                                    onMouseLeave={() => {
+                                                        // if (hoverSubCate == 0) {
+                                                        //     setHoverMainCate(0);
+                                                        // }
+                                                    }}
+                                                    style={{
+                                                        color: hoverMainCate === main.cateMain ? 'blue' : 'black',
+                                                        fontWeight: hoverMainCate === main.cateMain ? 'bold' : '200'
+                                                    }}
+                                                // onClick={() => { mainCateClickHandler(main.cateMain) }}
+                                                >
+                                                    {/* {main.cateMain} */}
+                                                    <Link to={`/product/list/${main.cateMain}`} >
+                                                        {main.mainName}
+                                                        {/* <a href={`/product/list/${main.cateMain}`}>{main.mainName}</a> */}
+                                                    </Link>
+
+                                                </div>
+                                            ))
+                                        }
+                                    </div>
+                                </div>
+                                <div div className="subCateList"
+                                    style={{
+                                        position: 'fixed', top: `${rect.top}px`, left: `${rect.right - 10}px`
+
+                                    }}
+                                    onMouseLeave={() => {
+                                        setHoverSubCate(0);
+                                        setHoverMainCate(0);
+                                    }}>
                                     {
-                                        mainCateList.length && mainCateList.map((main, index) => (
-                                            <div className="mainCateListItem"
-                                                key={main.cateMain}
-                                                id={`mainCategory${index}`}
-                                                onMouseEnter={() => {
-                                                    mouseEnterHandler(main.cateMain);
-                                                    rectHandler(index);
-                                                }}
-                                                onMouseLeave={() => {
-                                                    if (hoverSubCate == 0) {
-                                                        setHoverMainCate(0);
-                                                    }
-                                                }}
+                                        subCateHTML()?.map((sub, index) => (
 
+                                            <div className="subListEle" key={index}
+                                                onMouseEnter={
+                                                    () => {
+                                                        subMouseEnterHandler(sub.cateSub);
+                                                    }}
+                                                style={{
+                                                    color: hoverSubCate === sub.cateSub ? 'red' : 'yellow',
+                                                    fontWeight: hoverSubCate === sub.cateSub ? 'bold' : '200'
+                                                }}
+                                            // onClick={subCateClickHandler(sub.cateSub)}
                                             >
-                                                <Link to={`/product/list/mainNo=${main.cateMain}`} >{main.mainName}</Link>
+                                                <Link to={`/product/list/${hoverMainCate}/${sub.cateSub}`} >{sub.subName}</Link>
                                             </div>
                                         ))
                                     }
                                 </div>
-                            </div>
-                            <div div className="subCateList"
-                                style={{
-                                    position: 'fixed', top: `${rect.top}px`, left: `${rect.right - 5}px`
-                                }}
-                                onMouseLeave={() => {
-                                    setHoverSubCate(0);
-                                    setHoverMainCate(0);
-                                }}>
-                                {
-                                    subCateHTML()?.map((sub, index) => (
-
-                                        <div className="subListEle" key={index}
-                                            onMouseEnter={
-                                                () => {
-                                                    subMouseEnterHandler(sub.cateSub);
-                                                }}
-                                            onClick={subCateClickHandler(sub.cateSub)}>
-
-                                            <a>{sub.subName}</a>
-                                            {console.log(sub)}
-                                        </div>
-                                    ))
-                                }
-
+                                {/* <ProdList /> */}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div >
+
+        </>
     )
 }

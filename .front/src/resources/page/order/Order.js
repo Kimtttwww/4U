@@ -70,7 +70,6 @@ export default function Order({ loginUser }) {
 
     // 쿠키에 담아놓은 주문할 상품데이터 꺼내오기
     const getProdName = async () => {
-
         if (cartItems == null) {
             setCartItems(JSON.parse(Cookies.get('cart')));
         };
@@ -278,14 +277,19 @@ export default function Order({ loginUser }) {
 
     // 로그인상태에서만 페이지 접근가능하도록 설정
     useEffect(() => {
-        // if (loginUser == null || !loginUser.memberNo) {
-        //     // alert("로그인 후 이용가능합니다.");
-        //     navi("/");
-        // }
+        if (loginUser == null || !loginUser.memberNo) {
+            alert("로그인 후 이용가능합니다.");
+            navi("/");
+            return;
+        };
+        if (JSON.parse(Cookies.get('cart')).length == 0) {
+            alert("장바구니가 비어있습니다.");
+            navi("/");
+            return;
+        };
         loadFromDb();
         getUserCoupon();
         getProdName();
-
     }, []);
 
     useEffect(() => {

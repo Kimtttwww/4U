@@ -78,8 +78,8 @@ public class OrderController {
 	}
 
 	@PostMapping("/subCate")
-	public List<CategorySub> selectSubCate(@RequestBody CategoryMain cateMain) {
-		List<CategorySub> sub = service.selectSubCate(cateMain.getCateMain());
+	public List<CategorySub> selectSubCate(@RequestBody int cateMain) {
+		List<CategorySub> sub = service.selectSubCate(cateMain);
 		return sub;
 	}
 
@@ -101,8 +101,8 @@ public class OrderController {
 
 	@PostMapping("/loadUserCoupon")
 	public List<CouponUser> selectUserCoupon(@RequestBody int memberNo) {
+		
 		List<CouponUser> list = service.selectUserCoupon(memberNo);
-
 		return list;
 	}
 	
@@ -200,24 +200,6 @@ public class OrderController {
 		log.info("totalPay ? {}", totalPay);
 		
 		
-//		if(totalPay > 300000  && totalPay <= 600000) {
-//			// silver
-//			member.setGradeNo(2);
-//		}
-//		else if(totalPay > 600000  && totalPay <= 1000000) {
-//			// gold
-//			member.setGradeNo(3);
-//		}
-//		else if(totalPay > 1000000  && totalPay <= 2000000) {
-//			// dia
-//			member.setGradeNo(4);
-//		}
-//		else {
-//			//vip
-//			member.setGradeNo(5);
-//		}
-		
-		
 		if(totalPay > 2000000) { //vip
 			member.setGradeNo(5);
 		}else if(totalPay > 1000000) { // dia
@@ -256,4 +238,19 @@ public class OrderController {
 	public List<RecentOrders> selectRecentOrders(@RequestParam("orderDate") String orderDate) {
 		return service.selectRecentOrders(orderDate);
 	}
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
+	
 }

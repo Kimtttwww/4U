@@ -1,9 +1,8 @@
 import axios from "axios";
 
-// const baseURL = "http://localhost:3000/order";
 const instance = axios.create({ baseURL: "http://localhost:3000/order" });
 
-export const mainCateAPI = async () => {
+export const mainCateListAPI = async () => {
     try {
         const response = await instance.post("/mainCate");
         return response.data;
@@ -12,10 +11,14 @@ export const mainCateAPI = async () => {
     }
 }
 
-export const subCateAPI = async (data) => {
+export const subCateListAPI = async (data) => {
     try {
-        const response = await instance.post("/subCate", data);
-        // console.log(data);
+        const response = await instance.post("/subCate", data, {
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        });
+        // console.log(response.data);
         return response.data;
     } catch (error) {
         return "subCate data없어요...";

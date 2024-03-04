@@ -110,12 +110,30 @@ public class ProductService {
 	}
 	// 사이즈는 별개로
 
+	/**
+	 * 리뷰 수정
+	 * @param r 사용자가 수정한 리뷰
+	 * @return 리뷰 수정 성공 여부
+	 */
 	public boolean updateReview(Review r) {
 		return dao.updateReview(r);
 	}
 
+	/**
+	 * 리뷰 삭제
+	 * @param reviewNo 삭제할 리뷰 번호
+	 * @return 리뷰 삭제 성공 여부
+	 */
 	public boolean deleteReview(int reviewNo) {
 		return dao.deleteReview(reviewNo);
+	}
+	
+	public List<Product> selectMainCateList(int cateMain) {
+		return dao.selectMainCateList(cateMain);
+	}
+
+	public List<Product> selectSubCateList(HashMap<String, Integer> map) {
+		return dao.selectSubCateList(map);
 	}
 	
 	
