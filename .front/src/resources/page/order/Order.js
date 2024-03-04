@@ -405,11 +405,11 @@ export default function Order({ loginUser }) {
                     </div>
 
                     <div className="receiver-input">
-                        <input type="text" id="userName" name="receiverName" style={{ width: "100px" }}
+                        <input type="text" id="userName" name="receiverName"
                             className="margin" value={userInfoChecked ? userInfo?.memberName : inputChange.receiverName}
                             onChange={inputChangeHandler}
                         />
-                        <div className="margin">
+                        <div className="margin order-phone-box">
                             <select defaultValue={'010'} name="phone1"
                                 value={userInfoChecked ? (userInfo?.phone).split('-')[0] : inputChange?.phone1} maxLength={3}
                                 onChange={inputChangeHandler} >
@@ -429,7 +429,7 @@ export default function Order({ loginUser }) {
                                 onChange={inputChangeHandler} />
                         </div>
 
-                        <div className="margin">
+                        <div className="margin order-address">
                             <div>
                                 <input type="number" id="" name="zipCode" readOnly
                                     value={userInfoChecked ? userInfo?.zipCode : inputChange.zipCode} />
@@ -441,26 +441,28 @@ export default function Order({ loginUser }) {
                                 </Modal>
                             </div>
                             <div>
-                                <input type="text" id="" name="address" readOnly style={{ width: "250px", fontSize: "12px" }}
+                                <input type="text" id="" name="address" readOnly 
                                     value={userInfoChecked ? userInfo?.address : inputChange.address}
                                     onChange={inputChangeHandler} />
-                                <input type="text" id="" name="addressDetail" style={{ width: "250px" }}
+                                <input type="text" id="" name="addressDetail" 
                                     value={userInfoChecked ? userInfo?.addressDetail : inputChange.addressDetail}
-                                    onChange={inputChangeHandler} />
+                                    onChange={inputChangeHandler} placeholder="상세 주소 입력"/>
                             </div>
                         </div>
-                        <input type="text" id="" name="message" className="margin" style={{ width: "200px" }}
-                            value={delMsg}
-                            onChange={applyMsg} />
-                        <select style={{ width: "220px" }}
-                            onChange={applyMsg}  >
-                            {
-                                deliMessage?.map((msg, index) =>
+                        <div>
+                            <input type="text" id="" name="message" className="margin"
+                                value={delMsg}
+                                onChange={applyMsg} />
+                            <select 
+                                onChange={applyMsg}  >
+                                {
+                                    deliMessage?.map((msg, index) =>
                                     <option key={index} value={msg.value ? msg.value : delMsg}>{msg.value}</option>
-                                )
-
-                            }
-                        </select>
+                                    )
+                                    
+                                }
+                            </select>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -474,7 +476,7 @@ export default function Order({ loginUser }) {
                                 <div>결제예정금액</div>
                                 <div>쿠폰할인</div>
                                 <div>사용할 포인트</div>
-                                <div style={{ fontSize: '11px' }}>사용가능한 포인트</div>
+                                <div>사용가능한 포인트</div>
                             </div>
                             <div className="payment-discount">
                                 <div>{totalPrice.toLocaleString()}원</div>
@@ -514,11 +516,11 @@ export default function Order({ loginUser }) {
                                     (totalPrice - discountPrice - applyPoint).toLocaleString()
                                 }원
                             </span>
-                            <span>
+                            (<span>
                                 {
                                     (discountPrice + applyPoint).toLocaleString()
                                 }원 절약
-                            </span>
+                            </span>)
                         </div>
                     </div>
 
@@ -532,20 +534,21 @@ export default function Order({ loginUser }) {
 
 
                 <div className="payment-right">
-                    <p>최종 결제금액</p>
                     <div className="payment-right-content">
+                    <p>최종 결제금액</p>
                         <div>
-                            <div>상품금액</div>
-                            <div>할인금액</div>
-                            <div>총 결제금액</div>
+                            <div>
+                                {(totalPrice - discountPrice - applyPoint).toLocaleString()}원
+                            </div>
+                        </div>
+                        <div>
+                            <div>상품금액:</div>
+                            <div>할인금액:</div>
                         </div>
                         <div>
                             <div>{totalPrice.toLocaleString()}원</div>
                             <div>
                                 {(discountPrice + applyPoint).toLocaleString()}원
-                            </div>
-                            <div>
-                                {(totalPrice - discountPrice - applyPoint).toLocaleString()}원
                             </div>
                         </div>
                     </div>

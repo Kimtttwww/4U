@@ -241,96 +241,107 @@ const idMatching = async () => {
 
 
     <div className="mb-3">
-      <label for="disabledTextInput" className="form-label">아이디
-      <input type="text" value={id} className = "form-control" onChange={(e) => {setId(e.target.value); handleIdChange(e)}} 
-      style={{ width: '520px' }}/> 
+      <label for="disabledTextInput" className="form-label">아이디</label>
+      <div className='signUp-id-box'>
+        <input type="text" value={id} className = "form-control" onChange={(e) => {setId(e.target.value); handleIdChange(e)}} 
+        style={{ width: '200px' }} /> 
+        <button type="button" className="btn btn-primary doubleCheck-btn" onClick={idMatching}>중복확인</button>
+      </div>
     {idError && (
         <span style={{ color: 'red' }}>{idError}</span>
         )}
-    <button type="button" className="btn btn-primary doubleCheck-btn" onClick={idMatching}>중복확인</button>
+    </div>
+
+
+    <div className='signUp-password'>
+      <div className="mb-3">
+        <label for="disabledTextInput" className="form-label">비밀번호
+        <input type="password" id="disabledTextInput" className="form-control"  onChange={(e) => {setPassword(e.target.value); handlePasswordChange(e)}}
+        style={{ width: '250px' }}/>
+      {passwordError && (
+      <span style={{ color: passwordError.includes('사용가능') ? 'green' : 'red' }}>{passwordError}</span>
+      )}
       </label>
+      </div>
+
+
+      <div className="mb-3">
+        <label for="disabledTextInput" className="form-label">비밀번호 확인
+        <input type="password" class = "form-control" value={confirm} onChange={(e) => {setConfirm(e.target.value); handlePasswordCheck(e)}}
+        style={{ width: '250px' }}/>
+      {passwordCheck && (
+      <span style={{color: passwordCheck.includes('일치합') ? 'green' : 'red'}}>{passwordCheck}</span>
+      )}
+      </label>
+      </div>
     </div>
 
+    <div className='signUp-name'>
+      <div className="mb-3">
+        <label for="disabledTextInput" className="form-label">이름</label>
+        <input type="text" value={name} className='form-control' onChange={(e) => setName(e.target.value)} 
+        style={{ width: '250px' }}/>
+      </div>
 
-    <div className="mb-3">
-      <label for="disabledTextInput" className="form-label">이름</label>
-      <input type="text" value={name} className='form-control' onChange={(e) => setName(e.target.value)} 
-      style={{ width: '520px' }}/>
+      <div className="mb-3">
+        <label for="disabledTextInput" className="form-label">생년월일</label>
+        <input type="text" id="disabledTextInput" className="form-control"value={birthday} onChange={(e) => {setBirthday(e.target.value); handleBirthdayCheck(e)}} 
+        style={{ width: '250px' }}/>
+        {birthdayError && (
+      <span style={{ color: 'red' }}>{birthdayError}</span>)}
+      
+      </div>
     </div>
-
-
-    <div className="mb-3">
-      <label for="disabledTextInput" className="form-label">비밀번호
-      <input type="password" id="disabledTextInput" className="form-control"  onChange={(e) => {setPassword(e.target.value); handlePasswordChange(e)}}
-      style={{ width: '520px' }}/>
-    {passwordError && (
-    <span style={{ color: passwordError.includes('사용가능') ? 'green' : 'red' }}>{passwordError}</span>
-    )}
-    </label>
-    </div>
-
-
-    <div className="mb-3">
-      <label for="disabledTextInput" className="form-label">비밀번호 확인
-      <input type="password" class = "form-control" value={confirm} onChange={(e) => {setConfirm(e.target.value); handlePasswordCheck(e)}}
-      style={{ width: '520px' }}/>
-    {passwordCheck && (
-    <span style={{color: passwordCheck.includes('일치합') ? 'green' : 'red'}}>{passwordCheck}</span>
-    )}
-    </label>
-    </div>
-
-    <div className="mb-3">
-      <label for="disabledTextInput" className="form-label">생년월일
-      <input type="text" id="disabledTextInput" className="form-control"value={birthday} onChange={(e) => {setBirthday(e.target.value); handleBirthdayCheck(e)}} 
-      style={{ width: '520px' }}/>
-      {birthdayError && (
-    <span style={{ color: 'red' }}>{birthdayError}</span>)}
-    </label>
-    </div>
+    
 
     <div className="mb-3">
       <label for="disabledTextInput" className="form-label">이메일
       <input type="text" id="disabledTextInput" className="form-control"value={email} onChange={(e) => setEmail(e.target.value)} 
-      style={{ width: '520px' }}/>
+      style={{ width: '250px' }}/>
     </label>
     </div>
 
     <div className="mb-3">
       <label for="disabledTextInput" className="form-label">전화번호
       <input type="text" id="disabledTextInput" className="form-control"value={phone} onChange={(e) => setPhone(e.target.value)} 
-      style={{ width: '520px' }}/>
+      style={{ width: '250px' }}/>
     </label>
     </div>
 
-    <div className="mb-3">
-      <label for="disabledTextInput" className="form-label">주소</label>
-      <input type="text" id="disabledTextInput" className="form-control" readOnly value={address} onChange = {(e) => setInputAddressValue(e.target.value)} 
-      style={{ width: '520px' }}/>
+    <div>
+        <label for="disabledTextInput" className="form-label">우편번호</label>
+      <div className="mb-3 signUp-postcode">
+        <input type="text" id="disabledTextInput" className="form-control"readOnly value={inputZipCodeValue} onChange={(e) => setzipCode(e.target.value)} placeholder='우편번호' 
+        style={{ width: '100px' }}/>
       <button type="button" onClick={toggleModal} className= "btn btn-primary address-btn">주소 찾기</button>
-      {/* Daum 주소 API 컴포넌트 */}
-      <Modal show={modalState} onHide={handleModalClose} dialogClassName='DaumModal'>
-        <Modal.Header closeButton>
-        <Modal.Title>내 주소 찾기</Modal.Title>
-         </Modal.Header>
-        <Modal.Body className='DaumModalBody'>
-         <DaumPost onCompletePost={onCompletePost} />
-         </Modal.Body>
-     </Modal>
+      </div>
+    </div>
+      
+    <div className='signUp-address'>
+      <div className="mb-3">
+        <label for="disabledTextInput" className="form-label">주소</label>
+        <input type="text" id="disabledTextInput" className="form-control" readOnly value={address} onChange = {(e) => setInputAddressValue(e.target.value)} 
+        style={{ width: '250px' }}/>
+        
+        {/* Daum 주소 API 컴포넌트 */}
+        <Modal show={modalState} onHide={handleModalClose} dialogClassName='DaumModal'>
+          <Modal.Header closeButton>
+          <Modal.Title>내 주소 찾기</Modal.Title>
+          </Modal.Header>
+          <Modal.Body className='DaumModalBody'>
+          <DaumPost onCompletePost={onCompletePost} />
+          </Modal.Body>
+      </Modal>
+      </div>
+
+      <div className="mb-3">
+        <label for="disabledTextInput" className="form-label">상세주소</label>
+        <input type="text" id="disabledTextInput" className="form-control"value={addressDetail} onChange={(e) => setAddressDetail(e.target.value)} placeholder='상세 주소를 입력하세요.'
+        style={{ width: '250px' }}/>
+      </div>
     </div>
 
-    <div className="mb-3">
-      <label for="disabledTextInput" className="form-label">상세주소</label>
-      <input type="text" id="disabledTextInput" className="form-control"value={addressDetail} onChange={(e) => setAddressDetail(e.target.value)} placeholder='상세 주소를 입력하세요.'
-      style={{ width: '520px' }}/>
-    </div>
 
-    <div className="mb-3">
-      <label for="disabledTextInput" className="form-label">우편번호
-      <input type="text" id="disabledTextInput" className="form-control"readOnly value={inputZipCodeValue} onChange={(e) => setzipCode(e.target.value)} placeholder='우편번호' 
-      style={{ width: '520px' }}/>
-    </label>
-    </div>
     <button type="submit" className="btn btn-primary inroll-btn" onClick={handleSignUp} disabled = {!isFormValid }>회원가입</button>
   </fieldset>
         
