@@ -29,6 +29,7 @@ export default function ProdList() {
 	const [checkedSub, setCheckedSub] = useState(subNo);
 	console.log("Prodlist > mainNo : " + mainNo + ", subNo : " + subNo);
 
+	
 	// useEffect(() => {
 	// 	// 상품 리스트 불러오기
 	// 	axios.get("/product/list", category)

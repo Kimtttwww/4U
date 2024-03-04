@@ -48,7 +48,7 @@ public class ProductController {
 	 * @return 조회된 상품 리스트
 	 */
 	@GetMapping("list")
-	public List<Product> selectProductList(@RequestParam Map<String, String> m) {
+	public List<Product> selectProductList(@RequestParam Map<String, List> m) {
 		return service.selectProductList(m);
 	}
 
@@ -76,14 +76,6 @@ public class ProductController {
 		}
 
 		return service.selectCartList(list);
-	}
-
-
-	@GetMapping("/cart/CartList")
-	public List<Product> selectCartList(@CookieValue(value = "cart", defaultValue = "[]") String cartCookie) {
-		List<Integer> prodNo = extractProdNosFromCart(cartCookie);
-		log.info("prodNo" + prodNo);
-		return service.selectCartList(prodNo);
 	}
 
 	private List<Integer> extractProdNosFromCart(String cartCookie) {

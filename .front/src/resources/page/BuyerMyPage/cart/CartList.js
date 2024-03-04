@@ -1,26 +1,25 @@
 import { useEffect, useState } from "react";
 import Cookies from 'js-cookie';
 import axios from 'axios'; // axios 추가
-import { useHistory } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import "../../../css/cart/CartList.css";
 
 export default function CartList() {
+    
     const [cart, setCart] = useState([]);
     const [cartItems, setCartItems] = useState([]);
-    const history = useHistory();
+    const history = useNavigate();
 
-useEffect(() => {
-    const cookieValue = Cookies.get('cart'); // 쿠키에서 cart 값 가져오기
-    if (cookieValue) {
-        const decodedCookieValue = decodeURIComponent(cookieValue); // URL 디코딩
-        const parsedCartItems = JSON.parse(decodedCookieValue); // JSON 문자열을 객체로 파싱
-        const cartItemsWithCount = parsedCartItems.map(item => ({...item, count: item.count || 1})); // count 속성이 없는 경우 1로 설정
-        setCartItems(cartItemsWithCount); // 상태 업데이트
-    }
-}, []); // 마운트 시에만 실행되도록 빈 배열을 전달
-    
 
     useEffect(() => {
+        const cookieValue = Cookies.get('cart'); // 쿠키에서 cart 값 가져오기
+        if (cookieValue) {
+            const decodedCookieValue = decodeURIComponent(cookieValue); // URL 디코딩
+            const parsedCartItems = JSON.parse(decodedCookieValue); // JSON 문자열을 객체로 파싱
+            const cartItemsWithCount = parsedCartItems.map(item => ({...item, count: item.count || 1})); // count 속성이 없는 경우 1로 설정
+            setCartItems(cartItemsWithCount); // 상태 업데이트
+        }
+        
         // 장바구니 데이터 가져오기
         const fetchCart = async () => {
             try {
@@ -30,8 +29,9 @@ useEffect(() => {
                 console.error("장바구니 데이터를 가져오는 중 오류 발생:", error);
             }
         };
+        
         fetchCart();
-    }, []);
+    }, []); // 마운트 시에만 실행되도록 빈 배열을 전달
 
     const removeFromCart = (index) => {
         const updatedCartItems = cartItems.filter((_, i) => i !== index);
@@ -58,7 +58,6 @@ useEffect(() => {
         setCartItems(updatedCartItems);
         Cookies.set('cart', JSON.stringify(updatedCartItems), { expires: 7 });
     };
-    
 
     const handleOrder = async () => {
         try {
