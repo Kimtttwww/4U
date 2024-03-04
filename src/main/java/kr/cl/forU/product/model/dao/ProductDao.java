@@ -96,24 +96,27 @@ public class ProductDao {
 	 * @return
 	 */
 	public List<CategoryMain> selectCateMainList() {
-		
 		return session.selectList(map + "selectCateMainList");
 	}
 
 	public List<CategorySub> selectCateSubList() {
-		
 		return session.selectList(map + "selectCateSubList");
 	}
 
 	public List<Palette> selectColorList() {
-		
 		return session.selectList(map + "selectColorList");
 	}
 
 	public List<String> selectseeThroughList() {
-		
 		return session.selectList(map + "selectseeThroughList");
-		
+	}
+
+	public List<Product> selectMainCateList(int cateMain) {
+		return session.selectList(map + "selectMainCateList", cateMain);
+	}
+
+	public List<Product> selectSubCateList(HashMap<String, Integer> map2) {
+		return session.selectList(map + "selectSubCateList", map2);
 	}
 	
 	

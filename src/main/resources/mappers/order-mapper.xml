@@ -23,7 +23,7 @@
 		  FROM CATE_MAIN
 	</select>
 	
-	<select id="selectSubCate" resultType="categorySub">
+	<select id="selectSubCate" parameterType="int" resultType="categorySub">
 		SELECT *
 		  FROM CATE_SUB
 		 WHERE CATE_MAIN = #{cateMain}

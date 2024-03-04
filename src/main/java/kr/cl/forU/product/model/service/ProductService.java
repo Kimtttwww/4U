@@ -109,6 +109,16 @@ public class ProductService {
 		return map;
 	}
 	// 사이즈는 별개로
+
+	
+	
+	public List<Product> selectMainCateList(int cateMain) {
+		return dao.selectMainCateList(cateMain);
+	}
+
+	public List<Product> selectSubCateList(HashMap<String, Integer> map) {
+		return dao.selectSubCateList(map);
+	}
 	
 	
 	
