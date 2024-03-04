@@ -14,8 +14,8 @@ public class CsService {
 	@Autowired
 	CsDao dao;
 
-    public List<QNA> qnaList() {
-    	return dao.findQnaList();
+    public List<QNA> qnaList(int memberNo) {
+    	return dao.findQnaList(memberNo);
     }
 
 	public int addAnswer(QNA newAnswer) {

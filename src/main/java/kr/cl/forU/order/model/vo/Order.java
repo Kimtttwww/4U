@@ -32,4 +32,5 @@ public class Order{
 	private String prodName;
 	private int price;
 	private String imgName;
+	private int count;
 }

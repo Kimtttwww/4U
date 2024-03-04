@@ -23,8 +23,8 @@ public class OrderService {
 	OrderDao dao;
 	
 
-    public List<Order> getAllOrders() {
-        return dao.findAll();
+    public List<Order> getAllOrders(int memberNo) {
+    	return dao.findAll(memberNo);
     }
 
     public Order getOrderById(int orderNo) {
@@ -76,6 +76,10 @@ public class OrderService {
 
 	public int selectUserTotalPay(int memberNo) {
 		return dao.selectUserTotalPay(memberNo);
+	}
+
+	public List<Order> selectOgOrder(int memberNo) {
+		return dao.selectOgOrder(memberNo);
 	}
 
 //	public int insertOrderNotice() {

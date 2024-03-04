@@ -15,8 +15,8 @@ public class CsDao {
 	SqlSession session;
 	private String map = "csMapper.";
 
-	public List<QNA> findQnaList() {
-		return session.selectList(map + "findQnaList");
+	public List<QNA> findQnaList(int memberNo) {
+		return session.selectList(map + "findQnaList", memberNo);
 	}
 
 	public int addAnswer(QNA newAnswer) {

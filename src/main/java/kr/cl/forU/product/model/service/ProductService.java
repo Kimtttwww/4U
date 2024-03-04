@@ -39,9 +39,6 @@ public class ProductService {
 		return dao.bestProducts();
 	}
 
-	public List<Product> selectCartList(List<Integer> prodNo) {
-		return dao.selectCartList(prodNo);
-	}
 
 	/**
      * 해당 상품의 리뷰들 조회
@@ -109,6 +106,10 @@ public class ProductService {
 		return map;
 	}
 	// 사이즈는 별개로
+
+	public List<Product> selectCartList(List<Map<String, Object>> list) {
+		return dao.selectCartList(list);
+	}
 	
 	
 	

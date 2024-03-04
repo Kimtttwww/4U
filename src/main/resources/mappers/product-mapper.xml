@@ -42,14 +42,16 @@
 	</select>
 	
 	<select id="selectCartList" resultMap="productResultSet">
-		SELECT P.PROD_NO, P.PROD_NAME, P.PROD_CAP, P.PRICE, P.DISCOUNT_RATE, P.CATE_SUB, P.ORDERED, P.THICKNESS, P.LINING, P.SEE_THROUGH, P.FABRIC, P.PATTERN, P.LINE, P.SEASON, P.UPLOAD_DATE, P.STATUS
-		FROM PRODUCT P
-		JOIN PROD_DETAIL D ON P.PROD_NO = D.PROD_NO
-		WHERE P.PROD_NO IN
-	    <foreach item="item" index="index" collection="list" open="(" separator="," close=")">
-	        #{item}
+	    SELECT *
+	    FROM PRODUCT P
+	    JOIN PROD_DETAIL D ON P.PROD_NO = D.PROD_NO
+	    JOIN IMAGE I ON P.PROD_NO = I.REF_NO
+	    WHERE (P.PROD_NO, "INDEX", "SIZE") IN
+	    <foreach item="item" collection="list" open="(" separator="," close=")">
+	        (#{item.prodNo}, #{item.index}, #{item.size})
 	    </foreach>
 	</select>
+
 
 	<select id="selectReviewList" parameterType="int" resultType="review">
 		SELECT REVIEW_NO, PROD_NO, MEMBER_NO, MEMBER_NAME, REVIEW_CONTENT, R.CREATE_DATE, RATING, HEIGHT, WEIGHT, TOP, BOTTOM, ISTRUETOSIZE

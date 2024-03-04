@@ -28,7 +28,7 @@ export default function ListQna() {
 
     const fetchQnaList = async () => {
         try {
-            const response = await axios.get('/qna/listqna');
+            const response = await axios.get(`/qna/listqna?memberNo=${loginMember.memberNo}`);
             setListQna(response.data);
         } catch (error) {
             console.error('Error fetching Q&A list:', error);
@@ -144,7 +144,7 @@ export default function ListQna() {
                                 <p>{qna.answerDate}</p>
                             </div>
                         )}
-                        {qna.qnaAnswer === null && (
+                        {loginMember.memberName === '장현진' && qna.qnaAnswer === null && (
                             <div className={`answerBox ${expandedIndex === index ? 'expanded' : ''}`}>
                                 <textarea value={answerText} onChange={handleAnswerChange}  onClick={(e) => e.stopPropagation()} />
                                 <button onClick={() => handleAnswerSubmit(index)}>제출</button>

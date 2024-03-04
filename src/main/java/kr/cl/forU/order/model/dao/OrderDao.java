@@ -22,8 +22,8 @@ public class OrderDao {
 	SqlSession session;
 	
 	
-	public List<Order> findAll() {
-        return session.selectList("orderMapper.findAll");
+	public List<Order> findAll(int memberNo) {
+        return session.selectList("orderMapper.findAll", memberNo);
     }
 
     public Order findById(int orderNo) {
@@ -68,6 +68,10 @@ public class OrderDao {
 
 	public int insertOrderNotice() {
 		return session.insert("orderMapper.insertOrderNotice");
+	}
+
+	public List<Order> selectOgOrder(int memberNo) {
+		return session.selectList("orderMapper.selectOgOrder", memberNo);
 	}
 
 

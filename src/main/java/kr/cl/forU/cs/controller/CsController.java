@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import kr.cl.forU.cs.model.service.CsService;
@@ -20,8 +21,8 @@ public class CsController {
 	
 
     @GetMapping("/qna/listqna")
-    public List<QNA> qnaList() {
-        return service.qnaList();
+    public List<QNA> qnaList(@RequestParam int memberNo) {
+        return service.qnaList(memberNo);
     }
     
     @PostMapping("/qna/addanswer")

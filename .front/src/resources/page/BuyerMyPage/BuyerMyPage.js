@@ -58,7 +58,7 @@ useEffect(() => {
 
 const fetchQnaList = async () => {
   try {
-      const response = await axios.get('/qna/listqna');
+      const response = await axios.get(`/qna/listqna?memberNo=${loginMember.memberNo}`);
       setListQna(response.data);
   } catch (error) {
       console.error('Error fetching Q&A list:', error);

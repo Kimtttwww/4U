@@ -12,7 +12,7 @@
         SELECT *
         FROM QNA Q
         JOIN MEMBER M ON (Q.QNA_WRITER = M.MEMBER_NO)
-        WHERE Q.STATUS = 'Y'
+        WHERE Q.STATUS = 'Y' AND QNA_WRITER = #{memberNo}
         ORDER BY QNA_NO
     </select>
     
