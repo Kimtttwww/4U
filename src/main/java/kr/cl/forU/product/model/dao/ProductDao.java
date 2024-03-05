@@ -36,9 +36,6 @@ public class ProductDao {
 		return session.selectList(map + "selectProductList", m);
 	}
 
-	public List<Product> bestProducts() {
-		return session.selectList(map + "bestProducts");
-	}
 
 	public List<Product> selectCartList(List<Map<String, Object>> list) {
 		return session.selectList(map + "selectCartList", list);
@@ -144,6 +141,36 @@ public class ProductDao {
 	public List<Integer> selectPrice() {
 	
 		return session.selectList(map + "selectPrice");
+	}
+
+	/**
+     * 베스트 상품들, 아우터상품들 싹다 할거임 강민구
+     * @param reviewNo 삭제할 리뷰 번호
+     * @return 리뷰 삭제 성공 여부
+     */
+	public List<Product> bestProducts() {
+		return session.selectList(map + "bestProducts");
+	}
+	
+	public List<Product> outerProducts() {
+		
+		return session.selectList(map + "outerProducts");
+	}
+
+	public List<Product> topProducts() {
+		return session.selectList(map + "topProducts");
+	}
+
+	public List<Product> bottomProducts() {
+		return session.selectList(map + "bottomProducts");
+	}
+
+	public List<Product> underProducts() {
+		return session.selectList(map + "underProducts");
+	}
+
+	public List<Product> accProducts() {
+		return session.selectList(map + "accProducts");
 	}
 
 

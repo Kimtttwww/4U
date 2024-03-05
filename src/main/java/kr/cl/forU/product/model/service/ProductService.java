@@ -138,6 +138,26 @@ public class ProductService {
 	public List<Product> selectCartList(List<Map<String, Object>> list) {
 		return dao.selectCartList(list);
 	}
+
+	public List<Product> outerProducts() {
+		return dao.outerProducts();
+	}
+
+	public List<Product> topProducts() {
+		return dao.topProducts();
+	}
+
+	public List<Product> bottomProducts() {
+		return dao.bottomProducts();
+	}
+
+	public List<Product> underProducts() {
+		return dao.underProducts();
+	}
+
+	public List<Product> accProducts() {
+		return dao.accProducts();
+	}
 	
 	
 	

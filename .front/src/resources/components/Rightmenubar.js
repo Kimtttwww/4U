@@ -123,7 +123,6 @@ export default function Rightmenubar() {
         <Link>
           <i>&#128269;</i>
         </Link>
-      </div>
       <Link>
         <i>&#x1F604;</i>
       </Link>
@@ -133,6 +132,7 @@ export default function Rightmenubar() {
       <Link onClick={scrollToBottom}>
         <i>&#x2B07;</i>
       </Link>
+      </div>
       {isSidebarOpen && (
           <div className="sideBarContent">
           

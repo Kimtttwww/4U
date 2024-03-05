@@ -122,9 +122,8 @@
 	</select>
 	
 	<select id = "selectPrice" resultType = "int">
-		SELECT PRICE
+		SELECT min(PRICE), MAX(PRICE)
 		FROM PRODUCT
-		WHERE PRICE BETWEEN 0 AND 400000
 	</select>
 	
  	<select id="selectMainCateList" parameterType="int" resultMap="productResultSet">
@@ -147,12 +146,48 @@
 		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
 		FROM PRODUCT
 		LEFT JOIN CATE_SUB USING (CATE_SUB)
-		ORDER BY ORDERED DESC  
 		<where>
-			<if test='cateMain != "0"'>OR CATE_MAIN = #{cateMain}</if>
-			<if test='cateSub != "0"'>OR CATE_SUB = #{cateSub}</if>
+		AND ROWNUM &lt; = 6
 		</where>
+		ORDER BY ORDERED DESC
 	</select>
+	
+		<select id="outerProducts" parameterType="map" resultMap="productResultSet">
+		SELECT *
+		  FROM PRODUCT
+		  LEFT JOIN CATE_SUB USING (CATE_SUB)
+		 WHERE CATE_MAIN = 1
+		</select>
+		
+		<select id="topProducts" parameterType="map" resultMap="productResultSet">
+		SELECT *
+		  FROM PRODUCT
+		  LEFT JOIN CATE_SUB USING (CATE_SUB)
+		 WHERE CATE_MAIN = 2
+		</select>
+		
+		<select id="bottomProducts" parameterType="map" resultMap="productResultSet">
+		SELECT *
+		  FROM PRODUCT
+		  LEFT JOIN CATE_SUB USING (CATE_SUB)
+		 WHERE CATE_MAIN = 3
+		</select>
+		
+		<select id="underProducts" parameterType="map" resultMap="productResultSet">
+		SELECT *
+		  FROM PRODUCT
+		  LEFT JOIN CATE_SUB USING (CATE_SUB)
+		 WHERE CATE_MAIN = 4
+		</select>
+		
+		<select id="accProducts" parameterType="map" resultMap="productResultSet">
+		SELECT *
+		  FROM PRODUCT
+		  LEFT JOIN CATE_SUB USING (CATE_SUB)
+		 WHERE CATE_MAIN = 5
+		</select>
+	
+	
 
 
 
