@@ -49,7 +49,13 @@ public class ProductController {
 	 */
 	@GetMapping("list")
 	public List<Product> selectProductList(@RequestParam Map<String, List> m) {
-		return service.selectProductList(m);
+		System.out.println("1111");
+		List<Product> products = service.selectProductList(m);
+		System.out.println(products.size());
+		System.out.println(products.get(0).getProdName());
+		System.out.println(products.get(1).getProdName());
+		return products;
+		
 	}
 
 	@GetMapping("/")

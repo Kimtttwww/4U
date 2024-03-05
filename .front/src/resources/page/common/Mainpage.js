@@ -1,14 +1,18 @@
+
 import React, { Component, useState } from 'react'
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "../../css/common/Mainpage.css";
+import axios from "axios";
+import { useEffect } from "react";
 
 import Leftmenubar from '../../components/Leftmenubar';
 import Rightmenubar from '../../components/Rightmenubar';
 
 // import Button from 'react-bootstrap/Button';
 // import Modal from 'react-bootstrap/Modal';
+
 
 
 // Import Swiper styles
@@ -18,13 +22,26 @@ import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
 
 
-export default () => {
 
+export default () => {
+  const [prodList, setProdList] = useState([]);
+
+  useEffect(() => {
+    axios.get("/product/list", null)
+    .then((result) => {
+      setProdList(result.data);
+      console.log(result.data);
+    }).catch((error) => {
+      console.log(error);
+      alert("상품을 불러오는 중 문제가 발생했습니다");
+    });
+  }, []);
   return (
-    <>
+  <>
       <Leftmenubar /> 
       <Rightmenubar />
-      
+
+    
 
 
       <div>
@@ -47,136 +64,24 @@ export default () => {
       </div>
 
       <div className='container'>
-      
-        {/*==============================================================================================================================================*/}
         <h1>베스트 상품</h1>
         
         <div className='clothListBox'>
-
-          <div className='clothList'>
-            <img className='listImg' src='https://atimg.sonyunara.com/files/attrangs/goods/36694/632ad827b1ce0.jpg' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
+        {prodList?.length ? prodList.map((prod) =>{
+          return (
+            <div className='clothList'>
+              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
+              <div className='clothContent'>
+                <h2>{prod.prodName}</h2>
+                <p>{prod.prodCap}</p>
+                <p>{prod.price}</p>
+              </div>
             </div>
-          </div>
-
-
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-          </div>
-
-
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-          </div>
-
-
-
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-          </div>
-
-
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-          </div>
-
-
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-          </div>
-
-        </div>
-
-        <h1>아우터</h1>
-        <div className='clothListBox'>
-
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-          </div>
-
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-
-          </div>
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-          </div>
-
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-          </div>
-
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-          </div>
-
-          <div className='clothList'>
-            <img src='...' alt='제품 이미지' />
-            <div className='clothContent'>
-              <h2>상품 제목</h2>
-              <p>상품 설명이나 가격 등의 내용</p>
-              <p>가격: ₩100,000</p>
-            </div>
-          </div>
-
-        </div>
-
+          );
+        })  : <div>선택한 상품이 없습니다</div>}
+        </div> {/* 이 부분에 닫는 태그를 추가했습니다. */}
       </div>
 
     </>
   );
 };
-
