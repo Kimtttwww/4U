@@ -138,6 +138,10 @@ public class ProductService {
 	public List<Product> selectCartList(List<Map<String, Object>> list) {
 		return dao.selectCartList(list);
 	}
+
+	public List<Product> selectRecentList(List<Map<String, Object>> list) {
+		return dao.selectRecentList(list);
+	}
 	
 	
 	

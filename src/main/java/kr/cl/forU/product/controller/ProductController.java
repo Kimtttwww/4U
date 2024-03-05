@@ -6,6 +6,7 @@ import org.json.JSONObject;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -77,6 +78,25 @@ public class ProductController {
 
 		return service.selectCartList(list);
 	}
+	
+	@GetMapping("/recent")
+	public List<Product> selectRecentList(@CookieValue(value = "recentProduct" , defaultValue = "[]") String recentCookie) {
+	    List<Map<String,Object>> list = new ArrayList<>();
+	    
+	    try {
+	        String decodedCookie = URLDecoder.decode(recentCookie, StandardCharsets.UTF_8.toString());
+	        JSONArray recentItems = new JSONArray(decodedCookie);
+	        for(int i = 0; i < recentItems.length(); i++) {
+	            Map<String,Object> map = new HashMap<>();
+	            map.put("prodNo", recentItems.getInt(i)); // Integer로 처리
+	            list.add(map);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return service.selectRecentList(list);
+	}
+
 
 	private List<Integer> extractProdNosFromCart(String cartCookie) {
 		List<Integer> prodNos = new ArrayList<Integer>();
