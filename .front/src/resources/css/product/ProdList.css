@@ -1,12 +1,12 @@
 /* 페이지 시작 */
 .ProdList {
-	min-width: 1350px;
+	min-width: 1250px;
 	display: flex;
 }
 
 /* 왼쪽 메뉴바 영역 */
 .menu-side-area {
-	width: 325px;
+	width: 65px;
 	height: 100%;
 	display: flex;
 	background-color: aquamarine;
@@ -32,7 +32,7 @@
 
 /* 컨텐츠영역(상품 리스트) */
 .products {
-	width: calc(100% - 325px);
+	width: calc(100% - 65px);
 	display: flex;
 	flex-wrap: wrap;
 	justify-content: space-around;

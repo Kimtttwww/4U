@@ -3,7 +3,7 @@ import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/common/Rightbar.css";
 import Cookies from "js-cookie";
-import { Form } from "react-bootstrap";
+import { Form, OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export default function Rightmenubar() {
   const [isSidebarOpen, setSidebarOpen] = useState(false);
@@ -111,17 +111,25 @@ export default function Rightmenubar() {
 		.then(response => setProduct(response.data))
 	};
 
-	function rangetest(e) {
-		e.target.nextSibling.innerText = e.target.value;
+	/**
+	 * 해당 색상에 커서 올리면 색상명 보여주는 fn
+	 * (OverlayTrigger에서 호출됨)
+	 * @param {*} props Tooltip 스타일 매개변수(자동추가)
+	 * @param {string} colorName 해당 색상의 이름
+	 * @returns Tooltip 요소
+	 */
+	function colorTooltip(props, colorName) {
+		return(<Tooltip id="button-tooltip" {...props}>{colorName}</Tooltip>);
 	}
 
-  return (<>
+  	return (<>
 		<div className={`rightBar ${isSidebarOpen ? "open" : ""}`}>
 		 	<Link onClick={handleToggleSidebar}><i>&#128269;</i></Link>
 			<Link><i>&#x1F604;</i></Link>
 			<Link onClick={scrollToTop}><i>&#x2B06;</i></Link>
 			<Link onClick={scrollToBottom}><i>&#x2B07;</i></Link>
 		</div>
+
 		{isSidebarOpen && (
 			<div className="sideBarContent">
 				<div className="cateTitle">옷 분류</div>
@@ -138,38 +146,39 @@ export default function Rightmenubar() {
 				<div>
 					{product.seeThrough.map((seeThrough) => (
 						<a onClick={() => handleClickSeeThrough(seeThrough)}
-							className={`cateSeeThrough ${selectedSeeThrough.includes(seeThrough) ? 'active' : ''}`}>
+						className={`cateSeeThrough ${selectedSeeThrough.includes(seeThrough) ? 'active' : ''}`}>
 							{seeThrough}
 						</a>
 					))}
 				</div>  
 
+				<div className="cateTitle">색상</div>
 				<div className="flexContainer">
 					{product.color.map((color) => (
-						<a
-							key={color.colorNo}
-							href={"#" + color.colorNo}
-							style={{
-							width: '25px',
-							height: '25px',
-							borderRadius: '50%',
-							backgroundColor: color.rgb,
-							border: `3px solid ${selectedColorNos.includes(color.colorNo) ? 'white' : 'black'}`,
-							textDecoration: 'none',
-							color: '#000'
-							}}
-							className="colorCircle"
-							onClick={(e) => {
-							e.preventDefault();
-							if (selectedColorNos.includes(color.colorNo)) {
-								setSelectedColorNos(selectedColorNos.filter(no => no !== color.colorNo));
-							} else {
-								setSelectedColorNos([...selectedColorNos, color.colorNo]);
-							}
-							}}
-						>
-							{color.colorName}
-						</a>
+						<OverlayTrigger placement="top" delay={{ hide: 400 }} overlay={(props) => colorTooltip(props, color.colorName)}>
+							<span
+								key={color.colorNo}
+								href={"#" + color.colorNo}
+								style={{
+								width: '25px',
+								height: '25px',
+								borderRadius: '50%',
+								backgroundColor: color.rgb,
+								border: `3px solid ${selectedColorNos.includes(color.colorNo) ? 'white' : 'black'}`,
+								textDecoration: 'none',
+								color: '#000'
+								}}
+								className="colorCircle"
+								onClick={(e) => {
+								e.preventDefault();
+								if (selectedColorNos.includes(color.colorNo)) {
+									setSelectedColorNos(selectedColorNos.filter(no => no !== color.colorNo));
+								} else {
+									setSelectedColorNos([...selectedColorNos, color.colorNo]);
+								}
+								}}
+							></span>
+						</OverlayTrigger>
 					))}
 				</div>
 				<br/>

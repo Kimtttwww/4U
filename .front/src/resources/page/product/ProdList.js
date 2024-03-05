@@ -8,7 +8,7 @@ import Leftmenubar from "../../components/Leftmenubar";
 import { Link } from "react-router-dom";
 import qs from 'qs';
 import Cookies from "js-cookie";
-import { checkDiscount, priceConverter } from "../common/ProdDetailAPI";
+import { checkDiscount } from "../common/ProdDetailAPI";
 
 
 /**
@@ -19,24 +19,19 @@ export default function ProdList() {
 	const { mainNo, subNo } = useParams();
 	const [prodList, setProdList] = useState([]);
 	const [showDetail, setShowDetail] = useState(false);
-	const [product, setProduct] = useState();
+	const [product, setProduct] = useState(null);
 	const [mainList, setMainList] = useState([]);
 	const [subList, setSubList] = useState([]);
 	const [checkedSub, setCheckedSub] = useState(subNo);
-	console.log("Prodlist > mainNo : " + mainNo + ", subNo : " + subNo);
 
 	
-	// useEffect(() => {
-	// 	console.log("checkedSub ??", checkedSub);
-	// }, [checkedSub])
-
 	useEffect(() => {loadMainDb()}, []);
-
+	
 	useEffect(() => {
-		const nameBymainNo = mainList?.find(item => item.cateMain == mainNo);
-		setCheckedSub(subNo);
 		loadSubDb();
+		setCheckedSub(subNo);
 		getProduct();
+		const nameBymainNo = mainList?.find(item => item.cateMain == mainNo);
 	}, [mainNo, subNo, mainList]);
 
 	// DB에서 CATE_MAIN 가져오기
@@ -52,7 +47,7 @@ export default function ProdList() {
 	};
 
 	// DB에서 mainNo-subNo에 대한 상품들 가져오기
-	const getProduct =  () => {
+	const getProduct = () => {
 		let subUrl = [];
 		if(mainNo) subUrl.push("cateMain=" + mainNo);
 		if(subNo) subUrl.push("cateSub=" + subNo);
@@ -66,12 +61,29 @@ export default function ProdList() {
 		}
 		
 		axios.get(url).then((data) => {
-			if(Array.isArray(data.data)) setProdList(data.data);
-		}).catch((error) => {
-			console.log(error);
-			alert("상품을 불러오는 중 문제가 발생했습니다");
+			if(Array.isArray(data.data)) setProdList(data.data)
 		});
 	};
+
+	// cateMain No에 해당하는 cateSub가져오기
+	const subCateHTML = () => {
+		if (mainNo > 0 && subList?.length > 0) {
+			const objArr = subList?.filter((sub) => (sub.cateMain == mainNo));
+			return objArr;
+		}
+		return null;
+	};
+
+	// subCate 선택시 스타일부여
+	const subCateHovered = (subNo) => {
+		setCheckedSub(subNo);
+	};
+
+	const api = axios.create({
+		paramsSerializer: function(params) {
+			return qs.stringify(params, {arrayFormat: 'repeat'})
+		}
+	});
 
 	// 민구님꺼? (추정)
 	// useEffect(() => {
@@ -86,21 +98,6 @@ export default function ProdList() {
 	// 	});
 	// }, []);
 	
-	// cateMain No에 해당하는 cateSub가져오기
-	const subCateHTML = () => {
-		if (mainNo > 0 && subList?.length > 0) {
-			const objArr = subList?.filter((sub) => (sub.cateMain == mainNo));
-			return objArr;
-		}
-		return null;
-	};
-
-	// subCate 선택시 스타일부여
-	// 안되는 듯
-	const subCateHovered = (subNo) => {
-		setCheckedSub(subNo);
-	};
-
 	/**
 	 * 상세페이지에 필요한 값 세팅
 	 * @param {number} prodNo
