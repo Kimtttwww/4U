@@ -4,6 +4,7 @@ import Cookies from "js-cookie";
 import { useRef, useState } from "react";
 import { number } from "prop-types";
 import ProdReview from "../page/product/ProdReview";
+import { checkDiscount } from "../page/common/ProdDetailAPI";
 
 /**
  * 상품 상세 모달창
@@ -11,12 +12,10 @@ import ProdReview from "../page/product/ProdReview";
  * 	@param {boolean} showDetail 상품 상세 모달창의 표시 여부 state
  * 	@param {function} setShowDetail 상품 상세 모달창의 표시 여부 state's setter fn
  * 	@param {object} product 상품 상세 모달창에 보여줄 상품 state
- * 	@param {function} priceConverter 숫자형 가격 값을 ','가 포함된 문자형 값으로 변환해주는 fn
- * 	@param {function} checkDiscount 할인 유무에 따른 가격 포맷 적용 fn
  */
 export default function ProdDetail(props) {
 	
-	const {showDetail, setShowDetail, product, priceConverter, checkDiscount} = props;
+	const {showDetail, setShowDetail, product} = props;
 	const [selectProd, setSelectProd] = useState({});
 	const [prodBuyList, setProdBuyList] = useState([]);
 	const [sizeList, setSizeList] = useState([]);

@@ -52,7 +52,7 @@ public class ProductController {
 		return service.selectProductList(m);
 	}
 
-	@GetMapping("/")
+	@GetMapping("bestProducts")
 	public List<Product> bestProducts() {
 		return service.bestProducts();
 	}

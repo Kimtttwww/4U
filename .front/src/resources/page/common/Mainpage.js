@@ -27,7 +27,7 @@ export default () => {
   const [prodList, setProdList] = useState([]);
 
   useEffect(() => {
-    axios.get("/product/list", null)
+    axios.get("/product/bestProducts")
     .then((result) => {
       setProdList(result.data);
       console.log(result.data);

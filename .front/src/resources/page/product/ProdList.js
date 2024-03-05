@@ -8,6 +8,7 @@ import Leftmenubar from "../../components/Leftmenubar";
 import { Link } from "react-router-dom";
 import qs from 'qs';
 import Cookies from "js-cookie";
+import { checkDiscount, priceConverter } from "../common/ProdDetailAPI";
 
 
 /**
@@ -32,15 +33,11 @@ export default function ProdList() {
 	useEffect(() => {loadMainDb()}, []);
 
 	useEffect(() => {
-		getProduct();
+		const nameBymainNo = mainList?.find(item => item.cateMain == mainNo);
 		setCheckedSub(subNo);
-	}, [subNo]);
-
-	useEffect(() => {
 		loadSubDb();
 		getProduct();
-		const nameBymainNo = mainList?.find(item => item.cateMain == mainNo);
-	}, [mainNo, mainList]);
+	}, [mainNo, subNo, mainList]);
 
 	// DB에서 CATE_MAIN 가져오기
 	const loadMainDb = async () => {
@@ -68,31 +65,13 @@ export default function ProdList() {
 			}
 		}
 		
-		axios.get(url)
-		.then((data) => {
-			if(Array.isArray(data.data)) setProdList(data.data)
+		axios.get(url).then((data) => {
+			if(Array.isArray(data.data)) setProdList(data.data);
+		}).catch((error) => {
+			console.log(error);
+			alert("상품을 불러오는 중 문제가 발생했습니다");
 		});
 	};
-
-	// cateMain No에 해당하는 cateSub가져오기
-	const subCateHTML = () => {
-		if (mainNo > 0 && subList?.length > 0) {
-			const objArr = subList?.filter((sub) => (sub.cateMain == mainNo));
-			return objArr;
-		}
-		return null;
-	};
-
-	// subCate 선택시 스타일부여
-	const subCateHovered = (subNo) => {
-		setCheckedSub(subNo);
-	};
-
-	const api = axios.create({
-		paramsSerializer: function(params) {
-			return qs.stringify(params, {arrayFormat: 'repeat'})
-		}
-	});
 
 	// 민구님꺼? (추정)
 	// useEffect(() => {
@@ -107,6 +86,21 @@ export default function ProdList() {
 	// 	});
 	// }, []);
 	
+	// cateMain No에 해당하는 cateSub가져오기
+	const subCateHTML = () => {
+		if (mainNo > 0 && subList?.length > 0) {
+			const objArr = subList?.filter((sub) => (sub.cateMain == mainNo));
+			return objArr;
+		}
+		return null;
+	};
+
+	// subCate 선택시 스타일부여
+	// 안되는 듯
+	const subCateHovered = (subNo) => {
+		setCheckedSub(subNo);
+	};
+
 	/**
 	 * 상세페이지에 필요한 값 세팅
 	 * @param {number} prodNo
@@ -165,39 +159,6 @@ export default function ProdList() {
 		e.target.parentElement.parentElement.previousSibling.src = prod.image.find((img) => img.imgType === 1)?.imgName;
 	}
 
-	/**
-	 * 숫자형 가격 값을 ','가 포함된 문자형 값으로 변환해주는 fn
-	 * @param {number} num 숫자형 가격 값
-	 * @returns {string} ','가 포함된 문자형 숫자 값
-	 */
-	function priceConverter(num) {
-		let str = num.toString()
-		let numArr = []
-		for (let i = 0; i < Math.ceil(str.length / 3); i++) {
-			numArr.push(str?.charAt(str.length - 3 - i * 3) + str?.charAt(str.length - 2 - i * 3) + str?.charAt(str.length - 1 - i * 3))
-		}
-		return numArr.reverse().toString();
-	}
-
-	/**
-	 * 할인 유무에 따른 가격 포맷 적용 fn
-	 * @param {number} product 해당 물품
-	 * @returns {React.JSX.Element} 할인 유무를 적용하고 ,도 적용한 가격을 표현하는 태그들
-	*/
-	function checkDiscount(product) {
-		let element;
-
-		if (product.discountRate) {
-			let saledPrice = product.price * (100 - product.discountRate) / 100;
-			element = (<>
-				<span>\{priceConverter(saledPrice)}</span>
-				<span>\{priceConverter(product.price)}</span>
-			</>);
-		} else { element = (<span>\{priceConverter(product.price)}</span>); }
-
-		return element;
-	}
-
 	return (<>
 		<h1 className="mainCateName">{mainList.find((main) => main.cateMain == mainNo)?.mainName}</h1>
 		<h5 className="subCateName">
@@ -234,6 +195,6 @@ export default function ProdList() {
 			</div>
 		</div>
 
-		{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} priceConverter={priceConverter} checkDiscount={checkDiscount} />}
+		{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}
 	</>);
 }

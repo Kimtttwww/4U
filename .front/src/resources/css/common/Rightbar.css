@@ -56,8 +56,9 @@
 .sideBarContent{
   position: fixed;
   width: 600px;
-  height: 100%;
-  right: 40px;
+  min-height: 50%;
+  height: fit-content;
+  right: 65px;
   background-color: pink;
   overflow: hidden;
 }

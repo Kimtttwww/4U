@@ -132,8 +132,7 @@
 		  FROM PRODUCT
 		  LEFT JOIN CATE_SUB USING (CATE_SUB)
 		 WHERE CATE_MAIN = #{cateMain}
-	
-	</select> 
+	</select>
 	
 	<select id="selectSubCateList" parameterType="map" resultMap="productResultSet">
 		SELECT *
@@ -147,11 +146,10 @@
 		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
 		FROM PRODUCT
 		LEFT JOIN CATE_SUB USING (CATE_SUB)
-		ORDER BY ORDERED DESC  
 		<where>
-			<if test='cateMain != "0"'>OR CATE_MAIN = #{cateMain}</if>
-			<if test='cateSub != "0"'>OR CATE_SUB = #{cateSub}</if>
+			AND ROWNUM &lt;= 6
 		</where>
+		ORDER BY ORDERED DESC 
 	</select>
 
 
