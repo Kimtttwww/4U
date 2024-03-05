@@ -155,7 +155,7 @@ export default function Rightmenubar() {
 				<div className="cateTitle">색상</div>
 				<div className="flexContainer">
 					{product.color.map((color) => (
-						<OverlayTrigger placement="top" delay={{ hide: 400 }} overlay={(props) => colorTooltip(props, color.colorName)}>
+						<OverlayTrigger placement="top" delay={{hide: 400}} overlay={(props) => colorTooltip(props, color.colorName)}>
 							<span
 								key={color.colorNo}
 								href={"#" + color.colorNo}

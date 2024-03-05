@@ -53,10 +53,46 @@ public class ProductController {
 		return service.selectProductList(m);
 	}
 
+//	메인메뉴 베스트 상품들 - 민구
 	@GetMapping("bestProducts")
 	public List<Product> bestProducts() {
 		return service.bestProducts();
 	}
+
+// 메인메뉴 아우터 상품들 - 민구
+	@GetMapping("outerProducts")
+	public List<Product> outerProducts() {
+		return service.outerProducts();
+	}
+	
+// 메인메뉴 상의 상품들 - 민구
+	
+	@GetMapping("topProducts")
+	public List<Product> topProducts() {
+		return service.topProducts();
+	}
+
+// 메인메뉴 하의 상품들 - 민구
+	
+	@GetMapping("bottomProducts")
+	public List<Product> bottomProducts() {
+		return service.bottomProducts();
+	}
+	
+// 메인메뉴 언더웨어 상품들 - 민구
+
+	@GetMapping("underProducts")
+	public List<Product> underProducts() {
+		return service.underProducts();
+	}
+
+// 메인메뉴 ACC 상품들 - 민구
+	
+	@GetMapping("accProducts")
+	public List<Product> accProducts() {
+		return service.accProducts();
+	}
+	
 
 	@GetMapping("/cart/CartList")
 	public List<Product> selectCartList(@CookieValue(value = "cart", defaultValue = "[]") String cartCookie) {

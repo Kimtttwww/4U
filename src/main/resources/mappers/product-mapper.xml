@@ -122,9 +122,8 @@
 	</select>
 	
 	<select id = "selectPrice" resultType = "int">
-		SELECT PRICE
+		SELECT min(PRICE), MAX(PRICE)
 		FROM PRODUCT
-		WHERE PRICE BETWEEN 0 AND 400000
 	</select>
 	
  	<select id="selectMainCateList" parameterType="int" resultMap="productResultSet">
@@ -147,7 +146,7 @@
 		FROM PRODUCT
 		LEFT JOIN CATE_SUB USING (CATE_SUB)
 		<where>
-			AND ROWNUM &lt;= 6
+			AND ROWNUM &lt; = 6
 		</where>
 		ORDER BY ORDERED DESC 
 	</select>
@@ -163,7 +162,42 @@
 	    </foreach>
 	</select>
 	
-
+	<select id="outerProducts" parameterType="map" resultMap="productResultSet">
+	SELECT *
+		FROM PRODUCT
+		LEFT JOIN CATE_SUB USING (CATE_SUB)
+		WHERE CATE_MAIN = 1
+	</select>
+	
+	<select id="topProducts" parameterType="map" resultMap="productResultSet">
+	SELECT *
+		FROM PRODUCT
+		LEFT JOIN CATE_SUB USING (CATE_SUB)
+		WHERE CATE_MAIN = 2
+	</select>
+	
+	<select id="bottomProducts" parameterType="map" resultMap="productResultSet">
+	SELECT *
+		FROM PRODUCT
+		LEFT JOIN CATE_SUB USING (CATE_SUB)
+		WHERE CATE_MAIN = 3
+	</select>
+	
+	<select id="underProducts" parameterType="map" resultMap="productResultSet">
+	SELECT *
+		FROM PRODUCT
+		LEFT JOIN CATE_SUB USING (CATE_SUB)
+		WHERE CATE_MAIN = 4
+	</select>
+	
+	<select id="accProducts" parameterType="map" resultMap="productResultSet">
+	SELECT *
+		FROM PRODUCT
+		LEFT JOIN CATE_SUB USING (CATE_SUB)
+		WHERE CATE_MAIN = 5
+	</select>
+	
+	
 
 
 
