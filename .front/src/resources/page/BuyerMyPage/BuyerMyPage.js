@@ -3,6 +3,7 @@ import { Modal, Button } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
+import ProdDetail from '../../modal/ProdDetail';
 
 import '../../css/buyerMyPage/UserInfo.css';
 import '../../css/buyerMyPage/Activity.css';
@@ -10,12 +11,16 @@ import '../../css/buyerMyPage/ShoppingBasket.css';
 import '../../css/buyerMyPage/Benefits.css';
 import '../../css/buyerMyPage/Chat.css';
 
+
+
 export default function BuyerMyPage() {
 
-	const [modalOpened, setModalOpened] = useState(false);
-	const [orders, setOrders] = useState([]);
-	const [recentlyViewed, setRecentlyViewed] = useState([]);
-	const [listQna, setListQna] = useState([]);
+  const [modalOpened, setModalOpened] = useState(false);
+  const [orders, setOrders] = useState([]);
+  const [recentlyViewed, setRecentlyViewed] = useState([]);
+  const [listQna, setListQna] = useState([]);
+  const [showDetail, setShowDetail] = useState(false);
+  const [product, setProduct] = useState(null);
 
 	// 세션 저장소에서 로그인 정보 가져오기
 	const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
@@ -35,6 +40,7 @@ export default function BuyerMyPage() {
 		.catch(err => console.log(err));
 	};
 
+  // 최근본 상품
   async function getRecentProducts(recentProductIds) {
     try {
       const idString = recentProductIds.join(','); // 배열을 콤마로 구분된 문자열로 변환
@@ -74,9 +80,18 @@ const uniqueRecentlyViewed = recentlyViewed.reduce((acc, current) => {
   }
 }, []);
 
+
+
+const handleProductClick = product => {
+  setProduct(product);  // 클릭한 상품으로 product 상태 업데이트
+  setShowDetail(true);  // 모달창 띄우기
+};
+
 useEffect(() => {
   loadRecentlyViewed(); // 컴포넌트가 마운트될 때 최근 본 상품 로드
 }, []);
+
+console.log(uniqueRecentlyViewed);
 
 useEffect(() => {
   fetchQnaList();
@@ -166,8 +181,8 @@ useEffect(() => {
         </div>
         <div className="rightContainer">
           {/* 최근 본 상품 목록을 화면에 표시 */}
-          {uniqueRecentlyViewed.slice(0,3).map(product => (
-            <div className="activityItem" key={product.prodNo}>
+          {uniqueRecentlyViewed?.length && uniqueRecentlyViewed.map(product => (
+            <div className="activityItem" key={product.prodNo} onClick={() => handleProductClick(product)}>
               <div className="atem">
                 <div className="atemImg">
                   {/* 상품 이미지 */}
@@ -252,7 +267,9 @@ useEffect(() => {
 
     </div>
 
-    prodDetail
+     {/* ProdDetail 컴포넌트에 필요한 props 전달 */}
+     {showDetail && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}
+
     </>
   );
 }  

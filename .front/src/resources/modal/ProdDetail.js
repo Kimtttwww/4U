@@ -187,10 +187,10 @@ export default function ProdDetail(props) {
 	function setRecentProduct() {
 		let recentProduct = Cookies.get('recentProduct');
 		
-		if(recentProduct){recentProduct = [product.prodNo, ...JSON.parse(recentProduct)].slice(0, 3)
+		if(recentProduct){recentProduct = [product.prodNo, ...JSON.parse(recentProduct)]
 		} else {recentProduct = [product.prodNo]}
 		
-		Cookies.set('recentProduct', JSON.stringify([...new Set(recentProduct)]));
+		Cookies.set('recentProduct', JSON.stringify([...new Set(recentProduct)].slice(0, 3)));
 		setSubImgList(product.image.filter((img) => (img.imgType === 2)));
 	}
 
