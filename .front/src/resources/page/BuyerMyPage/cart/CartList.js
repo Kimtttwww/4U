@@ -112,8 +112,8 @@ export default function CartList() {
                 ))}
             </ul>
             <button id="checkout-btn" onClick={handleOrder}>주문하기</button>
-            <p>장바구니 쿠키 상태: {JSON.stringify(cartItems)}</p>
-            <p>장바구니 상태 : {JSON.stringify(cart)}</p>
+            {/* <p>장바구니 쿠키 상태: {JSON.stringify(cartItems)}</p>
+            <p>장바구니 상태 : {JSON.stringify(cart)}</p> */}
         </div>
     );
     

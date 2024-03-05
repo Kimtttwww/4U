@@ -35,19 +35,52 @@ export default function BuyerMyPage() {
 		.catch(err => console.log(err));
 	};
 
-	// 최근 본 상품 로드
-	const loadRecentlyViewed = () => {
-		const viewedFromCookie = Cookies.get('recentProduct');
-		if (viewedFromCookie) {
-			// 숫자를 배열로 래핑하여 설정
-			const recentlyViewedItems = [parseInt(viewedFromCookie)];
-			setRecentlyViewed(recentlyViewedItems);
-		}
-	};
+  async function getRecentProducts(recentProductIds) {
+    try {
+      const idString = recentProductIds.join(','); // 배열을 콤마로 구분된 문자열로 변환
+      const response = await axios.get(`http://localhost:3000/product/recent?prodNo=${idString}`);
+      
+      if (response.status === 200) {
+        return response.data;
+      } else {
+        console.error('요청이 성공적으로 완료되지 않았습니다:', response);
+      }
+    } catch (error) {
+      console.error('서버로부터 데이터를 가져오는 도중 오류가 발생했습니다:', error);
+    }
+    
+    return null;
+  }
+  
+  
+// 최근 본 상품 로드
+const loadRecentlyViewed = async () => {
+  const viewedFromCookie = Cookies.get('recentProduct');
+  
+  if (viewedFromCookie) {
+    const decodedCookieValue = decodeURIComponent(viewedFromCookie); // URL 디코딩
+    const recentProductIds = JSON.parse(decodedCookieValue); // JSON 문자열을 객체로 파싱
+    const recentProducts = await getRecentProducts(recentProductIds);
+    setRecentlyViewed(recentProducts);
+  }
+};
 
-	useEffect(() => {
-		fetchQnaList();
-	}, []);
+const uniqueRecentlyViewed = recentlyViewed.reduce((acc, current) => {
+  const isDuplicated = acc.find(product => product.prodNo === current.prodNo);
+  if (!isDuplicated) {
+    return acc.concat([current]);
+  } else {
+    return acc;
+  }
+}, []);
+
+useEffect(() => {
+  loadRecentlyViewed(); // 컴포넌트가 마운트될 때 최근 본 상품 로드
+}, []);
+
+useEffect(() => {
+  fetchQnaList();
+}, []);
 
 	const fetchQnaList = async () => {
 	try {
@@ -128,22 +161,21 @@ export default function BuyerMyPage() {
           <div className="activityDetail">
             <h2>나의 활동</h2>
             <span>최근 본 상품</span>
+            {/* <span>데이터 : {JSON.stringify(recentlyViewed)}</span> */}
           </div>
         </div>
         <div className="rightContainer">
           {/* 최근 본 상품 목록을 화면에 표시 */}
-          {recentlyViewed.map(productId => (
-            <div className="activityItem" key={productId}>
-              {/* productId를 서버에 보내서 해당 상품 정보를 가져올 수 있음 */}
-              {/* 가져온 상품 정보를 화면에 표시 */}
+          {uniqueRecentlyViewed.slice(0,3).map(product => (
+            <div className="activityItem" key={product.prodNo}>
               <div className="atem">
                 <div className="atemImg">
                   {/* 상품 이미지 */}
-                  <img src={productId.imgName} alt={productId.imgName} />
+                  <img src={product.imgName} alt={product.prodName} />
                 </div>
                 <div className="atemIntro">
                   {/* 상품 이름 */}
-                  <span>{productId.prodName}</span>
+                  <span>{product.prodName}</span>
                 </div>
               </div>
             </div>
@@ -219,6 +251,8 @@ export default function BuyerMyPage() {
       </div>
 
     </div>
+
+    prodDetail
     </>
   );
 }  

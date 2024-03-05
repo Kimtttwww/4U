@@ -151,6 +151,19 @@
 		</where>
 		ORDER BY ORDERED DESC 
 	</select>
+	
+	<select id="selectRecentList" resultMap="productResultSet">
+	    SELECT *
+	    FROM PRODUCT P
+	    JOIN PROD_DETAIL D ON P.PROD_NO = D.PROD_NO
+	    JOIN IMAGE I ON P.PROD_NO = I.REF_NO
+	    WHERE P.PROD_NO IN
+	    <foreach item="item" collection="list" open="(" separator="," close=")">
+	        (#{item.prodNo})
+	    </foreach>
+	</select>
+	
+
 
 
 
