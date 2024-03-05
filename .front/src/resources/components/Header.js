@@ -24,6 +24,10 @@ export default function Header(props) {
         <>
             <div className="header">
                 <div className='menubar'>
+                    <div className="empty-container"></div>
+                    <div className="logo-container">
+                        <Link to="/" className='logo' onClick={scrollToTop}><p><img className="imgLogo" src ="/photo/4U4U.png"/></p></Link>
+                    </div>
                     <div className="loginMenu">
                         {login ? (
                             <>
@@ -42,16 +46,7 @@ export default function Header(props) {
                             </>
                         )}
                     </div>
-
-                    <div className="logo-container">
-                        <Link to="/" className='logo' onClick={scrollToTop}><p><img className="imgLogo" src ="/photo/4U4U.png"/></p></Link>
-                    </div>
-                    <div className="search-container">
-                        <input type="text" className="search-input" placeholder="검색어를 입력하세요" />
-                        <button className="search-button">
-                            <img src="https://xexymix.jpg3.kr/xexymix/2020/main/menu_view.png" alt="Search Icon" className="search-icon" />
-                        </button>
-                    </div>
+                    
                 </div>
             </div>
         </>

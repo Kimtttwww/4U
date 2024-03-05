@@ -91,6 +91,7 @@ export default function Payment() {
                         <span>{buyer_addr}</span>
                         <span>{message}</span>
                     </div>
+                    {/* 배송주소 변경 버튼 없앰? */}
                     <Button type="button" style={{ height: '30px', display: 'flex' }}
                         onClick={openModal}>배송정보 변경</Button>
                     {/* <ChangeAddress show={changeAddress} closeModal={closeModal} /> */}

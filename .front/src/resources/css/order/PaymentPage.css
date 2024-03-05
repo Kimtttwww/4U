@@ -29,7 +29,7 @@
 .payment-delivery-title,
 .payment-content-title {
     font-size: 25px;
-
+    border-bottom: 1px solid #000;
 }
 
 .payment-complate-prod {
@@ -43,11 +43,12 @@
 
 .payment-prod-table tr {
     border: 1px solid rgb(187 149 149);
+    text-align: center;
 }
 
 .payment-delivery-area {
     display: flex;
-    border: 1px solid;
+    border-bottom: 1px solid;
     margin-bottom: 50px;
 }
 
@@ -58,6 +59,11 @@
     margin: 20px;
 }
 
+
+.payment-delivery-area span{
+    margin: 0 0 5px 10px;
+}
+
 .payment-discount-area {
     display: flex;
     justify-content: space-between;
@@ -66,23 +72,55 @@
 .payment-discount-content1,
 .payment-discount-content2 {
     border: 1px solid black;
+    border-left: none;
+    border-right: none;
     width: 350px;
 }
 
 .payment-discount-content1 {
     display: flex;
-    justify-content: space-around;
+}
+
+/* 할인정보 왼쪽라인 텍스트 박스 */
+.payment-discount-content1>div:nth-child(1) span{
+    display: flex;
+    width: 175px;
+    border-bottom: 1px solid #8d8b8b;
+    padding: 10px;
+}
+
+/* 총 상품금액,할인해택 텍스트 */
+.payment-discount-content1>div:nth-child(1) span:nth-child(1),
+.payment-discount-content1>div:nth-child(1) span:nth-child(2){
+    font-weight: bold;
+}
+/* 할인혜택이랑 => 옆에 금액 표시 라인 */
+.payment-discount-content1>div:nth-child(2) span:nth-child(2),
+.payment-discount-content1>div:nth-child(1) span:nth-child(2){
+    padding-bottom: 20px;
+}
+/* 최종 결제 금액 라인 */
+
+.payment-discount-content1>div:nth-child(2) span:nth-child(3),
+.payment-discount-content1>div:nth-child(1) span:nth-child(3){
+    color: #12b3b3;
+    font-weight: bold;
+    background-color: #dddddd;
+}
+
+/* 할인정보 우측 텍스트 */
+.payment-discount-content1>div:nth-child(2) span{
+    display: flex;
+    width: 175px;
+    border-bottom: 1px solid #8d8b8b;
+    padding: 10px;
+    justify-content: flex-end;
 }
 
 .payment-discount-content2 {
     display: flex;
     /* height: 100px; */
     flex-direction: column;
-}
-
-.payment-discount-content1>*,
-.payment-discount-content2>* {
-    margin: 10px;
 }
 
 .payment-discount-content1>div {
@@ -92,6 +130,7 @@
 }
 
 .payment-discount-content2>ul {
+    margin: 10px;
     padding-left: 10px;
     font-size: 10px;
     opacity: 0.5;
@@ -100,6 +139,8 @@
 .payment-discount-content2>div {
     display: flex;
     justify-content: space-around;
+    border-bottom: 1px solid #8d8b8b;
+    padding: 5px 10px;
 }
 
 .style-right {
