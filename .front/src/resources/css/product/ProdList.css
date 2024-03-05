@@ -26,8 +26,17 @@
 	margin-bottom: 30px;
 }
 
-.subCatechecked {
+.subHilight {
 	font-weight: bold;
+	font-size: 20px;
+	color: blue;
+}
+
+
+.subBasic {
+	font-weight: 200;
+	font-size: 15px;
+	color: black;
 }
 
 /* 컨텐츠영역(상품 리스트) */
