@@ -6,10 +6,8 @@ import { mainCateListAPI, subCateListAPI } from "../common/LeftbarAPI";
 import { useParams } from "react-router";
 import Leftmenubar from "../../components/Leftmenubar";
 import { Link } from "react-router-dom";
-import qs from 'qs';
 import Cookies from "js-cookie";
 import { checkDiscount } from "../common/ProdDetailAPI";
-
 
 /**
  * 상품 리스트 페이지
@@ -48,10 +46,22 @@ export default function ProdList() {
 
 	// DB에서 mainNo-subNo에 대한 상품들 가져오기
 	const getProduct = () => {
+		const selectedItems = Cookies.get("prodFilter") ? JSON.parse(Cookies.get("prodFilter")) : null;
 		let subUrl = [];
-		if(mainNo) subUrl.push("cateMain=" + mainNo);
-		if(subNo) subUrl.push("cateSub=" + subNo);
-		
+
+		if(selectedItems){
+			if(selectedItems.cateMain) subUrl.push("cateMain=" + selectedItems.cateMain);
+			if(selectedItems.cateSub) subUrl.push("cateSub=" + selectedItems.cateSub);
+			if(selectedItems.seeThrough) subUrl.push("seeThrough=" + selectedItems.seeThrough);
+			if(selectedItems.line) subUrl.push("line=" + selectedItems.line);
+			if(selectedItems.size) subUrl.push("size=" + selectedItems.size);
+			if(selectedItems.color) subUrl.push("color=" + selectedItems.color);
+		} else {
+			subUrl.push("cateMain=" + mainNo);
+			if(subNo) subUrl.push("cateSub=" + subNo);
+			Cookies.remove("prodFilter");
+		}
+
 		let url = "/product/list";
 		for (let i = 0; i < subUrl.length; i++) {
 			switch (i) {
@@ -59,45 +69,29 @@ export default function ProdList() {
 				default: url += "&" + subUrl[i]; break;
 			}
 		}
-		
+
 		axios.get(url).then((data) => {
-			if(Array.isArray(data.data)) setProdList(data.data)
+			if(Array.isArray(data.data)) setProdList(data.data);
+		}).catch((error) => {
+			console.log(error);
+			alert("상품의 리뷰를 불러오는 중 문제가 발생했습니다");
 		});
-	};
+	}
 
 	// cateMain No에 해당하는 cateSub가져오기
 	const subCateHTML = () => {
+		let objArr = null;
 		if (mainNo > 0 && subList?.length > 0) {
-			const objArr = subList?.filter((sub) => (sub.cateMain == mainNo));
-			return objArr;
+			objArr = subList?.filter((sub) => (sub.cateMain == mainNo));
 		}
-		return null;
-	};
+		return objArr;
+	}
 
 	// subCate 선택시 스타일부여
 	const subCateHovered = (subNo) => {
 		setCheckedSub(subNo);
-	};
+	}
 
-	const api = axios.create({
-		paramsSerializer: function(params) {
-			return qs.stringify(params, {arrayFormat: 'repeat'})
-		}
-	});
-
-	// 민구님꺼? (추정)
-	// useEffect(() => {
-	// 	let selectedItems = Cookies.get("selectedItems") ? JSON.parse(Cookies.get("selectedItems")) : {};
-
-	// 	api.get("/product/list", {params: selectedItems})
-	// 	.then((result) => {
-	// 		setProdList(result.data);
-	// 	}).catch((error) => {
-	// 		console.log(error);
-	// 		alert("상품을 불러오는 중 문제가 발생했습니다");
-	// 	});
-	// }, []);
-	
 	/**
 	 * 상세페이지에 필요한 값 세팅
 	 * @param {number} prodNo

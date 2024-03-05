@@ -41,16 +41,18 @@ public class ProductController {
 	@Autowired
 	ProductService service;
 
+	
 	/**
 	 * 상품들 조회
-	 * 
 	 * @param m 필터를 걸 서브 카테고리 값
 	 * @return 조회된 상품 리스트
 	 */
 	@GetMapping("list")
 	public List<Product> selectProductList(@RequestParam Map<String, List> m) {
 		log.info("selectProductList\nm = {}", m);
-		return service.selectProductList(m);
+		List<Product> list = service.selectProductList(m);
+		log.info("selectProductList\nlist = {}", list);
+		return list;
 	}
 
 //	메인메뉴 베스트 상품들 - 민구
@@ -59,41 +61,36 @@ public class ProductController {
 		return service.bestProducts();
 	}
 
-// 메인메뉴 아우터 상품들 - 민구
+// 	메인메뉴 아우터 상품들 - 민구
 	@GetMapping("outerProducts")
 	public List<Product> outerProducts() {
 		return service.outerProducts();
 	}
 	
-// 메인메뉴 상의 상품들 - 민구
-	
+//	메인메뉴 상의 상품들 - 민구
 	@GetMapping("topProducts")
 	public List<Product> topProducts() {
 		return service.topProducts();
 	}
 
-// 메인메뉴 하의 상품들 - 민구
-	
+// 	메인메뉴 하의 상품들 - 민구
 	@GetMapping("bottomProducts")
 	public List<Product> bottomProducts() {
 		return service.bottomProducts();
 	}
 	
-// 메인메뉴 언더웨어 상품들 - 민구
-
+//	메인메뉴 언더웨어 상품들 - 민구
 	@GetMapping("underProducts")
 	public List<Product> underProducts() {
 		return service.underProducts();
 	}
 
-// 메인메뉴 ACC 상품들 - 민구
-	
+// 	메인메뉴 ACC 상품들 - 민구
 	@GetMapping("accProducts")
 	public List<Product> accProducts() {
 		return service.accProducts();
 	}
 	
-
 	@GetMapping("/cart/CartList")
 	public List<Product> selectCartList(@CookieValue(value = "cart", defaultValue = "[]") String cartCookie) {
 		List<Map<String, Object>> list = new ArrayList<>();
@@ -133,7 +130,6 @@ public class ProductController {
 	    return service.selectRecentList(list);
 	}
 
-
 	private List<Integer> extractProdNosFromCart(String cartCookie) {
 		List<Integer> prodNos = new ArrayList<Integer>();
 
@@ -153,19 +149,12 @@ public class ProductController {
 
 	/**
 	 * 해당 상품의 리뷰들 조회
-	 * 
 	 * @param prodNo 리뷰들을 조회할 상품의 번호
 	 * @return 조회된 상품 리스트
 	 */
 	@GetMapping("review/{prodNo}")
 	public List<Review> selectReviewList(@PathVariable int prodNo) {
 		return service.selectReviewList(prodNo);
-	}
-
-	@GetMapping("/productSearch")
-	private List<Product> extractProdFromCate(@RequestParam HashMap<String, String> map) {
-		// 주소창에 color 라는 이름을 쓰면 됩니다.
-		return service.extractProdFromCate(map);
 	}
 
 	@PostMapping("/loadProdName")
@@ -190,25 +179,19 @@ public class ProductController {
 
 	/**
 	 * 리뷰 작성 자격 확인
-	 * 
 	 * @param m 상품번호(prodNo)와 회원번호(memberNo)가 필요, 없으면 기본값 0
 	 * @return 해당 회원이 특정 상품을 구매 했었는지 여부
 	 */
 	@GetMapping("review/check")
 	public boolean reviewerCheck(@RequestParam Map<String, Integer> m) {
-		if (m.get("prodNo") == null) {
-			m.put("prodNo", 0);
-		}
-		if (m.get("memberNo") == null) {
-			m.put("memberNo", 0);
-		}
+		if (m.get("prodNo") == null) {m.put("prodNo", 0);}
+		if (m.get("memberNo") == null) {m.put("memberNo", 0);}
 
 		return service.reviewerCheck(m);
 	}
 
 	/**
 	 * 리뷰 작성
-	 * 
 	 * @param r 사용자가 작성한 리뷰
 	 * @return 등록 성공 여부
 	 */
@@ -217,6 +200,27 @@ public class ProductController {
 		return service.insertReview(r);
 	}
 
+    /**
+     * 리뷰 수정
+     * @param r 사용자가 수정한 리뷰
+     * @return 리뷰 수정 성공 여부
+     */
+    @PutMapping("review")
+    public boolean updateReview(@RequestBody Review r) {
+        return service.updateReview(r);
+    }
+    
+    /**
+     * 리뷰 삭제
+     * @param reviewNo 삭제할 리뷰 번호
+     * @return 리뷰 삭제 성공 여부
+     */
+    
+    @DeleteMapping("review/{reviewNo}")
+    public boolean deleteReview(@PathVariable int reviewNo) {
+		return service.deleteReview(reviewNo);
+	}
+	
 	@PostMapping("/loadProdImg")
 	public List<Image> selectProdImageList(@RequestBody int[] prodNo) {
 		List<Image> imgList = new ArrayList<>();
@@ -231,44 +235,9 @@ public class ProductController {
 
     @GetMapping("/category")
     public HashMap<String, List> selectFilterList() {
-        
     	return service.selectFilterList();
-       // catemain 1:n
-       // catesub 1:n
-       // color 1:n
-       // size (하드코딩) 1:5
-       // seethrough 비침 덜비침 적당함 등등
-       // 이 전체가 filter list 그래서 hashmap 형태로 담아야함 
-       // 프론트에서 이러한 키밸류가 필요
-       // filter.list. 변수명
-       // 프론트에서 let[catemain,catesub,thickness,seethrough,color} = filterList
-       // cateMain.map((cm) => {
-        		// input type = "checkbox name = " id = "" span = {cm}
-    	// select count from product group by see_through
-    
 	}
     
-    /**
-     * 리뷰 수정
-     * @param r 사용자가 수정한 리뷰
-     * @return 리뷰 수정 성공 여부
-     */
-    @PutMapping("review")
-    public boolean updateReview(@RequestBody Review r) {
-    	log.info("\nr = {}", r);
-        return service.updateReview(r);
-    }
-    
-    /**
-     * 리뷰 삭제
-     * @param reviewNo 삭제할 리뷰 번호
-     * @return 리뷰 삭제 성공 여부
-     */
-    @DeleteMapping("review/{reviewNo}")
-    public boolean deleteReview(@PathVariable int reviewNo) {
-		return service.deleteReview(reviewNo);
-	}
-	
 	@GetMapping("/listMainNo")
 	public ResponseEntity<List<Product>> selectMainCateList(
 			@RequestParam(name = "cateMain", required = false) int cateMain) {

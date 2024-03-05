@@ -1,96 +1,114 @@
-import React, { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "../css/common/Rightbar.css";
 import Cookies from "js-cookie";
-import { Form, OverlayTrigger, Tooltip } from "react-bootstrap";
+import { OverlayTrigger, Tooltip } from "react-bootstrap";
 
 export default function Rightmenubar() {
-  const [isSidebarOpen, setSidebarOpen] = useState(false);
-  const [cateSub, setCateSub] = useState("");
-  const [product, setProduct] = useState(null);
-  const navigate = useNavigate();
-//===================================================
-  const [selectedSeeThrough, setSelectedSeeThrough] = useState([]);
-  const [selectedThickness, setSelectedThickness] = useState([]);
-  const [selectedLine, setSelectedLine] = useState([]);
-  const [selectedCategory, setSelectedCategory] = useState([]);
-  const [selectedColorNos, setSelectedColorNos] = useState([]);
+	const [isSidebarOpen, setSidebarOpen] = useState(false);
+	const [filterList, setFilterList] = useState(null);
+	const navigate = useNavigate();
+	// ===================================================
+	const [cateMainList, setCateMainList] = useState([]);
+	const [cateSubList, setCateSubList] = useState([]);
+	const [seeThroughList, setSeeThroughList] = useState([]);
+	const [thicknessList, setThicknessList] = useState([]);
+	const [lineList, setLineList] = useState([]);
+	const [sizeList, setSizeList] = useState([]);
+	const [colorList, setColorList] = useState([]);
 
- 
-//===================================================
+
 	useEffect(() => {
 		axios.get("/product/category") // 컨트롤러 주소
-		.then(response => {setProduct(response.data)
-			console.log(response.data);}
-			)
+		.then(response => {
+			test = response.data
+			setFilterList(response.data);
+		});
 	}, []);
 
-	const handleToggleSidebar = () => {
-		setSidebarOpen(!isSidebarOpen);
-	};
-
-//===================================================
-
-	const handleClickSeeThrough = (value) => {
-		if (selectedSeeThrough.includes(value)) {
-			setSelectedSeeThrough(selectedSeeThrough.filter(item => item !== value));
+	// 대분류
+	const checkCategoryMain = (mainName) => {
+		if (cateMainList.includes(mainName)) {
+			setCateMainList(cateMainList.filter(cateMain => cateMain !== mainName));
 		} else {
-			setSelectedSeeThrough([...selectedSeeThrough, value]);
-		}
-
-		console.log(selectedSeeThrough)
-	};
-
-	const handleClickCategory = (category) => {
-		if (selectedCategory.includes(category)) {
-			setSelectedCategory(selectedCategory.filter(item => item !== category));
-		} else {
-			setSelectedCategory([...selectedCategory, category]);
+			setCateMainList([...cateMainList, mainName]);
 		}
 	};
 
+	// 소분류
+	function checkCategorySub (subName) {
+		if (cateSubList.includes(subName)) {
+			setCateSubList(cateSubList.filter(cateSub => cateSub !== subName));
+		} else {
+			setCateSubList([...cateSubList, subName]);
+		}
+	}
 
-  // 버튼 눌렀을때 ProdList.js로 넘어가야함
-  // const handleButtonClick = () => {
-  //   console.log("About to navigate");
-  //   navigate("/product/list", { 
-  //     state: { 
-  //       selectedSeeThrough: selectedSeeThrough,
-  //       selectedCategory: selectedCategory
-  //     }
-  //   });
-  //   console.log("Navigation request sent");
-  // };
+	// 비침 정도
+	const checkSeeThrough = (seeThrough) => {
+		if (seeThroughList.includes(seeThrough)) {
+			setSeeThroughList(seeThroughList.filter(seethr => seethr !== seeThrough));
+		} else {
+			setSeeThroughList([...seeThroughList, seeThrough]);
+		}
+	};
+
+	// 라인
+	const checkLine = (line) => {
+		if (lineList.includes(line)) {
+			setLineList(lineList.filter(li => li !== line));
+		} else {
+			setLineList([...lineList, line]);
+		}
+	};
+
+	// 사이즈
+	function checkSize(size) {
+		if (sizeList.includes(size)) {
+			setSizeList(sizeList.filter(si => si !== size));
+		} else {
+			setSizeList([...sizeList, size]);
+		}
+	}
+
+	// 색상
+	function checkColor(colorNo) {
+		if (colorList.includes(colorNo)) {
+			setColorList(colorList.filter(color => color !== colorNo));
+		} else {
+			setColorList([...colorList, colorNo]);
+		}
+	}
+
+	// 필터요소 쿠키에 등록하고 페이지 이동
 	const handleButtonClick = () => {
-		console.log("1");
 		let cateMain = [];
-		test = [selectedCategory, product.cateMain]
+		let cateSub = [];
 
-		selectedCategory.forEach((mainName) => {
-			cateMain.push(product.cateMain.find((category) => category.mainName == mainName))
+		cateMainList.forEach((mainName) => {
+			cateMain.push(filterList.cateMain.find((main) => main.mainName == mainName))
 		});
-		cateMain = cateMain.map((category) => category.cateMain);
-			
-		let selectedItems = {
-			seeThrough: selectedSeeThrough,
-			cateMain,
-			color: selectedColorNos
+		cateMain = cateMain.map((main) => main.cateMain);
+
+		cateSubList.forEach((subName) => {
+			cateSub.push(filterList.cateSub.find((sub) => sub.subName == subName))
+		});
+		cateSub = cateSub.map((sub) => sub.cateSub);
+		
+		let prodFilter = {
+			cateMain: cateMain?.length ? cateMain : null,
+			cateSub: cateSub?.length ? cateSub : null,
+			seeThrough: seeThroughList?.length ? seeThroughList : null,
+			line: lineList?.length ? lineList : null,
+			size: sizeList?.length ? sizeList : null,
+			color: colorList?.length ? colorList : null
 		};
-		Cookies.set("selectedItems", JSON.stringify(selectedItems));
+
+		Cookies.set("prodFilter", JSON.stringify(prodFilter));
 		navigate("/product/list");
 	};
 	
-	const handleClickLine = (value) => {
-		if (selectedLine.includes(value)) {
-			setSelectedLine(selectedLine.filter(item => item !== value));
-		} else {
-			setSelectedLine([...selectedLine, value]);
-		}
-	};
-
-  //==============================================
-
 	const scrollToTop = () => {
 		window.scrollTo({
 			top: 0,
@@ -105,12 +123,6 @@ export default function Rightmenubar() {
 		});
 	};
 
-  	// 나중
-	const handleClick = () => {
-		axios.get("/product/category")
-		.then(response => setProduct(response.data))
-	};
-
 	/**
 	 * 해당 색상에 커서 올리면 색상명 보여주는 fn
 	 * (OverlayTrigger에서 호출됨)
@@ -121,69 +133,86 @@ export default function Rightmenubar() {
 	function colorTooltip(props, colorName) {
 		return(<Tooltip id="button-tooltip" {...props}>{colorName}</Tooltip>);
 	}
-
+	
   	return (<>
 		<div className={`rightBar ${isSidebarOpen ? "open" : ""}`}>
-		 	<Link onClick={handleToggleSidebar}><i>&#128269;</i></Link>
-			<Link><i>&#x1F604;</i></Link>
-			<Link onClick={scrollToTop}><i>&#x2B06;</i></Link>
-			<Link onClick={scrollToBottom}><i>&#x2B07;</i></Link>
+		 	<span onClick={() => setSidebarOpen(!isSidebarOpen)}><i>&#128269;</i></span>
+			<span><i>&#x1F604;</i></span>
+			<span onClick={scrollToTop}><i>&#x2B06;</i></span>
+			<span onClick={scrollToBottom}><i>&#x2B07;</i></span>
 		</div>
 
 		{isSidebarOpen && (
 			<div className="sideBarContent">
-				<div className="cateTitle">옷 분류</div>
+				<div className="cateTitle">대분류</div>
 				<div className="productContainer">
-					{product.cateMain.map((product) => (
-						<a key={product.mainName} onClick={() => handleClickCategory(product.mainName)}
-							className={`cateSeeThrough ${selectedCategory.includes(product.mainName) ? 'active' : ''}`}>
-							{product.cateMain} {product.mainName}
-						</a>
+					{filterList.cateMain.map((filter) => (
+						<span key={filter.mainName} onClick={() => checkCategoryMain(filter.mainName)}
+							className={`cateSeeThrough ${cateMainList.includes(filter.mainName) ? 'active' : ''}`}>
+							{filter.cateMain} {filter.mainName}
+						</span>
+					))}
+				</div>
+
+				<div className="cateTitle">소분류</div>
+				<div>
+					{filterList.cateSub.map((filter) => (
+						<span key={filter.subName} onClick={() => checkCategorySub(filter.subName)}
+							className={`cateSeeThrough ${cateSubList.includes(filter.subName) ? 'active' : ''}`}>
+							{filter.cateSub} {filter.subName}
+						</span>
 					))}
 				</div>
 
 				<div className="cateTitle">비침</div>
 				<div>
-					{product.seeThrough.map((seeThrough) => (
-						<a onClick={() => handleClickSeeThrough(seeThrough)}
-						className={`cateSeeThrough ${selectedSeeThrough.includes(seeThrough) ? 'active' : ''}`}>
+					{filterList.seeThrough.map((seeThrough, i) => (
+						<span key={i} onClick={() => checkSeeThrough(seeThrough)}
+							className={`cateSeeThrough ${seeThroughList.includes(seeThrough) ? 'active' : ''}`}>
 							{seeThrough}
-						</a>
+						</span>
 					))}
 				</div>  
 
+				<div className="cateTitle">라인</div>
+				<div>
+					{filterList.lining.map((line, i) => (
+						<span key={i} onClick={() => checkLine(line)}
+							className={`cateSeeThrough ${lineList.includes(line) ? 'active' : ''}`}>
+							{line}
+						</span>
+					))}
+				</div>
+
+				<div className="cateTitle">사이즈</div>
+				<div>
+					{filterList.size.map((size, i) => (
+						<span key={i} onClick={() => checkSize(size)}
+							className={`cateSeeThrough ${sizeList.includes(size) ? 'active' : ''}`}>
+							{size}
+						</span>
+					))}
+				</div>
+
 				<div className="cateTitle">색상</div>
 				<div className="flexContainer">
-					{product.color.map((color) => (
+					{filterList.color.map((color) => (
 						<OverlayTrigger placement="top" delay={{hide: 400}} overlay={(props) => colorTooltip(props, color.colorName)}>
-							<span
-								key={color.colorNo}
-								href={"#" + color.colorNo}
+							<span key={colorList.colorNo} className="colorCircle" onClick={() => checkColor(color.colorNo)}
 								style={{
-								width: '25px',
-								height: '25px',
-								borderRadius: '50%',
-								backgroundColor: color.rgb,
-								border: `3px solid ${selectedColorNos.includes(color.colorNo) ? 'white' : 'black'}`,
-								textDecoration: 'none',
-								color: '#000'
-								}}
-								className="colorCircle"
-								onClick={(e) => {
-								e.preventDefault();
-								if (selectedColorNos.includes(color.colorNo)) {
-									setSelectedColorNos(selectedColorNos.filter(no => no !== color.colorNo));
-								} else {
-									setSelectedColorNos([...selectedColorNos, color.colorNo]);
-								}
-								}}
-							></span>
+									width: '25px',
+									height: '25px',
+									borderRadius: '50%',
+									backgroundColor: color.rgb,
+									border: `3px solid ${colorList.includes(color.colorNo) ? 'black' : 'white'}`,
+									textDecoration: 'none',
+									color: '#000'
+							}}></span>
 						</OverlayTrigger>
 					))}
 				</div>
 				<br/>
-				<br/>
-	 			<button className="cateButton" type ="submit" onClick={handleButtonClick}>상품찾기</button>
+	 			<button className="cateButton" onClick={handleButtonClick}>상품찾기</button>
 			</div>
 		)}
 	</>);

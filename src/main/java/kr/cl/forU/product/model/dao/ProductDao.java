@@ -55,10 +55,6 @@ public class ProductDao {
 		return session.selectList(map + "selectReviewList", prodNo);
 	}
 	
-	public List<Product> extractProdFromCate(HashMap<String, String> m) {
-		return session.selectList(map + "searchByCate", m);
-	}
-
 	public Product selectProdName(int prodNo) {
 		return session.selectOne(map + "selectProdName", prodNo);
 	}

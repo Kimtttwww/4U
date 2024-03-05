@@ -49,10 +49,6 @@ public class ProductService {
 		return dao.selectReviewList(prodNo);
 	}
 
-	public List<Product> extractProdFromCate(HashMap<String, String> map) {
-		return dao.extractProdFromCate(map);
-	}
-
 	public Product selectProdName(int prodNo) {
 		return dao.selectProdName(prodNo);
 	}
@@ -91,18 +87,18 @@ public class ProductService {
 		HashMap<String , List> map = new HashMap<>();
 		ArrayList<String> size = new ArrayList<>();
 		
+		size.add("XS");
+		size.add("S");
+		size.add("M");
+		size.add("L");
+		size.add("XL");
+		
 		map.put("cateMain", dao.selectCateMainList());
 		map.put("cateSub", dao.selectCateSubList());
 		map.put("color", dao.selectColorList()); // 색상
 		map.put("seeThrough", dao.selectseeThroughList()); // 옷의 비침 정도 
 		map.put("lining", dao.selectLining()); // 옷의 안감
 		map.put("price", dao.selectPrice()); // 가격
-		
-		size.add("XS");
-		size.add("S");
-		size.add("M");
-		size.add("L");
-		size.add("XL");
 		map.put("size", size);
 		
 		return map;

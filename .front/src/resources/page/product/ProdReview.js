@@ -28,7 +28,7 @@ export default function ProdReview(props) {
 			.then((data) => {setIsBuyed(data.data)})
 			.catch((error) => {
 				console.log(error);
-				alert("정보를 불러오는 중 문제가 발생했습니다");
+				alert("상품의 리뷰를 불러오는 중 문제가 발생했습니다");
 			});
 		}
 	}, []);

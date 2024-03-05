@@ -60,6 +60,7 @@
   right: 65px;
   background-color: pink;
   overflow: hidden;
+  padding: 5px;
 }
 
 .rightBar {
@@ -69,6 +70,7 @@
   flex-direction: column; 
   position: fixed;
   right: 0.5%;
+  z-index: 1;
   text-decoration: none;
   background-color: #f8dedb;
   border-radius: 15px;
