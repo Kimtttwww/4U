@@ -32,7 +32,6 @@ import kr.cl.forU.product.model.vo.Review;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.PutMapping;
 
-
 @Slf4j
 @RestController
 @RequestMapping("/product")
@@ -49,13 +48,8 @@ public class ProductController {
 	 */
 	@GetMapping("list")
 	public List<Product> selectProductList(@RequestParam Map<String, List> m) {
-		System.out.println("1111");
-		List<Product> products = service.selectProductList(m);
-		System.out.println(products.size());
-		System.out.println(products.get(0).getProdName());
-		System.out.println(products.get(1).getProdName());
-		return products;
-		
+		log.info("selectProductList\nm = {}", m);
+		return service.selectProductList(m);
 	}
 
 	@GetMapping("/")

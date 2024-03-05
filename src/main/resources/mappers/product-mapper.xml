@@ -16,8 +16,9 @@
 		FROM PRODUCT
 		LEFT JOIN CATE_SUB USING (CATE_SUB)
 		<where>
-			<if test='cateMain != "0"'>OR CATE_MAIN = #{cateMain}</if>
-			<if test='cateSub != "0"'>OR CATE_SUB = #{cateSub}</if>
+			AND STATUS = 'Y'
+			<if test='cateMain != null'>AND CATE_MAIN IN (#{cateMain})</if>
+			<if test='cateSub != null'>AND CATE_SUB IN (#{cateSub})</if>
 		</where>
 	</select>
 

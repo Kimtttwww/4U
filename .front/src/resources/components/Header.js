@@ -30,7 +30,7 @@ export default function Header(props) {
                                 {/* 나중에 링크말고 다른걸로(btn, div, span 등) 바꿀 것 */}
                                 <button onClick={() => {
                                     Cookies.remove("loginMember");
-                                    setLogin("");
+                                    setLogin({});
                                     }}>로그아웃</button>
                                 <Link to={"/buyer/mypage/"}>{login.memberName}님의 마이페이지</Link>
                             </>

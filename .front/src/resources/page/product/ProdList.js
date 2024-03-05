@@ -2,12 +2,10 @@ import { useEffect, useState } from "react";
 import "../../css/product/ProdList.css";
 import ProdDetail from "../../modal/ProdDetail";
 import axios from "axios";
-import { loadMainProdAPI, loadSubProdAPI } from "./CateAPI";
 import { mainCateListAPI, subCateListAPI } from "../common/LeftbarAPI";
 import { useParams } from "react-router";
 import Leftmenubar from "../../components/Leftmenubar";
 import { Link } from "react-router-dom";
-import Rightmenubar from "../../components/Rightmenubar";
 import qs from 'qs';
 import Cookies from "js-cookie";
 
@@ -23,62 +21,63 @@ export default function ProdList() {
 	const [product, setProduct] = useState();
 	const [mainList, setMainList] = useState([]);
 	const [subList, setSubList] = useState([]);
-	const [mainName, setMainName] = useState();
 	const [checkedSub, setCheckedSub] = useState(subNo);
 	console.log("Prodlist > mainNo : " + mainNo + ", subNo : " + subNo);
 
 	
 	// useEffect(() => {
-	// 	// 상품 리스트 불러오기
-	// 	axios.get("/product/list", category)
-	// 	.then((result) => {
-	// 		setProdList(result.data);
-	// 	}).catch((error) => {
-	// 		console.log(error);
-	// 		alert("상품을 불러오는 중 문제가 발생했습니다");
-	// 	});
-	// }, []);
+	// 	console.log("checkedSub ??", checkedSub);
+	// }, [checkedSub])
+
+	useEffect(() => {loadMainDb()}, []);
+
+	useEffect(() => {
+		getProduct();
+		setCheckedSub(subNo);
+	}, [subNo]);
+
+	useEffect(() => {
+		loadSubDb();
+		getProduct();
+		const nameBymainNo = mainList?.find(item => item.cateMain == mainNo);
+	}, [mainNo, mainList]);
 
 	// DB에서 CATE_MAIN 가져오기
 	const loadMainDb = async () => {
-		const mainCate = await mainCateListAPI();
-		setMainList(mainCate);
-	};
-
-	// DB에서 mainCate No에 대한 상품들 가져오기
-	const getMainCateNo = async () => {
-		if(mainNo) {
-			const response = await loadMainProdAPI(mainNo);
-			setProdList([...response]);
-		}
+		setMainList(await mainCateListAPI());
 	};
 
 	// DB에서 cateMain에 해당하는 CATE_SUB 가져오기
 	const loadSubDb = async () => {
 		if(mainNo) {
-			const subCate = await subCateListAPI(mainNo);
-			setSubList([...subCate]);
+			setSubList([...await subCateListAPI(mainNo)]);
 		}
 	};
 
 	// DB에서 mainNo-subNo에 대한 상품들 가져오기
-	const getProdSubNo = async () => {
-		if (subNo !== undefined) {
-			const data = {
-				cateMain: mainNo,
-				cateSub: subNo
-			};
-			const response = await loadSubProdAPI(data);
-			setProdList([...response]);
-		};
+	const getProduct =  () => {
+		let subUrl = [];
+		if(mainNo) subUrl.push("cateMain=" + mainNo);
+		if(subNo) subUrl.push("cateSub=" + subNo);
+		
+		let url = "/product/list";
+		for (let i = 0; i < subUrl.length; i++) {
+			switch (i) {
+				case 0: url += "?" + subUrl[i]; break;
+				default: url += "&" + subUrl[i]; break;
+			}
+		}
+		
+		axios.get(url)
+		.then((data) => {
+			if(Array.isArray(data.data)) setProdList(data.data)
+		});
 	};
 
 	// cateMain No에 해당하는 cateSub가져오기
 	const subCateHTML = () => {
-		// console.log("subCateHTML() 들어옴?");
 		if (mainNo > 0 && subList?.length > 0) {
 			const objArr = subList?.filter((sub) => (sub.cateMain == mainNo));
-			// console.log("subList ?", subList);
 			return objArr;
 		}
 		return null;
@@ -89,61 +88,24 @@ export default function ProdList() {
 		setCheckedSub(subNo);
 	};
 
-	useEffect(() => {
-		console.log("checkedSub ??", checkedSub);
-	}, [checkedSub])
-
-	useEffect(() => {
-		getMainCateNo();
-		loadMainDb();
-		// 상품 리스트 불러오기
-		axios.get("/product/list")
-		.then((result) => {
-			setProdList(result.data);
-		}).catch((error) => {
-			console.log(error);
-			alert("상품을 불러오는 중 문제가 발생했습니다");
-		});
-	}, []);
-
-	useEffect(() => {
-		if (subNo > 0 && subNo !== undefined) {
-			getProdSubNo();
-		};
-		setCheckedSub(subNo);
-	}, [subNo]);
-
-	useEffect(() => {
-		loadSubDb();
-		if (subNo == undefined) {
-			getMainCateNo();
-		};
-		const nameBymainNo = mainList?.find(item => item.cateMain == mainNo);
-		if (nameBymainNo) {
-			setMainName(nameBymainNo.mainName);
-		};
-	}, [mainNo, mainList]);
-
 	const api = axios.create({
 		paramsSerializer: function(params) {
 			return qs.stringify(params, {arrayFormat: 'repeat'})
 		}
 	});
 
-	// ...
-	useEffect(() => {
-		let selectedItems = Cookies.get("selectedItems");
-		if(selectedItems) selectedItems = JSON.parse(selectedItems);
-		console.log(selectedItems);
+	// 민구님꺼? (추정)
+	// useEffect(() => {
+	// 	let selectedItems = Cookies.get("selectedItems") ? JSON.parse(Cookies.get("selectedItems")) : {};
 
-		api.get("/product/list", {params: selectedItems})
-		.then((result) => {
-			setProdList(result.data);
-		}).catch((error) => {
-			console.log(error);
-			alert("상품을 불러오는 중 문제가 발생했습니다");
-		});
-	}, []);
+	// 	api.get("/product/list", {params: selectedItems})
+	// 	.then((result) => {
+	// 		setProdList(result.data);
+	// 	}).catch((error) => {
+	// 		console.log(error);
+	// 		alert("상품을 불러오는 중 문제가 발생했습니다");
+	// 	});
+	// }, []);
 	
 	/**
 	 * 상세페이지에 필요한 값 세팅
@@ -236,57 +198,42 @@ export default function ProdList() {
 		return element;
 	}
 
-	return (
-		<>
-			<h1 className="mainCateName">{mainName}</h1>
-			<h5 className="subCateName">
-				{subCateHTML()?.map((sub, index) => (
-					<div className="subListEle" key={index}>
-						<Link to={`/product/list/${mainNo}/${sub.cateSub}`}
-							onClick={() => subCateHovered(sub.cateSub)}
-							defaultChecked={checkedSub}
-							style={{
-								color: checkedSub === sub.cateSub ? 'blue' : 'black',
-								fontWeight: checkedSub === sub.cateSub ? 'bold' : '200',
-								fontSize: checkedSub === sub.cateSub ? '20px' : '15px'
-							}}
-						>
-							{sub.subName}
-						</Link>
-					</div>
-				))}
-			</h5 >
-			<div className="ProdList">
-				<div className="menu-side-area">
-					<Leftmenubar checkedSub={checkedSub} />
+	return (<>
+		<h1 className="mainCateName">{mainList.find((main) => main.cateMain == mainNo)?.mainName}</h1>
+		<h5 className="subCateName">
+			{subCateHTML()?.map((sub, index) => (
+				<div className="subListEle" key={index}>
+					<Link to={`/product/list/${mainNo}/${sub.cateSub}`}
+						onClick={() => subCateHovered(sub.cateSub)} defaultChecked={checkedSub}
+						style={{
+							color: checkedSub === sub.cateSub ? 'blue' : 'black',
+							fontWeight: checkedSub === sub.cateSub ? 'bold' : '200',
+							fontSize: checkedSub === sub.cateSub ? '20px' : '15px'}}>
+						{sub.subName}
+					</Link>
 				</div>
-				<div className="products">
-					{prodList?.length ? prodList.map((prod) => {
-						return (<>
-							<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
-								{/* 썸넬 사진을 찾아서 보여주기 */}
-								<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
-								<article>
-									{/* 이름이 가격 위에 있는게 좋을거같아서 올렸는데 맘에 안들면 내려 */}
-									{/* 그리고 이름이 박스 사이즈 넘어가는 길이면 "페이크 레더 스탠드 카라 지퍼 바이커 자켓..." 으로 보이게 바꿨음 */}
-									<div className="prod-name">{prod.prodName}</div>
-									{/* 할인이 없는 상품은 price만 나와야 하고, 할인이 있는 상품은 price, discountRate 두개가 나와야함 */}
-									{/* 가격에 3자리수 마다 "," 찍어주는거 해야함 */}
-									<div className="prod-amount">
-
-										{checkDiscount(prod)}
-									</div>
-									<div className="prod-color">
-										{prod.image?.length && colorList(prod)}
-									</div>
-								</article>
-							</section>
-						</>);
-					}) : <div>선택한 상품이 없습니다</div>}
-				</div>
+			))}
+		</h5 >
+		<div className="ProdList">
+			<div className="menu-side-area">
+				<Leftmenubar checkedSub={checkedSub} />
 			</div>
+			<div className="products">
+				{prodList?.length ? prodList.map((prod) => {
+					return (<>
+						<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
+							<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
+							<article>
+								<div className="prod-name">{prod.prodName}</div>
+								<div className="prod-amount">{checkDiscount(prod)}</div>
+								<div className="prod-color">{prod.image?.length && colorList(prod)}</div>
+							</article>
+						</section>
+					</>);
+				}) : <div>선택한 상품이 없습니다</div>}
+			</div>
+		</div>
 
-			{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} priceConverter={priceConverter} checkDiscount={checkDiscount} />}
-		</>
-	);
+		{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} priceConverter={priceConverter} checkDiscount={checkDiscount} />}
+	</>);
 }

@@ -7,13 +7,11 @@ import Payment from "./resources/page/order/Payment";
 import Header from "./resources/components/Header";
 import Footer from "./resources/components/Footer";
 import ProdList from "./resources/page/product/ProdList";
-import Rightmenubar from "./resources/components/Rightmenubar";
 import SignUp from "./resources/page/member/SignUp";
 import UserUpdate from "./resources/page/BuyerMyPage/UserUpdate";
 import { useState } from "react";
 import OrderHt from "./resources/page/BuyerMyPage/orderHistory/OrderHt";
 import Error from "./resources/components/Error";
-import Leftmenubar from "./resources/components/Leftmenubar";
 import Mainpage from "./resources/page/common/Mainpage";
 import SellerMyPage from "./resources/page/sellerMyPage/SellerMyPage";
 import SellerOrderList from "./resources/page/sellerMyPage/SellerOrderList";
@@ -24,18 +22,17 @@ import CategorySearch from "./resources/modal/CategorySearch";
 import BuyerCoupon from "./resources/page/BuyerMyPage/BuyerCoupon";
 import SellerRegistration from "./resources/page/sellerMyPage/SellerRegistration";
 import Cookies from "js-cookie";
-import MainCateList from "./resources/page/product/MainCateList";
 
 function App() {
 
    /** 로그인창 띄울떄 필요한 매개변수 */
    const [showLogin, setShowLogin] = useState(false);
-   const [login, setLogin] = useState();
+   const [login, setLogin] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
 
    return (
       <div className="App">
-
          <Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
+
          <Routes>
             {/* 메인 페이지 */}
             <Route path="/" element={<Mainpage />} />
@@ -48,10 +45,13 @@ function App() {
                <Route path="userupdate" element={<UserUpdate />} />
             </Route>
 
-            {/* 제품 리스트 */}
-            <Route path="/product/list" element={<ProdList />} />
-            <Route path="/product/list/:mainNo" element={<ProdList />} />
-            <Route path="/product/list/:mainNo/:subNo" element={<ProdList />} />
+            {/* 제품 관련 */}
+            <Route path="/product">
+               {/* 제품 리스트 */}
+               <Route path="list" element={<ProdList />} />
+               <Route path="list/:mainNo" element={<ProdList />} />
+               <Route path="list/:mainNo/:subNo" element={<ProdList />} />
+            </Route>
 
             {/* ? */}
             <Route path="/order">
@@ -68,7 +68,6 @@ function App() {
             {/* 구매자 마이페이지 */}
             <Route path="/buyer/mypage/" element={<BuyerMyPage />} />
             <Route path="/BuyerCoupon" element={<BuyerCoupon />} />
-
 
             {/* 장바구니 관련 */}
             <Route path="/cart/CartList/" element={<CartList />} />
@@ -91,9 +90,8 @@ function App() {
                <Route path="listqna" element={<ListQna />} />
             </Route>
 
-            {/* 그 외의 에러 페이지 */}
+            {/* 그 외의 페이지 */}
             <Route path="*" element={<Error />} />
-
          </Routes>
 
          {/* 로그인 페이지 */}

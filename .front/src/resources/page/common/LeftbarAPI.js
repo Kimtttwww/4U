@@ -7,7 +7,7 @@ export const mainCateListAPI = async () => {
         const response = await instance.post("/mainCate");
         return response.data;
     } catch (error) {
-        return "mainCate data없어요...";
+        return null;    // mainCate data없어요...
     }
 }
 
@@ -21,6 +21,6 @@ export const subCateListAPI = async (data) => {
         // console.log(response.data);
         return response.data;
     } catch (error) {
-        return "subCate data없어요...";
+        return null;    // subCate data없어요...
     }
 }

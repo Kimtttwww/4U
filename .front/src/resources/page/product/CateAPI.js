@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const prod = axios.create({ baseURL: "http://localhost:3000/product" });
+const prod = axios.create({ baseURL: "/product" });
 
 // cateMain No에 해당하는 상품들
 export const loadMainProdAPI = async (data) => {

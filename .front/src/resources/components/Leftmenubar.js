@@ -5,7 +5,6 @@ import Leftbar from "../css/common/Leftbar.css";
 import { mainCateListAPI, subCateListAPI } from "../page/common/LeftbarAPI";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import ProdList from "../page/product/ProdList";
-import MainCateList from "../page/product/MainCateList";
 
 
 export default function Leftmenubar({ selectSubCate }) {
