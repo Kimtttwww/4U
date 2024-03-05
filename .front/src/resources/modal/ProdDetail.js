@@ -201,7 +201,7 @@ export default function ProdDetail(props) {
 			<Modal.Body className="prod-detail">
 				<section className="prod-imgs">
 					<picture className="prod-main-img">
-						<img ref={mainImage} src={product.image.find((img) => img.imgType === 1)?.imgName} alt="주 상품 이미지" />
+						<img ref={mainImage} src={product?.image.find((img) => img.imgType === 1)?.imgName} alt="주 상품 이미지" />
 					</picture>
 					<picture className="prod-sub-img">
 						{subImgList?.length && subImgList.map((img, i) => (i < 4 ? (<img id={img.imgNo} src={img.imgName}
