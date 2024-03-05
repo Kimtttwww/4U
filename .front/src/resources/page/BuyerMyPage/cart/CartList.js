@@ -3,12 +3,20 @@ import Cookies from 'js-cookie';
 import axios from 'axios'; // axios 추가
 import { useNavigate } from "react-router-dom";
 import "../../../css/cart/CartList.css";
+import ProdDetail from "../../../modal/ProdDetail";
 
 export default function CartList() {
     
     const [cart, setCart] = useState([]);
     const [cartItems, setCartItems] = useState([]);
     const history = useNavigate();
+    const [showDetail, setShowDetail] = useState(false);
+    const [product, setProduct] = useState(null);
+
+    const handleProductClick = (item) => {
+        const clickedProduct = cart.find(cartItem => cartItem.prodNo === item.prodNo);
+        setProduct(clickedProduct);
+    };
 
 
     useEffect(() => {
@@ -74,12 +82,14 @@ export default function CartList() {
     }, 0);
 
     return (
+        <>
         <div className="shopping-cart">
             <h2>장바구니</h2>
             <span>총 결제 예상 금액 : {new Intl.NumberFormat('ko-KR').format(totalAmount)}원</span>
             <ul>
-                {cartItems.map((item, index) => (
+                {cartItems?.length && cartItems.map((item, index) => (
                     <li key={index}>
+
                         <span>{index}</span>
                         <img 
                             src={
@@ -89,18 +99,19 @@ export default function CartList() {
                             } 
                             alt={item.index} 
                         />
+                        
                         <span>사이즈 : {item.size}</span>
                         <span>상품 색상 : {item.colorName}</span>
                         {/* cart에서 제품 찾기 */}
                         {cart.find(cartItem => cartItem.prodNo === item.prodNo) && (
                             <>
-                                <span>상품 명 : {cart.find(cartItem => cartItem.prodNo === item.prodNo).prodName}</span>
+                                <span onClick={() => handleProductClick(item)}>상품 명 : {cart.find(cartItem => cartItem.prodNo === item.prodNo).prodName}</span>
                                 <span>
                                     {
                                         new Intl.NumberFormat('ko-KR').format(
                                             cart.find(cartItem => cartItem.prodNo === item.prodNo).price * item.count || 1
-                                        )
-                                    }원
+                                            )
+                                        }원
                                 </span>
                             </>
                         )}
@@ -108,13 +119,18 @@ export default function CartList() {
                         <button onClick={() => increaseQuantity(index)}>+</button>
                         <button onClick={() => decreaseQuantity(index)}>-</button>
                         <button onClick={() => removeFromCart(index)}>삭제</button>
-                    </li>
-                ))}
-            </ul>
-            <button id="checkout-btn" onClick={handleOrder}>주문하기</button>
+                        </li>
+
+                        ))}
+                </ul>
+                <button id="checkout-btn" onClick={handleOrder}>주문하기</button>
             {/* <p>장바구니 쿠키 상태: {JSON.stringify(cartItems)}</p>
             <p>장바구니 상태 : {JSON.stringify(cart)}</p> */}
         </div>
+
+     {/* ProdDetail 컴포넌트에 필요한 props 전달 */}
+     {showDetail && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}
+     </>
     );
     
 
