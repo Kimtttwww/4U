@@ -22,7 +22,7 @@ export default function Order({ loginUser }) {
 		address: "",
 		addressDetail: ""
 	}
-	
+
 	const navi = useNavigate();
 	const [orderProd, setOrderProd] = useState([]);
 	const [userInfo, setuserInfo] = useState({});
@@ -345,36 +345,46 @@ export default function Order({ loginUser }) {
 						orderProd?.map((item, index) => {
 							return (
 								<tr key={index}>
-
-
 									<img className="orderProdImg"
 										src={prodImgs.filter((img) => item.prodNo == img.refNo)[1].imgName} />
 									<td>{item.prodName}</td>
 									<td>
 										<div>{item.colorName}/{item.size}</div>
-
 										<Button variant="secondary" className="optionChange-btn"
 											onClick={() => {
 												openModal();
 												setOrderIndex(index);
-											}}
-										>
+											}}>
 											옵션변경
 										</Button>
-
 										<ChangeOption show={isOptionChange}
 											closeModal={closeModal}
-											orderProd={orderProd[orderIndex]}
-										/>
+											orderProd={orderProd[orderIndex]} />
 									</td>
 									<td>{(item.price).toLocaleString()}원</td>
-									<td>
-										{item.count}
-										<button onClick={() => increaseCount(index)}>∧</button>
-										<button onClick={() => decreaseCount(index)}>∨</button>
+									<td className="countTdTag">
+										<div>
+
+											{item.count}
+										</div>
+										<div className="updownButton">
+											<img src="/photo/order-up.png"
+												style={{ width: "30px" }}
+												onClick={() => increaseCount(index)} />
+											<img src="/photo/order-down.png"
+												style={{ width: "30px" }}
+												onClick={() => decreaseCount(index)} />
+										</div>
+										{/* <button onClick={() => increaseCount(index)}></button> */}
+										{/* <button onClick={() => decreaseCount(index)}></button> */}
 									</td>
 									<td>{(item.price * item.count).toLocaleString()}원</td>
-									<td><button onClick={() => { orderDelete(item.prodNo) }}>Ⅹ</button></td>
+									<td>
+										<img src="/photo/order-x.png"
+											style={{ width: "30px" }}
+											onClick={() => orderDelete(item.prodNo)} />
+										{/* <button onClick={() => { orderDelete(item.prodNo) }}>Ⅹ</button> */}
+									</td>
 								</tr>
 							);
 						})
@@ -436,25 +446,25 @@ export default function Order({ loginUser }) {
 								</Modal>
 							</div>
 							<div>
-								<input type="text" id="" name="address" readOnly 
+								<input type="text" id="" name="address" readOnly
 									value={userInfoChecked ? userInfo?.address : inputChange.address}
 									onChange={inputChangeHandler} />
-								<input type="text" id="" name="addressDetail" 
+								<input type="text" id="" name="addressDetail"
 									value={userInfoChecked ? userInfo?.addressDetail : inputChange.addressDetail}
-									onChange={inputChangeHandler} placeholder="상세 주소 입력"/>
+									onChange={inputChangeHandler} placeholder="상세 주소 입력" />
 							</div>
 						</div>
 						<div>
 							<input type="text" id="" name="message" className="margin"
 								value={delMsg}
 								onChange={applyMsg} />
-							<select 
+							<select
 								onChange={applyMsg}  >
 								{
 									deliMessage?.map((msg, index) =>
-									<option key={index} value={msg.value ? msg.value : delMsg}>{msg.value}</option>
+										<option key={index} value={msg.value ? msg.value : delMsg}>{msg.value}</option>
 									)
-									
+
 								}
 							</select>
 						</div>
@@ -530,13 +540,13 @@ export default function Order({ loginUser }) {
 
 				<div className="payment-right">
 					<div className="payment-right-content">
-					<p>최종 결제금액</p>
+						<p>최종 결제금액</p>
 						<div>
 							<div>
 								{(totalPrice - discountPrice - applyPoint).toLocaleString()}원
 							</div>
 						</div>
-						<div>
+						{/* <div>
 							<div>상품금액:</div>
 							<div>할인금액:</div>
 						</div>
@@ -545,7 +555,7 @@ export default function Order({ loginUser }) {
 							<div>
 								{(discountPrice + applyPoint).toLocaleString()}원
 							</div>
-						</div>
+						</div> */}
 					</div>
 					<div className="payBtn">
 						<PaymentAPI userInfo={userInfo}

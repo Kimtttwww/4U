@@ -24,14 +24,25 @@ export default function ProdList() {
 	const [subList, setSubList] = useState([]);
 	const [checkedSub, setCheckedSub] = useState(subNo);
 
-	
-	useEffect(() => {loadMainDb()}, []);
-	
+	useEffect(() => {
+		loadMainDb()
+		scrollToTop();
+		console.log(checkedSub);
+	}, []);
+
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0
+			// behavior: "smooth",
+		});
+	};
+	// console.log("list에서 subNo : ", subNo);
+
 	useEffect(() => {
 		loadSubDb();
-		setCheckedSub(subNo);
 		getProduct();
-		const nameBymainNo = mainList?.find(item => item.cateMain == mainNo);
+		// setCheckedSub(subNo);
+		// console.log("list에서 checkedSub : ", checkedSub);
 	}, [mainNo, subNo, mainList]);
 
 	// DB에서 CATE_MAIN 가져오기
@@ -41,7 +52,7 @@ export default function ProdList() {
 
 	// DB에서 cateMain에 해당하는 CATE_SUB 가져오기
 	const loadSubDb = async () => {
-		if(mainNo) {
+		if (mainNo) {
 			setSubList([...await subCateListAPI(mainNo)]);
 		}
 	};
@@ -49,9 +60,9 @@ export default function ProdList() {
 	// DB에서 mainNo-subNo에 대한 상품들 가져오기
 	const getProduct = () => {
 		let subUrl = [];
-		if(mainNo) subUrl.push("cateMain=" + mainNo);
-		if(subNo) subUrl.push("cateSub=" + subNo);
-		
+		if (mainNo) subUrl.push("cateMain=" + mainNo);
+		if (subNo) subUrl.push("cateSub=" + subNo);
+
 		let url = "/product/list";
 		for (let i = 0; i < subUrl.length; i++) {
 			switch (i) {
@@ -59,9 +70,9 @@ export default function ProdList() {
 				default: url += "&" + subUrl[i]; break;
 			}
 		}
-		
+
 		axios.get(url).then((data) => {
-			if(Array.isArray(data.data)) setProdList(data.data)
+			if (Array.isArray(data.data)) setProdList(data.data)
 		});
 	};
 
@@ -74,14 +85,20 @@ export default function ProdList() {
 		return null;
 	};
 
-	// subCate 선택시 스타일부여
+	// leftBar에서 subCate 선택시 스타일부여
 	const subCateHovered = (subNo) => {
-		setCheckedSub(subNo);
+		// console.log("list ?들어옴? subNo : ", subNo);
+		// setCheckedSub(subNo);
 	};
+	const subNameHilight = (no) => {
+		console.log("subNameHilight no : ", no);
+		setCheckedSub(no);
+		return no;
+	}
 
 	const api = axios.create({
-		paramsSerializer: function(params) {
-			return qs.stringify(params, {arrayFormat: 'repeat'})
+		paramsSerializer: function (params) {
+			return qs.stringify(params, { arrayFormat: 'repeat' })
 		}
 	});
 
@@ -97,7 +114,7 @@ export default function ProdList() {
 	// 		alert("상품을 불러오는 중 문제가 발생했습니다");
 	// 	});
 	// }, []);
-	
+
 	/**
 	 * 상세페이지에 필요한 값 세팅
 	 * @param {number} prodNo
@@ -156,42 +173,51 @@ export default function ProdList() {
 		e.target.parentElement.parentElement.previousSibling.src = prod.image.find((img) => img.imgType === 1)?.imgName;
 	}
 
-	return (<>
-		<h1 className="mainCateName">{mainList.find((main) => main.cateMain == mainNo)?.mainName}</h1>
-		<h5 className="subCateName">
-			{subCateHTML()?.map((sub, index) => (
-				<div className="subListEle" key={index}>
-					<Link to={`/product/list/${mainNo}/${sub.cateSub}`}
-						onClick={() => subCateHovered(sub.cateSub)} defaultChecked={checkedSub}
-						style={{
-							color: checkedSub === sub.cateSub ? 'blue' : 'black',
-							fontWeight: checkedSub === sub.cateSub ? 'bold' : '200',
-							fontSize: checkedSub === sub.cateSub ? '20px' : '15px'}}>
-						{sub.subName}
-					</Link>
-				</div>
-			))}
-		</h5 >
-		<div className="ProdList">
-			<div className="menu-side-area">
-				<Leftmenubar checkedSub={checkedSub} />
-			</div>
-			<div className="products">
-				{prodList?.length ? prodList.map((prod) => {
-					return (<>
-						<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
-							<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
-							<article>
-								<div className="prod-name">{prod.prodName}</div>
-								<div className="prod-amount">{checkDiscount(prod)}</div>
-								<div className="prod-color">{prod.image?.length && colorList(prod)}</div>
-							</article>
-						</section>
-					</>);
-				}) : <div>선택한 상품이 없습니다</div>}
-			</div>
-		</div>
+	return (
+		<>
+			<h1 className="mainCateName" >{mainList.find((main) => main.cateMain == mainNo)?.mainName}</h1>
+			<div className="subCateName">
+				{subCateHTML()?.map((sub, index) => (
+					<div className="subListEle" key={index}>
+						<Link to={`/product/list/${mainNo}/${sub.cateSub}`}
+							onClick={
+								() => subNameHilight(sub.cateSub)}
+							// onClick={
+							// 	() => subCateHovered(sub.cateSub)}
+							// defaultChecked={checkedSub}
 
-		{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}
-	</>);
+							style={{
+								color: checkedSub == sub.cateSub ? 'red' : 'blue',
+								fontWeight: checkedSub == sub.cateSub ? 'bold' : '200',
+								fontSize: checkedSub == sub.cateSub ? '25px' : '20px'
+							}}>
+							{sub.subName}
+						</Link>
+					</div>
+				))}
+			</div>
+
+			<div className="ProdList">
+				<div className="menu-side-area">
+					<Leftmenubar subCateClicked={subNameHilight} />
+				</div>
+				<div className="products">
+					{prodList?.length ? prodList.map((prod) => {
+						return (<>
+							<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
+								<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
+								<article>
+									<div className="prod-name">{prod.prodName}</div>
+									<div className="prod-amount">{checkDiscount(prod)}</div>
+									<div className="prod-color">{prod.image?.length && colorList(prod)}</div>
+								</article>
+							</section>
+						</>);
+					}) : <div>선택한 상품이 없습니다</div>}
+				</div>
+			</div>
+
+			{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}
+		</>
+	);
 }

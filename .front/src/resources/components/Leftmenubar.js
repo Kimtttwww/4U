@@ -7,7 +7,7 @@ import { Link, useNavigate, useParams } from "react-router-dom";
 import ProdList from "../page/product/ProdList";
 
 
-export default function Leftmenubar({ selectSubCate }) {
+export default function Leftmenubar({ subCateClicked }) {
 
     const { mainNo, subNo } = useParams();
     const navi = useNavigate();
@@ -17,6 +17,7 @@ export default function Leftmenubar({ selectSubCate }) {
     const [rect, setRect] = useState({});
     const [hoverMainCate, setHoverMainCate] = useState(0);
     const [hoverSubCate, setHoverSubCate] = useState(0);
+
 
 
 
@@ -99,13 +100,21 @@ export default function Leftmenubar({ selectSubCate }) {
 
 
     const mouseEnterHandler = (mainNo) => {
-        console.log("mainNo ??", mainNo);
+        console.log("호버 mainNo 바뀜 >> ", mainNo);
         setHoverMainCate(mainNo);
     };
 
     const subMouseEnterHandler = (subNo) => {
+        // console.log("호버 subNo 바뀜 >> ", subNo);
         setHoverSubCate(subNo);
     };
+
+    const subCateClickHandler = (subNo) => {
+        console.log("클릭 subNo 바뀜 >> ", subNo);
+        return subCateClicked(subNo);
+        // return subNo;
+    };
+
 
 
     const rectHandler = (idx) => {
@@ -136,10 +145,11 @@ export default function Leftmenubar({ selectSubCate }) {
     useEffect(() => {
         if (hoverMainCate > 0) {
             loadSubDb();
-            setHoverMainCate(hoverMainCate);
         };
-        // console.log(hoverSubCate);
     }, [hoverMainCate, hoverSubCate]);
+
+
+
 
 
 
@@ -162,6 +172,7 @@ export default function Leftmenubar({ selectSubCate }) {
                                         <p>4u</p>
                                         {
                                             mainCateList?.length && mainCateList.map((main, index) => (
+                                                // <div className="mainCateListItem"
                                                 <div className="mainCateListItem"
                                                     key={main.cateMain}
                                                     id={`mainCategory${index}`}
@@ -169,32 +180,26 @@ export default function Leftmenubar({ selectSubCate }) {
                                                         mouseEnterHandler(main.cateMain);
                                                         rectHandler(index);
                                                     }}
-                                                    onMouseLeave={() => {
-                                                        // if (hoverSubCate == 0) {
-                                                        //     setHoverMainCate(0);
-                                                        // }
-                                                    }}
-                                                    style={{
-                                                        color: hoverMainCate === main.cateMain ? 'blue' : 'black',
-                                                        fontWeight: hoverMainCate === main.cateMain ? 'bold' : '200'
-                                                    }}
-                                                // onClick={() => { mainCateClickHandler(main.cateMain) }}
+                                                // onMouseLeave={() =>
+                                                //     setHoverMainCate(0)
+                                                // }
                                                 >
-                                                    {/* {main.cateMain} */}
-                                                    <Link to={`/product/list/${main.cateMain}`} >
+                                                    <Link to={`/product/list/${main.cateMain}`}
+                                                        style={{
+                                                            color: hoverMainCate == main.cateMain ? 'blue' : 'black',
+                                                            fontWeight: hoverMainCate == main.cateMain ? 'bold' : '200'
+                                                        }}>
                                                         {main.mainName}
                                                         {/* <a href={`/product/list/${main.cateMain}`}>{main.mainName}</a> */}
                                                     </Link>
-
                                                 </div>
                                             ))
                                         }
                                     </div>
                                 </div>
                                 <div div className="subCateList"
-                                    style={{
-                                        position: 'fixed', top: `${rect.top}px`, left: `${rect.right - 10}px`
-
+                                    style={{ // left: `${rect.right}px`
+                                        position: 'fixed', top: `${rect.top}px`, left: "120px"
                                     }}
                                     onMouseLeave={() => {
                                         setHoverSubCate(0);
@@ -202,30 +207,24 @@ export default function Leftmenubar({ selectSubCate }) {
                                     }}>
                                     {
                                         subCateHTML()?.map((sub, index) => (
-
                                             <div className="subListEle" key={index}
-                                                onMouseEnter={
-                                                    () => {
-                                                        subMouseEnterHandler(sub.cateSub);
-                                                    }}
+                                                onClick={() => subCateClickHandler(sub.cateSub)}
+                                                onMouseEnter={() => { subMouseEnterHandler(sub.cateSub); }}
                                                 style={{
                                                     color: hoverSubCate === sub.cateSub ? 'red' : 'yellow',
                                                     fontWeight: hoverSubCate === sub.cateSub ? 'bold' : '200'
                                                 }}
-                                            // onClick={subCateClickHandler(sub.cateSub)}
                                             >
                                                 <Link to={`/product/list/${hoverMainCate}/${sub.cateSub}`} >{sub.subName}</Link>
                                             </div>
                                         ))
                                     }
                                 </div>
-                                {/* <ProdList /> */}
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-
         </>
     )
 }

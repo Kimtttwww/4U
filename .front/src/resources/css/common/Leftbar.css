@@ -16,12 +16,11 @@ a {
 
 .faBarsShow {
     background-color: #f5cfcb;
-    box-shadow: inset 0 0 30px 0 #f69b91;
+    /* box-shadow: inset 0 0 30px 0 #f69b91; */
     border-radius: 20px;
 }
 
 .faBarClose {
-
     height: 40px;
     background-color: #f5cfcb;
     opacity: 0.8;
@@ -39,6 +38,7 @@ a {
     flex-direction: row;
     justify-content: center;
     align-items: center;
+    margin-bottom: 5px;
 }
 
 .fontIcon {
@@ -66,31 +66,35 @@ a {
 }
 
 .mainCateList {
-    width: 100px;
+    width: 125px;
     background-color: #f5cfcb;
-    padding: 11px;
-    box-shadow: inset 0 0 30px 0 #f69b91;
+    /* padding-right: 11px; */
+    /* box-shadow: inset 0 0 30px 0 #f69b91; */
     border-radius: 10px;
-    height: 300px;
+    height: 350px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 
 .subCateList {
     width: 100px;
     background-color: #f6a9a1;
-    box-shadow: -10px -10px 15px rgba(0, 0, 0, 0.3);
+    /* box-shadow: -5px -5px 15px rgba(0, 0, 0, 0.3); */
     border-radius: 10px;
     /* border: 1px solid black; */
     margin: 6px;
     /* padding: 10px 0; */
 }
 
-.subListEle {
+/* .subListEle {
     height: 30px;
     padding-left: 10px;
-}
+} */
 
 .mainCateListItem {
-    margin-bottom: 10px;
+    margin: 10px;
+    font-size: 20px;
 }
 
 .mainCateListItem:hover,
@@ -110,7 +114,7 @@ a {
 }
 
 /* 메인 카테고리 요소 */
-.mainCateListItem div {
-    width: 100px;
+/* .mainCateListItem div {
+    width: 100px; 
     padding: 6px 6px 6px 10px;
-}
+} */
