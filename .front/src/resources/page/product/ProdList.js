@@ -60,17 +60,17 @@ export default function ProdList() {
 		const selectedItems = Cookies.get("prodFilter") ? JSON.parse(Cookies.get("prodFilter")) : null;
 		let subUrl = [];
 
-		if(selectedItems){
+		console.log(mainNo);
+		if(mainNo){
+			if(mainNo) subUrl.push("cateMain=" + mainNo);
+			if(subNo) subUrl.push("cateSub=" + subNo);
+		} else {
 			if(selectedItems.cateMain) subUrl.push("cateMain=" + selectedItems.cateMain);
 			if(selectedItems.cateSub) subUrl.push("cateSub=" + selectedItems.cateSub);
 			if(selectedItems.seeThrough) subUrl.push("seeThrough=" + selectedItems.seeThrough);
 			if(selectedItems.line) subUrl.push("line=" + selectedItems.line);
 			if(selectedItems.size) subUrl.push("size=" + selectedItems.size);
 			if(selectedItems.color) subUrl.push("color=" + selectedItems.color);
-		} else {
-			subUrl.push("cateMain=" + mainNo);
-			if(subNo) subUrl.push("cateSub=" + subNo);
-			Cookies.remove("prodFilter");
 		}
 
 		let url = "/product/list";
@@ -87,6 +87,7 @@ export default function ProdList() {
 			console.log(error);
 			alert("상품의 리뷰를 불러오는 중 문제가 발생했습니다");
 		});
+
 	}
 
 	// cateMain No에 해당하는 cateSub가져오기

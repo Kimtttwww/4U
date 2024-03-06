@@ -28,19 +28,15 @@ export default () => {
   const [showDetail, setShowDetail] = useState(false);
   const [product, setProduct] = useState(null);
   const [prodList, setProdList] = useState([]);
-  
 
   const handleProductClick = product => {
     setProduct(product);  // 클릭한 상품으로 product 상태 업데이트
     setShowDetail(true);  // 모달창 띄우기
   };
   
-
-
   // leftBar에서 subCate 선택시 스타일부여
   const subCateClicked = (subNo) => {
   };
-
 
   // 베스트
   useEffect(() => {
@@ -156,7 +152,7 @@ export default () => {
       <div className='clothListBox'>
       {prodList?.length ? prodList.map((prod) =>{
         return (
-          <div className='clothList'>
+          <div className='clothList'  onClick={() => handleProductClick(prod)}>
             <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
             <div className='clothContent'>
               <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>

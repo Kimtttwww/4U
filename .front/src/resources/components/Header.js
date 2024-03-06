@@ -64,7 +64,7 @@ export default function Header(props) {
                             <>
                                 <button className="header-logout" onClick={() => {
 									Cookies.remove("loginMember");
-                                    setLogin({});
+                                    setLogin(null);
 								}}><img src="/photo/free-icon-arrow-10901692.png" />로그아웃</button>
 								<Link className="header-mypage" to={"/buyer/mypage/"}>{login.memberName}님의 마이페이지</Link>
                             </>

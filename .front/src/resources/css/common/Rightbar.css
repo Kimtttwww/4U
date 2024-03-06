@@ -53,11 +53,13 @@
 }
 
 .sideBarContent{
-  position: fixed;
   width: 600px;
   min-height: 50%;
   height: fit-content;
+  position: fixed;
+  top: 100px;
   right: 65px;
+  z-index: 2;
   background-color: #f8dedb;
   overflow: hidden;
   padding: 5px;
