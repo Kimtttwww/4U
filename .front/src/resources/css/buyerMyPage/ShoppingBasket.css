@@ -1,64 +1,72 @@
 .shoppingBasket {
-    border-bottom: 1px solid #ccc;
-    padding: 20px;
-    margin: 20px;
-    display: flex;
-    flex-direction: column; /* 자식 요소들을 세로 방향으로 정렬하기 위해 column 설정 */
-    justify-content: center; /* 수직 중앙 정렬 */
-    align-items: center; /* 수평 중앙 정렬 */
-  }
-  
-  .shoppingBasket h2 {
-    font-size: 24px;
-    margin-bottom: 10px;
-  }
-  
-  .bitems {
-    margin-bottom: 10px;
-  }
-  
-  .bitem {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 5px;
-    border: 1px solid black;
-  }
+  border-bottom: 1px solid #f0f0f0;
+  padding: 20px;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
-  .bitem img {
-    width: 100px;
-    height: 100px;
-    margin: 10px;
-  }
+.shoppingBasket h2 {
+  font-size: 24px;
+  margin-bottom: 10px;
+  color: #5f5f5f;
+}
 
-  .bitem span {
-    font-weight: bold;
-  }
-  
-  .bitem button {
-    background-color: black;
-    color: #fff;
-    border: none;
-    padding: 5px 10px;
-    cursor: pointer;
-  }
-  
-  .bitem button:hover {
-    background-color: rgba(0, 0, 0, 0.637);
-  }
-  
-  .btotal {
-    margin-bottom: 10px;
-  }
-  
-  .bMv {
-    padding: 10px 20px;
-    background-color: black;
-    color: #fff;
-    border: none;
-    cursor: pointer;
-  }
+.bitems {
+  margin-bottom: 10px;
+}
+
+.bitem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 5px;
+  border: 1px solid #f0f0f0;
+  border-radius: 10px;
+  box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
+  padding: 10px;
+}
+
+.bitem img {
+  width: 100px;
+  height: 100px;
+  margin: 10px;
+  border-radius: 10px;
+}
+
+.bitem span {
+  font-weight: bold;
+  color: #5f5f5f;
+}
+
+.bitem button {
+  background-color: #ffc0cb;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  cursor: pointer;
+  border-radius: 20px;
+}
+
+.bitem button:hover {
+  background-color: #ff69b4;
+}
+
+.btotal {
+  margin-bottom: 10px;
+}
+
+.bMv {
+  padding: 10px 20px;
+  background-color: #ffc0cb;
+  color: #fff;
+  border: none;
+  cursor: pointer;
+  border-radius: 20px;
+}
 
 .bMv:hover {
-  background-color: rgba(0, 0, 0, 0.637);
+  background-color: #ff69b4;
 }

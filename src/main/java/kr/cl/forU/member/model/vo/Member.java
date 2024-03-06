@@ -39,4 +39,7 @@ public class Member {
 	private int gradeNo;
 	/** 포인트 */
 	private int point;
+	
+	
+	private int pointRate;
 }

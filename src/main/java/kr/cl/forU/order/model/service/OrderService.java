@@ -82,6 +82,10 @@ public class OrderService {
 		return dao.selectOgOrder(memberNo);
 	}
 
+	public List<Order> selectAllOrder() {
+		return dao.selectAllOrder();
+	}
+
 //	public int insertOrderNotice() {
 //		return dao.insertOrderNotice();
 //	}

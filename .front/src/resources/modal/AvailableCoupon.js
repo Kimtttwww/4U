@@ -28,26 +28,25 @@ export default function AvailableCoupon({ show, closeModal, loginUser, userCoupo
                     </div>
                     <div className="modal-body">
                         <div>
-                            {
-                                JSON.stringify(userCoupon) === '{}' ?
-                                    (
-                                        ""
-                                    ) : (
-                                        userCoupon?.map((item, index) => (
-                                            <div key={index} >
-                                                <input type='radio' name={"checkedCoupon"}
-                                                    checked={checkCoupon === item.couponNo}
-                                                    onChange={() => checkCouponHadler(item.couponNo)}
-                                                    value={item.couponNo} />
-                                                <span>
-                                                    {item.couponName + " | "}
-                                                    {item.discount == 0 ? item.discountRate + "%" : item.discount + "원"}
-                                                    {"만료일 : " + item.validityDate}
-                                                </span>
-                                            </div>
-                                        ))
-                                    )
-                            }
+                        {
+                            JSON.stringify(userCoupon) === '{}' ?
+                                ("") : 
+                                (
+                                    userCoupon?.filter(item => item.status === 'Y').map((item, index) => (
+                                        <div key={index} >
+                                            <input type='radio' name={"checkedCoupon"}
+                                                checked={checkCoupon === item.couponNo}
+                                                onChange={() => checkCouponHadler(item.couponNo)}
+                                                value={item.couponNo} />
+                                            <span>
+                                                {item.couponName + " | "}
+                                                {item.discount == 0 ? item.discountRate + "%" : item.discount + "원"}
+                                                {"만료일 : " + item.validityDate}
+                                            </span>
+                                        </div>
+                                    ))
+                                )
+                        }
                         </div>
 
                     </div>

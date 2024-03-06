@@ -2,6 +2,11 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="orderMapper">
 
+	<select id="selectAllOrder" resultType="order">
+		SELECT *
+		FROM "ORDER"
+	</select>
+
 
     <select id="findAll" resultType="order">
 		SELECT DISTINCT *
@@ -55,7 +60,6 @@
 		  JOIN COUPON C ON (CU.COUPON_NO = C.COUPON_NO)
 		 WHERE MEMBER_NO = #{memberNo}
 		   AND VALIDITY_DATE > SYSDATE
-		   AND STATUS = 'Y'
 	</select>
 	
 	<insert id="insertOrder" parameterType="order" >

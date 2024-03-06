@@ -21,6 +21,7 @@ import ListQna from "./resources/page/qna/ListQna";
 import CategorySearch from "./resources/modal/CategorySearch";
 import BuyerCoupon from "./resources/page/BuyerMyPage/BuyerCoupon";
 import SellerRegistration from "./resources/page/sellerMyPage/SellerRegistration";
+import SellerStats from "./resources/page/sellerMyPage/SellerStats";
 import Cookies from "js-cookie";
 
 function App() {
@@ -31,6 +32,7 @@ function App() {
 
    return (
       <div className="App">
+
          <Header setShowLogin={setShowLogin} login={login} setLogin={setLogin} />
 
          <Routes>
@@ -43,6 +45,7 @@ function App() {
                <Route path="signUp" element={<SignUp />} />
                {/* ? */}
                <Route path="userupdate" element={<UserUpdate />} />
+
             </Route>
 
             {/* 제품 관련 */}
@@ -82,6 +85,8 @@ function App() {
                <Route path="management/registration" element={<SellerRegistration />} />
                {/* 리뷰 관리 */}
                <Route path="review" element={<SellerReview />} />
+               {/* 통계 */}
+               <Route path="stats" element={<SellerStats/>}/>
             </Route>
 
             {/* QNA */}

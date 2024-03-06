@@ -1,9 +1,15 @@
-import { useState } from 'react';
+import { useState , useEffect } from 'react';
 import '../../css/buyerMyPage/BuyerCoupon.css';
+import axios from 'axios';
+import Cookies from 'js-cookie';
 
 
 export default function BuyerCoupon() {
+
+    const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
+    const [couponInfo , setCouponInfo] = useState([]);
     const [userType, setUserType] = useState('O');
+
 
     const handleSwitchToUseCoupon = () => {
         setUserType('O');
@@ -13,6 +19,23 @@ export default function BuyerCoupon() {
         setUserType('X');
     };
 
+    const loadUserCoupon = async () => {
+        try {
+          const response = await axios.post(`http://localhost:3000/order/loadUserCoupon`, loginMember.memberNo , {
+            headers: {
+              'Content-Type' : 'application/json'
+            }});
+            setCouponInfo(response.data);
+        } catch (error) {
+            console.error('쿠폰 로드 오류', error)
+        }
+    };
+
+    useEffect(() => {
+        loadUserCoupon();
+    }, []);
+    
+    const couponCount = couponInfo.filter(info => info.status === 'Y').length;
 
     return (
         <div className="BuyerCoupon">
@@ -23,7 +46,7 @@ export default function BuyerCoupon() {
                 <div>
                     <img src="https://cdn-icons-png.flaticon.com/128/5370/5370348.png" />
                 </div>
-                <h4>사용가능쿠폰 1</h4>
+                <h4>사용가능쿠폰 {couponCount}</h4>
             </div>
             <div>
                 <h3>쿠폰 내역</h3>
@@ -38,29 +61,27 @@ export default function BuyerCoupon() {
                         <article className='useCoupon'>
                             <table>
                                 <thead>
-                                    <tr>
-                                        <th>쿠폰명</th>
-                                        <th>할인금액</th>
-                                        <th>할인율</th>
-                                        <th>사용기간</th>
-                                        <th>적용대상</th>
-                                    </tr>
+
+                                        <tr>
+                                            <th>쿠폰명</th>
+                                            <th>할인금액</th>
+                                            <th>할인율</th>
+                                            <th>사용기간</th>
+                                            <th>적용대상</th>
+                                        </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>[가입축하쿠폰]5,000원 이상 구입시 사용가능 쿠폰</td>
-                                        <td>2,000원</td>
-                                        <td>/</td>
-                                        <td>2022.02.07 ~ 2022.02.13</td>
+                                {couponInfo.map((coupon, index) => 
+                                    coupon.status === 'Y' && (
+                                        <tr key={index}>
+                                        <td>{coupon.couponName}</td>
+                                        <td>{coupon.discount}</td>
+                                        <td>{coupon.discountRate}%</td>
+                                        <td>{coupon.validityDate}</td>
                                         <td>전체상품 적용</td>
-                                    </tr>
-                                    <tr>
-                                        <td>[누적금액10만원달성쿠폰]최대 10만원 한도 사용가능 쿠폰</td>
-                                        <td>/</td>
-                                        <td>10%</td>
-                                        <td>2022.02.01 ~ 2022.02.30</td>
-                                        <td>전체상품 적용</td>
-                                    </tr>
+                                        </tr>
+                                    )
+                                )}
                                 </tbody>
                             </table>
                         </article>
@@ -78,20 +99,20 @@ export default function BuyerCoupon() {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                    <tr>
-                                        <td>[엄청 좋은 쿠폰] 사용 안해서 찢어졌다.</td>
-                                        <td>20,000,000원</td>
-                                        <td>/</td>
-                                        <td>2020.01.01 ~ 2021.01.01</td>
+                                {couponInfo.map((coupon, index) => {
+                                    const validityDate = new Date(coupon.validityDate);
+                                    const currentDate = new Date();
+
+                                    return coupon.status === 'N' && validityDate >= currentDate && (
+                                        <tr key={index}>
+                                        <td>{coupon.couponName}</td>
+                                        <td>{coupon.discount}</td>
+                                        <td>{coupon.discountRate}%</td>
+                                        <td>{coupon.validityDate}</td>
                                         <td>전체상품 적용</td>
-                                    </tr>
-                                    <tr>
-                                        <td>[전에거보다 더 좋은 쿠폰]바코드가 손상돼서 사용할수 없다.</td>
-                                        <td>/</td>
-                                        <td>99%</td>
-                                        <td>2020.01.02 ~ 2021.02.02</td>
-                                        <td>전체상품 적용</td>
-                                    </tr>
+                                        </tr>
+                                    )
+                                })}
                                 </tbody>
                             </table>
                         </article>

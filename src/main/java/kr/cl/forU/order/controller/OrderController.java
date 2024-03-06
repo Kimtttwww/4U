@@ -57,6 +57,11 @@ public class OrderController {
 
 	private IamportClient iamportClient;
 //	private boolean couponIssued = false;
+	
+	@GetMapping("/selectAllOrder")
+	public List<Order> selectAllOrder() {
+		return service.selectAllOrder();
+	}
 
 
 	@GetMapping("/selectOrderNo")
@@ -102,7 +107,6 @@ public class OrderController {
 
 	@PostMapping("/loadUserCoupon")
 	public List<CouponUser> selectUserCoupon(@RequestBody int memberNo) {
-		
 		List<CouponUser> list = service.selectUserCoupon(memberNo);
 		return list;
 	}
