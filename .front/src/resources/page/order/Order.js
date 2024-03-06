@@ -10,6 +10,7 @@ import Payment from "./Payment";
 import PaymentAPI from "./PaymentAPI";
 import AddressAPI from "../common/AddressAPI"
 import Cookies from "js-cookie";
+// import { checkDiscount } from "../common/ProdDetailAPI";
 
 export default function Order({ loginUser }) {
 
@@ -22,7 +23,7 @@ export default function Order({ loginUser }) {
 		address: "",
 		addressDetail: ""
 	}
-	
+
 	const navi = useNavigate();
 	const [orderProd, setOrderProd] = useState([]);
 	const [userInfo, setuserInfo] = useState({});
@@ -88,6 +89,24 @@ export default function Order({ loginUser }) {
 		};
 	};
 
+	const checkDiscount = (item) => {
+		let element;
+
+		if (item.discountRate) {
+			let saledPrice = item.price * (100 - item.discountRate) / 100;
+			element = (
+				<>
+					<span>\{(item.price)}</span>
+					<span>\{saledPrice}</span>
+				</>
+			);
+		} else { element = (<span>\{(item.price)}</span>); }
+		return element;
+	};
+
+	const checkTotalPrice = (item) => {
+
+	}
 
 	// 해당 상품의 수량 증가
 	const increaseCount = (index) => {
@@ -328,15 +347,15 @@ export default function Order({ loginUser }) {
 			<p className="order-write">주문서 작성</p>
 			<span className="order-prod-title">주문상품(총수량)</span>
 			<table className="order-prod-table">
-				<thead >
+				<thead>
 					<tr>
-						<td>이미지</td>
+						<td className="order-table-width">이미지</td>
 						<td>상품명</td>
-						<td>옵션</td>
-						<td>상품금액</td>
-						<td>수량</td>
-						<td>주문금액</td>
-						<td>삭제</td>
+						<td className="order-table-width">옵션</td>
+						<td className="order-table-width">상품금액</td>
+						<td className="order-table-width">수량</td>
+						<td className="order-table-width">주문금액</td>
+						<td className="order-table-width">삭제</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -345,36 +364,45 @@ export default function Order({ loginUser }) {
 						orderProd?.map((item, index) => {
 							return (
 								<tr key={index}>
-
-
-									<img className="orderProdImg"
+									<img className="orderProdImg "
 										src={prodImgs.filter((img) => item.prodNo == img.refNo)[1].imgName} />
 									<td>{item.prodName}</td>
 									<td>
 										<div>{item.colorName}/{item.size}</div>
-
 										<Button variant="secondary" className="optionChange-btn"
 											onClick={() => {
 												openModal();
 												setOrderIndex(index);
-											}}
-										>
+											}}>
 											옵션변경
 										</Button>
-
 										<ChangeOption show={isOptionChange}
 											closeModal={closeModal}
-											orderProd={orderProd[orderIndex]}
-										/>
+											orderProd={orderProd[orderIndex]} />
 									</td>
-									<td>{(item.price).toLocaleString()}원</td>
 									<td>
-										{item.count}
-										<button onClick={() => increaseCount(index)}>∧</button>
-										<button onClick={() => decreaseCount(index)}>∨</button>
+										{/* {(item.price).toLocaleString()}원 */}
+										{checkDiscount(item)}
+									</td>
+									<td className="countTdTag">
+										<div>
+											{item.count}
+										</div>
+										<div className="updownButton">
+											<img src="/photo/order-up.png"
+												style={{ width: "30px" }}
+												onClick={() => increaseCount(index)} />
+											<img src="/photo/order-down.png"
+												style={{ width: "30px" }}
+												onClick={() => decreaseCount(index)} />
+										</div>
 									</td>
 									<td>{(item.price * item.count).toLocaleString()}원</td>
-									<td><button onClick={() => { orderDelete(item.prodNo) }}>Ⅹ</button></td>
+									<td>
+										<img src="/photo/order-x.png"
+											style={{ width: "30px" }}
+											onClick={() => orderDelete(item.prodNo)} />
+									</td>
 								</tr>
 							);
 						})
@@ -436,25 +464,25 @@ export default function Order({ loginUser }) {
 								</Modal>
 							</div>
 							<div>
-								<input type="text" id="" name="address" readOnly 
+								<input type="text" id="" name="address" readOnly
 									value={userInfoChecked ? userInfo?.address : inputChange.address}
 									onChange={inputChangeHandler} />
-								<input type="text" id="" name="addressDetail" 
+								<input type="text" id="" name="addressDetail"
 									value={userInfoChecked ? userInfo?.addressDetail : inputChange.addressDetail}
-									onChange={inputChangeHandler} placeholder="상세 주소 입력"/>
+									onChange={inputChangeHandler} placeholder="상세 주소 입력" />
 							</div>
 						</div>
 						<div>
 							<input type="text" id="" name="message" className="margin"
 								value={delMsg}
 								onChange={applyMsg} />
-							<select 
+							<select
 								onChange={applyMsg}  >
 								{
 									deliMessage?.map((msg, index) =>
-									<option key={index} value={msg.value ? msg.value : delMsg}>{msg.value}</option>
+										<option key={index} value={msg.value ? msg.value : delMsg}>{msg.value}</option>
 									)
-									
+
 								}
 							</select>
 						</div>
@@ -528,34 +556,25 @@ export default function Order({ loginUser }) {
 				</div>
 
 
-				<div className="payment-right">
-					<div className="payment-right-content">
+			</div>
+			{/* <div className="payment-right">
+				<div className="payment-right-content">
 					<p>최종 결제금액</p>
+					<div>
 						<div>
-							<div>
-								{(totalPrice - discountPrice - applyPoint).toLocaleString()}원
-							</div>
+							{(totalPrice - discountPrice - applyPoint).toLocaleString()}원
 						</div>
-						<div>
-							<div>상품금액:</div>
-							<div>할인금액:</div>
-						</div>
-						<div>
-							<div>{totalPrice.toLocaleString()}원</div>
-							<div>
-								{(discountPrice + applyPoint).toLocaleString()}원
-							</div>
-						</div>
-					</div>
-					<div className="payBtn">
-						<PaymentAPI userInfo={userInfo}
-							dataByPayment={dataByPayment} //쿠폰,포인트,배송메세지, 할인전 총금액, 할인금액 
-							changeInfo={inputChange} // 새로운 배송지정보
-							orderProd={orderProd} //주문하는 상품
-							prodImgs={prodImgs}
-						/>
 					</div>
 				</div>
+			</div> */}
+			<div className="payBtn-div">
+				<PaymentAPI
+					userInfo={userInfo}
+					dataByPayment={dataByPayment} //쿠폰,포인트,배송메세지, 할인전 총금액, 할인금액 
+					changeInfo={inputChange} // 새로운 배송지정보
+					orderProd={orderProd} //주문하는 상품
+					prodImgs={prodImgs}
+				/>
 			</div>
 		</div>
 

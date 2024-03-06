@@ -22,14 +22,21 @@ export default function ProdList() {
 	const [subList, setSubList] = useState([]);
 	const [checkedSub, setCheckedSub] = useState(subNo);
 
-	
-	useEffect(() => {loadMainDb()}, []);
-	
+	useEffect(() => {
+		loadMainDb()
+		scrollToTop();
+		console.log(checkedSub);
+	}, []);
+
+	const scrollToTop = () => {
+		window.scrollTo({
+			top: 0
+		});
+	};
+
 	useEffect(() => {
 		loadSubDb();
-		setCheckedSub(subNo);
 		getProduct();
-		const nameBymainNo = mainList?.find(item => item.cateMain == mainNo);
 	}, [mainNo, subNo, mainList]);
 
 	// DB에서 CATE_MAIN 가져오기
@@ -39,7 +46,7 @@ export default function ProdList() {
 
 	// DB에서 cateMain에 해당하는 CATE_SUB 가져오기
 	const loadSubDb = async () => {
-		if(mainNo) {
+		if (mainNo) {
 			setSubList([...await subCateListAPI(mainNo)]);
 		}
 	};
@@ -87,10 +94,10 @@ export default function ProdList() {
 		return objArr;
 	}
 
-	// subCate 선택시 스타일부여
-	const subCateHovered = (subNo) => {
-		setCheckedSub(subNo);
-	}
+	// leftBar에서 subCate 선택시 스타일부여
+	const subNameHilight = (no) => {
+		setCheckedSub(no);
+	};
 
 	/**
 	 * 상세페이지에 필요한 값 세팅
@@ -151,34 +158,39 @@ export default function ProdList() {
 	}
 
 	return (<>
-		<h1 className="mainCateName">{mainList.find((main) => main.cateMain == mainNo)?.mainName}</h1>
-		<h5 className="subCateName">
+		<h1 className="mainCateName" >{mainList.find((main) => main.cateMain == mainNo)?.mainName}</h1>
+		<div className="subCateName">
 			{subCateHTML()?.map((sub, index) => (
 				<div className="subListEle" key={index}>
 					<Link to={`/product/list/${mainNo}/${sub.cateSub}`}
-						onClick={() => subCateHovered(sub.cateSub)} defaultChecked={checkedSub}
+						onClick={() => subNameHilight(sub.cateSub)}
 						style={{
-							color: checkedSub === sub.cateSub ? 'blue' : 'black',
-							fontWeight: checkedSub === sub.cateSub ? 'bold' : '200',
-							fontSize: checkedSub === sub.cateSub ? '20px' : '15px'}}>
+							color: checkedSub == sub.cateSub ? 'red' : 'blue',
+							fontWeight: checkedSub == sub.cateSub ? 'bold' : '200',
+							fontSize: checkedSub == sub.cateSub ? '25px' : '20px'
+						}}>
 						{sub.subName}
 					</Link>
 				</div>
 			))}
-		</h5 >
-		<Leftmenubar checkedSub={checkedSub} />
+		</div>
+
+		<Leftmenubar subCateClicked={subNameHilight} />
+
 		<div className="products">
 			{prodList?.length ? prodList.map((prod) => {
-				return (<>
-					<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
-						<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
-						<article>
-							<div className="prod-name">{prod.prodName}</div>
-							<div className="prod-amount">{checkDiscount(prod)}</div>
-							<div className="prod-color">{prod.image?.length && colorList(prod)}</div>
-						</article>
-					</section>
-				</>);
+				return (
+					<>
+						<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
+							<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
+							<article>
+								<div className="prod-name">{prod.prodName}</div>
+								<div className="prod-amount">{checkDiscount(prod)}</div>
+								<div className="prod-color">{prod.image?.length && colorList(prod)}</div>
+							</article>
+						</section>
+					</>
+				);
 			}) : <div>선택한 상품이 없습니다</div>}
 		</div>
 
