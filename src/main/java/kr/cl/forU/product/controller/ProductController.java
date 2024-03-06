@@ -8,9 +8,11 @@ import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -36,6 +38,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 @Slf4j
 @RestController
 @RequestMapping("/product")
+@SuppressWarnings("rawtypes")
 public class ProductController {
 
 	@Autowired
@@ -48,11 +51,51 @@ public class ProductController {
 	 * @return 조회된 상품 리스트
 	 */
 	@GetMapping("list")
-	public List<Product> selectProductList(@RequestParam Map<String, List> m) {
+	public List<Product> selectProductList(@RequestParam Map<String, Object> m) {
 		log.info("selectProductList\nm = {}", m);
 		List<Product> list = service.selectProductList(m);
 		log.info("selectProductList\nlist = {}", list);
+		
+		String size = (String) m.get("size");
+		String color = (String) m.get("color");
+		
+		if(size != null || color != null && !list.isEmpty()) {
+			List<Product> filteredList = new ArrayList<>();
+			List<String> filterSize = null;
+			List<Integer> filterColor = null;
+			 
+			if(size != null) filterSize = Arrays.asList(size.split(","));
+			if(color != null) filterColor = transform(Arrays.asList(color.split(",")));
+
+			for (Product product : list) {
+				List<ProdDetail> detail = product.getDetail();
+				
+				for (ProdDetail dtl : detail) {
+					if(filterSize != null && filterSize.contains(dtl.getSize())) {
+						filteredList.add(product);
+						break;
+					}
+					
+					if(filterColor != null && filterColor.contains(dtl.getColorNo())) {
+						filteredList.add(product);
+						break;
+					}
+				}
+			}
+			
+			list = filteredList;
+		}
+		
 		return list;
+	}
+	
+	/**
+	 * String List를 특정 자료형의 List로 바꿔주는 fn
+	 * @param list 숫자값을 담은 String list
+	 * @return 숫자값의 String list
+	 */
+	public static List<Integer> transform(List<String> list) {
+		return list.stream().map(Integer::parseInt).collect(Collectors.toList());
 	}
 
 //	메인메뉴 베스트 상품들 - 민구

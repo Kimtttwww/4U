@@ -166,24 +166,20 @@ export default function ProdList() {
 				</div>
 			))}
 		</h5 >
-		<div className="ProdList">
-			<div className="menu-side-area">
-				<Leftmenubar checkedSub={checkedSub} />
-			</div>
-			<div className="products">
-				{prodList?.length ? prodList.map((prod) => {
-					return (<>
-						<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
-							<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
-							<article>
-								<div className="prod-name">{prod.prodName}</div>
-								<div className="prod-amount">{checkDiscount(prod)}</div>
-								<div className="prod-color">{prod.image?.length && colorList(prod)}</div>
-							</article>
-						</section>
-					</>);
-				}) : <div>선택한 상품이 없습니다</div>}
-			</div>
+		<Leftmenubar checkedSub={checkedSub} />
+		<div className="products">
+			{prodList?.length ? prodList.map((prod) => {
+				return (<>
+					<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
+						<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
+						<article>
+							<div className="prod-name">{prod.prodName}</div>
+							<div className="prod-amount">{checkDiscount(prod)}</div>
+							<div className="prod-color">{prod.image?.length && colorList(prod)}</div>
+						</article>
+					</section>
+				</>);
+			}) : <div>선택한 상품이 없습니다</div>}
 		</div>
 
 		{product && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}

@@ -32,7 +32,7 @@ public class ProductDao {
 	 * 상품들 조회
 	 * @return 조회된 상품 리스트
 	 */
-	public List<Product> selectProductList(Map<String, List> m) {
+	public List<Product> selectProductList(Map<String, Object> m) {
 		return session.selectList(map + "selectProductList", m);
 	}
 

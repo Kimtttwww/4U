@@ -20,6 +20,7 @@ import 'swiper/css';
 import 'swiper/css/pagination';
 import 'swiper/css/navigation';
 import 'swiper/css/autoplay';
+import { checkDiscount } from './ProdDetailAPI';
 
 const blinkStyle = {
   animation: 'blinker 1s linear infinite'
@@ -156,7 +157,7 @@ export default () => {
               <div className='clothContent'>
               <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
-                <p> 가격: {prod.price}</p>
+                <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
           );
@@ -177,7 +178,7 @@ export default () => {
               <div className='clothContent'>
               <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
-                <p> 가격: {prod.price}</p>
+                <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
           );
@@ -199,7 +200,7 @@ export default () => {
               <div className='clothContent'>
               <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
-                <p> 가격: {prod.price}</p>
+                <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
           );
@@ -220,7 +221,7 @@ export default () => {
               <div className='clothContent'>
               <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
-                <p> 가격: {prod.price}</p>
+                <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
           );
@@ -241,7 +242,7 @@ export default () => {
               <div className='clothContent'>
               <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
-                <p> 가격: {prod.price}</p>
+                <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
           );
@@ -262,7 +263,7 @@ export default () => {
               <div className='clothContent'>
               <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
-                <p> 가격: {prod.price}</p>
+                <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
           );

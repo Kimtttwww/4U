@@ -17,10 +17,10 @@
 		LEFT JOIN CATE_SUB USING (CATE_SUB)
 		<where>
 			AND STATUS = 'Y'
-			<if test='cateMain != null'>OR CATE_MAIN IN (${cateMain})</if>
-			<if test='cateSub != null'>OR CATE_SUB IN (${cateSub})</if>
-			<if test='seeThrough != null'>AND SEE_THROUGH = #{cateSub}</if>
-			<if test='line != null'>AND LINE = #{cateSub}</if>
+			<if test='cateMain != null'>AND CATE_MAIN IN (${cateMain})</if>
+			<if test='cateSub != null'>AND CATE_SUB IN (${cateSub})</if>
+			<if test='seeThrough != null'>AND SEE_THROUGH = #{seeThrough}</if>
+			<if test='line != null'>AND LINE = #{line}</if>
 		</where>
 	</select>
 

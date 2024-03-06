@@ -31,7 +31,7 @@ public class ProductService {
 	 * @param m 
 	 * @return 조회된 상품 리스트
 	 */
-	public List<Product> selectProductList(Map<String, List> m ) {
+	public List<Product> selectProductList(Map<String, Object> m ) {
 		return dao.selectProductList(m);
 	}
 
