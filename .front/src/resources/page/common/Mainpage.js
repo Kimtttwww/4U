@@ -124,21 +124,17 @@ export default () => {
       });
   }, []);
 
-
-
   return (<>
     <Leftmenubar subCateClicked={subCateClicked} />
     <Rightmenubar />
 
-    <div>
+    <div className='Mainpage'>
       <Swiper
         modules={[Pagination, Navigation, Autoplay]}
         spaceBetween={50}
         slidesPerView={1}
         navigation
         pagination={{ clickable: true }}
-        // onSlideChange={() => console.log('slide change')}
-        // onSwiper={(swiper) => console.log(swiper)}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
       >
         <SwiperSlide className='custom-slide'><img className='bannerImg' src="/photo/main.png" /></SwiperSlide>

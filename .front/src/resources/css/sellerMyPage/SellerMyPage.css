@@ -1,6 +1,8 @@
 /* 주문 확인 전체 틀 */
 .SellerMyPage{
 	display: flex;
+    margin-top: 100px;
+    min-height: 85vh;
 }
 
 /* 사이드 메뉴 틀 */

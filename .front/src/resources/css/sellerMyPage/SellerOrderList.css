@@ -1,7 +1,7 @@
 /* 최근 주문내역 테이블 틀 */
 .SellerOrderList {
     margin: 0 auto;
-    min-height: 61vh;
+    min-height: 85vh;
 }
 
 .SellerOrderList h2{
