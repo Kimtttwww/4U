@@ -119,7 +119,7 @@ export default () => {
     
 
 
-      <div>
+      <div className='Mainpage'>
         <Swiper
           modules={[Pagination, Navigation, Autoplay]}
           spaceBetween={50}

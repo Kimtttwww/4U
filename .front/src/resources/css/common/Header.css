@@ -1,74 +1,117 @@
 .header {
-    align-items: center;
-    position: sticky;
-    top: 0;
-    left: 0;
-    width: 100%;
-    background-color: #f8dedb;
-    z-index: 100;
+  z-index: 100;
+  padding: 0;
+  position: fixed;
+  top: 0;
+  background-color: transparent;
+  width: 100%;
+  transition: background-color 0.3s ease;
+}
+/* 스크롤 발생시 */
+.header.scrolled {
+/* 아래 색상 둘중 하나 선택 */
+background-color: #e4c0a8;
+/* background-color: #f2dfd3; */
 }
 
 .header a{
-  text-decoration: none;
-  color: #000000;
-}
-
-.loginMenu a{
-  width: 160px;
-  margin: 10px 0 0 0;
-  height: 25px;
-  text-align: center;
-}
-
-.loginMenu button{
-  width: 160px;
-  margin: 10px 0 0 0;
-  border: none;
-  background-color: rgba(255, 255, 255, 0);
-  height: 25px;
+text-decoration: none;
+color: #000000;
 }
 
 .logo {
-  margin: -7px auto;
+margin: -7px auto;
 }
 
 .logo p{
-color: pink;
-font-family: 'Monoton';
-text-shadow: #000 1px 1px,#000 0px 0px,#000 1px 1px,#000 2px 2px,#000 3px 3px,#000 4px 4px,#000 5px 5px,#000 6px 6px,#000 7px 7px,#000 8px 8px,#000 9px 9px,#000 10px 10px,#000 11px 11px,#000 12px 12px,#000 13px 13px,#000 14px 14px,#000 15px 15px,#000 16px 16px;
-font-size: 70px;
+font-family: 'Lobster';
+font-size: 50px;
+text-align: center;
 }
 
 .imgLogo {
-  height: 160px;
+height: 160px;
 }
 
 .logo-container {
-  display: flex;
-  flex: 1; 
-  clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
+min-width: 320px;
+margin-right: 70px;
+}
+
+/* 중앙 빈 공간 */
+.empty-container {
+display: flex;
+flex: 1; 
+clip-path: polygon(0 0, 100% 0, 100% 100%, 0% 100%);
 }
 
 
 .content{
-  width: 100%;
-  height: 2000px;
-  background-color: rgb(116, 88, 88);
+width: 100%;
+height: 2000px;
+background-color: rgb(116, 88, 88);
 }
 
 .menubar {
-  display: flex;
-  justify-content: space-between;
+display: flex;
+justify-content: space-between;
 }
 
 .loginMenu{
-  display: flex;
-  margin-left: 70px;
-  width: 320px;
+display: flex;
+margin-left: 70px;
+width: 320px;
+flex-direction: row-reverse;
 }
 
-/* 왼쪽 빈 공간 */
-.empty-container{
-  width: 320px;
-  margin-right: 70px;
+/* 로그인 후 로그아웃 버튼 */
+/*로그인 후 마이페이지 버튼*/
+.header-logout,
+.header-mypage{
+width: 160px;
+margin: 20px 0 0 0;
+border: none;
+background-color: #ffffff00;
+height: 25px;
+text-align: center;
+}
+
+/* 로그인 전 로그인 버튼 */
+/* 로그인 아이콘 박스(화면줄어들면 바뀌는) */
+.header-login,
+.header-login-icon{
+  margin: 20px 0 0 0;
+  border: none;
+  background-color: #ffffff00;
+  height: 25px;
+  text-align: center;
+}
+
+/* 로그인 전 회원가입 링크 */
+/* 회원가입 아이콘 박스(화면줄어들면 바뀌는) */
+.header-signUp,
+.header-signUp-icon{
+  margin: 20px 40px 0 0;
+  border: none;
+  background-color: #ffffff00;
+  height: 25px;
+  text-align: center;
+}
+/* 로그인 전 버튼 텍스트 상태 위치 */
+.header-login,
+.header-signUp{
+  width: 100px;
+}
+/* 로그인 전 버튼 아이콘 상태 위치 */
+.header-login-icon,
+.header-signUp-icon{
+  width: 50px;
+  font-size: 11px;
+}
+
+/* 로그인 회원가입 아이콘 */
+.header-logout img,
+.header-login-icon img,
+.header-signUp-icon img{
+  width: 30px;
 }

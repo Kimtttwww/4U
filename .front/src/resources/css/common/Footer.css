@@ -4,7 +4,9 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    background-color: #f5cfcbe4;
+    /* 아래 색상 둘중 하나 선택 */
+    background-color: #e4c0a8;
+    /* background-color: #f2dfd3; */
 }
 
 .footer-text1 {
@@ -29,9 +31,8 @@
 
 .footer-text3 p:nth-child(1) {
   font-size: 26px;
-  color: pink;
-  font-family: 'Monoton';
-  text-shadow: #000 1px 1px,#000 0px 0px,#000 1px 1px,#000 2px 2px,#000 3px 3px,#000 4px 4px,#000 5px 5px,#000 6px 6px,#000 7px 7px,#000 8px 8px,#000 9px 9px,#000 10px 10px;
+  color: #000;
+  font-family: 'Lobster';
   font-size: 30px; 
 }
 
