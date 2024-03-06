@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import ProdDetail from '../../modal/ProdDetail';
@@ -12,7 +12,6 @@ import '../../css/buyerMyPage/Benefits.css';
 import '../../css/buyerMyPage/Chat.css';
 
 
-
 export default function BuyerMyPage() {
 
   const [modalOpened, setModalOpened] = useState(false);
@@ -21,10 +20,15 @@ export default function BuyerMyPage() {
   const [listQna, setListQna] = useState([]);
   const [showDetail, setShowDetail] = useState(false);
   const [product, setProduct] = useState(null);
+  const navi = useNavigate();
 
 	// 세션 저장소에서 로그인 정보 가져오기
 	const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
+  const [MemberInfo , setMemberInfo] = useState([]);
+  const [couponInfo , setCouponInfo] = useState([]);
 
+
+  const couponCount = couponInfo.filter(info => info.status === 'Y').length;
 
 	useEffect(() => {
 		// 구매내역 및 최근 본 상품 로드
@@ -32,6 +36,35 @@ export default function BuyerMyPage() {
 		loadRecentlyViewed();
 
 	}, []);
+
+  const loadMemberInfo = async () => {
+    try {
+      const response = await axios.post(`http://localhost:3000/order/loadMemberInfo`, loginMember.memberNo, {    
+        headers: {
+        'Content-Type': 'application/json'
+    }});
+      setMemberInfo(response.data); // 서버로부터 받은 데이터
+    } catch (error) {
+      console.error('멤버 로드 오류:', error); // 오류 발생 시 콘솔에 오류 메시지 출력
+    }
+  };
+
+  const loadUserCoupon = async () => {
+    try {
+      const response = await axios.post(`http://localhost:3000/order/loadUserCoupon`, loginMember.memberNo , {
+        headers: {
+          'Content-Type' : 'application/json'
+        }});
+        setCouponInfo(response.data);
+    } catch (error) {
+      console.error('쿠폰 로드 오류', error)
+    }
+  };
+
+  useEffect(() => {
+    loadMemberInfo();
+    loadUserCoupon();
+  }, []);
 
 	// 구매 내역 로드
 	const loadOrders = () => {
@@ -91,8 +124,6 @@ useEffect(() => {
   loadRecentlyViewed(); // 컴포넌트가 마운트될 때 최근 본 상품 로드
 }, []);
 
-console.log(uniqueRecentlyViewed);
-
 useEffect(() => {
   fetchQnaList();
 }, []);
@@ -114,7 +145,13 @@ useEffect(() => {
                   <h2>{loginMember.memberId}</h2>
                 </div>
                 <div className="userRating">
-                    <span>{loginMember.grade}</span>
+                    <span>
+                    {MemberInfo.gradeNo === 1 && (<span className='bronze'>브론즈</span>)}
+                    {MemberInfo.gradeNo === 2 && (<span className='silver'>실버</span>)}
+                    {MemberInfo.gradeNo === 3 && (<span className='gold'>골드</span>)}
+                    {MemberInfo.gradeNo === 4 && (<span className='diamond'>다이아</span>)}
+                    {MemberInfo.gradeNo === 5 && (<span className='vip'>VIP</span>)}
+                    </span>
                 </div>
                 <div className="userIntro">
                     <span>안녕하세요 {loginMember.memberName}님</span>
@@ -142,44 +179,27 @@ useEffect(() => {
             </div>
 
             <div className="activity">
-              <div className="leftContainer">
+              <div className="activityLeftContainer">
                   <div className="activityDetail">
                       <h2>나의 활동</h2>
                       <span>구매 내역</span>
                       <Link to="/order/history">
-                          <button>이동</button>
+                      <button style={{width: 150}}>이동</button>
                       </Link>
                   </div>
-              </div>
-              <div className="rightContainer">
-                  {/* 최대 세 개의 구매 내역을 매핑하여 화면에 표시 */}
-                  {orders.slice(0, 3).map((order) => (
-                      <div className="activityItem" key={order.orderNo}>
-                          <Link to={`/order/orderdetail/${order.orderNo}`}>
-                              <div className="atem">
-                                  <div className="atemImg">
-                                      <img src={order.imgName} alt={order.imgName} />
-                                  </div>
-                                  <div className="atemIntro">
-                                      <span>{order.prodName}</span>
-                                  </div>
-                              </div>
-                          </Link>
-                      </div>
-                  ))}
               </div>
           </div>
 
 
             <div className="activity">
-        <div className="leftContainer">
+        <div className="activityLeftContainer">
           <div className="activityDetail">
             <h2>나의 활동</h2>
             <span>최근 본 상품</span>
             {/* <span>데이터 : {JSON.stringify(recentlyViewed)}</span> */}
           </div>
         </div>
-        <div className="rightContainer">
+        <div className="activityRightContainer">
           {/* 최근 본 상품 목록을 화면에 표시 */}
           {uniqueRecentlyViewed?.length && uniqueRecentlyViewed.map(product => (
             <div className="activityItem" key={product.prodNo} onClick={() => handleProductClick(product)}>
@@ -206,27 +226,45 @@ useEffect(() => {
     </div>
 
       <div className="benefits">
-        <div className="rightContainer">
+        <div className="benefitsRightContainer">
           <h2>회원 혜택</h2>
         </div>
-        <div className="leftContainer">
+        <div className="benefitsLeftContainer">
           <div className="pointContainer">
             <div className="pointImg">
               <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWoJo0ob3QTQE50ix6fzNnvnc-Lg9xYlk7Dg&usqp=CAU"/>
             </div>
             <div className="pointInfo">
               <h3>포인트</h3>
-              <span>{loginMember.point}p</span>
+              <span>{MemberInfo.point}p</span>
             </div>
           </div>
 
-          <div className="couponContainer">
+          <div className="couponContainer" onClick={() => (navi('/BuyerCoupon'))}>
             <div className="couponImg">
               <img src="https://cdn-icons-png.flaticon.com/128/5370/5370348.png"/>
             </div>
             <div className="couponInfo">
               <h3>쿠폰</h3>
-              <span>현재 가지고있는 쿠폰 개수 : 0</span>
+              <span>현재 가지고있는 쿠폰 개수 : {couponCount}</span>
+            </div>
+          </div>
+
+          <div className="gradeContainer">
+            <div className="gradeImg">
+            {MemberInfo.gradeNo === 1 && (<img src="https://opgg-com-image.akamaized.net/attach/images/20210104110038.1415189.jpg"/>)}
+            {MemberInfo.gradeNo === 2 && (<img src="https://opgg-com-image.akamaized.net/attach/images/20210104111424.1415189.jpg"/>)}
+            {MemberInfo.gradeNo === 3 && (<img src="https://opgg-com-image.akamaized.net/attach/images/20210104112555.1415189.jpg"/>)}
+            {MemberInfo.gradeNo === 4 && (<img src="https://opgg-com-image.akamaized.net/attach/images/20210104115623.1415189.jpg"/>)}
+            {MemberInfo.gradeNo === 5 && (<img src="https://opgg-com-image.akamaized.net/attach/images/20190916020813.596917.jpg"/>)}
+            </div>
+            <div className="gradeInfo">
+              <h3>등급</h3>
+                {MemberInfo.gradeNo === 1 && (<span className='bronze'>브론즈</span>)}
+                {MemberInfo.gradeNo === 2 && (<span className='silver'>실버</span>)}
+                {MemberInfo.gradeNo === 3 && (<span className='gold'>골드</span>)}
+                {MemberInfo.gradeNo === 4 && (<span className='diamond'>다이아</span>)}
+                {MemberInfo.gradeNo === 5 && (<span className='vip'>VIP</span>)}
             </div>
           </div>
 
@@ -234,10 +272,10 @@ useEffect(() => {
       </div>
 
       <div className="chat">
-        <div className="leftContainer">
+        <div className="chatLeftContainer">
           <h2>고객 센터</h2>
         </div>
-        <div className="rightContainer">
+        <div className="chatRightContainer">
           <div className="proposal">
           <div className="chatImg">
               <img src="https://cdn-icons-png.flaticon.com/512/6369/6369389.png"/>

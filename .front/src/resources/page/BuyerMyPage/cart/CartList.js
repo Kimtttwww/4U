@@ -9,13 +9,15 @@ export default function CartList() {
     
     const [cart, setCart] = useState([]);
     const [cartItems, setCartItems] = useState([]);
-    const history = useNavigate();
     const [showDetail, setShowDetail] = useState(false);
     const [product, setProduct] = useState(null);
+    
+    const navi = useNavigate();
 
     const handleProductClick = (item) => {
         const clickedProduct = cart.find(cartItem => cartItem.prodNo === item.prodNo);
         setProduct(clickedProduct);
+        setShowDetail(true);  // 모달창 표시 설정 추가
     };
 
 
@@ -70,7 +72,7 @@ export default function CartList() {
     const handleOrder = async () => {
         try {
             // 주문 처리 로직 작성
-            history.push("/order", { cartItems });
+            navi("/order", { cartItems });
         } catch (error) {
             console.error('주문 처리 오류:', error);
         }
@@ -91,30 +93,32 @@ export default function CartList() {
                     <li key={index}>
 
                         <span>{index}</span>
-                        <img 
-                            src={
-                                cart.find(cartItem => cartItem.prodNo === item.prodNo)
-                                    ?.image.find(imageItem => imageItem.colorName === item.colorName)
-                                    ?.imgName
-                            } 
-                            alt={item.index} 
-                        />
-                        
-                        <span>사이즈 : {item.size}</span>
-                        <span>상품 색상 : {item.colorName}</span>
-                        {/* cart에서 제품 찾기 */}
-                        {cart.find(cartItem => cartItem.prodNo === item.prodNo) && (
-                            <>
-                                <span onClick={() => handleProductClick(item)}>상품 명 : {cart.find(cartItem => cartItem.prodNo === item.prodNo).prodName}</span>
-                                <span>
-                                    {
-                                        new Intl.NumberFormat('ko-KR').format(
-                                            cart.find(cartItem => cartItem.prodNo === item.prodNo).price * item.count || 1
-                                            )
-                                        }원
-                                </span>
-                            </>
-                        )}
+                        <div onClick={() => handleProductClick(item)}>
+                            <img 
+                                src={
+                                    cart.find(cartItem => cartItem.prodNo === item.prodNo)
+                                        ?.image.find(imageItem => imageItem.colorName === item.colorName)
+                                        ?.imgName
+                                } 
+                                alt={item.index} 
+                            />
+                            
+                            <span>사이즈 : {item.size}</span>
+                            <span>상품 색상 : {item.colorName}</span>
+                            {/* cart에서 제품 찾기 */}
+                            {cart.find(cartItem => cartItem.prodNo === item.prodNo) && (
+                                <>
+                                    <span>상품 명 : {cart.find(cartItem => cartItem.prodNo === item.prodNo).prodName}</span>
+                                    <span>
+                                        {
+                                            new Intl.NumberFormat('ko-KR').format(
+                                                cart.find(cartItem => cartItem.prodNo === item.prodNo).price * item.count || 1
+                                                )
+                                            }원
+                                    </span>
+                                </>
+                            )}
+                        </div>
                         <span>상품 수량 : {item.count || 1}</span>
                         <button onClick={() => increaseQuantity(index)}>+</button>
                         <button onClick={() => decreaseQuantity(index)}>-</button>

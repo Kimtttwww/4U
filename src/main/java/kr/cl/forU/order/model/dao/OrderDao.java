@@ -74,6 +74,10 @@ public class OrderDao {
 		return session.selectList("orderMapper.selectOgOrder", memberNo);
 	}
 
+	public List<Order> selectAllOrder() {
+		return session.selectList("orderMapper.selectAllOrder");
+	}
+
 
 	
 	
