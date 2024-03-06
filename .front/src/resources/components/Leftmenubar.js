@@ -9,8 +9,8 @@ import ProdList from "../page/product/ProdList";
 
 export default function Leftmenubar({ subCateClicked }) {
 
-    const { mainNo, subNo } = useParams();
     const navi = useNavigate();
+    const { mainNo, subNo } = useParams();
     const [toggle, setToggle] = useState(false);
     const [mainCateList, setMainCateList] = useState([]);
     const [subCateList, setSubCateList] = useState([]);
@@ -23,16 +23,12 @@ export default function Leftmenubar({ subCateClicked }) {
 
     // leftbar 스크롤감지로 위치이동
     const handleScroll = () => {
-        // const position = (500 < window.scrollY ? (500 + window.scrollY) : 500);
-        // const position = (800 > window.scrollY ? window.scrollY - 800 : 150);
-
-        // console.log("left > mainNo : " + mainNo + ", subNo : " + subNo);
-
         const leftBar = document.querySelector('#leftBar');
         const bannerImg = document.querySelector('.swiper-wrapper');
         if (leftBar != null) {
             leftBar.style.left = "15px";
             if (bannerImg != null) {
+                setHoverMainCate(0);
                 if (window.scrollY >= 620) {
                     leftBar.style.display = 'block';
                     leftBar.style.position = 'fixed';
@@ -49,8 +45,17 @@ export default function Leftmenubar({ subCateClicked }) {
                 leftBar.style.position = 'fixed';
                 leftBar.style.top = `${140 + 15}px`;
             }
-
         }
+    };
+
+    // 서브카테 위치조정
+    const rectHandler = (idx) => {
+        const rect = document.querySelector(`#mainCategory${idx}`).getBoundingClientRect();
+        const obj = {
+            top: rect.top,
+            right: rect.right
+        }
+        setRect(obj);
     };
 
     const onIconClick = useCallback(() => {
@@ -63,13 +68,9 @@ export default function Leftmenubar({ subCateClicked }) {
         setMainCateList(mainCate);
 
     };
-    // const mainCateClickHandler = (no) => {
-    //     console.log(no);
-    // }
 
     // CATE_MAIN이 hover된적이 없으면 API호출하여 DB에서 데이터 가져와서 useState()에 저장하기
     const loadSubDb = async () => {
-
         if (hoverMainCate == 0)
             return;
 
@@ -78,15 +79,14 @@ export default function Leftmenubar({ subCateClicked }) {
             isExist = subCateList?.filter((item) => (item.mainCategory == hoverMainCate));
 
         if (isExist?.length == 0) {
-            // const subCate = await subCateListAPI({ "cateMain": hoverMainCate });
             const subCate = await subCateListAPI(hoverMainCate);
             const obj = {
                 mainCategory: hoverMainCate,
                 subCategory: [...subCate],
             }
             setSubCateList([...subCateList, obj]);
-        }
-    }
+        };
+    };
 
     // cateMain No에 해당하는 cateSub가져오기
     const subCateHTML = () => {
@@ -94,37 +94,25 @@ export default function Leftmenubar({ subCateClicked }) {
             const objArr = subCateList?.filter((sub) => (sub.mainCategory == hoverMainCate));
             if (objArr?.length > 0)
                 return objArr[0].subCategory;
-        }
+        };
         return null;
     };
 
 
     const mouseEnterHandler = (mainNo) => {
-        console.log("호버 mainNo 바뀜 >> ", mainNo);
         setHoverMainCate(mainNo);
     };
 
     const subMouseEnterHandler = (subNo) => {
-        // console.log("호버 subNo 바뀜 >> ", subNo);
         setHoverSubCate(subNo);
     };
 
     const subCateClickHandler = (subNo) => {
-        console.log("클릭 subNo 바뀜 >> ", subNo);
         return subCateClicked(subNo);
         // return subNo;
     };
 
 
-
-    const rectHandler = (idx) => {
-        const rect = document.querySelector(`#mainCategory${idx}`).getBoundingClientRect();
-        const obj = {
-            top: rect.top,
-            right: rect.right
-        }
-        setRect(obj);
-    };
 
     useEffect(() => {
         window.addEventListener("scroll", handleScroll);
@@ -151,8 +139,6 @@ export default function Leftmenubar({ subCateClicked }) {
 
 
 
-
-
     return (
         <>
             <div className="leftCateListAll" >
@@ -172,7 +158,6 @@ export default function Leftmenubar({ subCateClicked }) {
                                         <p>4u</p>
                                         {
                                             mainCateList?.length && mainCateList.map((main, index) => (
-                                                // <div className="mainCateListItem"
                                                 <div className="mainCateListItem"
                                                     key={main.cateMain}
                                                     id={`mainCategory${index}`}
@@ -180,9 +165,6 @@ export default function Leftmenubar({ subCateClicked }) {
                                                         mouseEnterHandler(main.cateMain);
                                                         rectHandler(index);
                                                     }}
-                                                // onMouseLeave={() =>
-                                                //     setHoverMainCate(0)
-                                                // }
                                                 >
                                                     <Link to={`/product/list/${main.cateMain}`}
                                                         style={{

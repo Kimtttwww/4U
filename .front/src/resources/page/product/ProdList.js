@@ -33,16 +33,12 @@ export default function ProdList() {
 	const scrollToTop = () => {
 		window.scrollTo({
 			top: 0
-			// behavior: "smooth",
 		});
 	};
-	// console.log("list에서 subNo : ", subNo);
 
 	useEffect(() => {
 		loadSubDb();
 		getProduct();
-		// setCheckedSub(subNo);
-		// console.log("list에서 checkedSub : ", checkedSub);
 	}, [mainNo, subNo, mainList]);
 
 	// DB에서 CATE_MAIN 가져오기
@@ -70,7 +66,6 @@ export default function ProdList() {
 				default: url += "&" + subUrl[i]; break;
 			}
 		}
-
 		axios.get(url).then((data) => {
 			if (Array.isArray(data.data)) setProdList(data.data)
 		});
@@ -86,15 +81,9 @@ export default function ProdList() {
 	};
 
 	// leftBar에서 subCate 선택시 스타일부여
-	const subCateHovered = (subNo) => {
-		// console.log("list ?들어옴? subNo : ", subNo);
-		// setCheckedSub(subNo);
-	};
 	const subNameHilight = (no) => {
-		console.log("subNameHilight no : ", no);
 		setCheckedSub(no);
-		return no;
-	}
+	};
 
 	const api = axios.create({
 		paramsSerializer: function (params) {
@@ -180,12 +169,7 @@ export default function ProdList() {
 				{subCateHTML()?.map((sub, index) => (
 					<div className="subListEle" key={index}>
 						<Link to={`/product/list/${mainNo}/${sub.cateSub}`}
-							onClick={
-								() => subNameHilight(sub.cateSub)}
-							// onClick={
-							// 	() => subCateHovered(sub.cateSub)}
-							// defaultChecked={checkedSub}
-
+							onClick={() => subNameHilight(sub.cateSub)}
 							style={{
 								color: checkedSub == sub.cateSub ? 'red' : 'blue',
 								fontWeight: checkedSub == sub.cateSub ? 'bold' : '200',
@@ -203,16 +187,18 @@ export default function ProdList() {
 				</div>
 				<div className="products">
 					{prodList?.length ? prodList.map((prod) => {
-						return (<>
-							<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
-								<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
-								<article>
-									<div className="prod-name">{prod.prodName}</div>
-									<div className="prod-amount">{checkDiscount(prod)}</div>
-									<div className="prod-color">{prod.image?.length && colorList(prod)}</div>
-								</article>
-							</section>
-						</>);
+						return (
+							<>
+								<section key={prod.prodNo} className="product" onClick={() => gotoProdDetail(prod.prodNo)}>
+									<img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
+									<article>
+										<div className="prod-name">{prod.prodName}</div>
+										<div className="prod-amount">{checkDiscount(prod)}</div>
+										<div className="prod-color">{prod.image?.length && colorList(prod)}</div>
+									</article>
+								</section>
+							</>
+						);
 					}) : <div>선택한 상품이 없습니다</div>}
 				</div>
 			</div>

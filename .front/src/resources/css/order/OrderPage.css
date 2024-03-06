@@ -1,7 +1,13 @@
 /* 전체 틀 */
 .order-container {
-    width: 750px;
+    /* min-width: 750px; */
+    max-width: 900px;
     margin: 0 auto;
+}
+
+.order-container>table {
+    /* display: flex; */
+    align-content: center;
 }
 
 /* 주문서 작성 타이틀 텍스트 */
@@ -25,6 +31,7 @@
 
 .countTdTag {
     display: flex;
+    justify-content: center;
     align-items: center;
 }
 
@@ -32,15 +39,21 @@
 .updownButton {
     display: flex;
     flex-direction: column;
+    margin-left: 10px;
 }
 
 /* 주문상품(총수량) - 장바구니*/
 .order-prod-table {
-    width: 800px;
+    min-width: 900px;
+    max-width: 1000px;
+    font-size: 15px;
+    text-align: center;
 }
 
-.order-prod-table>thead {
-    text-align: center;
+
+.order-prod-table>thead>tr {
+    height: 50px;
+    font-weight: bold;
 }
 
 .order-prod-table tr {
@@ -48,14 +61,8 @@
 }
 
 .orderProdImg {
-    padding: 10px;
-    width: 100px;
-}
-
-/* 오더.js파일에 이런 클래스명 없음 */
-.apply-option {
-    display: flex;
-    justify-content: space-around;
+    padding: 5px;
+    width: 80px;
 }
 
 .optionChange-btn {
@@ -85,13 +92,13 @@
     height: 30px;
 }
 
-/* .delivery-info,
-.order-paymentInfo-content {
-    border: 1px solid black;
-} */
+.delivery-info,
+.paymnet-area {
+    margin-bottom: 40px;
+}
 
 .ordererInfo {
-    margin: 5px 0 15px 0;
+    margin: 5px 0 10px 0;
 }
 
 /* 배송정보 틀 */
@@ -351,27 +358,26 @@
 }
 
 
-.payBtn {
+.payBtn-div {
     display: flex;
     justify-content: center;
-    margin-top: 25px;
-    margin-bottom: 60px;
-}
-
-.payment-right button {
-    display: flex;
-    justify-content: center;
-    width: 220px;
+    /* width: 220px; */
     height: 50px;
     align-items: center;
-    background-color: crimson;
+
     color: white;
     font-weight: bold;
     font-size: 20px;
     cursor: pointer;
+    margin-top: 25px;
+    margin-bottom: 60px;
 }
 
-
+.PaymentAPI-Btn {
+    width: 220px;
+    background-color: crimson;
+    /* border-style: none; */
+}
 
 
 /* ChangeOption 모달관련 */

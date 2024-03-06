@@ -87,11 +87,6 @@ a {
     /* padding: 10px 0; */
 }
 
-/* .subListEle {
-    height: 30px;
-    padding-left: 10px;
-} */
-
 .mainCateListItem {
     margin: 10px;
     font-size: 20px;
@@ -112,9 +107,3 @@ a {
     font-size: 50px;
     padding-bottom: 10px;
 }
-
-/* 메인 카테고리 요소 */
-/* .mainCateListItem div {
-    width: 100px; 
-    padding: 6px 6px 6px 10px;
-} */
