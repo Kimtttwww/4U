@@ -29,6 +29,19 @@
 		
 	</insert>
 	
+<update id="updateMember" parameterType = "member">
+  UPDATE MEMBER
+  SET MEMBER_PWD = #{memberPwd},
+      EMAIL = #{email},
+      PHONE = #{phone},
+      ADDRESS = #{address},
+      ADDRESSDETAIL = #{addressDetail},
+      ZIPCODE = #{ZIPCODE}
+  WHERE MEMBER_ID = #{memberId}
+</update>
+	
+	
+	
 
 	
 	<select id="MemberIdMatch" parameterType="String" resultType="member">

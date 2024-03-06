@@ -2,10 +2,12 @@ import { useEffect, useState } from "react";
 import "../../css/product/ProdList.css";
 import ProdDetail from "../../modal/ProdDetail";
 import axios from "axios";
+import { loadMainProdAPI, loadSubProdAPI } from "./CateAPI";
 import { mainCateListAPI, subCateListAPI } from "../common/LeftbarAPI";
 import { useParams } from "react-router";
 import Leftmenubar from "../../components/Leftmenubar";
 import { Link } from "react-router-dom";
+import Rightmenubar from "../../components/Rightmenubar";
 import Cookies from "js-cookie";
 import { checkDiscount } from "../common/ProdDetailAPI";
 
@@ -17,22 +19,15 @@ export default function ProdList() {
 	const { mainNo, subNo } = useParams();
 	const [prodList, setProdList] = useState([]);
 	const [showDetail, setShowDetail] = useState(false);
-	const [product, setProduct] = useState(null);
+	const [product, setProduct] = useState();
 	const [mainList, setMainList] = useState([]);
 	const [subList, setSubList] = useState([]);
+	const [mainName, setMainName] = useState();
 	const [checkedSub, setCheckedSub] = useState(subNo);
 
 	useEffect(() => {
 		loadMainDb()
-		scrollToTop();
-		console.log(checkedSub);
 	}, []);
-
-	const scrollToTop = () => {
-		window.scrollTo({
-			top: 0
-		});
-	};
 
 	useEffect(() => {
 		loadSubDb();
@@ -41,7 +36,16 @@ export default function ProdList() {
 
 	// DB에서 CATE_MAIN 가져오기
 	const loadMainDb = async () => {
-		setMainList(await mainCateListAPI());
+		const mainCate = await mainCateListAPI();
+		setMainList(mainCate);
+	};
+
+	// DB에서 mainCate No에 대한 상품들 가져오기
+	const getMainCateNo = async () => {
+		if(mainNo) {
+			const response = await loadMainProdAPI(mainNo);
+			setProdList([...response]);
+		}
 	};
 
 	// DB에서 cateMain에 해당하는 CATE_SUB 가져오기

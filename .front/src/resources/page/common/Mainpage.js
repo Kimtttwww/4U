@@ -9,8 +9,7 @@ import { useEffect } from "react";
 import { useParams } from "react-router";
 import Leftmenubar from '../../components/Leftmenubar';
 import Rightmenubar from '../../components/Rightmenubar';
-// import Button from 'react-bootstrap/Button';
-// import Modal from 'react-bootstrap/Modal';
+import ProdDetail from '../../modal/ProdDetail';
 
 // Import Swiper styles
 import 'swiper/css';
@@ -24,11 +23,18 @@ const blinkStyle = {
   animation: 'blinker 1s linear infinite'
 };
 
-
+// 베스트
 export default () => {
-
-  const { mainNo, subNo } = useParams();
+  const [showDetail, setShowDetail] = useState(false);
+  const [product, setProduct] = useState(null);
   const [prodList, setProdList] = useState([]);
+  
+
+  const handleProductClick = product => {
+    setProduct(product);  // 클릭한 상품으로 product 상태 업데이트
+    setShowDetail(true);  // 모달창 띄우기
+  };
+  
 
 
   // leftBar에서 subCate 선택시 스타일부여
@@ -175,7 +181,7 @@ export default () => {
       <div className='clothListBox'>
         {outerList?.length ? outerList.map((prod) =>{
           return (
-            <div className='clothList'>
+            <div className='clothList' onClick={() => handleProductClick(prod)}>
               <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
@@ -197,7 +203,7 @@ export default () => {
       <div className='clothListBox'>
         {topList?.length ? topList.map((prod) =>{
           return (
-            <div className='clothList'>
+            <div className='clothList' onClick={() => handleProductClick(prod)}>
               <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
@@ -218,7 +224,7 @@ export default () => {
       <div className='clothListBox'>
         {bottomList?.length ? bottomList.map((prod) =>{
           return (
-            <div className='clothList'>
+            <div className='clothList' onClick={() => handleProductClick(prod)}>
               <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
@@ -239,7 +245,7 @@ export default () => {
       <div className='clothListBox'>
         {underList?.length ? underList.map((prod) =>{
           return (
-            <div className='clothList'>
+            <div className='clothList' onClick={() => handleProductClick(prod)}>
               <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
@@ -260,7 +266,7 @@ export default () => {
       <div className='clothListBox'>
         {accList?.length ? accList.map((prod) =>{
           return (
-            <div className='clothList'>
+            <div className='clothList' onClick={() => handleProductClick(prod)}>
               <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
@@ -272,5 +278,9 @@ export default () => {
         }) : <div>선택한 상품이 없습니다</div>}
       </div> {/* 이 부분에 닫는 태그를 추가했습니다. */}
     </div>
+    
+    {/* ProdDetail 컴포넌트에 필요한 props 전달 */}
+    {showDetail && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}
+
   </>);
 };
