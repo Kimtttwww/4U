@@ -78,6 +78,37 @@ public class MemberController {
 	}
 	
 	@CrossOrigin(origins = "https://localhost:3000")
+	@PostMapping("/editInfo")
+	public Map<String, Object> updateMember(@RequestBody Member m , HttpServletResponse res) {
+	
+		
+		String encodedPassword = passwordEncoder.encode(m.getMemberPwd());
+		m.setMemberPwd(encodedPassword);
+		
+		
+		String formatPhoneOne = (m.getPhone().substring(0,3));
+		log.info("\n 전화번호 = {}", formatPhoneOne);
+		String formatPhoneTwo = (m.getPhone().substring(3,7));
+		log.info("\n 전화번호 = {}", formatPhoneTwo);
+		String formatPhoneThree = (m.getPhone().substring(7,11));
+		log.info("\n 전화번호 = {}", formatPhoneThree);
+		
+		String phoneFinal = (formatPhoneOne + "-" + formatPhoneTwo + "-" + formatPhoneThree);
+		m.setPhone(phoneFinal);
+		log.info("\n 전화번호 = {}", m.getPhone());
+		
+		int result = service.insertMember(m);
+		Map<String, Object> map = new HashMap<>();
+		
+		if(result > 0) {
+			map.put("msg", "회원가입 성공");
+		} else {
+			map.put("msg", "메뉴 등록 실패");
+		}
+		return map;
+	}
+	
+	@CrossOrigin(origins = "https://localhost:3000")
 	@PostMapping("SignUp/idCheck")
 	public Member checkMemberId(@RequestBody String memberId , HttpServletResponse res) {
 		
@@ -99,6 +130,8 @@ public class MemberController {
 		}
 		
 	}
+	
+	
 	
 	
 	

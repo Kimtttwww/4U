@@ -21,6 +21,10 @@ public class MemberService {
 		return dao.insertMember(m);
 	}
 	
+	public int updateMember(Member m) {
+		return dao.updateMember(m);
+	}
+	
 	public Member MemberIdMatch(String memberId) {
 		return dao.MemberIdMatch(memberId);
 	}

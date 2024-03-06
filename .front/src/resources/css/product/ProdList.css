@@ -47,6 +47,12 @@
 	justify-content: space-around;
 }
 
+/* 태완님 좀 건들겠습니다 -민구- */
+.product:hover {
+	transition: 0.3s;
+	box-shadow: 0 10px 20px rgba(0, 0, 0, 0.19), 0 6px 6px rgba(0, 0, 0, 0.23);
+  }
+
 /* 각각의 상품들 */
 .product {
 	width: 250px;
@@ -123,3 +129,4 @@
 	margin-right: 15px;
 	cursor: pointer;
 }
+

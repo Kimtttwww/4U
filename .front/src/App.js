@@ -1,5 +1,6 @@
 import { Link, Route, Routes } from "react-router-dom";
 import BuyerMyPage from "./resources/page/BuyerMyPage/BuyerMyPage";
+import MyEdit from "./resources/page/BuyerMyPage/myEdit";
 import CartList from "./resources/page/BuyerMyPage/cart/CartList";
 import Login from "./resources/modal/Login";
 import Order from "./resources/page/order/Order";
@@ -22,6 +23,7 @@ import CategorySearch from "./resources/modal/CategorySearch";
 import BuyerCoupon from "./resources/page/BuyerMyPage/BuyerCoupon";
 import SellerRegistration from "./resources/page/sellerMyPage/SellerRegistration";
 import Cookies from "js-cookie";
+
 
 function App() {
 
@@ -66,8 +68,11 @@ function App() {
             </Route>
 
             {/* 구매자 마이페이지 */}
-            <Route path="/buyer/mypage/" element={<BuyerMyPage />} />
+            <Route path="/buyer/mypage" element={<BuyerMyPage />} exact />
             <Route path="/BuyerCoupon" element={<BuyerCoupon />} />
+
+            {/* 구매자 마이페이지 정보수정 */}s
+            <Route path="/buyer/mypage/myEdit" element = {<MyEdit />}/>
 
             {/* 장바구니 관련 */}
             <Route path="/cart/CartList/" element={<CartList />} />

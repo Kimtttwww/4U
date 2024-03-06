@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Modal, Button } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
+import { Link, Navigate, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import ProdDetail from '../../modal/ProdDetail';
@@ -14,6 +14,8 @@ import '../../css/buyerMyPage/Chat.css';
 
 
 export default function BuyerMyPage() {
+
+  const navigate = useNavigate();
 
   const [modalOpened, setModalOpened] = useState(false);
   const [orders, setOrders] = useState([]);
@@ -91,7 +93,6 @@ useEffect(() => {
   loadRecentlyViewed(); // 컴포넌트가 마운트될 때 최근 본 상품 로드
 }, []);
 
-console.log(uniqueRecentlyViewed);
 
 useEffect(() => {
   fetchQnaList();
@@ -106,8 +107,32 @@ useEffect(() => {
 	}
 	};
  
-    return (
-      <>
+  // 정보수정 비밀번호
+  const [passwordCheck, setPasswordCheck] = useState("");
+  const [PassWord , setPassWord] = useState("");
+
+  
+  const handlePasswordCheck = async () => {
+    // try {
+    //   const response = await axios.post('/member/login')
+    //     setPassWord(response.data);
+    //     console.log(response.data)
+    //   if(PassWord === passwordCheck) {
+    //     alert('비밀번호 일치');
+    //     <Link to={'/orderPage'} >OrderPage</Link>
+    //   } else {
+    //     alert('비밀번호 불일치');
+    //     <Link to={'/orderPage'} >OrderPage</Link>
+    //   }
+    // } catch (error) { 
+    //   console.error('멤버 로드 오류:', error); // 오류 발생 시 콘솔에 오류 메시지 출력
+    // }
+    navigate('/buyer/mypage/myEdit');
+  };
+
+  return (
+    <>
+
         <div className="buyerContainer">
             <div className="userInfo">
                 <div className="userName">
@@ -123,18 +148,19 @@ useEffect(() => {
                     <button onClick={() => setModalOpened(true)}>
                         정보 수정
                     </button>
-                    {/* Modal을 사용할 때 show prop을 사용하여 Modal을 열고 닫습니다. */}
+                    
                     <Modal show={modalOpened} onHide={() => setModalOpened(false)} className='passwordModal'>
-                        {/* Modal의 내용은 Modal.Body 내부에 위치시킵니다. */}
+                        
                             <h1>비밀번호 확인</h1>
                         <Modal.Body>
-                            비밀번호 : <br/> <input type='password' placeholder='비밀번호를 입력하세요.'/>
-                            <br/>
-                            비밀번호 확인 : <br/> <input type='password' placeholder='비밀번호를 입력하세요.'/>
+                            비밀번호 : <br/> <input type='password' 
+                            placeholder='비밀번호를 입력하세요.'
+                            onChange={(e) => setPasswordCheck(e.target.value)}
+                            />
                         </Modal.Body>
-                        {/* Modal 하단에 닫기 버튼을 추가합니다. */}
+                        
                         <Modal.Footer>
-                            <Button>확인</Button>
+                            <Button onClick ={handlePasswordCheck}>확인</Button>
                             <Button variant="secondary" onClick={() => setModalOpened(false)}>닫기</Button>
                         </Modal.Footer>
                     </Modal>

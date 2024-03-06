@@ -9,7 +9,7 @@ import { checkDiscount } from "../page/common/ProdDetailAPI";
 /**
  * 상품 상세 모달창
  * @props props
- * 	@param {boolean} showDetail 상품 상세 모달창의 표시 여부 state
+ * 	@param {boolean} showDetail 상품 상세 모달창의 표시 여부 states
  * 	@param {function} setShowDetail 상품 상세 모달창의 표시 여부 state's setter fn
  * 	@param {object} product 상품 상세 모달창에 보여줄 상품 state
  */

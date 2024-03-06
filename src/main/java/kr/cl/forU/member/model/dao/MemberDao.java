@@ -24,6 +24,11 @@ public class MemberDao {
 		return session.insert(map + "insertMember", m);
 	}
 	
+	public int updateMember(Member m) {
+	 
+		return session.update(map + "updateMember", m);
+	}
+	
 	public Member MemberIdMatch(String memberId) {
 		return session.selectOne(map + "MemberIdMatch" , memberId);
 	}
@@ -46,6 +51,8 @@ public class MemberDao {
 	public int selectPointRate(int memberNo) {
 		return session.selectOne(map + "selectPointRate", memberNo);
 	}
+
+
 
 
 
