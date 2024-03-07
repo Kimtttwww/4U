@@ -245,7 +245,7 @@ const handleProductClick = product => {
         <div className="benefitsLeftContainer">
           <div className="pointContainer">
             <div className="pointImg">
-              <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQWoJo0ob3QTQE50ix6fzNnvnc-Lg9xYlk7Dg&usqp=CAU"/>
+              <img src="/photo/point-img.png"/>
             </div>
             <div className="pointInfo">
               <h3>포인트</h3>
@@ -259,17 +259,17 @@ const handleProductClick = product => {
             </div>
             <div className="couponInfo">
               <h3>쿠폰</h3>
-              <span>현재 가지고있는 쿠폰 개수 : {couponCount}</span>
+              <span>보유 쿠폰 개수 : {couponCount}</span>
             </div>
           </div>
 
           <div className="gradeContainer">
             <div className="gradeImg">
-            {MemberInfo.gradeNo === 1 && (<img src="https://opgg-com-image.akamaized.net/attach/images/20210104110038.1415189.jpg"/>)}
-            {MemberInfo.gradeNo === 2 && (<img src="https://opgg-com-image.akamaized.net/attach/images/20210104111424.1415189.jpg"/>)}
-            {MemberInfo.gradeNo === 3 && (<img src="https://opgg-com-image.akamaized.net/attach/images/20210104112555.1415189.jpg"/>)}
-            {MemberInfo.gradeNo === 4 && (<img src="https://opgg-com-image.akamaized.net/attach/images/20210104115623.1415189.jpg"/>)}
-            {MemberInfo.gradeNo === 5 && (<img src="https://opgg-com-image.akamaized.net/attach/images/20190916020813.596917.jpg"/>)}
+            {MemberInfo.gradeNo === 1 && (<img src="/photo/grade-bronze.png"/>)}
+            {MemberInfo.gradeNo === 2 && (<img src="/photo/grade-silver.png"/>)}
+            {MemberInfo.gradeNo === 3 && (<img src="/photo/grade-gold.png"/>)}
+            {MemberInfo.gradeNo === 4 && (<img src="/photo/grade-diamond.png"/>)}
+            {MemberInfo.gradeNo === 5 && (<img src="/photo/grade-master.png"/>)}
             </div>
             <div className="gradeInfo">
               <h3>등급</h3>

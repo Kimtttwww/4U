@@ -1,12 +1,15 @@
 .shopping-cart {
-  width: 70%;
+  width: 1200px;
   margin: 0 auto;
+  margin-top: 130px;
+  margin-bottom: 100px;
   background: #f6f6f6;
   padding: 30px;
   border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
 }
 
+/* 상단 장바구니 글씨 */
 .shopping-cart h2 {
   font-size: 2.5em;
   margin-bottom: 25px;
@@ -14,40 +17,65 @@
   color: #333;
 }
 
+/* 총 결제 예상 금액 */
+.list-totalPrice{
+  font-size: 20px;
+}
+
+/* 장바구니 안에 리스트 */
 .shopping-cart ul {
   list-style: none;
   padding: 0;
+  width: 1140px;
 }
 
+/* 장바구니 안에 담아놓은 개별 상품 */
 .shopping-cart ul li {
   display: flex;
   justify-content: space-between;
   align-items: center;
   margin-bottom: 20px;
-  padding: 20px;
   background: #fff;
   border-radius: 5px;
+  padding: 10px; 
+  border-bottom: 2px solid #ddd; 
 }
 
+/* 장바구니 안에 상품 글자들 */
 .shopping-cart ul li span {
   font-size: 1.2em;
 }
 
+/* 장바구니 안에 상품 이미지 */
 .shopping-cart ul li img {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
+  width: 70px; 
+  height: auto;
+  margin-right: 10px; 
 }
 
-.shopping-cart ul li button {
+/* 삭제 버튼 */
+.list-delete {
   padding: 10px 20px;
-  background: #ff6347;
+  background: #b4b2b1;
   color: #fff;
   border: none;
   border-radius: 5px;
   cursor: pointer;
+  margin-left: 10px;
 }
 
+/* + - 버튼 */
+.list-count-btn button{
+  background: #32cd32;
+  color: #fff;
+  padding: 4px 8px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 3px;
+}
+
+/* 주문하기 버튼 */
 #checkout-btn {
   display: block;
   width: 100%;
@@ -60,4 +88,58 @@
   cursor: pointer;
   margin-top: 20px;
   font-size: 1.5em;
+}
+
+
+/* 각 요소들 크기지정 */
+.list-number{
+  text-align: center;
+  width: 2%;
+}
+
+.list-img-prodName{
+  display: flex;
+  width: 62%;
+  align-items: center;
+  justify-content: center;
+}
+
+.list-prodName{
+  width: 70%;
+  word-wrap: break-word;
+}
+
+.list-price{
+  display: flex;
+  width: 20%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.list-size{
+  width: 5%;
+  text-align: center;
+}
+
+.list-color{
+  text-align: center;
+  width: 10%;
+}
+
+.list-count{
+  width: 10%;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.list-count-btn{
+  display: flex;
+  flex-direction: column;
+  width: 4%;
+}
+
+.list-delete{
+  width: 7%;
 }

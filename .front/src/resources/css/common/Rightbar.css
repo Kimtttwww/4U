@@ -1,70 +1,4 @@
-.rightBar {
-  width: 40px;
-  display: flex;
-  flex-direction: column; 
-  position: fixed;
-  right: 0px;
-}
-
-.container {
-  background-color: white;
-}
-
-.sidebar {
-  background-color: #E3ECF1;
-  border-left: 4px solid #202020;
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  right: 0;
-  transition: 0.4s ease;
-  color: #202020;
-  height: 100%;
-  z-index: 99;
-}
-
-.button {
-  position: relative;
-  left: -50px;
-  top: 10px;
-  width: 40px;
-  height: 40px;
-  z-index: 99;
-  transition: 0.8s ease;
-  border: 2px solid #202020;
-  border-radius: 40px;
-  overflow: hidden;
-}
-
-.openBtn {
-  width: 100%;
-  height: 100%;
-}
-
-.content {
-  padding: 40px 40px 0 20px;
-  position: relative;
-  width: 100%;
-}
-
-.icon {
-  margin: 0;
-  color: #202020;
-}
-
-.sideBarContent{
-  width: 600px;
-  min-height: 50%;
-  height: fit-content;
-  position: fixed;
-  top: 100px;
-  right: 65px;
-  z-index: 2;
-  background-color: #f8dedb;
-  overflow: hidden;
-  padding: 5px;
-}
-
+/* 리모컨 */
 .rightBar {
   top: 30%;
   width: 60px;
@@ -76,59 +10,84 @@
   text-decoration: none;
   background-color: #f8dedb;
   border-radius: 15px;
+  align-items: center;
+  padding: 10px 0;
+}
+/* 리모컨 아이콘 */
+.rightBar span{
+  cursor: pointer;
 }
 
-.rightBar a{
-  text-decoration: none;
-  padding: 5px 10px;
-}
-
-.categoryImg {
-  width: 40px;
-  margin-bottom: 10px; 
-}
-
+/* 리모컨 아이콘 사이즈 */
 .rightBar i {
   background-size: cover;
   font-size: 24px;
 }
 
+/* 검색창 틀 */
+.sideBarContent{
+  width: 580px;
+  min-height: 50%;
+  height: fit-content;
+  position: fixed;
+  top: 90px;
+  right: 65px;
+  z-index: 2;
+  background-color: #f8dedb;
+  overflow: hidden;
+  padding: 10px 30px;
+  height: 80vh;
+  overflow: auto;
+}
+
+/* 대분류 항목 */
 .productContainer {
   display: flex;
   flex-direction: row;
-  
 }
 
-.productContainer > div {
-  
-  margin-right: 10px; 
-
-}
-
+/* 검색창 항목들 */
 .cateSeeThrough{
   line-height: 33px;
   border: 1px solid #e3e3e3;
+  border-radius: 10px;
+  background-color: #fff;
   cursor: pointer;
   text-decoration: none;
+  padding: 0 13px;
+  margin: 3px;
 }
 
+/* 검색창 항목들 선택시 */
 .cateSeeThrough.active{
-  background-color: black;
+  background-color: #e4c0a8;
   color: white;
 }
 
+/* 상품찾기 버튼 */
 .cateButton{
-  margin: 0 60px;
-  width: 300px;
+  width: 100%;
   height: 60px;
+  background-color: #e4c0a8;
+  border: none;
+  box-shadow: 0 0 5px 0;
 }
 
+/* 색상 */
 .flexContainer {
   display: grid;
-  grid-template-columns: repeat(20, 20px);
-  grid-gap: 10px;
+  grid-template-columns: repeat(12, 29px);
+  grid-gap: 15px;
 }
 
-.flexContainer div{
-  margin-right: 20px; 
+/* 타이틀 (대분류,소분류...) */
+.cateTitle{
+  margin-left: 5px;
+  font-size: 16px;
+  line-height: 59px;
+}
+
+.right-category-box{
+  display: flex;
+  flex-wrap: wrap;
 }

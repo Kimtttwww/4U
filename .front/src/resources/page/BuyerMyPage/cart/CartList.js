@@ -87,13 +87,12 @@ export default function CartList() {
         <>
         <div className="shopping-cart">
             <h2>장바구니</h2>
-            <span>총 결제 예상 금액 : {new Intl.NumberFormat('ko-KR').format(totalAmount)}원</span>
+            <span className="list-totalPrice">총 결제 예상 금액 : {new Intl.NumberFormat('ko-KR').format(totalAmount)}원</span>
             <ul>
                 {cartItems?.length && cartItems.map((item, index) => (
                     <li key={index}>
-
-                        <span>{index}</span>
-                        <div onClick={() => handleProductClick(item)}>
+                        <span className="list-number">{index}</span>
+                        <div className="list-img-prodName" onClick={() => handleProductClick(item)}>
                             <img 
                                 src={
                                     cart.find(cartItem => cartItem.prodNo === item.prodNo)
@@ -103,13 +102,11 @@ export default function CartList() {
                                 alt={item.index} 
                             />
                             
-                            <span>사이즈 : {item.size}</span>
-                            <span>상품 색상 : {item.colorName}</span>
                             {/* cart에서 제품 찾기 */}
                             {cart.find(cartItem => cartItem.prodNo === item.prodNo) && (
                                 <>
-                                    <span>상품 명 : {cart.find(cartItem => cartItem.prodNo === item.prodNo).prodName}</span>
-                                    <span>
+                                    <span className="list-prodName">{cart.find(cartItem => cartItem.prodNo === item.prodNo).prodName}</span>
+                                    <span className="list-price">
                                         {
                                             new Intl.NumberFormat('ko-KR').format(
                                                 cart.find(cartItem => cartItem.prodNo === item.prodNo).price * item.count || 1
@@ -119,10 +116,14 @@ export default function CartList() {
                                 </>
                             )}
                         </div>
-                        <span>상품 수량 : {item.count || 1}</span>
-                        <button onClick={() => increaseQuantity(index)}>+</button>
-                        <button onClick={() => decreaseQuantity(index)}>-</button>
-                        <button onClick={() => removeFromCart(index)}>삭제</button>
+                        <span className="list-size">{item.size}</span>
+                        <span className="list-color">{item.colorName}</span>
+                        <span className="list-count">{item.count || 1}</span>
+                        <div className="list-count-btn">
+                            <button onClick={() => increaseQuantity(index)}>+</button>
+                            <button onClick={() => decreaseQuantity(index)}>-</button>
+                        </div>
+                        <button className="list-delete" onClick={() => removeFromCart(index)}>삭제</button>
                         </li>
 
                         ))}
