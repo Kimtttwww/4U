@@ -51,4 +51,7 @@ public class Product {
 	private List<Image> image;
 	
 	private String imgName;
+	private int cateMain;
+	private String mainName;
+	private String subName;
 }

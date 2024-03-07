@@ -78,6 +78,10 @@ public class OrderDao {
 		return session.selectList("orderMapper.selectAllOrder");
 	}
 
+	public List<Order> sellerAllOrder() {
+		return session.selectList("orderMapper.sellerAllOrder");
+	}
+
 
 	
 	

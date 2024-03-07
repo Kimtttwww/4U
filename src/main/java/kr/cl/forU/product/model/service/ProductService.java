@@ -158,6 +158,18 @@ public class ProductService {
 	public List<Product> accProducts() {
 		return dao.accProducts();
 	}
+
+	public List<Product> sellerList() {
+		return dao.sellerList();
+	}
+
+	public int sellerListUpdate(int prodNo) {
+		return dao.sellerListUpdate(prodNo);
+	}
+
+	public int sellerListYUpdate(int prodNo) {
+		return dao.sellerListYUpdate(prodNo);
+	}
 	
 	
 	

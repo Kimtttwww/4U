@@ -1,6 +1,38 @@
+import axios from "axios";
 import "../../css/sellerMyPage/SellerOrderList.css";
+import { useEffect, useState } from "react";
 
 export default function SellerOrderList (){
+
+    const [order, setOrder] = useState([]);
+    const [totalPrice, setTotalPrice] = useState(0);
+
+    const fetchOrder = async () => {
+        try {
+            const response = await axios.get('/order/sellerAllOrder');
+            setOrder(response.data);
+        } catch (error) {
+            console.error('오더 정보 에러:', error);
+        }
+    };
+
+    console.log(order);
+
+    useEffect(() => {
+        fetchOrder();
+    }, [])
+
+    useEffect(() => {
+		calculateTotalPrice(order);
+	}, [order]);
+
+	const calculateTotalPrice = (orderList) => {
+		let total = 0;
+		orderList.forEach((order) => {
+			total += order.price * order.count;
+		});
+		setTotalPrice(total);
+	};
 
     
 
@@ -22,62 +54,24 @@ export default function SellerOrderList (){
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>000006</td>
-                                <td>24-01-03 21:45</td>
-                                <td>껌붙은 청바지</td>
-                                <td>레드/L</td>
-                                <td>1</td>
-                                <td>장현진</td>
-                            </tr>
-                            <tr>
-                                <td>000005</td>
-                                <td>24-01-03 20:55</td>
-                                <td>뜯겨진 패딩</td>
-                                <td>와인/M</td>
-                                <td>1</td>
-                                <td>강민구</td>
-                            </tr>
-                            <tr>
-                                <td>000004</td>
-                                <td>24-01-03 19:12</td>
-                                <td>찢어진 티셔츠</td>
-                                <td>블랙/M</td>
-                                <td>3</td>
-                                <td>김태완</td>
-                            </tr>
-                            <tr>
-                                <td>000003</td>
-                                <td>24-01-03 14:01</td>
-                                <td>구멍난 양말</td>
-                                <td>화이트/L</td>
-                                <td>2</td>
-                                <td>송다연</td>
-                            </tr>
-                            <tr>
-                                <td>000002</td>
-                                <td>24-01-03 13:55</td>
-                                <td>찢어진 양말</td>
-                                <td>화이트/M</td>
-                                <td>1</td>
-                                <td>송다연</td>
-                            </tr>
-                            <tr>
-                                <td>000001</td>
-                                <td>24-01-03 13:41</td>
-                                <td>구멍난 양말</td>
-                                <td>블랙/L</td>
-                                <td>5</td>
-                                <td>김태완</td>
-                            </tr>
+                        {order.map((order) => (
+                        <tr>
+                            <td>{order.orderNo}</td>
+                            <td>{order.orderDate}</td>
+                            <td>{order.prodName}</td>
+                            <td>{order.details}</td>
+                            <td>{order.count}</td>
+                            <td>{order.orderName}</td>
+                        </tr>
+                        ))}
                             <tr>
                                 <td colSpan={5}></td>
                             </tr>
                             <tr className="order-total">
                                 <td>주문 총 수량</td>
-                                <td colSpan={2}>7개</td>
+                                <td colSpan={2}>{order.length}개</td>
                                 <td>주문 총 금액</td>
-                                <td colSpan={2}>\262,000</td>
+                                <td colSpan={2}>\{totalPrice.toLocaleString()}</td>
                             </tr>
                         </tbody>
                     </table>

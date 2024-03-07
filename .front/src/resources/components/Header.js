@@ -60,29 +60,29 @@ export default function Header(props) {
 					</div>
                     <div className="empty-container"></div>
                     <div className="loginMenu">
-                        {login ? (
-                            <>
-                                <button className="header-logout" onClick={() => {
-									Cookies.remove("loginMember");
-                                    setLogin(null);
-								}}><img src="/photo/free-icon-arrow-10901692.png" />로그아웃</button>
-								<Link className="header-mypage" to={"/buyer/mypage/"}>{login.memberName}님의 마이페이지</Link>
-                            </>
-                        ) : (
-                            <>
-                                {mobile ? (
-                                    <>
-                                        <Link className="header-signUp-icon" to="/member/SignUp"><img src="/photo/free-icon-join-5860890.png" />Sign up</Link>
-                                        <button className="header-login-icon"><img src="/photo/free-icon-login-6681235.png" onClick={() => {setShowLogin(true)}} />Log in</button>
-                                    </>
-                                ) : (
-                                    <>
-                                        <Link className="header-signUp" to="/member/SignUp">회원가입</Link>
-                                        <button className="header-login" onClick={() => {setShowLogin(true)}}>로그인</button>
-                                    </>
-                                )}
-                            </>
-                        )}
+                    {login ? (
+                        <>
+                            <button className="header-logout" onClick={() => {
+                                Cookies.remove("loginMember");
+                                setLogin(null);
+                            }}><img src="/photo/free-icon-arrow-10901692.png" />로그아웃</button>
+                            <Link className="header-mypage" to={login.memberName === '관리자' ? "/sellerMypage/" : "/buyer/mypage/"}>{login.memberName}님의 마이페이지</Link>
+                        </>
+                    ) : (
+                        <>
+                            {mobile ? (
+                                <>
+                                    <Link className="header-signUp-icon" to="/member/SignUp"><img src="/photo/free-icon-join-5860890.png" />Sign up</Link>
+                                    <button className="header-login-icon"><img src="/photo/free-icon-login-6681235.png" onClick={() => {setShowLogin(true)}} />Log in</button>
+                                </>
+                            ) : (
+                                <>
+                                    <Link className="header-signUp" to="/member/SignUp">회원가입</Link>
+                                    <button className="header-login" onClick={() => {setShowLogin(true)}}>로그인</button>
+                                </>
+                            )}
+                        </>
+                    )}
                     </div>
                     
                 </div>

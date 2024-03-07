@@ -43,7 +43,24 @@ public class ProductController {
 
 	@Autowired
 	ProductService service;
-
+	
+	/*
+	 * 관리자 페이지 상품관리
+	 */
+	@GetMapping("/sellerList")
+	public List<Product> sellerList() {
+		return service.sellerList();
+	}
+	
+	@PutMapping("/sellerListUpdate/{prodNo}")
+	public int sellerListUpdate(@PathVariable int prodNo) {
+		return service.sellerListUpdate(prodNo);
+	}
+	
+	@PutMapping("/sellerListYUpdate/{prodNo}")
+	public int sellerListYUpdate(@PathVariable int prodNo) {
+		return service.sellerListYUpdate(prodNo);
+	}
 	
 	/**
 	 * 상품들 조회

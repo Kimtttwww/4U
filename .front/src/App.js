@@ -10,7 +10,7 @@ import Footer from "./resources/components/Footer";
 import ProdList from "./resources/page/product/ProdList";
 import SignUp from "./resources/page/member/SignUp";
 import UserUpdate from "./resources/page/BuyerMyPage/UserUpdate";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OrderHt from "./resources/page/BuyerMyPage/orderHistory/OrderHt";
 import Error from "./resources/components/Error";
 import Mainpage from "./resources/page/common/Mainpage";
@@ -24,9 +24,16 @@ import BuyerCoupon from "./resources/page/BuyerMyPage/BuyerCoupon";
 import SellerRegistration from "./resources/page/sellerMyPage/SellerRegistration";
 import SellerStats from "./resources/page/sellerMyPage/SellerStats";
 import Cookies from "js-cookie";
+import ReactGA from "react-ga";
 
 
 function App() {
+
+   const gaTrackingId = process.env.REACT_APP_GA_TRACKING_ID; // 환경 변수에 저장된 추적ID 가져오기
+   useEffect(() => {
+      ReactGA.initialize('UA-305192561-1', { debug: true }); // react-ga 초기화 및 debug 사용
+      ReactGA.pageview(window.location.pathname + window.location.search); // 현재 페이지 뷰 추적
+   }, []);
 
    /** 로그인창 띄울떄 필요한 매개변수 */
    const [showLogin, setShowLogin] = useState(false);

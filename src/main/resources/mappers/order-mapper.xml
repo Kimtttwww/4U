@@ -2,6 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="orderMapper">
 
+	<select id="sellerAllOrder" resultType="order">
+		SELECT *
+		FROM "ORDER" 
+		JOIN ORDER_PROD USING (ORDER_NO)
+		JOIN PRODUCT USING (PROD_NO)
+		ORDER BY ORDER_NO DESC
+	</select>
+
 	<select id="selectAllOrder" resultType="order">
 		SELECT *
 		FROM "ORDER"

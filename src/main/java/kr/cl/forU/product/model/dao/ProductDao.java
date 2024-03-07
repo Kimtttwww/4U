@@ -174,6 +174,18 @@ public class ProductDao {
 		return session.selectList(map + "accProducts");
 	}
 
+	public List<Product> sellerList() {
+		return session.selectList(map + "sellerList");
+	}
+
+	public int sellerListUpdate(int prodNo) {
+		return session.update(map + "sellerListUpdate", prodNo);
+	}
+
+	public int sellerListYUpdate(int prodNo) {
+		return session.update(map + "sellerListYUpdate", prodNo);
+	}
+
 
 
 	

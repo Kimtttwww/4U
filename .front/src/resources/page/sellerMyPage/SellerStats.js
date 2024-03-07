@@ -23,7 +23,6 @@ export default function SellerStats() {
         }
     };
 
-    let months = Order.map(order => order.orderDate.split("-")[1]);
 
     let monthlyTotal = Order.reduce((acc, order) => {
         let month = order.orderDate.split("-")[1];

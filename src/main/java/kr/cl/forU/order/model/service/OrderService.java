@@ -22,6 +22,7 @@ public class OrderService {
 	@Autowired
 	OrderDao dao;
 	
+	
 
     public List<Order> getAllOrders(int memberNo) {
     	return dao.findAll(memberNo);
@@ -84,6 +85,10 @@ public class OrderService {
 
 	public List<Order> selectAllOrder() {
 		return dao.selectAllOrder();
+	}
+
+	public List<Order> sellerAllOrder() {
+		return dao.sellerAllOrder();
 	}
 
 //	public int insertOrderNotice() {
