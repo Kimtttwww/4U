@@ -151,23 +151,23 @@ export default function Rightmenubar() {
 					{filterList.cateMain.map((filter) => (
 						<span key={filter.mainName} onClick={() => checkCategoryMain(filter.mainName)}
 							className={`cateSeeThrough ${cateMainList.includes(filter.mainName) ? 'active' : ''}`}>
-							{filter.cateMain} {filter.mainName}
+							 {filter.mainName}
 						</span>
 					))}
 				</div>
 
 				<div className="cateTitle">소분류</div>
-				<div>
+				<div className="right-category-box">
 					{filterList.cateSub.map((filter) => (
 						<span key={filter.subName} onClick={() => checkCategorySub(filter.subName)}
 							className={`cateSeeThrough ${cateSubList.includes(filter.subName) ? 'active' : ''}`}>
-							{filter.cateSub} {filter.subName}
+							 {filter.subName}
 						</span>
 					))}
 				</div>
 
 				<div className="cateTitle">비침</div>
-				<div>
+				<div className="right-category-box">
 					{filterList.seeThrough.map((seeThrough, i) => (
 						<span key={i} onClick={() => checkSeeThrough(seeThrough)}
 							className={`cateSeeThrough ${seeThroughList.includes(seeThrough) ? 'active' : ''}`}>
@@ -177,7 +177,7 @@ export default function Rightmenubar() {
 				</div>  
 
 				<div className="cateTitle">라인</div>
-				<div>
+				<div className="right-category-box">
 					{filterList.lining.map((line, i) => (
 						<span key={i} onClick={() => checkLine(line)}
 							className={`cateSeeThrough ${lineList.includes(line) ? 'active' : ''}`}>
@@ -187,7 +187,7 @@ export default function Rightmenubar() {
 				</div>
 
 				<div className="cateTitle">사이즈</div>
-				<div>
+				<div className="right-category-box">
 					{filterList.size.map((size, i) => (
 						<span key={i} onClick={() => checkSize(size)}
 							className={`cateSeeThrough ${sizeList.includes(size) ? 'active' : ''}`}>
