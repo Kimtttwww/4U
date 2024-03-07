@@ -4,7 +4,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
@@ -188,23 +187,6 @@ public class ProductController {
 	        e.printStackTrace();
 	    }
 	    return service.selectRecentList(list);
-	}
-
-	private List<Integer> extractProdNosFromCart(String cartCookie) {
-		List<Integer> prodNos = new ArrayList<Integer>();
-
-		try {
-			JSONArray cartArray = new JSONArray(URLDecoder.decode(cartCookie, "UTF-8"));
-
-			for (int i = 0; i < cartArray.length(); i++) {
-				JSONObject item = cartArray.getJSONObject(i);
-				int prodNo = item.getInt("prodNo");
-				prodNos.add(prodNo);
-			}
-		} catch (JSONException | UnsupportedEncodingException e) {
-			e.printStackTrace();
-		}
-		return prodNos;
 	}
 
 	/**
