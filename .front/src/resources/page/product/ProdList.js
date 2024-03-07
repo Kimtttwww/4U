@@ -39,14 +39,6 @@ export default function ProdList() {
 		setMainList(mainCate);
 	};
 
-	// DB에서 mainCate No에 대한 상품들 가져오기
-	const getMainCateNo = async () => {
-		if(mainNo) {
-			const response = await loadMainProdAPI(mainNo);
-			setProdList([...response]);
-		}
-	};
-
 	// DB에서 cateMain에 해당하는 CATE_SUB 가져오기
 	const loadSubDb = async () => {
 		if (mainNo) {
@@ -59,7 +51,6 @@ export default function ProdList() {
 		const selectedItems = Cookies.get("prodFilter") ? JSON.parse(Cookies.get("prodFilter")) : null;
 		let subUrl = [];
 
-		console.log(mainNo);
 		if(mainNo){
 			if(mainNo) subUrl.push("cateMain=" + mainNo);
 			if(subNo) subUrl.push("cateSub=" + subNo);
