@@ -83,6 +83,12 @@ public class ProductService {
 	public List<Image> selectProdImageList(int prodNo) {
 		return dao.selectProdImageList(prodNo);
 	}
+	
+	/**
+     * 상품 리스트 필터링에 사용될 요소들 조회
+     * @return 필터링에 사용되는 요소들이 한 객체안에 여러 배열들로 들어있다
+     */
+	@SuppressWarnings("rawtypes")
 	public HashMap<String, List> selectFilterList() {
 		HashMap<String , List> map = new HashMap<>();
 		ArrayList<String> size = new ArrayList<>();

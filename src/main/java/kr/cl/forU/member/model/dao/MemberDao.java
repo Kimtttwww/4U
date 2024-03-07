@@ -1,6 +1,7 @@
 package kr.cl.forU.member.model.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -53,6 +54,16 @@ public class MemberDao {
 	 */
 	public List<Grade> selectGradeList() {
 		return session.selectList(map + "selectGradeList");
+	}
+
+	/**
+	 * 알림 생성
+	 * @param noticeType 알림의 종류(notice 객체 참고)
+	 * @param refNo 알림 대상(사용자 번호, 상품번호)
+	 * @return 알림 생성 여부
+	 */
+	public boolean insertNotice(Map<String, Integer> m) {
+		return session.insert(map + "insertNotice", m) > 0;
 	}
 
 

@@ -138,8 +138,8 @@ export default function Rightmenubar() {
 
   	return (<>
 		<div className={`rightBar ${isSidebarOpen ? "open" : ""}`}>
-		 	<span onClick={() => setSidebarOpen(!isSidebarOpen)}><i>&#128269;</i></span>
-			<span onClick={() => setShowMemberInfo(!showMemberInfo)}><i>&#x1F604;</i></span>
+		 	<span onClick={() => {setSidebarOpen(!isSidebarOpen); setShowMemberInfo(false);}}><i>&#128269;</i></span>
+			<span onClick={() => {setShowMemberInfo(!showMemberInfo); setSidebarOpen(false);}}><i>&#x1F604;</i></span>
 			<span onClick={scrollToTop}><i>&#x2B06;</i></span>
 			<span onClick={scrollToBottom}><i>&#x2B07;</i></span>
 		</div>

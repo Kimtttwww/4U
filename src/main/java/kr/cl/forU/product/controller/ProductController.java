@@ -25,6 +25,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import kr.cl.forU.member.model.service.MemberService;
+import kr.cl.forU.member.model.vo.NoticeDetail;
 import kr.cl.forU.product.model.service.ProductService;
 import kr.cl.forU.product.model.vo.Palette;
 import kr.cl.forU.product.model.vo.Image;
@@ -42,6 +44,9 @@ public class ProductController {
 
 	@Autowired
 	ProductService service;
+	@Autowired
+	MemberService memberService;
+	
 	
 	/*
 	 * 관리자 페이지 상품관리
@@ -68,9 +73,7 @@ public class ProductController {
 	 */
 	@GetMapping("list")
 	public List<Product> selectProductList(@RequestParam Map<String, Object> m) {
-		log.info("selectProductList\nm = {}", m);
 		List<Product> list = service.selectProductList(m);
-		log.info("selectProductList\nlist = {}", list);
 		
 		String size = (String) m.get("size");
 		String color = (String) m.get("color");
@@ -189,16 +192,6 @@ public class ProductController {
 	    return service.selectRecentList(list);
 	}
 
-	/**
-	 * 해당 상품의 리뷰들 조회
-	 * @param prodNo 리뷰들을 조회할 상품의 번호
-	 * @return 조회된 상품 리스트
-	 */
-	@GetMapping("review/{prodNo}")
-	public List<Review> selectReviewList(@PathVariable int prodNo) {
-		return service.selectReviewList(prodNo);
-	}
-
 	@PostMapping("/loadProdName")
 	public List<Product> selectProdName(@RequestBody int[] prodNo) {
 
@@ -217,6 +210,16 @@ public class ProductController {
 	@GetMapping("/palettes")
 	public List<Palette> selectColors() {
 		return service.selectColors();
+	}
+
+	/**
+	 * 해당 상품의 리뷰들 조회
+	 * @param prodNo 리뷰들을 조회할 상품의 번호
+	 * @return 조회된 상품 리스트
+	 */
+	@GetMapping("review/{prodNo}")
+	public List<Review> selectReviewList(@PathVariable int prodNo) {
+		return service.selectReviewList(prodNo);
 	}
 
 	/**
@@ -239,6 +242,7 @@ public class ProductController {
 	 */
 	@PostMapping("review")
 	public boolean insertReview(@RequestBody Review r) {
+		memberService.insertNotice(NoticeDetail.NEW_REVIEW, r.getProdNo());
 		return service.insertReview(r);
 	}
 
@@ -257,7 +261,6 @@ public class ProductController {
      * @param reviewNo 삭제할 리뷰 번호
      * @return 리뷰 삭제 성공 여부
      */
-    
     @DeleteMapping("review/{reviewNo}")
     public boolean deleteReview(@PathVariable int reviewNo) {
 		return service.deleteReview(reviewNo);
@@ -275,6 +278,10 @@ public class ProductController {
 		return imgList;
 	}
 
+    /**
+     * 상품 리스트 필터링에 사용될 요소들 조회
+     * @return 필터링에 사용되는 요소들이 한 객체안에 여러 배열들로 들어있다
+     */
     @GetMapping("/category")
     public HashMap<String, List> selectFilterList() {
     	return service.selectFilterList();
@@ -293,14 +300,10 @@ public class ProductController {
 	public List<Product> selectSubCateList(
 			@RequestParam(name = "cateMain", required = false) int cateMain,
 			@RequestParam(name = "cateSub", required = false) int cateSub) {
-//		log.info("cateMain {}, cateSub {} >>", cateMain, cateSub);
-//		log.info("들어와????");
 		HashMap<String, Integer> map = new HashMap<>();
-
 		map.put("cateSub", cateSub);
 		map.put("cateMain", cateMain);
-//		log.info("map ?? {}", map);
-//		log.info("답은?? {}", service.selectSubCateList(map));
+		
 		return service.selectSubCateList(map);
 	}
 	

@@ -1,14 +1,13 @@
-import axios from "axios";
-import { useEffect, useState } from "react";
-import { Link, useNavigate } from "react-router-dom";
-import { insertOrderAPI, selectOrderNoAPI } from "./OrderAPI";
+import { useEffect } from "react";
+import { useNavigate } from "react-router-dom";
+import { insertOrderAPI } from "./OrderAPI";
 import Cookies from "js-cookie";
 
 export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderProd, prodImgs }) {
 
 
     const navi = useNavigate();
-    const [orderNo, setOrderNo] = useState(0);
+    // const [orderNo, setOrderNo] = useState(0);
     const { memberNo, memberName, address, addressDetail, email, phone, zipCode, gradeNo } = userInfo;
     const { receiverName, phone1, phone2, phone3 } = changeInfo;
     const { applyCoupon, applyPoint, delMsg, discountPrice, totalPrice } = dataByPayment;
@@ -26,7 +25,7 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
         document.head.appendChild(script2);
 
         // OrderNo Setting
-        setOrderNo(getOrderNo());
+        // setOrderNo(getOrderNo());
 
         return () => {
             document.head.removeChild(script1);
@@ -43,24 +42,23 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
     const count = orderProd.length;
     const buyerName = receiverName == "" ? memberName : receiverName;
     const buyerTel = (phone1 || phone2 || phone3) ? phone1 + phone2 + phone3 : phone;
-    const addr = (changeInfo.address == "") ? userInfo.address : changeInfo.address;
-    const addrDetail = (changeInfo.addressDetail == "") ? userInfo.addressDetail : changeInfo.addressDetail;
-    const zip = (changeInfo.zipCode == "") ? userInfo.zipCode : changeInfo.zipCode;
+    const addr = (changeInfo.address == "") ? address : changeInfo.address;
+    const addrDetail = (changeInfo.addressDetail == "") ? addressDetail : changeInfo.addressDetail;
+    const zip = (changeInfo.zipCode == "") ? zipCode : changeInfo.zipCode;
     const couponNo = Object.keys(applyCoupon).length > 0 ? applyCoupon.couponNo : 0;
     const payPrice = totalPrice - discountPrice - applyPoint;
 
     const insertToDb = async (insertData) => {
-        const responseData = await insertOrderAPI(insertData);
+        return await insertOrderAPI(insertData);
     };
 
-    const getOrderNo = async () => {
-        const responseData = await selectOrderNoAPI();
-        return responseData;
-    };
+    // const getOrderNo = async () => {
+    //     return await selectOrderNoAPI();
+    // };
 
     const getObjData = (arr, key) => {
         let responseArr = [];
-        arr?.map((item) => {
+        arr?.forEach((item) => {
             if (item[key] != null) {
                 responseArr.push(item[key]);
             };
@@ -100,7 +98,6 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
         function callback(response) {
             const {
                 success,
-                merchant_uid,
                 error_msg
             } = response;
 

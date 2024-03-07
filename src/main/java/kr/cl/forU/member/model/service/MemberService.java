@@ -1,6 +1,8 @@
 package kr.cl.forU.member.model.service;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +54,18 @@ public class MemberService {
 		return dao.selectGradeList();
 	}
 
-
+	/**
+	 * 알림 생성
+	 * @param noticeType 알림의 종류(NoticeDetail 객체 참고)
+	 * @param refNo 알림 대상(사용자 번호, 상품번호)
+	 * @return 알림 생성 여부
+	 */
+	public boolean insertNotice(int noticeType, int refNo) {
+		Map<String, Integer> m = new HashMap<>();
+		m.put("noticeType", noticeType);
+		m.put("refNo", refNo);
+		
+		return dao.insertNotice(m);
+	}
 	
 }

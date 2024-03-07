@@ -76,6 +76,8 @@
 		SELECT * FROM GRADE
 	</select>
 	
-	
-	
+	<insert id="insertNotice" parameterType="map">
+		INSERT INTO NOTICE
+		VALUES (SEQ_NOTICE_NO.NEXTVAL, #{noticeType}, #{refNo})
+	</insert>
 </mapper>

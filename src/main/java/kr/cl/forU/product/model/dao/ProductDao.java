@@ -88,34 +88,6 @@ public class ProductDao {
 	public boolean insertReview(Review r) {
 		return session.insert(map + "insertReview", r) > 0;
 	}
-	/**
-	 * 
-	 * 필터링 select
-	 * @return
-	 */
-	public List<CategoryMain> selectCateMainList() {
-		return session.selectList(map + "selectCateMainList");
-	}
-
-	public List<CategorySub> selectCateSubList() {
-		return session.selectList(map + "selectCateSubList");
-	}
-
-	public List<Palette> selectColorList() {
-		return session.selectList(map + "selectColorList");
-	}
-
-	public List<String> selectseeThroughList() {
-		return session.selectList(map + "selectseeThroughList");
-	}
-
-	public List<Product> selectMainCateList(int cateMain) {
-		return session.selectList(map + "selectMainCateList", cateMain);
-	}
-
-	public List<Product> selectSubCateList(HashMap<String, Integer> map2) {
-		return session.selectList(map + "selectSubCateList", map2);
-	}
 
 	/**
      * 리뷰 수정
@@ -135,12 +107,65 @@ public class ProductDao {
 		return session.update(map + "deleteReview", reviewNo) > 0;
 	}
 
+	/**
+	 * 필터링에 사용되는 CategoryMain을 조회
+	 * @return CategoryMain 배열
+	 */
+	public List<CategoryMain> selectCateMainList() {
+		return session.selectList(map + "selectCateMainList");
+	}
+
+	/**
+	 * 필터링에 사용되는 CategorySub을 조회
+	 * @return CategorySub 배열
+	 */
+	public List<CategorySub> selectCateSubList() {
+		return session.selectList(map + "selectCateSubList");
+	}
+
+	/**
+	 * 필터링에 사용되는 Color들을 조회
+	 * @return Color 배열
+	 */
+	public List<Palette> selectColorList() {
+		return session.selectList(map + "selectColorList");
+	}
+
+	/**
+	 * 필터링에 사용되는 SeeThrough을 조회
+	 * @return SeeThrough 배열
+	 */
+	public List<String> selectseeThroughList() {
+		return session.selectList(map + "selectseeThroughList");
+	}
+
+	/**
+	 * 필터링에 사용되는 CategoryMain을 조회
+	 * @return CategoryMain 배열
+	 */
+	public List<Product> selectMainCateList(int cateMain) {
+		return session.selectList(map + "selectMainCateList", cateMain);
+	}
+
+	
+	public List<Product> selectSubCateList(HashMap<String, Integer> map2) {
+		return session.selectList(map + "selectSubCateList", map2);
+	}
+
+	/**
+	 * 필터링에 사용되는 Line을 조회
+	 * @return Line 배열
+	 */
 	public List<String> selectLining() {
 		return session.selectList(map + "selectLining");
 	}
 
+	/**
+	 * 필터링에 사용되는 Price를 조회
+	 * @return Price 배열
+	 * @apiNote 아직 안쓰이는 것(일거)임
+	 */
 	public List<Integer> selectPrice() {
-	
 		return session.selectList(map + "selectPrice");
 	}
 

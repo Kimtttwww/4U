@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import "../../css/product/ProdList.css";
 import ProdDetail from "../../modal/ProdDetail";
 import axios from "axios";
-import { loadMainProdAPI, loadSubProdAPI } from "./CateAPI";
 import { mainCateListAPI, subCateListAPI } from "../common/LeftbarAPI";
 import { useParams } from "react-router";
 import Leftmenubar from "../../components/Leftmenubar";
@@ -21,7 +20,6 @@ export default function ProdList() {
 	const [product, setProduct] = useState();
 	const [mainList, setMainList] = useState([]);
 	const [subList, setSubList] = useState([]);
-	const [mainName, setMainName] = useState();
 	const [checkedSub, setCheckedSub] = useState(subNo);
 
 	useEffect(() => {

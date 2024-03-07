@@ -1,13 +1,18 @@
 import axios from "axios";
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 
 export default function MemberInfoMin(props) {
 	
 	const {loginMember, setLoginMember, showMemberInfo, setShowMemberInfo} = props;
 	const [gradeList, setGradeList] = useState([]);
-	
+	const [membership, setMembership] = useState(null);
+	const [asdf, setasdf] = useState(null);
+
 
 	useEffect(() => {
+		let memberNo;
+
 		axios.get("/member/grade")
 		.then((data) => {
 			let gList = data.data;
@@ -32,6 +37,16 @@ export default function MemberInfoMin(props) {
 			console.log(error);
 			alert("회원등급 조회 중 에러가 발생했습니다");
 		});
+
+		if(loginMember?.memberNo) {
+			axios.get("/order/membership?memberNo=" + loginMember.memberNo)
+			.then((data) => {
+				setMembership(data.data);
+			}).catch((error) => {
+				console.log(error);
+				alert("회원의 멤버십을 불러오지 못했습니다");
+			})
+		}
 	}, []);
 
 	/**
@@ -40,24 +55,31 @@ export default function MemberInfoMin(props) {
 	 */
 	function printTargetGrade() {
 		let currentGradeIndex;
-		let nextGradeName;
+		let nextGrade;
 
 		if(gradeList) {
 			currentGradeIndex = gradeList.findIndex((grade) => grade.gradeNo === loginMember?.grade?.gradeNo);
-			nextGradeName = currentGradeIndex === 5 || currentGradeIndex === gradeList.length - 1 ? gradeList[currentGradeIndex]?.gradeName : gradeList[currentGradeIndex + 1]?.gradeName;
+			nextGrade = currentGradeIndex === 5 || currentGradeIndex === gradeList.length - 1 ? gradeList[currentGradeIndex]?.gradeName : gradeList[currentGradeIndex + 1];
 		}
 
 		return(<>
-			<h5>{nextGradeName} 까지 [{}]</h5>
+			<h5>{nextGrade?.gradeName} 까지 [{membership?.nextGradePrice.toLocaleString()}] 원 남았습니다</h5>
 		</>);
 	}
 
+	test = membership
 	return(<>
 		<div className="sideBarContent">
 			<h2>{loginMember.memberName} 님 환영합니다 !!!</h2>
 			
 			<h5>현재 등급 : {loginMember?.grade?.gradeName}</h5>
 			{printTargetGrade()}
+			<h5>사용 가능한 쿠폰 : [{membership?.remainCouponCount}] 장</h5>
+			<h5>사용 가능한 포인트 : [{loginMember.point}] 포인트</h5>
+			<span style={{display: 'flex', justifyContent: 'space-evenly'}}>
+				<Link to={"/buyer/mypage"} className="btn btn-secondary">마이페이지</Link>
+				<Link to={"/qna/listqna"} className="btn btn-secondary">문의</Link>
+			</span>
 		</div>
 	</>)
 }

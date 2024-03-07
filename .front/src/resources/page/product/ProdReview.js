@@ -31,10 +31,14 @@ export default function ProdReview(props) {
 				alert("상품의 리뷰를 불러오는 중 문제가 발생했습니다");
 			});
 		}
+
+		selectReviewList();
 	}, []);
 
-	useEffect(() => {
-		// 해당 상품의 리뷰 목록 조회
+	/**
+	 * 해당 상품의 리뷰 목록 조회
+	 */
+	function selectReviewList() {
 		axios.get("/product/review/" + prodNo)
 		.then((data) => {
 			setReviewList(data?.data);
@@ -42,7 +46,7 @@ export default function ProdReview(props) {
 			console.log(error);
 			alert("리뷰를 불러오는 중 문제가 발생했습니다");
 		});
-	}, [counter]);
+	}
 
 	/**
 	 * 각 리뷰별 평점 출력 fn
@@ -151,6 +155,8 @@ export default function ProdReview(props) {
 					console.log(error);
 					alert("리뷰 작성 중 문제가 발생했습니다");
 				});
+
+				selectReviewList();
 			} else {	// 리뷰 수정
 				let rating = ratingImages.current.findIndex((e) => e.src.split("/").reverse()[0].includes("no"));
 
@@ -166,7 +172,6 @@ export default function ProdReview(props) {
 					isTrueToSize: reviewInputs.current[6].value
 				}
 				
-				console.log(updReview);
 				axios.put("/product/review", updReview)
 				.then((data) => {
 					if(data) alert("리뷰가 수정되었습니다");
@@ -175,6 +180,7 @@ export default function ProdReview(props) {
 					console.log(error);
 					alert("리뷰 수정 중 문제가 발생했습니다");
 				});
+
 				cancleEditReview();
 			}
 			
@@ -182,6 +188,7 @@ export default function ProdReview(props) {
 			setReview({});
 			setCounter(counter + 1);
 		}
+
 		setValidated(!e.currentTarget.checkValidity());
 	}
 

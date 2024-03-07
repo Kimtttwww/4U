@@ -13,7 +13,7 @@
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
-  align-content: start; /* 여기를 추가했습니다. */
+  align-content: flex-start;
   min-width: 700px;
 }
 
@@ -23,7 +23,6 @@
   box-sizing: border-box;
  
   margin: 10px;
-  /*height: 400px;*/ /* 높이를 주석 처리했습니다. */
   display: flex;
   flex-direction: column;
   overflow: hidden;
