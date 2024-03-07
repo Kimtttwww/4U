@@ -10,6 +10,26 @@
 			select="selectProdImageList" column="PROD_NO" />
 	</resultMap>
 	
+	<select id="sellerList" resultType="product">
+		SELECT *
+		FROM PRODUCT
+		JOIN CATE_SUB USING (CATE_SUB)
+		JOIN CATE_MAIN USING (CATE_MAIN)
+		ORDER BY PROD_NO ASC
+	</select>
+	
+	<update id="sellerListUpdate">
+		UPDATE PRODUCT
+		SET STATUS = 'N'
+		WHERE PROD_NO = #{prodNo}
+	</update>
+	
+	<update id="sellerListYUpdate">
+		UPDATE PRODUCT
+		SET STATUS = 'Y'
+		WHERE PROD_NO = #{prodNo}
+	</update>
+	
 	
 	<select id="selectProductList" parameterType="map" resultMap="productResultSet">
 		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS

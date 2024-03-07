@@ -58,6 +58,11 @@ public class OrderController {
 	private IamportClient iamportClient;
 //	private boolean couponIssued = false;
 	
+	@GetMapping("/sellerAllOrder")
+	public List<Order> sellerAllOrder() {
+		return service.sellerAllOrder();
+	}
+	
 	@GetMapping("/selectAllOrder")
 	public List<Order> selectAllOrder() {
 		return service.selectAllOrder();

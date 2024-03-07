@@ -18,7 +18,7 @@ export default function SellerMyPage (){
                 <Link to="/sellerMypage/management" onClick={() => handleClick("/sellerMypage/management")} className={sideColor === "/sellerMypage/management" ? "side-area-color" : ""}>상품 관리</Link>
                 <Link to="/sellerMypage/review" onClick={() => handleClick("/sellerMypage/review")} className={sideColor === "/sellerMypage/review" ? "side-area-color" : ""}>리뷰 관리</Link>
                 <Link to="">정보 관리</Link>
-                <Link to="">주문 통계</Link>
+                <Link to="/sellerMypage/stats" onClick={() => handleClick("/sellerMypage/stats")} className={sideColor === "/sellerMypage/stats" ? "side-area-color" : ""}>주문 통계</Link>
             </div>
             <Outlet></Outlet>
         </div>

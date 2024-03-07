@@ -1,9 +1,72 @@
 import { Link } from "react-router-dom";
 import "../../css/sellerMyPage/SellerManagement.css";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function SellerManagement() {
 
+    const [product, setProduct] = useState([]);
+    const [searchTerm, setSearchTerm] = useState('');
+    const [searchResults, setSearchResults] = useState([]);
 
+    const fetchProduct = async () => {
+        try {
+            const response = await axios.get('/product/sellerList');
+            setProduct(response.data);
+        } catch (error) {
+            console.error('상품 정보 에러:', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchProduct();
+    }, [])
+
+
+    const changeNStatus = async (prodNo) => {
+        try {
+            const response = await axios.put(`/product/sellerListUpdate/${prodNo}`, { status: 'N' });
+    
+            if (response.status === 200) {
+                const updatedProducts = await axios.get('/product/sellerList');
+                setProduct(updatedProducts.data);
+            }
+        } catch (error) {
+            console.error('상품 정보 업데이트 에러' ,error);
+        }
+    };
+
+    const changeYStatus = async (prodNo) => {
+        try {
+            const response = await axios.put(`/product/sellerListYUpdate/${prodNo}`, { status: 'Y' });
+    
+            if (response.status === 200) {
+                const updatedProducts = await axios.get('/product/sellerList');
+                setProduct(updatedProducts.data);
+            }
+        } catch (error) {
+            console.error('상품 정보 업데이트 에러' ,error);
+        }
+    };
+
+    const handleInputChange = (event) => {
+        setSearchTerm(event.target.value);
+    };
+
+      // 입력 항목에서 키 입력 이벤트 처리
+    const handleKeyPress = (event) => {
+        // event.key 또는 event.code를 사용하여 엔터 키를 체크
+        if (event.key === 'Enter' || event.code === 'Enter') {
+        handleSearch();
+        }
+    };
+
+    const handleSearch = () => {
+        const results = product.filter(product => 
+            product.prodName.toLowerCase().includes(searchTerm.toLowerCase())
+        );
+        setSearchResults(results);
+    };
 
     return (
         <div className="SellerManagement">
@@ -12,8 +75,15 @@ export default function SellerManagement() {
             </div>
             <div className="seller-search">
                 <div>
-                    <input type="text" className="seller-search-input" placeholder="상품을 검색하세요." />
-                    <button type="submit">검색</button>
+                    <input 
+                        type="text" 
+                        className="seller-search-input" 
+                        placeholder="상품을 검색하세요." 
+                        value={searchTerm}
+                        onChange={handleInputChange}
+                        onKeyPress={handleKeyPress}
+                    />
+                    <button type="submit" onClick={handleSearch}>검색</button>
                 </div>
                 <Link to={"/sellerMypage/management/registration"}>
                     <button>상품 등록</button>  
@@ -34,66 +104,20 @@ export default function SellerManagement() {
                         </tr>
                     </thead>
                     <tbody>
+                    {(searchTerm ? searchResults : product).map(product => (
                         <tr>
-                            <td>1</td>
-                            <td>1</td>
-                            <td>24-01-03 21:45</td>
-                            <td>껌붙은 청바지</td>
-                            <td>126,000</td>
-                            <td>90,000</td>
-                            <td>23</td>
-                            <td>Y</td>
+                            <td>{product.cateMain}:{product.mainName}</td>
+                            <td>{product.cateSub}:{product.subName}</td>
+                            <td>{product.uploadDate}</td>
+                            <td>{product.prodName}</td>
+                            <td>{product.price.toLocaleString()}</td>
+                            <td>{product.discountRate === 0 ? "X" : (product.price * (1 - product.discountRate / 100)).toLocaleString()}</td>
+                            <td>{product.ordered}</td>
+                            <td>{product.status}</td>
+                            <button onClick={() => changeYStatus(product.prodNo)}>Y</button>
+                            <button onClick={() => changeNStatus(product.prodNo)}>N</button>
                         </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>2</td>
-                            <td>24-01-03 20:55</td>
-                            <td>뜯겨진 패딩</td>
-                            <td>50,000</td>
-                            <td>x</td>
-                            <td>5</td>
-                            <td>Y</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>3</td>
-                            <td>24-01-03 19:12</td>
-                            <td>찢어진 티셔츠</td>
-                            <td>65,200</td>
-                            <td>51,000</td>
-                            <td>26</td>
-                            <td>N</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>4</td>
-                            <td>24-01-03 14:01</td>
-                            <td>구멍난 양말</td>
-                            <td>3,000</td>
-                            <td>x</td>
-                            <td>25</td>
-                            <td>Y</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>4</td>
-                            <td>24-01-03 13:55</td>
-                            <td>찢어진 양말</td>
-                            <td>3,000</td>
-                            <td>x</td>
-                            <td>2</td>
-                            <td>Y</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>4</td>
-                            <td>24-01-03 13:41</td>
-                            <td>얼룩진 티셔츠</td>
-                            <td>3,000</td>
-                            <td>x</td>
-                            <td>4</td>
-                            <td>Y</td>
-                        </tr>
+                    ))}
                     </tbody>
                 </table>
             </article>
