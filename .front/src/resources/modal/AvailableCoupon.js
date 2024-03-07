@@ -20,7 +20,7 @@ export default function AvailableCoupon({ show, closeModal, loginUser, userCoupo
     };
 
     return (
-        <Modal show={show} >
+        <Modal show={show} className='coupon-modal'>
             <div className="modal-dialog">
                 <div className="modal-content">
                     <div className="modal-header">
@@ -28,32 +28,36 @@ export default function AvailableCoupon({ show, closeModal, loginUser, userCoupo
                     </div>
                     <div className="modal-body">
                         <div>
-                        {
-                            JSON.stringify(userCoupon) === '{}' ?
-                                ("") : 
-                                (
-                                    userCoupon?.filter(item => item.status === 'Y').map((item, index) => (
-                                        <div key={index} >
-                                            <input type='radio' name={"checkedCoupon"}
-                                                checked={checkCoupon === item.couponNo}
-                                                onChange={() => checkCouponHadler(item.couponNo)}
-                                                value={item.couponNo} />
-                                            <span>
-                                                {item.couponName + " | "}
-                                                {item.discount == 0 ? item.discountRate + "%" : item.discount + "원"}
-                                                {"만료일 : " + item.validityDate}
-                                            </span>
-                                        </div>
-                                    ))
-                                )
-                        }
+                            {
+                                JSON.stringify(userCoupon) === '{}' ?
+                                    <div>사용가능한 쿠폰이 없습니다.</div> :
+                                    (
+                                        userCoupon?.filter(item => item.status === 'Y' || new Date(item.validityDate) > new Date()).map((item, index) => (
+                                            <div key={index} className='coupon-no'>
+                                                <div>
+                                                    <input type='radio' name={"checkedCoupon"}
+                                                        checked={checkCoupon === item.couponNo}
+                                                        onChange={() => checkCouponHadler(item.couponNo)}
+                                                        value={item.couponNo} />
+                                                    <span>
+                                                        {item.couponName}
+                                                        <span className='coupon-no-between'>{" | "}</span>
+                                                        {item.discount == 0 ? item.discountRate + "%" : item.discount + "원"}
+                                                    </span>
+                                                </div>
+                                                <div className='coupon-validityDate'>
+                                                    {"만료일 : " + item.validityDate}
+                                                </div>
+                                            </div>
+                                        ))
+                                    )
+                            }
                         </div>
-
                     </div>
-                    <div className="modal-footer">
-                        <Button type="button" className="btn btn-primary" variant="info"
-                            onClick={getUseCoupon}>사용하기</Button>
-                        <Button type="button" className="btn btn-secondary" variant="info"
+                    <div className="modal-footer coupon-modal-footer">
+                        <Button type="button" className="btn btn-primary change-option-submit"
+                            onClick={getUseCoupon}>적용</Button>
+                        <Button type="button" className="btn btn-secondary change-option-cancel"
                             onClick={closeModal}>취소</Button>
                     </div>
                 </div>

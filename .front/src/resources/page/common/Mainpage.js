@@ -33,7 +33,7 @@ export default () => {
     setProduct(product);  // 클릭한 상품으로 product 상태 업데이트
     setShowDetail(true);  // 모달창 띄우기
   };
-  
+
   // leftBar에서 subCate 선택시 스타일부여
   const subCateClicked = (subNo) => {
   };
@@ -147,37 +147,37 @@ export default () => {
       {/* ===========================================베스트 스타일==================================================== */}
 
       <h2 style={{ textAlign: "center", color: "pink", ...blinkStyle }}>민구가 선점한 제일 핫해!!!</h2>
-      <h1 style={{ textAlign: "center", fontFamily: "cursive" }}>Best Style</h1>
+      <h1 style={{ textAlign: "center", fontFamily: "JalnanGothic" }}>Best Style</h1>
 
       <div className='clothListBox'>
-      {prodList?.length ? prodList.map((prod) =>{
-        return (
-          <div className='clothList'  onClick={() => handleProductClick(prod)}>
-            <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
-            <div className='clothContent'>
-              <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
-              <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
-              <p> 가격: {checkDiscount(prod)}</p>
+        {prodList?.length ? prodList.map((prod) => {
+          return (
+            <div className='clothList' onClick={() => handleProductClick(prod)}>
+              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
+              <div className='clothContent'>
+                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
+                <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
+                <p> 가격: {checkDiscount(prod)}</p>
+              </div>
             </div>
-          </div>
-        );
-      }) : <div>선택한 상품이 없습니다</div>}
+          );
+        }) : <div>선택한 상품이 없습니다</div>}
       </div> {/* 이 부분에 닫는 태그를 추가했습니다. */}
     </div>
 
     {/* =============================================아우터====================================================== */}
 
     <div className='container'>
-      <h1 style={{ textAlign: "center", fontFamily: "cursive" }}>Outer</h1>
+      <h1 style={{ textAlign: "center", fontFamily: "JalnanGothic" }}>Outer</h1>
 
       <div className='clothListBox'>
-        {outerList?.length ? outerList.map((prod) =>{
+        {outerList?.length ? outerList.map((prod) => {
           return (
             <div className='clothList' onClick={() => handleProductClick(prod)}>
-              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
+              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
               <div className='clothContent'>
-                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
-                <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
+                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
+                <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
@@ -190,16 +190,16 @@ export default () => {
     {/* ===================================================상의============================================================= */}
 
     <div className='container'>
-      <h1 style={{ textAlign: "center", fontFamily: "cursive" }}>Top</h1>
+      <h1 style={{ textAlign: "center", fontFamily: "JalnanGothic" }}>Top</h1>
 
       <div className='clothListBox'>
-        {topList?.length ? topList.map((prod) =>{
+        {topList?.length ? topList.map((prod) => {
           return (
             <div className='clothList' onClick={() => handleProductClick(prod)}>
-              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
+              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
               <div className='clothContent'>
-                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
-                <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
+                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
+                <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
@@ -211,16 +211,16 @@ export default () => {
     {/* ===================================================하의============================================================= */}
 
     <div className='container'>
-      <h1 style={{ textAlign: "center", fontFamily: "cursive" }}>Bottom</h1>
+      <h1 style={{ textAlign: "center", fontFamily: "JalnanGothic" }}>Bottom</h1>
 
       <div className='clothListBox'>
-        {bottomList?.length ? bottomList.map((prod) =>{
+        {bottomList?.length ? bottomList.map((prod) => {
           return (
             <div className='clothList' onClick={() => handleProductClick(prod)}>
-              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
+              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
               <div className='clothContent'>
-                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
-                <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
+                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
+                <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
@@ -232,16 +232,16 @@ export default () => {
 
     {/* ===================================================언더웨어============================================================= */}
     <div className='container'>
-      <h1 style={{ textAlign: "center", fontFamily: "cursive" }}>UnderWear</h1>
+      <h1 style={{ textAlign: "center", fontFamily: "JalnanGothic" }}>UnderWear</h1>
 
       <div className='clothListBox'>
-        {underList?.length ? underList.map((prod) =>{
+        {underList?.length ? underList.map((prod) => {
           return (
             <div className='clothList' onClick={() => handleProductClick(prod)}>
-              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
+              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
               <div className='clothContent'>
-                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
-                <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
+                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
+                <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
@@ -253,16 +253,16 @@ export default () => {
 
     {/* ===================================================악세서리============================================================= */}
     <div className='container'>
-      <h1 style={{ textAlign: "center", fontFamily: "cursive" }}>Accessories</h1>
+      <h1 style={{ textAlign: "center", fontFamily: "JalnanGothic" }}>Accessories</h1>
 
       <div className='clothListBox'>
-        {accList?.length ? accList.map((prod) =>{
+        {accList?.length ? accList.map((prod) => {
           return (
             <div className='clothList' onClick={() => handleProductClick(prod)}>
-              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img"/>
+              <img src={prod.image.find((img) => img.imgType === 1)?.imgName} alt={prod.prodName} className="prod-img" />
               <div className='clothContent'>
-                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold"}}>{prod.prodName}</h2>
-                <p style={{ fontSize: "12px"}}>{prod.prodCap}</p>
+                <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
+                <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
               </div>
             </div>
@@ -270,7 +270,7 @@ export default () => {
         }) : <div>선택한 상품이 없습니다</div>}
       </div> {/* 이 부분에 닫는 태그를 추가했습니다. */}
     </div>
-    
+
     {/* ProdDetail 컴포넌트에 필요한 props 전달 */}
     {showDetail && <ProdDetail showDetail={showDetail} setShowDetail={setShowDetail} product={product} />}
 

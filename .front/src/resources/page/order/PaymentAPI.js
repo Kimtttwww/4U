@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 
 export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderProd, prodImgs }) {
 
-
     const navi = useNavigate();
     const [orderNo, setOrderNo] = useState(0);
     const { memberNo, memberName, address, addressDetail, email, phone, zipCode, gradeNo } = userInfo;
@@ -17,12 +16,10 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
     useEffect(() => {
         const script1 = document.createElement("script");
         script1.src = "https://code.jquery.com/jquery-1.12.4.min.js";
-
         document.head.appendChild(script1);
 
         const script2 = document.createElement("script");
         script2.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
-
         document.head.appendChild(script2);
 
         // OrderNo Setting
@@ -33,7 +30,6 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
             document.head.removeChild(script2);
         };
     }, []);
-
 
 
     let prodName = "";
@@ -48,6 +44,7 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
     const zip = (changeInfo.zipCode == "") ? userInfo.zipCode : changeInfo.zipCode;
     const couponNo = Object.keys(applyCoupon).length > 0 ? applyCoupon.couponNo : 0;
     const payPrice = totalPrice - discountPrice - applyPoint;
+
 
     const insertToDb = async (insertData) => {
         const responseData = await insertOrderAPI(insertData);
@@ -128,10 +125,10 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
                     price: getObjData(orderProd, 'price'),
                     gradeNo: gradeNo,
                 };
-
                 insertToDb(insertData);
                 console.log("orderData ?", orderData);
                 console.log("insertData ?", insertData);
+                Cookies.remove("cart");
                 navi('/order/payment', {
                     state: {
                         payData: orderData, userInfo: userInfo, changeInfo: changeInfo, orderProd: orderProd,
@@ -147,30 +144,22 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
     // 결제하기 버튼 클릭시 
     const paymentReq = (data, e) => {
 
-        // e.preventDefault();
-        // if (!phone || !address || !addressDetail) {
-        //     alert("배송정보가 모두 입력되지 않았습니다.");
-        //     return;
-        // }
+        if (!(receiverName || memberName) || (!(phone1 || phone2 || phone3)
+            || phone) || !(userInfo.address || changeInfo.address)
+            || !(userInfo.addrDetail || changeInfo.addrDetail)) {
+            alert("배송정보가 모두 입력되지 않았습니다.");
+            return;
+        };
 
-        // const newWindew = window.open(
-        //     "",
-        //     "_blank",
-        //     "width=500, height=500"
-        // );
         console.log(data);
         console.log(orderData);
 
-
         requestPay();
-
-    }
+    };
 
 
 
     return (
-        <div>
-            <button onClick={paymentReq}>결제하기</button>
-        </div >
+        <button onClick={paymentReq}>결제하기</button>
     );
 }

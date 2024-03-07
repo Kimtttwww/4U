@@ -91,23 +91,28 @@ export default function Order({ loginUser }) {
 
 	const checkDiscount = (item) => {
 		let element;
-
 		if (item.discountRate) {
 			let saledPrice = item.price * (100 - item.discountRate) / 100;
 			element = (
 				<>
-					<span>\{(item.price)}</span>
-					<span>\{saledPrice}</span>
+					<div className="prod-discount-style">{(item.price).toLocaleString()}원</div>
+					<div>{saledPrice.toLocaleString()}원</div>
 				</>
 			);
-		} else { element = (<span>\{(item.price)}</span>); }
+		} else { element = (<span>{(item.price).toLocaleString()}원</span>); }
 		return element;
 	};
 
 	const checkTotalPrice = (item) => {
-
+		let element;
+		if (item.discountRate) {
+			let saledPrice = ((item.price * (100 - item.discountRate) / 100) * item.count).toLocaleString()
+			element = (<span>{saledPrice}</span>);
+		} else { element = (<span>{(item.price * item.count).toLocaleString()}</span>); }
+		return element;
 	}
 
+	//parseInt
 	// 해당 상품의 수량 증가
 	const increaseCount = (index) => {
 		const prodCount = orderProd[index].count++;
@@ -349,17 +354,16 @@ export default function Order({ loginUser }) {
 			<table className="order-prod-table">
 				<thead>
 					<tr>
-						<td className="order-table-width">이미지</td>
-						<td>상품명</td>
-						<td className="order-table-width">옵션</td>
-						<td className="order-table-width">상품금액</td>
-						<td className="order-table-width">수량</td>
-						<td className="order-table-width">주문금액</td>
-						<td className="order-table-width">삭제</td>
+						<td style={{ width: "10%" }}>이미지</td>
+						<td style={{ width: "43%" }}>상품명</td>
+						<td style={{ width: "11%" }}>옵션</td>
+						<td style={{ width: "10%" }}>상품금액</td>
+						<td style={{ width: "8%" }}>수량</td>
+						<td style={{ width: "10%" }}>주문금액</td>
+						<td style={{ width: "8%" }}>삭제</td>
 					</tr>
 				</thead>
 				<tbody>
-
 					{
 						orderProd?.map((item, index) => {
 							return (
@@ -380,39 +384,38 @@ export default function Order({ loginUser }) {
 											closeModal={closeModal}
 											orderProd={orderProd[orderIndex]} />
 									</td>
-									<td>
-										{/* {(item.price).toLocaleString()}원 */}
-										{checkDiscount(item)}
-									</td>
+									<td className="table-price">{checkDiscount(item)}</td>
 									<td className="countTdTag">
-										<div>
+										<div className="prod-price-style">
 											{item.count}
 										</div>
 										<div className="updownButton">
 											<img src="/photo/order-up.png"
-												style={{ width: "30px" }}
+												style={{ width: "20px" }}
 												onClick={() => increaseCount(index)} />
 											<img src="/photo/order-down.png"
-												style={{ width: "30px" }}
+												style={{ width: "20px" }}
 												onClick={() => decreaseCount(index)} />
 										</div>
 									</td>
-									<td>{(item.price * item.count).toLocaleString()}원</td>
+									<td>{(checkTotalPrice(item))}원</td>
 									<td>
 										<img src="/photo/order-x.png"
-											style={{ width: "30px" }}
+											style={{ width: "25px" }}
 											onClick={() => orderDelete(item.prodNo)} />
 									</td>
 								</tr>
+
 							);
 						})
 					}
 				</tbody>
 			</table>
+
 			<span className="totalPrice">총 주문금액 {totalPrice.toLocaleString()}원</span>
 
-			<span className="order-delivery-title">배송정보</span>
 			<div className="delivery-info">
+				<span className="order-delivery-title">배송정보</span>
 				<div className="ordererInfo">
 					<input type="checkbox" id="" name="ordererInfo"
 						checked={userInfoChecked} onChange={checkedHandler}
@@ -428,7 +431,7 @@ export default function Order({ loginUser }) {
 					</div>
 
 					<div className="receiver-input">
-						<input type="text" id="userName" name="receiverName"
+						<input type="text" id="userName" name="receiverName" placeholder="입력해주세요"
 							className="margin" value={userInfoChecked ? userInfo?.memberName : inputChange.receiverName}
 							onChange={inputChangeHandler}
 						/>
@@ -441,14 +444,13 @@ export default function Order({ loginUser }) {
 								<option value="011">011</option>
 								<option value="019">019</option>
 							</select>
-							-
+							<span>-</span>
 							<input type="number" id="phone2" name="phone2"
 								value={userInfoChecked ? (userInfo?.phone).split('-')[1] : inputChange?.phone2} maxLength={4}
 								onChange={inputChangeHandler} />
-							-
+							<span>-</span>
 							<input type="number" id="phone3" name="phone3"
 								value={userInfoChecked ? (userInfo?.phone).split('-')[2] : inputChange?.phone3} maxLength={4}
-								// onChange={(e) => phonePartsHandler(2, e.target.value)} />
 								onChange={inputChangeHandler} />
 						</div>
 
@@ -459,7 +461,8 @@ export default function Order({ loginUser }) {
 
 								<button type="button" onClick={toggleModal} className="btn btn-primary">주소 찾기</button>
 								{/* Daum 주소 API 컴포넌트 */}
-								<Modal id="modal" show={modalState} onHide={handleModalClose} dialogClassName='DaumModal' >
+								<Modal id="modal" show={modalState} onHide={handleModalClose}
+									dialogClassName='DaumModal' className="addressAPI-modal">
 									<AddressAPI onCompletePost={onCompletePost} />
 								</Modal>
 							</div>
@@ -482,7 +485,6 @@ export default function Order({ loginUser }) {
 									deliMessage?.map((msg, index) =>
 										<option key={index} value={msg.value ? msg.value : delMsg}>{msg.value}</option>
 									)
-
 								}
 							</select>
 						</div>
@@ -490,8 +492,8 @@ export default function Order({ loginUser }) {
 				</div>
 			</div>
 
-			<span className="order-paymentInfo-title">결제정보</span>
 			<div className="paymnet-area">
+				<span className="order-paymentInfo-title">결제정보</span>
 				<div className="payment-left">
 					<div className="order-paymentInfo-content">
 						<div className="payment-info">
@@ -503,14 +505,11 @@ export default function Order({ loginUser }) {
 							</div>
 							<div className="payment-discount">
 								<div>{totalPrice.toLocaleString()}원</div>
-								<div className="myCoupon-view">
+								<div className="payment-discount-view">
 									<input type="number" style={{ width: '80px' }} readOnly
-										value={
-											discountPrice
-										} />원
-
+										value={discountPrice} />원
 									<Button type="button" variant="secondary"
-										style={{ width: '130px', height: '25px', fontSize: '10px', padding: '0', marginLeft: '10px' }}
+										style={{ width: '130px', height: '25px', fontSize: '11px', padding: '0', marginLeft: '10px' }}
 										onClick={openCouponModal}>
 										사용가능한 쿠폰보기
 									</Button>
@@ -518,11 +517,11 @@ export default function Order({ loginUser }) {
 										loginUser={loginUser} userCoupon={userCoupon}
 										sendCoupon={couponHandler} />
 								</div>
-								<span>
+								<div className="payment-discount-view">
 									<input type="number" style={{ width: '80px' }} id="applyPoint"
 										value={pointAllChecked ? userInfo.point : applyPoint}
 										onChange={pointHandler} max={userInfo.point} min={0} />원
-								</span>
+								</div>
 								<div>
 									<span style={{ marginRight: '10px' }}>{userInfo.point}원</span>
 									<input type="checkbox" checked={pointAllChecked}
@@ -546,35 +545,16 @@ export default function Order({ loginUser }) {
 							</span>)
 						</div>
 					</div>
-
-					{/* <span className="order-payment-title">결제하기</span> */}
-					{/* <div className="payment-method">
-						<button>카드결제</button>
-						<button>무통장입금</button>
-						<button>페이결제</button>
-					</div> */}
 				</div>
-
-
 			</div>
-			{/* <div className="payment-right">
-				<div className="payment-right-content">
-					<p>최종 결제금액</p>
-					<div>
-						<div>
-							{(totalPrice - discountPrice - applyPoint).toLocaleString()}원
-						</div>
-					</div>
-				</div>
-			</div> */}
+
 			<div className="payBtn-div">
 				<PaymentAPI
 					userInfo={userInfo}
 					dataByPayment={dataByPayment} //쿠폰,포인트,배송메세지, 할인전 총금액, 할인금액 
 					changeInfo={inputChange} // 새로운 배송지정보
 					orderProd={orderProd} //주문하는 상품
-					prodImgs={prodImgs}
-				/>
+					prodImgs={prodImgs} />
 			</div>
 		</div>
 
