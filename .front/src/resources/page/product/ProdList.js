@@ -7,7 +7,6 @@ import { mainCateListAPI, subCateListAPI } from "../common/LeftbarAPI";
 import { useParams } from "react-router";
 import Leftmenubar from "../../components/Leftmenubar";
 import { Link } from "react-router-dom";
-import Rightmenubar from "../../components/Rightmenubar";
 import Cookies from "js-cookie";
 import { checkDiscount } from "../common/ProdDetailAPI";
 

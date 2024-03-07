@@ -4,10 +4,13 @@ import axios from "axios";
 import "../css/common/Rightbar.css";
 import Cookies from "js-cookie";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
+import MemberInfoMin from "./MemberInfoMin";
 
 export default function Rightmenubar() {
 	const [isSidebarOpen, setSidebarOpen] = useState(false);
 	const [filterList, setFilterList] = useState(null);
+	const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
+	const [showMemberInfo, setShowMemberInfo] = useState(false);
 	const navigate = useNavigate();
 	// ===================================================
 	const [cateMainList, setCateMainList] = useState([]);
@@ -22,7 +25,6 @@ export default function Rightmenubar() {
 	useEffect(() => {
 		axios.get("/product/category") // 컨트롤러 주소
 		.then(response => {
-			test = response.data
 			setFilterList(response.data);
 		});
 	}, []);
@@ -108,7 +110,7 @@ export default function Rightmenubar() {
 		Cookies.set("prodFilter", JSON.stringify(prodFilter));
 		navigate("/product/list");
 	};
-	
+
 	const scrollToTop = () => {
 		window.scrollTo({
 			top: 0,
@@ -133,11 +135,11 @@ export default function Rightmenubar() {
 	function colorTooltip(props, colorName) {
 		return(<Tooltip id="button-tooltip" {...props}>{colorName}</Tooltip>);
 	}
-	
+
   	return (<>
 		<div className={`rightBar ${isSidebarOpen ? "open" : ""}`}>
 		 	<span onClick={() => setSidebarOpen(!isSidebarOpen)}><i>&#128269;</i></span>
-			<span><i>&#x1F604;</i></span>
+			<span onClick={() => setShowMemberInfo(!showMemberInfo)}><i>&#x1F604;</i></span>
 			<span onClick={scrollToTop}><i>&#x2B06;</i></span>
 			<span onClick={scrollToBottom}><i>&#x2B07;</i></span>
 		</div>
@@ -212,8 +214,11 @@ export default function Rightmenubar() {
 					))}
 				</div>
 				<br/>
+				
 	 			<button className="cateButton" onClick={handleButtonClick}>상품찾기</button>
 			</div>
 		)}
+
+		{loginMember && showMemberInfo && <MemberInfoMin loginMember={loginMember} setLoginMember={setLoginMember} showMemberInfo={showMemberInfo} setShowMemberInfo={setShowMemberInfo} />}
 	</>);
 }

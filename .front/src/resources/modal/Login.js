@@ -9,12 +9,12 @@ import Cookies from "js-cookie";
  * @props props
  * 	@param {boolean} showLogin 로그인 모달창의 표시 여부 state
  * 	@param {function} setShowLogin 로그인 모달창의 표시 여부 state's setter fn
- * 	@param {function} setLogin 로그인 된 사용자 정보를 가지고 있는 state's setter fn
+ * 	@param {function} setLoginMember 로그인 된 사용자 정보를 가지고 있는 state's setter fn
  * @todo 세션스토리지 -> 쿠키로 작업 필요
 */
 export default function Login(props) {
 	
-	const {showLogin, setShowLogin, setLogin} = props;
+	const {showLogin, setShowLogin, setLoginMember} = props;
 	const [member, setMember] = useState({memberId: '', memberPwd: ''});
 	const [showTooltip, setShowTooltip] = useState(false);
 	const inputs = useRef([]);
@@ -75,7 +75,7 @@ export default function Login(props) {
 					const loginMember = JSON.stringify(result.data);
 					
 					Cookies.set('loginMember', loginMember);
-					setLogin(result.data);
+					setLoginMember(result.data);
 					setShowLogin(false);
 				} else {
 					setMember({memberId: '', memberPwd: ''});

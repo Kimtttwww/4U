@@ -1,6 +1,7 @@
 package kr.cl.forU.member.controller;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,12 +11,12 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
 import jakarta.servlet.http.HttpServletResponse;
 import kr.cl.forU.member.model.service.MemberService;
+import kr.cl.forU.member.model.vo.Grade;
 import kr.cl.forU.member.model.vo.Member;
 import lombok.extern.slf4j.Slf4j;
 
@@ -36,8 +37,8 @@ public class MemberController {
 	 */
 	@PostMapping("/login")
 	public Member selectMemberSoft(@RequestBody Member m) {
-		
 		Member member = service.MemberIdMatch(m.getMemberId());
+		
 		if(member != null && passwordEncoder.matches(m.getMemberPwd(), member.getMemberPwd())) {
 			member.setMemberPwd(null);
 			return member;
@@ -116,22 +117,24 @@ public class MemberController {
 		Member member = service.MemberIdMatch(memberId);
 		log.info("\nddd = {}", member);
 		if (member == null) {
-			
-			
 			return null;
-			
 			// 데이터 안에 없을때
 			
 		} else {
-			
-			
 			return member;
-			
 			// 데이터 안에 있을때
 		}
 		
 	}
 	
+	/**
+	 * 회원등급 목록 조회
+	 * @return 회원 목록
+	 */
+	@GetMapping("grade")
+	public List<Grade> selectGradeList() {
+		return service.selectGradeList();
+	}
 	
 	
 	

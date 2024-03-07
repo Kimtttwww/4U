@@ -5,6 +5,7 @@ import { useRef, useState } from "react";
 import { number } from "prop-types";
 import ProdReview from "../page/product/ProdReview";
 import { checkDiscount } from "../page/common/ProdDetailAPI";
+import { Link } from "react-router-dom";
 
 /**
  * 상품 상세 모달창
@@ -237,6 +238,7 @@ export default function ProdDetail(props) {
 						<Overlay target={cartBtn} show={showTooltip} placement="top">
 							{(props) => (<Tooltip {...props}>장바구니에 추가되었습니다</Tooltip>)}
 						</Overlay>
+						<Link to='cart/CartList/' className="btn btn-secondary">장바구니 보러 가기</Link>
 					</article>
 				</section>
 			</Modal.Body>
