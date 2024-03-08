@@ -22,6 +22,7 @@ export default function BuyerMyPage() {
   const [listQna, setListQna] = useState([]);
   const [showDetail, setShowDetail] = useState(false);
   const [product, setProduct] = useState(null);
+  const [member, setMember] = useState({});
   const navi = useNavigate();
 
 	// 세션 저장소에서 로그인 정보 가져오기
@@ -129,23 +130,43 @@ const handleProductClick = product => {
   const [passwordCheck, setPasswordCheck] = useState("");
   const [PassWord , setPassWord] = useState("");
 
-  
+  function changeMember(e) {
+    if(member) {
+        setMember({...member, [e.target.name]: e.target.value});
+        // 키밸류 형태
+    }
+    console.log(member);
+}
+
+
   const handlePasswordCheck = async () => {
-    // try {
-    //   const response = await axios.post('/member/login')
-    //     setPassWord(response.data);
-    //     console.log(response.data)
-    //   if(PassWord === passwordCheck) {
-    //     alert('비밀번호 일치');
-    //     <Link to={'/orderPage'} >OrderPage</Link>
-    //   } else {
-    //     alert('비밀번호 불일치');
-    //     <Link to={'/orderPage'} >OrderPage</Link>
-    //   }
-    // } catch (error) { 
-    //   console.error('멤버 로드 오류:', error); // 오류 발생 시 콘솔에 오류 메시지 출력
-    // }
-    navigate('/buyer/mypage/myEdit');
+
+    setMember({...member});
+
+    const loginMember = Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null;
+    
+    let Memberinfo = {
+      "memberId" : loginMember.memberId, // 로그인된 멤버의 멤버 아이디를 가져옴
+      "memberPwd" : member.memberPwd // 내가 친 패스워드를 가져옴
+    }
+
+    console.log(MemberInfo.memberPwd);
+    console.log(MemberInfo.memberId);
+    
+    try {
+      const response = await axios.post('/member/login', Memberinfo)
+      setPassWord(response.data);
+      console.log(response.data);
+      if(response.data) {
+        alert('비밀번호 일치');
+        navigate('/buyer/mypage/myEdit');
+      } else {
+        alert('비밀번호 불일치');
+        navigate('/buyer/mypage')
+      }
+    } catch (error) { 
+      console.error('멤버 로드 오류:', error); // 오류 발생 시 콘솔에 오류 메시지 출력
+    }
   };
 
   return (
@@ -177,10 +198,8 @@ const handleProductClick = product => {
                         
                             <h1>비밀번호 확인</h1>
                         <Modal.Body>
-                            비밀번호 : <br/> <input type='password' 
-                            placeholder='비밀번호를 입력하세요.'
-                            onChange={(e) => setPasswordCheck(e.target.value)}
-                            />
+                        <input type="password" id="disabledTextInput" className="form-control" name = "memberPwd"  onChange={changeMember}
+         style={{ width: '250px' }}/>
                         </Modal.Body>
                         
                         <Modal.Footer>

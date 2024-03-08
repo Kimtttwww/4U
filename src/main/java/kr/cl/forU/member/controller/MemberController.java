@@ -114,9 +114,9 @@ public class MemberController {
 	
 	@CrossOrigin(origins = "https://localhost:3000")
 	@PostMapping("/editInfo")
-	public Map<String, Object> updateMember(@RequestBody Member m , HttpServletResponse res) {
+	public Map<String, Object> updateMember(@RequestBody Member m) {
 	
-		
+		log.info("\n{}",m);
 		String encodedPassword = passwordEncoder.encode(m.getMemberPwd());
 		m.setMemberPwd(encodedPassword);
 		
@@ -132,14 +132,15 @@ public class MemberController {
 		m.setPhone(phoneFinal);
 		log.info("\n 전화번호 = {}", m.getPhone());
 		
-		int result = service.insertMember(m);
+		int result = service.updateMember(m);
 		Map<String, Object> map = new HashMap<>();
 		
 		if(result > 0) {
-			map.put("msg", "회원가입 성공");
+			map.put("msg", "정보수정 성공");
 		} else {
-			map.put("msg", "메뉴 등록 실패");
+			map.put("msg", "정보수정 실패");
 		}
+		log.info("map로그 = {}", map);
 		return map;
 	}
 	
