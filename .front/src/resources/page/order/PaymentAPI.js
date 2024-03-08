@@ -8,8 +8,8 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
 
     const navi = useNavigate();
     const [orderNo, setOrderNo] = useState(0);
-    const { memberNo, memberName, address, addressDetail, email, phone, zipCode, gradeNo } = userInfo;
-    const { receiverName, phone1, phone2, phone3 } = changeInfo;
+    const { memberNo, memberName, email, phone, zipCode, gradeNo, pointRate } = userInfo;
+    const { receiverName, phone1, phone2, phone3, address, addressDetail } = changeInfo;
     const { applyCoupon, applyPoint, delMsg, discountPrice, totalPrice } = dataByPayment;
 
 
@@ -65,6 +65,9 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
         return responseArr;
     };
 
+    const accumulate = payPrice * (userInfo.pointRate / 100);
+
+
     getObjData(Cookies.get('cart') ? JSON.parse(Cookies.get('cart')) : [], 'index');
     // console.log(`${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`);
     // `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}` 
@@ -80,7 +83,8 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
                 pg: 'html5_inicis',                           // PG사
                 pay_method: 'card',                           // 결제수단 //가상계좌 vbank
                 merchant_uid: new Date().getTime(),   // 주문번호
-                amount: payPrice,                                 // 결제금액
+                amount: 100,
+                // payPrice,                                 // 결제금액
                 name: prodName,                             // 주문명
                 buyer_name: userInfo.memberName,                // 구매자 이름
                 buyer_tel: buyerTel,                     // 구매자 전화번호
@@ -104,7 +108,7 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
 
             if (success) {
                 alert('결제 성공');
-
+                // 
                 const insertData = {
                     memberNo: memberNo,
                     orderName: memberName,
@@ -124,6 +128,7 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
                     count: getObjData(orderProd, 'count'),
                     price: getObjData(orderProd, 'price'),
                     gradeNo: gradeNo,
+
                 };
                 insertToDb(insertData);
                 console.log("orderData ?", orderData);
@@ -144,17 +149,19 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
     // 결제하기 버튼 클릭시 
     const paymentReq = (data, e) => {
 
-        if (!(receiverName || memberName) || (!(phone1 || phone2 || phone3)
-            || phone) || !(userInfo.address || changeInfo.address)
-            || !(userInfo.addrDetail || changeInfo.addrDetail)) {
-            alert("배송정보가 모두 입력되지 않았습니다.");
-            return;
+        if (receiverName &&
+            phone1 && phone2 && phone3 &&
+            address &&
+            addrDetail) {
+            console.log(data);
+            console.log(orderData);
+
+            requestPay();
+
+        } else {
+
+            alert("배송정보가 모두 입력되지 않았습니다");
         };
-
-        console.log(data);
-        console.log(orderData);
-
-        requestPay();
     };
 
 

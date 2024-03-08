@@ -25,15 +25,19 @@ export default function Payment() {
     const receiverPhone = changePhone != null ? changePhone : phone
 
 
-    const getPointRate = async () => {
-        const response = await selectPointRateAPI(memberNo);
-        location.state.userInfo.pointRate = response;
-    };
+    // const getPointRate = async () => {
+    //     const response = await selectPointRateAPI(memberNo);
+    //     location.state.userInfo.pointRate = response;
+    // };
     const accumulate = paymentPrice * (pointRate / 100);
 
+    // useEffect(() => {
+    //     getPointRate();
+    // }, []);
+
     useEffect(() => {
-        getPointRate();
-    }, [])
+        console.log(accumulate);
+    }, [accumulate]);
 
 
     return (
@@ -92,8 +96,8 @@ export default function Payment() {
                         <span>{message}</span>
                     </div>
                     {/* 배송주소 변경 버튼 없앰? */}
-                    <Button type="button" style={{ height: '30px', display: 'flex' }}
-                        onClick={openModal}>배송정보 변경</Button>
+                    {/* <Button type="button" style={{ height: '30px', display: 'flex' }}
+                        onClick={openModal}>배송정보 변경</Button> */}
                     {/* <ChangeAddress show={changeAddress} closeModal={closeModal} /> */}
                 </div>
 
@@ -122,7 +126,7 @@ export default function Payment() {
                         <div className="payment-discount-content2">
                             <div>
                                 <div>적립예정액</div>
-                                <div>{accumulate > 0 ? accumulate : "로딩중.."}원</div>
+                                <div>{accumulate > 0 ? accumulate.toLocaleString() : "로딩중.."}원</div>
                             </div>
                             <ul>
                                 <li>주문/결제페이지에 안내된 적립예정액과 실제 지급적립액은 다를 수 있습니다.</li>

@@ -41,9 +41,14 @@ public class MemberService {
 		return dao.updateMemberGrade(m);
 	}
 
+	public int increasePoint(Member m) {
+		return dao.increasePoint(m);
+	}
+	
 	public int selectPointRate(int memberNo) {
 		return dao.selectPointRate(memberNo);
 	}
+
 
 
 	

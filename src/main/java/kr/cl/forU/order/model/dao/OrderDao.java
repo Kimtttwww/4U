@@ -66,8 +66,12 @@ public class OrderDao {
 		return session.selectOne("orderMapper.selectUserTotalPay", memberNo);
 	}
 
-	public int insertOrderNotice() {
-		return session.insert("orderMapper.insertOrderNotice");
+	public int insertOrderNotice(int memberNo) {
+		return session.insert("orderMapper.insertOrderNotice", memberNo);
+	}
+	
+	public int increasePoint(int memberNo) {
+		return session.insert("orderMapper.increasePoint");
 	}
 
 	public List<Order> selectOgOrder(int memberNo) {
@@ -77,6 +81,8 @@ public class OrderDao {
 	public List<Order> selectAllOrder() {
 		return session.selectList("orderMapper.selectAllOrder");
 	}
+
+	
 
 
 	

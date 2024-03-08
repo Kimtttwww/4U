@@ -22,10 +22,11 @@ export default function Order({ loginUser }) {
 		zipCode: "",
 		address: "",
 		addressDetail: ""
-	}
+	};
 
 	const navi = useNavigate();
 	const [orderProd, setOrderProd] = useState([]);
+	const [prodImgs, setProdImgs] = useState([]);
 	const [userInfo, setuserInfo] = useState({});
 	const [userInfoChecked, setuserInfoChecked] = useState(false);
 	const [phoneParts, setPhoneParts] = useState(['', '', '']);
@@ -58,7 +59,6 @@ export default function Order({ loginUser }) {
 		zipCode: "",
 		address: ""
 	});
-	const [prodImgs, setProdImgs] = useState([]);
 
 	const openModal = () => setisOptionChange(true);
 	const closeModal = () => setisOptionChange(false);
@@ -73,7 +73,6 @@ export default function Order({ loginUser }) {
 		if (cartItems == null) {
 			setCartItems(Cookies.get('cart') ? JSON.parse(Cookies.get('cart')) : {});
 		};
-
 		if (orderProd.length === 0) {
 			const prodNoArr = [];
 			cartItems?.map(item => {
@@ -112,7 +111,6 @@ export default function Order({ loginUser }) {
 		return element;
 	}
 
-	//parseInt
 	// 해당 상품의 수량 증가
 	const increaseCount = (index) => {
 		const prodCount = orderProd[index].count++;
@@ -314,6 +312,9 @@ export default function Order({ loginUser }) {
 		getUserCoupon();
 		getProdName();
 	}, []);
+	useEffect(() => {
+		console.log(inputChange);
+	}, [inputChange])
 
 	useEffect(() => {
 		if (modalState) {
@@ -327,7 +328,6 @@ export default function Order({ loginUser }) {
 	}, [modalState])
 
 	useEffect(() => {
-
 		if (orderProd.length > 0 && cartItems != null) {
 			// 쿠키에서 담아온 배열 객체에 추가적인 정보를 더 넣기 위해서 합칠거임
 			let arr = [];

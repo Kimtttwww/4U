@@ -43,14 +43,18 @@ public class MemberDao {
 	}
 
 	public int updateMemberGrade(Member m) {
-		// TODO Auto-generated method stub
 		return session.update(map + "updateMemberGrade", m);
 	}
 
+	public int increasePoint(Member m) {
+		return session.update(map + "increasePoint", m);
+	}
 
 	public int selectPointRate(int memberNo) {
 		return session.selectOne(map + "selectPointRate", memberNo);
 	}
+
+
 
 
 
