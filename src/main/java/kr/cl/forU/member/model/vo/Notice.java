@@ -12,4 +12,6 @@ public class Notice {
 	private int noticeNo;
 	private int noticeType;
 	private int memberNo;
+	
+	private String noticeMessage;
 }

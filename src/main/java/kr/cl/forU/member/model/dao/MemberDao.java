@@ -9,6 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import kr.cl.forU.member.model.vo.Grade;
 import kr.cl.forU.member.model.vo.Member;
+import kr.cl.forU.member.model.vo.Notice;
 
 @Repository
 public class MemberDao {
@@ -66,6 +67,25 @@ public class MemberDao {
 		return session.insert(map + "insertNotice", m) > 0;
 	}
 
+	public List<Notice> selectNotice(int memberNo) {
+		return session.selectList(map + "selectNotice" , memberNo);
+	}
+
+	public int noticeDelete(int noticeNo) {
+		return session.delete(map + "noticeDelete" , noticeNo);
+	}
+
+	public List<Member> selectAllMember() {
+		return session.selectList(map + "selectAllMember");
+	}
+
+	public int deleteMember(int memberNo) {
+		return session.update(map + "deleteMember" , memberNo);
+	}
+
+	public int sellerUpdateMem(Member member) {
+		return session.update(map + "sellerUpdateMem" , member);
+	}
 
 
 

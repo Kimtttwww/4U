@@ -25,6 +25,7 @@ import SellerRegistration from "./resources/page/sellerMyPage/SellerRegistration
 import SellerStats from "./resources/page/sellerMyPage/SellerStats";
 import Cookies from "js-cookie";
 import ReactGA from "react-ga";
+import SellerMemberInfo from "./resources/page/sellerMyPage/SellerMemberInfo";
 
 
 function App() {
@@ -99,6 +100,8 @@ function App() {
                <Route path="review" element={<SellerReview />} />
                {/* 통계 */}
                <Route path="stats" element={<SellerStats/>}/>
+               {/* 멤버 관리 */}
+               <Route path="meminfo" element={<SellerMemberInfo/>} />
             </Route>
 
             {/* QNA */}

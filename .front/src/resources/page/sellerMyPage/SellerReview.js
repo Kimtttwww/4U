@@ -1,6 +1,40 @@
+import axios from "axios";
 import "../../css/sellerMyPage/SellerReview.css";
+import { useEffect, useState } from "react";
+import Cookies from "js-cookie";
 
 export default function SellerReview (){
+
+    const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
+    const [notice, setNotice] = useState([]);
+
+    const fetchNotice = async () => {
+        try {
+            const response = await axios.get(`/member/notice/${loginMember.memberNo}`);
+            setNotice(response.data);
+        } catch (error) {
+            console.error('노티스 정보 에러:', error);
+        }
+    };
+
+    const handleDelete = async (noticeNo) => {
+        try {
+            const response = await axios.delete(`/member/noticeDelete/${noticeNo}`);
+            if (response.status === 200) {
+                const updatedNotice = notice.filter(n => n.noticeNo !== noticeNo);
+                setNotice(updatedNotice);
+            }
+        } catch (error) {
+            console.error('알림 삭제 에러', error);
+        }
+    };
+
+
+    useEffect(() => {
+        fetchNotice();
+    }, [])
+
+    console.log(notice);
 
     return(
         <div className="SellerReview">
@@ -18,24 +52,14 @@ export default function SellerReview (){
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td>3</td>
-                            <td>[000012-찢어진 양말]에 리뷰가 달렸습니다.</td>
-                            <td>24-01-28 16:15</td>
-                            <td>삭제</td>
-                        </tr>
-                        <tr>
-                            <td>2</td>
-                            <td>[(상품번호)-(상품명)]에 리뷰가 달렸습니다.</td>
-                            <td>24-01-28 16:15</td>
-                            <td>삭제</td>
-                        </tr>
-                        <tr>
-                            <td>1</td>
-                            <td>[000019-구멍난 양말]에 리뷰가 달렸습니다.</td>
-                            <td>24-01-28 16:15</td>
-                            <td>삭제</td>
-                        </tr>
+                        {notice.map((notice) => (
+                            <tr key={notice.noticeNo}>
+                                <td>{notice.noticeNo}</td>
+                                <td>{notice.noticeMessage}</td>
+                                <td>24-01-28 16:15</td>
+                                <td><button onClick={() => handleDelete(notice.noticeNo)}>삭제</button></td>
+                            </tr>
+                        ))}
                     </tbody>
                 </table>
             </article>

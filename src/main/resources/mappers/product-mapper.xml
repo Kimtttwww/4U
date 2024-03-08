@@ -114,6 +114,11 @@
 		FROM PALETTE
 	</select>
 	
+	<select id = "selectColors" resultType = "Palette">
+		SELECT COLOR_NO , COLOR_NAME, RGB
+		FROM PALETTE
+	</select>
+	
 	<select id = "selectCateSubList" resultType = "CategorySub">
 		SELECT CATE_SUB, SUB_NAME
 		FROM CATE_SUB

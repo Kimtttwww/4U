@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import kr.cl.forU.member.model.dao.MemberDao;
 import kr.cl.forU.member.model.vo.Grade;
 import kr.cl.forU.member.model.vo.Member;
+import kr.cl.forU.member.model.vo.Notice;
 
 @Service
 public class MemberService {
@@ -67,5 +68,27 @@ public class MemberService {
 		
 		return dao.insertNotice(m);
 	}
+	
+	public List<Notice> selectNotice(int memberNo) {
+		return dao.selectNotice(memberNo);
+	}
+
+	public int noticeDelete(int noticeNo) {
+		return dao.noticeDelete(noticeNo);
+	}
+
+	public List<Member> selectAllMember() {
+		return dao.selectAllMember();
+	}
+
+	public int deleteMember(int memberNo) {
+		return dao.deleteMember(memberNo);
+	}
+
+	public int sellerUpdateMem(Member member) {
+		return dao.sellerUpdateMem(member);
+	}
+
+
 	
 }

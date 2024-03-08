@@ -77,6 +77,7 @@
 
 .regi-poto-box>div{
     display: flex;
+    flex-direction: column;
 }
 
 .regi-poto-list{
@@ -191,4 +192,11 @@
 .regi-btn-box button:hover{
     box-shadow: 7px 7px 15px #0000004d;
     background-color: #000000a2;
+}
+
+.imgOption{
+    display: flex;
+    flex-direction: column;
+    width: 100px;
+    height: 150px;
 }
