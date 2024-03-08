@@ -23,6 +23,8 @@ export default function Rightmenubar() {
 
 
 	useEffect(() => {
+		setLoginMember(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
+
 		axios.get("/product/category") // 컨트롤러 주소
 		.then(response => {
 			setFilterList(response.data);

@@ -20,34 +20,19 @@ export default function Login(props) {
 	const inputs = useRef([]);
 	
 	useEffect(() => {
-		/**
-		 * capsLock 확인
-		 * @param {KeyboardEvent} e 
-		*/
-		const capsCheck = (e) => {
-			if(inputs.current.length && inputs.current[1]) {
-				if(e.getModifierState("CapsLock")) {    
-					setShowTooltip(true);
-				} else {
-					setShowTooltip(false);
-				}
-			}
-		};
-		
-		/**
-		 * 아이디 / 비번 input에서 enter 확인
-		 * @param {KeyboardEvent} e 
-		*/
-		const enterCheck = (e) => {
-			if(e.key == "Enter") {login();}
-		};
-		
+		const memberId = localStorage.getItem("memberId");
+
+		if(memberId && inputs.current.length) {
+			inputs.current[0].value = memberId;
+			inputs.current[2].checked = true;
+		}
+
 		window.addEventListener("keydown", capsCheck);
 		if(inputs.current.length && inputs.current[1]) {
 			inputs.current[0].addEventListener("keydown", enterCheck);
 			inputs.current[1].addEventListener("keydown", enterCheck);
 		}
-		
+
 		return () => {
 			window.removeEventListener("keydown", capsCheck);
 			if(inputs.current.length && inputs.current[1]) {
@@ -57,16 +42,37 @@ export default function Login(props) {
 		};
 	}, [showLogin]);
 
+	/**
+	 * 아이디 / 비번 input에서 enter 확인
+	 * @param {KeyboardEvent} e 
+	*/
+	function enterCheck (e) {if(e.key == "Enter") login();};
+
+	/**
+	 * capsLock 확인
+	 * @param {KeyboardEvent} e 
+	*/
+	const capsCheck = (e) => {
+		if(inputs.current.length && inputs.current[1]) {
+			if(e.getModifierState("CapsLock")) setShowTooltip(true);
+			else setShowTooltip(false);
+		}
+	};
+
 	/** 
 	 * 로그인 시도
 	 */
 	function login() {
-		for (let i = 0; i < 2; i++) {
-			member[inputs.current[i].name] = inputs.current[i].value;
+		for (let i = 0; i < 3; i++) {
+			if(i === 2) {
+				member[inputs.current[i].name] = inputs.current[i].checked;
+			} else {
+				member[inputs.current[i].name] = inputs.current[i].value;
+			}
 		}
 		
 		setMember({...member});
-		let {memberId, memberPwd, /* isRememberId */} = member;
+		let {memberId, memberPwd, isRememberId} = member;
 
 		if(memberId && memberPwd) {
 			axios.post("/member/login", member)
@@ -74,6 +80,9 @@ export default function Login(props) {
 				if(result.data) {
 					const loginMember = JSON.stringify(result.data);
 					
+					if(isRememberId) localStorage.setItem("memberId", memberId);
+					else localStorage.removeItem("memberId");
+
 					Cookies.set('loginMember', loginMember);
 					setLoginMember(result.data);
 					setShowLogin(false);
@@ -89,11 +98,15 @@ export default function Login(props) {
 		} else {
 			alert("입력이 충분하지 않습니다");
 		}
+	}
 
-		// 나중에 아이디 저장 기능
-		// if(isRememberId) {
-		// 	inputs.current[2].checked == true;
-		// }
+	/**
+	 * 저장된 아이디 불러오기
+	 * @param {*} e 
+	 */
+	function loadMemberId(e) {
+		if(e.target?.checked) inputs.current[0].value = localStorage.getItem("memberId");
+		else inputs.current[0].value = '';
 	}
 
 	return(<>
@@ -118,7 +131,8 @@ export default function Login(props) {
 				</div>
 				<div style={{padding: "0 5px"}}>
 					{/* 나중에 아이디, 비번 찾기 혹은 아이디 저장 기능 */}
-					<input type="checkbox" id="isRememberId" className="form-check-input" name="isRememberId" ref={(e) => {inputs.current[2] = (e)}} />
+					<input type="checkbox" id="isRememberId" className="form-check-input" name="isRememberId"
+						ref={(e) => {inputs.current[2] = (e)}} onChange={loadMemberId} />
 					<label htmlFor="isRememberId" className="form-label">아이디 저장</label>
 				</div>
 			</Modal.Body>
