@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { insertOrderAPI } from "./OrderAPI";
 import Cookies from "js-cookie";
@@ -6,7 +6,6 @@ import Cookies from "js-cookie";
 export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderProd, prodImgs }) {
 
     const navi = useNavigate();
-    const [orderNo, setOrderNo] = useState(0);
     const { memberNo, memberName, email, phone, zipCode, gradeNo, pointRate } = userInfo;
     const { receiverName, phone1, phone2, phone3, address, addressDetail } = changeInfo;
     const { applyCoupon, applyPoint, delMsg, discountPrice, totalPrice } = dataByPayment;
@@ -62,9 +61,6 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
         });
         return responseArr;
     };
-
-    const accumulate = payPrice * (userInfo.pointRate / 100);
-
 
     getObjData(Cookies.get('cart') ? JSON.parse(Cookies.get('cart')) : [], 'index');
     // console.log(`${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`);

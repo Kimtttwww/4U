@@ -1,9 +1,5 @@
 import { useEffect, useState } from "react"
-import PaymentPage from "../../css/order/PaymentPage.css";
-import ChangeAddress from "../../modal/ChangeAddress";
-import { Button } from "react-bootstrap";
 import { Link, useLocation } from "react-router-dom";
-import { selectPointRateAPI } from "./OrderAPI";
 
 export default function Payment() {
 
@@ -13,10 +9,6 @@ export default function Payment() {
     const paymentPrice = location.state.paymentPrice;
     const message = location.state.message;
     const prodImgs = location.state.prodImgs;
-
-    const [changeAddress, setChangeAddress] = useState(false);
-    const openModal = () => setChangeAddress(true);
-    const closeModal = () => setChangeAddress(false);
 
     const { buyer_name, buyer_addr, merchant_uid } = location.state.payData;
     const { memberNo, memberName, phone, gradeNo, pointRate } = location.state.userInfo;
