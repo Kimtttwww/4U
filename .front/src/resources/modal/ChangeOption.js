@@ -15,7 +15,6 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
     const [prodColor, setProdColor] = useState([]);
     const [prodSize, setProdSize] = useState([]);
 
-    // let prodNo = orderProd.prodNo;
     const colorHandler = (e) => {
         const newColor = e.target.value;
         setCheckColor(e.target.value);
@@ -31,7 +30,6 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
     const optionChange = (e) => {
         orderProd.colorName = checkColor;
         orderProd.size = checkSize;
-
         closeModal(false);
     };
 
@@ -64,7 +62,6 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
         }
         orderProd.index = index;
     };
-
 
     useEffect(() => {
         if (!orderProd || orderProd == undefined) {
@@ -101,58 +98,52 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
 
 
     return (
-        <Modal show={show}  >
-            <div id="optionChangeModal" >
-                <div >
-                    <div className="modal-content">
-                        <div className="modal-header">
-                            <h3 className="modal-title fs-5"
-                                id="staticBackdropLabel">옵션변경</h3>
-                        </div>
-                        <div className="modal-body optionBody" >
-                            <div className="form-check-1">
-                                <span>선택한 색상 : {orderProd.colorName}</span>
-                            </div>
-                            <div className="form-check-2">
-                                <span>변경할 색상</span>
-                                {
-                                    prodColor?.map((color, index) => (
-                                        <span key={index}>
-                                            <input type="radio" name="changeColor"
-                                                onChange={colorHandler}
-                                                value={color}
-                                                checked={color == checkColor} // 선택한 색상과 일치하는지 확인
-                                            />
-                                            {color}
-                                        </span>
-                                    ))
-                                }
-
-                            </div>
-                            <hr />
-                            <div className="form-check-3">
-                                <span>선택한 사이즈 : {orderProd.size}</span>
-                            </div>
-                            <div className="form-check-4">
-                                <span>변경할 사이즈 </span>
-                                <select onChange={sizeHandler} >
-                                    <option value="none" >{"사이즈 선택"}</option>
-                                    {
-                                        prodSize?.map((sizes, index) => (
-                                            <option key={index} value={sizes.size}>{sizes.size}</option>
-                                        ))
-                                    }
-                                </select>
-                            </div>
-                        </div>
-                        <div className="modal-footer">
-                            <Button type="button" className="btn btn-primary" onClick={optionChange}>변경</Button>
-                            <Button type="button" className="btn btn-secondary" onClick={closeModal}>취소</Button>
-                        </div>
+        <Modal show={show} className='optionChangeModal' >
+            <div className="modal-content">
+                <div className="modal-header">
+                    <h3 className="modal-title fs-5"
+                        id="staticBackdropLabel">옵션변경</h3>
+                </div>
+                <div className="modal-body optionBody" >
+                    <div className="form-check-1">
+                        <span>선택한 색상 : {orderProd.colorName}</span>
                     </div>
+                    <div className="form-check-2">
+                        <span>변경할 색상</span>
+                        {
+                            prodColor?.map((color, index) => (
+                                <span key={index}>
+                                    <input type="radio" name="changeColor"
+                                        onChange={colorHandler}
+                                        value={color}
+                                        checked={color == checkColor}
+                                    />
+                                    {color}
+                                </span>
+                            ))
+                        }
+                    </div>
+                    <hr />
+                    <div className="form-check-3">
+                        <span>선택한 사이즈 : {orderProd.size}</span>
+                    </div>
+                    <div className="form-check-4">
+                        <span>변경할 사이즈 </span>
+                        <select onChange={sizeHandler} >
+                            <option value="none" >{"사이즈 선택"}</option>
+                            {
+                                prodSize?.map((sizes, index) => (
+                                    <option key={index} value={sizes.size}>{sizes.size}</option>
+                                ))
+                            }
+                        </select>
+                    </div>
+                </div>
+                <div className="modal-footer">
+                    <Button type="button" className="btn btn-primary change-option-submit" onClick={optionChange}>변경</Button>
+                    <Button type="button" className="btn btn-secondary change-option-cancel" onClick={closeModal}>취소</Button>
                 </div>
             </div>
         </Modal >
-
     )
 }

@@ -27,8 +27,8 @@ export default function Leftmenubar({ subCateClicked }) {
         const bannerImg = document.querySelector('.swiper-wrapper');
         if (leftBar != null) {
             leftBar.style.left = "15px";
+            setHoverMainCate(0);
             if (bannerImg != null) {
-                setHoverMainCate(0);
                 if (window.scrollY >= 620) {
                     leftBar.style.display = 'block';
                     leftBar.style.position = 'fixed';
@@ -155,7 +155,7 @@ export default function Leftmenubar({ subCateClicked }) {
                             <div className="leftCateList">
                                 <div className="leftCateItem">
                                     <div className="mainCateList">
-                                        <p>4u</p>
+                                        <p>4U</p>
                                         {
                                             mainCateList?.length && mainCateList.map((main, index) => (
                                                 <div className="mainCateListItem"

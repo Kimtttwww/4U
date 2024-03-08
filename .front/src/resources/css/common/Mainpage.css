@@ -1,4 +1,4 @@
-.Mainpage{
+.Mainpage {
   margin: 0 auto;
   min-width: 800px;
 }
@@ -20,7 +20,7 @@
   min-width: 202px;
   width: 29%;
   box-sizing: border-box;
- 
+
   margin: 10px;
   display: flex;
   flex-direction: column;
@@ -41,7 +41,7 @@ p {
   /*여기 수정 필요*/
 }
 
-.clothName{
+.clothName {
   font-style: inherit;
 }
 
@@ -51,14 +51,16 @@ p {
 }
 
 @keyframes blinker {
-  50% { opacity: 0; }
+  50% {
+    opacity: 0;
+  }
 }
 
 .blink {
   animation: blinker 1s linear infinite;
 }
 
-.container{
+.container {
   margin: 0 auto;
   width: 75%;
   min-width: 800px;

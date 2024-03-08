@@ -120,7 +120,7 @@ public class OrderController {
 	
 
 	@PostMapping("/insertOrder")
-    public int insertOrder(
+    public ResponseEntity<Integer> insertOrder(
     		@RequestBody OrderDTO orderDTO
     		) {
     	// 결제완료되면 ORDER, ORDER_PROD 테이블에 insert해주기
@@ -162,6 +162,7 @@ public class OrderController {
         				.build();
     			service.insertOrderProd(orderProd);
     		}
+    		
     	}else {
     		log.info("insertOrder 실패 ㅠㅠ");
     	}
@@ -194,10 +195,35 @@ public class OrderController {
 		// 등급업 함수를 호출하면 된다,..
 		log.info("기존 GradeNo  ? {}", orderDTO.getGradeNo());
 		setGrade(orderDTO.getMemberNo());
-		log.info("변경 GradeNo  ? {}", orderDTO.getGradeNo());
+//		log.info("변경 GradeNo  ? {}", orderDTO.getGradeNo());
 	
+		log.info("orderDTO.getMemberNo())? {}", orderDTO.getMemberNo());
+		if(service.insertOrderNotice(orderDTO.getMemberNo()) > 0) {
+			log.info(".insertOrderNotice() 성공? {}");
+		}else {
+			log.info(".insertOrderNotice()  실패");
+		}
 		
-		return 6;
+		// member의 등급에 따른 pointRate만큼 point 적립해주기
+		int pointRate = mService.selectPointRate(orderDTO.getMemberNo());
+		 log.info(".mService.selectPointRate(orderDTO.getMemberNo() {}", mService.selectPointRate(orderDTO.getMemberNo()));
+		 log.info("orderDTO.getPaymentPrice() {}", orderDTO.getPaymentPrice());
+		 
+		int point = (orderDTO.getPaymentPrice() * (pointRate/100));
+		 log.info(".point {}", point);
+		Member m = Member.builder()
+				.memberNo(orderDTO.getMemberNo())
+				.point(point)
+				.build();
+		
+		 if(mService.increasePoint(m) > 0) {
+			 log.info(".increasePoint()  성공 ! {}", mService.increasePoint(m));
+		 }else {
+			 log.info(".increasePoint()  실패");
+		 }
+		 
+		return ResponseEntity.ok(result);
+		
     }
 	
 
@@ -228,6 +254,7 @@ public class OrderController {
 		if(member.getGradeNo() != 1) {
 			if(mService.updateMemberGrade(member) > 0) {
 				log.info("멤버grade 업데이트 성공했댜~ {}", member.getGradeNo());
+				
 			}else {
 				log.info("멤버grade 업데이트 실패 {}", member.getGradeNo());
 			}
@@ -238,13 +265,11 @@ public class OrderController {
 	}
 	
 	
-	@PostMapping("/selectPointRate")
-    public int selectGradeRate(
-    		@RequestBody int memberNo
-    		) {
-		
-		return mService.selectPointRate(memberNo);
-	}
+	/*
+	 * @PostMapping("/selectPointRate") public int selectGradeRate(
+	 * 
+	 * @RequestBody int memberNo ) { return mService.selectPointRate(memberNo); }
+	 */
     
 	@GetMapping("/list")
 	public List<RecentOrders> selectRecentOrders(@RequestParam("orderDate") String orderDate) {

@@ -117,7 +117,7 @@
 	<insert id="insertOrderNotice" >
 		INSERT INTO NOTICE
 		VALUES (
-			SEQ_NOTICE_NO.NEXTVAL, 2, 1
+			SEQ_NOTICE_NO.NEXTVAL, 2, #{memberNo}
 		)
 	</insert>
 	
