@@ -7,8 +7,11 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,6 +21,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import kr.cl.forU.member.model.service.MemberService;
 import kr.cl.forU.member.model.vo.Grade;
 import kr.cl.forU.member.model.vo.Member;
+import kr.cl.forU.member.model.vo.Notice;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -30,6 +34,35 @@ public class MemberController {
 	private MemberService service;
 	@Autowired
 	private BCryptPasswordEncoder passwordEncoder;
+	
+	@GetMapping("/notice/{memberNo}")
+	public List<Notice> selectNotice(@PathVariable int memberNo) {
+		return service.selectNotice(memberNo);
+	}
+	
+	@DeleteMapping("/noticeDelete/{noticeNo}")
+	public int noticeDelete(@PathVariable int noticeNo) {
+		return service.noticeDelete(noticeNo);
+	}
+	
+	@GetMapping("/selectAllMember")
+	public List<Member> selectAllMember() {
+		return service.selectAllMember();
+	}
+	
+	@PutMapping("/deleteMember/{memberNo}")
+	public int deleteMember(@PathVariable int memberNo) {
+		return service.deleteMember(memberNo);
+	}
+	
+	@PostMapping("/sellerUpdateMem")
+	public int sellerUpdateMem(@RequestBody Member member) {
+		
+		String encodedPassword = passwordEncoder.encode(member.getMemberPwd());
+		member.setMemberPwd(encodedPassword);
+		
+	    return service.sellerUpdateMem(member);
+	}
 	
 	/** 로그인 팝업창 로그인 요청
 	 * @param m 로그인 시도할 ID, PW 정보

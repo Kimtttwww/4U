@@ -1,0 +1,15 @@
+/* SellerStats.css */
+.seller-stats {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background-color: #f8f0fc; /* 바탕색을 연보라색으로 설정 */
+    padding: 20px;
+}
+
+.seller-stats .chart {
+    margin-top: 20px;
+    box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2); /* 그림자 효과 추가 */
+    border-radius: 15px; /* 모서리 둥글게 */
+    overflow: hidden; /* 선이 차트 밖으로 나가지 않도록 설정 */
+}

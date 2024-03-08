@@ -1,6 +1,41 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="memberMapper">
+
+	<select id="selectNotice" resultType="notice">
+		SELECT *
+		FROM NOTICE
+		JOIN NOTICE_DETAIL USING (NOTICE_TYPE)
+		WHERE REF_NO = #{memberNo}
+	</select>
+	
+	<delete id="noticeDelete">
+		DELETE FROM NOTICE
+		WHERE NOTICE_NO = #{noticeNo}	
+	</delete>
+	
+	<select id="selectAllMember" resultType="member">
+		SELECT MEMBER_NO ,
+		MEMBER_ID ,
+		MEMBER_NAME ,
+		BIRTHDAY ,
+		EMAIL ,
+		PHONE ,
+		CREATE_DATE ,
+		ADDRESS ,
+		ADDRESS_DETAIL ,
+		ZIP_CODE ,
+		GRADE_NO ,
+		POINT ,
+		STATUS 
+		FROM MEMBER
+	</select>
+	
+	<update id="deleteMember">
+		UPDATE MEMBER
+		SET STATUS = 'N'
+		WHERE MEMBER_NO = #{memberNo}
+	</update>
 	
 	<insert id="insertMember" parameterType = "member">
 		INSERT INTO MEMBER
@@ -23,14 +58,28 @@
 		
 	</insert>
 	
+	<update id="sellerUpdateMem">
+		UPDATE MEMBER
+		SET MEMBER_PWD = #{memberPwd},
+		  MEMBER_NAME = #{memberName},
+		  EMAIL = #{email},
+	      PHONE = #{phone},
+	      ADDRESS = #{address},
+	      ADDRESS_DETAIL = #{addressDetail},
+	      ZIP_CODE = #{zipCode},
+		  GRADE_NO = #{gradeNo},
+		  POINT = #{point}
+	    WHERE MEMBER_NO = #{memberNo}
+	</update>
+	
 	<update id="updateMember" parameterType = "member">
 	  UPDATE MEMBER
 	  SET MEMBER_PWD = #{memberPwd},
 	      EMAIL = #{email},
 	      PHONE = #{phone},
 	      ADDRESS = #{address},
-	      ADDRESSDETAIL = #{addressDetail},
-	      ZIPCODE = #{ZIPCODE}
+	      ADDRESS_DETAIL = #{addressDetail},
+	      ZIP_CODE = #{ZIPCODE}
 	  WHERE MEMBER_ID = #{memberId}
 	</update>
 	

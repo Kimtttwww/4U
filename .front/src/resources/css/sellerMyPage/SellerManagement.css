@@ -1,84 +1,71 @@
-/* 전체 상품관리 테이블 틀 */
 .SellerManagement {
+
+    color: #333;
+    background-color: #f8f1f1;
+    width: 80%;
     margin: 0 auto;
-    min-height: 85vh;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-
-.SellerManagement h2{
-    padding: 10px;
+.SellerManagement h2 {
+    background-color: #ff7f7f;
+    text-align: center;
 }
 
-/* 테이블 */
-.SellerManagement table {
-    border:1px solid #ddd;
-    table-layout:fixed;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-}
-
-/* th,td 공통 */
-.SellerManagement th,
-.SellerManagement td {
-    border:1px solid #ddd;
-    padding: 10px 13px;
-    vertical-align:middle;
-}
-
-/* th 속성 */
-.SellerManagement th {
-    letter-spacing:0.1em;
-    background:#f8f8f8;
-}
-
-/* td 속성 */
-.SellerManagement td {
-    line-height:1.4em;
-    word-break:break-all;
-}
-
-/* 전체 상품관리 앞에 포인트 */
-.SellerManagement h2::before {
-    display: inline-block;
-    width: 4px;
-    height: 26px;
-    background: #f5cfcb;
-    content: '';
-    margin-right: 10px;
-}
-
-/* 상품검색 틀 */
 .seller-search {
     display: flex;
-    justify-content:space-between;
+    justify-content: space-between;
     align-items: center;
-    height: 70px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
 
-/* 상품검색 */
 .seller-search-input {
-    padding: 5px;
-    border: 1px solid #000;
-    border-bottom: 1px solid #f5cfcb;
-    border-top: none;
-    border-left: none;
-    border-right: none;
-    outline: none;
-}
-/* 상품검색 인풋 아웃라인 */
-.seller-search-input:focus{
-    border-bottom: 1px solid #000;
-    box-shadow: 5px 8px 8px rgba(0, 0, 0, 0.2);
+    flex-grow: 1;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
 }
 
-/* 상품검색 버튼 */
-.seller-search button{
+.seller-search button,
+.seller-search a button {
+    margin-left: 10px;
+    padding: 10px 20px;
     border: none;
-    background-color: #f5cfcb;
-    padding: 6px;
+    border-radius: 5px;
+    background-color: #ff7f7f;
+    color: #fff;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-.seller-search button:hover{
-    background-color: rgba(0, 0, 0, 0.637);
+.seller-search button:hover,
+.seller-search a button:hover {
+    background-color: #FF1493;
+}
+
+.SellerManagement article {
+    margin-top: 20px;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.SellerManagement article table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.SellerManagement article table th,
+.SellerManagement article table td {
+    padding: 10px;
+    border: 1px solid #ddd;
+    text-align: center;
+}
+
+.SellerManagementarticle table tr:nth-child(even) {
+    background-color: #f2f2f2;
 }

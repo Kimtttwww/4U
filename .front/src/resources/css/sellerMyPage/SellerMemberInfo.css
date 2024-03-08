@@ -1,0 +1,67 @@
+
+
+body {
+
+    font-size : 25px;
+    background-color: #f8f1f1;
+}
+
+.sellerMemberList {
+    width: 80%;
+    margin: 0 auto;
+    padding: 20px;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sellerMemberList input[type="text"] {
+    border: none;
+    border-bottom: 1px solid #333;
+    margin-bottom: 10px;
+}
+
+.sellerMemberList button {
+    background-color: #ff7f7f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.sellerMemberList h6 {
+    color: #333;
+    cursor: pointer;
+    font-size : 22px;
+}
+
+.sellerUpdateMember {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fffcf9;
+    border-radius: 15px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.sellerUpdateMember label {
+    display: block;
+    margin-top: 10px;
+}
+
+.sellerUpdateMember input[type="text"], .sellerUpdateMember input[type="password"] {
+    width: 100%;
+    padding: 5px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+}
+
+.sellerUpdateMember button[type="submit"] {
+    background-color: #ff7f7f;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    padding: 5px 10px;
+    cursor: pointer;
+    margin-top: 10px;
+}

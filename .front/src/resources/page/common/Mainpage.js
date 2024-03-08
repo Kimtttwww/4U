@@ -133,11 +133,11 @@ export default () => {
         pagination={{ clickable: true }}
         autoplay={{ delay: 3000, disableOnInteraction: false }}
       >
-        <SwiperSlide className='custom-slide'><img className='bannerImg' src="/photo/main.png" /></SwiperSlide>
+        <SwiperSlide className='custom-slide'><img className='bannerImg' src="https://atimg.sonyunara.com/files/attrangs/new_banner/1709541751_0.gif" /></SwiperSlide>
         <SwiperSlide className='custom-slide'><img className='bannerImg' src='https://atimg.sonyunara.com/files/attrangs/new_banner/1709165319_0.jpg' /></SwiperSlide>
         <SwiperSlide className='custom-slide'><img className='bannerImg' src='https://atimg.sonyunara.com/files/attrangs/new_banner/1709198337_0.jpg' /></SwiperSlide>
         <SwiperSlide className='custom-slide'><img className='bannerImg' src='https://atimg.sonyunara.com/files/attrangs/new_banner/1709026227_0.jpg' /></SwiperSlide>
-        <SwiperSlide className='custom-slide'><img className='bannerImg' src='/photo/itsme.png' /></SwiperSlide>
+        <SwiperSlide className='custom-slide'><img className='bannerImg' src='https://atimg.sonyunara.com/files/attrangs/new_banner/1709686504_0.jpg' /></SwiperSlide>
 
       </Swiper>
     </div>
