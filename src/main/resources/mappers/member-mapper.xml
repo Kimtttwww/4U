@@ -31,13 +31,13 @@
 	
 <update id="updateMember" parameterType = "member">
   UPDATE MEMBER
-  SET MEMBER_PWD = #{memberPwd},
+  SET <if test="memberPwd != null">MEMBER_PWD = #{memberPwd},</if>
       EMAIL = #{email},
       PHONE = #{phone},
       ADDRESS = #{address},
-      ADDRESSDETAIL = #{addressDetail},
-      ZIPCODE = #{ZIPCODE}
-  WHERE MEMBER_ID = #{memberId}
+      ADDRESS_DETAIL = #{addressDetail},
+      ZIP_CODE = #{zipCode}
+  WHERE MEMBER_NO = #{memberNo}
 </update>
 	
 	
