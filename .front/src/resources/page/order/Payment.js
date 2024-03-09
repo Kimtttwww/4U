@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link, useLocation } from "react-router-dom";
+import "../../css/order/PaymentPage.css"
 
 export default function Payment() {
 
@@ -46,12 +47,12 @@ export default function Payment() {
                 <table className="payment-prod-table">
                     <thead>
                         <tr>
-                            <td>이미지</td>
-                            <td>상품명</td>
-                            <td>옵션</td>
-                            <td>상품금액</td>
-                            <td>수량</td>
-                            <td>주문금액</td>
+                            <td style={{ width: "10%" }}>이미지</td>
+                            <td style={{ width: "40%" }}>상품명</td>
+                            <td style={{ width: "20%" }}>옵션</td>
+                            <td style={{ width: "10%" }}>상품금액</td>
+                            <td style={{ width: "10%" }}>수량</td>
+                            <td style={{ width: "10%" }}>주문금액</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -62,9 +63,9 @@ export default function Payment() {
                                         src={prodImgs.filter((img) => item.prodNo == img.refNo)[1].imgName} />
                                     <td>{item.prodName}</td>
                                     <td>{item.colorName}/{item.size}</td>
-                                    <td>{(item.price).toLocaleString()}</td>
+                                    <td>{(item.price).toLocaleString()}원</td>
                                     <td>{item.count}</td>
-                                    <td>{(item.price * item.count).toLocaleString()}</td>
+                                    <td>{(item.price * item.count).toLocaleString()}원</td>
                                 </tr>
                             ))
                         }
@@ -99,22 +100,21 @@ export default function Payment() {
                         <div className="payment-discount-content1">
                             <div>
                                 <span>총 상품금액</span>
-                                <span>할인혜택</span>
-                                <span>최종 결제금액</span>
+                                <span>{totalPrice.toLocaleString()}원</span>
                             </div>
                             <div>
-                                <span>{totalPrice.toLocaleString()}원</span>
+                                <span>할인혜택</span>
                                 <span>{(totalPrice - paymentPrice).toLocaleString()}원</span>
+                            </div>
+                            <div>
+                                <span>최종 결제금액</span>
                                 <span>{paymentPrice.toLocaleString()}원</span>
                             </div>
                         </div>
                     </div>
 
                     <div>
-                        <div>
-                            <p className="payment-content-title">결제정보</p>
-
-                        </div>
+                        <p className="payment-content-title">결제정보</p>
                         <div className="payment-discount-content2">
                             <div>
                                 <div>적립예정액</div>
@@ -131,7 +131,7 @@ export default function Payment() {
             </div>
             <div className="payment-bottom-divbtn">
                 <Link to={'/'} className="payment-bottom-btn1">메인</Link>
-                <Link to={'/'} className="payment-bottom-btn2">주문내역</Link>
+                <Link to={'/order/history'} className="payment-bottom-btn2">주문내역</Link>
             </div>
         </div>
     )

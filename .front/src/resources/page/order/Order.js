@@ -312,9 +312,6 @@ export default function Order({ loginUser }) {
 		getUserCoupon();
 		getProdName();
 	}, []);
-	useEffect(() => {
-		console.log(inputChange);
-	}, [inputChange])
 
 	useEffect(() => {
 		if (modalState) {
@@ -350,7 +347,7 @@ export default function Order({ loginUser }) {
 	return (
 		<div className="order-container">
 			<p className="order-write">주문서 작성</p>
-			<span className="order-prod-title">주문상품(총수량)</span>
+			<span className="order-prod-title">주문상품</span>
 			<table className="order-prod-table">
 				<thead>
 					<tr>
@@ -417,25 +414,27 @@ export default function Order({ loginUser }) {
 			<div className="delivery-info">
 				<span className="order-delivery-title">배송정보</span>
 				<div className="ordererInfo">
-					<input type="checkbox" id="" name="ordererInfo"
+					<input type="checkbox" name="ordererInfo"
 						checked={userInfoChecked} onChange={checkedHandler}
 					/>
-					<span>주문자정보 불러오기</span>
+					<span style={{ fontSize: "16px" }}>주문자정보 불러오기</span>
 				</div>
 				<div className="order-delivery-content">
 					<div className="receiver-text">
-						<span className="margin">수령자명</span>
-						<span className="margin">연락처</span>
-						<span className="margin">배송지주소</span>
-						<span className="memo">배송메모</span>
+						<span style={{ height: "60px" }}>수령자명</span>
+						<span style={{ height: "60px" }}>연락처</span>
+						<span style={{ height: "80px" }}>배송지주소</span>
+						<span style={{ height: "60px" }}>배송메모</span>
 					</div>
 
 					<div className="receiver-input">
 						<input type="text" id="userName" name="receiverName" placeholder="입력해주세요"
-							className="margin" value={userInfoChecked ? userInfo?.memberName : inputChange.receiverName}
+							style={{ height: "60px" }}
+							value={userInfoChecked ? userInfo?.memberName : inputChange.receiverName}
 							onChange={inputChangeHandler}
 						/>
-						<div className="margin order-phone-box">
+						<div className="order-phone-box"
+							style={{ height: "60px" }}>
 							<select defaultValue={'010'} name="phone1"
 								value={userInfoChecked ? (userInfo?.phone).split('-')[0] : inputChange?.phone1} maxLength={3}
 								onChange={inputChangeHandler} >
@@ -454,7 +453,8 @@ export default function Order({ loginUser }) {
 								onChange={inputChangeHandler} />
 						</div>
 
-						<div className="margin order-address">
+						<div className="order-address"
+							style={{ height: "80px" }}>
 							<div>
 								<input type="number" id="" name="zipCode" readOnly
 									value={userInfoChecked ? userInfo?.zipCode : inputChange.zipCode} />
@@ -467,20 +467,20 @@ export default function Order({ loginUser }) {
 								</Modal>
 							</div>
 							<div>
-								<input type="text" id="" name="address" readOnly
+								<input type="text" name="address" readOnly
 									value={userInfoChecked ? userInfo?.address : inputChange.address}
 									onChange={inputChangeHandler} />
-								<input type="text" id="" name="addressDetail"
+								<input type="text" name="addressDetail"
 									value={userInfoChecked ? userInfo?.addressDetail : inputChange.addressDetail}
 									onChange={inputChangeHandler} placeholder="상세 주소 입력" />
 							</div>
 						</div>
-						<div>
-							<input type="text" id="" name="message" className="margin"
+						<div style={{ height: "60px" }}>
+							<input type="text" name="message"
 								value={delMsg}
 								onChange={applyMsg} />
 							<select
-								onChange={applyMsg}  >
+								onChange={applyMsg} >
 								{
 									deliMessage?.map((msg, index) =>
 										<option key={index} value={msg.value ? msg.value : delMsg}>{msg.value}</option>
@@ -504,12 +504,14 @@ export default function Order({ loginUser }) {
 								<div>사용가능한 포인트</div>
 							</div>
 							<div className="payment-discount">
-								<div>{totalPrice.toLocaleString()}원</div>
+								<div style={{ height: "54px" }}>
+									{totalPrice.toLocaleString()}원</div>
 								<div className="payment-discount-view">
-									<input type="number" style={{ width: '80px' }} readOnly
+									<input type="number"
+										style={{ width: '80px', height: "30px" }} readOnly
 										value={discountPrice} />원
 									<Button type="button" variant="secondary"
-										style={{ width: '130px', height: '25px', fontSize: '11px', padding: '0', marginLeft: '10px' }}
+										style={{ width: '120px', height: '25px', fontSize: '12px', padding: '0', marginLeft: '10px' }}
 										onClick={openCouponModal}>
 										사용가능한 쿠폰보기
 									</Button>
@@ -518,27 +520,30 @@ export default function Order({ loginUser }) {
 										sendCoupon={couponHandler} />
 								</div>
 								<div className="payment-discount-view">
-									<input type="number" style={{ width: '80px' }} id="applyPoint"
+									<input type="number"
+										style={{ width: '80px', height: "30px" }} id="applyPoint"
 										value={pointAllChecked ? userInfo.point : applyPoint}
-										onChange={pointHandler} max={userInfo.point} min={0} />원
+										onChange={pointHandler} max={userInfo.point}
+										min={0} />원
 								</div>
-								<div>
-									<span style={{ marginRight: '10px' }}>{userInfo.point}원</span>
+								<div className="payment-discount-point"
+									style={{ height: "56px" }}>
+									<span>{userInfo.point}원</span>
 									<input type="checkbox" checked={pointAllChecked}
-										onChange={pointAllCheckedHandler}
-									/>
-									<span>전체사용하기</span>
+										style={{ marginLeft: "20px" }}
+										onChange={pointAllCheckedHandler} />
+									<span style={{ fontSize: "16px" }}>전체사용하기</span>
 								</div>
 							</div>
 						</div>
+
 						<div className="payPrice">
 							<span>결제하실 금액</span>
 							<span>
 								{
 									(totalPrice - discountPrice - applyPoint).toLocaleString()
 								}원
-							</span>
-							(<span>
+								(
 								{
 									(discountPrice + applyPoint).toLocaleString()
 								}원 절약

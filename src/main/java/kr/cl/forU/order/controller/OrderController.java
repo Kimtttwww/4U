@@ -1,9 +1,7 @@
 package kr.cl.forU.order.controller;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -17,7 +15,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.siot.IamportRestClient.IamportClient;
 import com.siot.IamportRestClient.exception.IamportResponseException;
@@ -40,7 +37,6 @@ import kr.cl.forU.product.model.vo.CategorySub;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
-@SessionAttributes({ "loginMember" })
 @RequestMapping("/order")
 @RestController
 public class OrderController {
@@ -59,11 +55,6 @@ public class OrderController {
 
 	private IamportClient iamportClient;
 //	private boolean couponIssued = false;
-	
-	@GetMapping("/sellerAllOrder")
-	public List<Order> sellerAllOrder() {
-		return service.sellerAllOrder();
-	}
 	
 	@GetMapping("/selectAllOrder")
 	public List<Order> selectAllOrder() {
@@ -146,7 +137,6 @@ public class OrderController {
     			.paymentPrice(orderDTO.getPaymentPrice())
     			.payment(orderDTO.getPayment()).build();
     	
-    	log.info("orderDTO.getPoint() > {}" , orderDTO.getPoint());
     	int result = service.insertOrder(order);
     	
     	if(result == 1) {
@@ -193,11 +183,8 @@ public class OrderController {
 		
 		// 주문테이블에 넣는 것이 최종 성공이 완료가 되면..
 		// 등급업 함수를 호출하면 된다,..
-		log.info("기존 GradeNo  ? {}", orderDTO.getGradeNo());
 		setGrade(orderDTO.getMemberNo());
-//		log.info("변경 GradeNo  ? {}", orderDTO.getGradeNo());
 	
-		log.info("orderDTO.getMemberNo())? {}", orderDTO.getMemberNo());
 		if(service.insertOrderNotice(orderDTO.getMemberNo()) > 0) {
 			log.info(".insertOrderNotice() 성공? {}");
 		}else {
@@ -206,11 +193,9 @@ public class OrderController {
 		
 		// member의 등급에 따른 pointRate만큼 point 적립해주기
 		int pointRate = mService.selectPointRate(orderDTO.getMemberNo());
-		 log.info(".mService.selectPointRate(orderDTO.getMemberNo() {}", mService.selectPointRate(orderDTO.getMemberNo()));
-		 log.info("orderDTO.getPaymentPrice() {}", orderDTO.getPaymentPrice());
 		 
-		int point = (orderDTO.getPaymentPrice() * (pointRate/100));
-		 log.info(".point {}", point);
+		int point = (orderDTO.getPaymentPrice() * pointRate/100);
+		 log.info(".pointRate/100 {}", pointRate/100);
 		Member m = Member.builder()
 				.memberNo(orderDTO.getMemberNo())
 				.point(point)
@@ -261,15 +246,9 @@ public class OrderController {
 		}
 		
 		
-//		int gradeCoupon = mService.insertGradeCoupon();
 	}
 	
 	
-	/*
-	 * @PostMapping("/selectPointRate") public int selectGradeRate(
-	 * 
-	 * @RequestBody int memberNo ) { return mService.selectPointRate(memberNo); }
-	 */
     
 	@GetMapping("/list")
 	public List<RecentOrders> selectRecentOrders(@RequestParam("orderDate") String orderDate) {
@@ -284,32 +263,6 @@ public class OrderController {
 	@GetMapping("/oghistory")
 	public List<Order> selectOgOrder(@RequestParam int memberNo) {
 	return service.selectOgOrder(memberNo);
-	}
-	
-	/**
-	 * 해당 회원의 지금까지의 결제액과 쿠폰 잔량을 조회
-	 * @param memberNo 해당 회원 번호
-	 * @return 회원의 지금까지의 결제액과 쿠폰 잔량이 담긴 객체
-	 */
-	@GetMapping("membership")
-	public Map<String, Integer> selectMembership(@RequestParam int memberNo) {
-		Map<String, Integer> map = new HashMap<>();
-		int totalPaid = service.selectUserTotalPay(memberNo);
-		int remainCouponCount = service.selectUserCoupon(memberNo).size();
-		int[] priceLevel = {300000, 600000, 1000000, 2000000};
-		int nextGradePrice = totalPaid;
-
-		for (int i : priceLevel) {
-			if(i > totalPaid) {
-				nextGradePrice = i - totalPaid;
-				break;
-			}
-		}
-		
-		map.put("nextGradePrice", nextGradePrice);
-		map.put("remainCouponCount", remainCouponCount);
-		
-		return map;
 	}
 	
 }

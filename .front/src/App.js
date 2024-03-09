@@ -66,11 +66,11 @@ function App() {
                <Route path="list/:mainNo/:subNo" element={<ProdList />} />
             </Route>
 
-            {/* ? */}
+            {/* 주문 관련 */}
             <Route path="/order">
-               {/* ? */}
+               {/* 주문 */}
                <Route path="" element={<Order loginUser={loginMember} />} />
-               {/* ? */}
+               {/* 결제완료 */}
                <Route path="payment" element={<Payment />} />
                {/* ? */}
                <Route path="history" element={<OrderHt />} />
@@ -83,7 +83,7 @@ function App() {
             <Route path="/BuyerCoupon" element={<BuyerCoupon />} />
 
             {/* 구매자 마이페이지 정보수정 */}s
-            <Route path="/buyer/mypage/myEdit" element = {<MyEdit />}/>
+            <Route path="/buyer/mypage/myEdit" element={<MyEdit />} />
 
             {/* 장바구니 관련 */}
             <Route path="/cart/CartList/" element={<CartList />} />
@@ -99,9 +99,9 @@ function App() {
                {/* 리뷰 관리 */}
                <Route path="review" element={<SellerReview />} />
                {/* 통계 */}
-               <Route path="stats" element={<SellerStats/>}/>
+               <Route path="stats" element={<SellerStats />} />
                {/* 멤버 관리 */}
-               <Route path="meminfo" element={<SellerMemberInfo/>} />
+               <Route path="meminfo" element={<SellerMemberInfo />} />
             </Route>
 
             {/* QNA */}

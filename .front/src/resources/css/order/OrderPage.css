@@ -21,7 +21,7 @@
 .order-paymentInfo-title,
 .order-payment-title {
     display: inline-block;
-    font-size: 28px;
+    font-size: 30px;
     font-weight: bold;
     margin: 20px 0 10px 0;
 }
@@ -41,7 +41,7 @@
 
 /* 주문상품(총수량) - 장바구니*/
 .order-prod-table {
-    font-size: 15px;
+    font-size: 18px;
     text-align: center;
     width: 100%;
 }
@@ -52,8 +52,7 @@
 
 .order-prod-table>thead>tr {
     height: 50px;
-    font-weight: bold;
-    font-size: 18px;
+    font-size: 23px;
 }
 
 .orderProdImg {
@@ -95,9 +94,6 @@
     width: 70px;
 }
 
-.delivery-info select {
-    height: 30px;
-}
 
 .delivery-info,
 .paymnet-area {
@@ -109,7 +105,8 @@
     display: flex;
 }
 
-.ordererInfo>input {
+.ordererInfo>input,
+.payment-discount-point>input {
     margin-right: 3px;
 }
 
@@ -127,12 +124,20 @@
     width: 25%;
 }
 
+.payment-text>* {
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+}
+
 .receiver-text span {
-    padding: 15px;
     border: 1px solid #c4c2c2;
     border-left: none;
     background-color: #f3f3f3;
-    /* width: 150px; */
+    display: flex;
+    align-items: center;
+    padding-left: 15px;
+    font-size: 20px;
 }
 
 .receiver-text span:nth-child(2) {
@@ -140,14 +145,16 @@
 }
 
 .receiver-text span:nth-child(3) {
-    height: 70px;
     border-top: none;
     line-height: 40px
 }
 
 .receiver-text span:nth-child(4) {
     border-top: none;
-    height: 52px;
+}
+
+.receiver-input>* {
+    padding-left: 15px;
 }
 
 .receiver-input,
@@ -163,34 +170,38 @@
     border: 1px solid #c4c2c2;
     border-left: none;
     border-right: none;
-    height: 56px;
+    font-size: 18px;
 }
 
 /* 연락처 인풋 태그 */
 .receiver-input>div:nth-child(2) {
-    padding: 14.5px;
     border: 1px solid #c4c2c2;
     border-left: none;
     border-right: none;
     border-top: none;
-    height: 55px;
     display: flex;
     align-items: center;
 }
 
 /* 배송지 주소 인풋 태그 */
 .receiver-input>div:nth-child(3) {
-    padding: 2px;
     border: 1px solid #c4c2c2;
     border-left: none;
     border-right: none;
     border-top: none;
-    height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.receiver-input>div:nth-child(3)>div:nth-child(1) {
+    padding-bottom: 3px;
 }
 
 .order-phone-box>select {
     width: 60px;
     height: 25px;
+    font-size: 18px;
 }
 
 .order-phone-box>span {
@@ -202,14 +213,10 @@
     align-items: center;
 }
 
-.order-address>div:nth-child(1)>input {
-    margin: 5px 5px 5px 10px;
-}
-
 .order-address>div:nth-child(2) input {
-    font-size: 12px;
-    margin-left: 10px;
+    font-size: 15px;
     width: 250px;
+    margin-right: 5px;
 }
 
 /* 주소 찾기 버튼 */
@@ -223,22 +230,23 @@
 /* 배송 메모 인풋 태그 */
 .receiver-input>div:nth-child(4) {
     display: flex;
-    padding: 3px;
     border: 1px solid #c4c2c2;
     border-left: none;
     border-right: none;
     border-top: none;
-    height: 52px;
+    align-items: center;
 }
 
 .receiver-input>div:nth-child(4)>input {
-    margin: 9px;
     height: 29px;
     width: 300px;
 }
 
 .receiver-input>div:nth-child(4)>select {
-    margin: 9px;
+    font-size: 16px;
+    margin-left: 5px;
+    height: 29px;
+    width: 180px;
 }
 
 /* 결제정보 */
@@ -253,12 +261,11 @@
 
 /* 결제예정금액,쿠폰할인,사용할 포인트,사용가능한 포인트 div */
 .payment-text>div {
-    padding: 15px;
     border: 1px solid #c4c2c2;
     border-left: none;
     background-color: #f3f3f3;
-    /* width: 180px; */
     height: 55px;
+    font-size: 20px;
 }
 
 .payment-text div:nth-child(2),
@@ -271,6 +278,7 @@
 .payment-discount {
     display: flex;
     flex-direction: column;
+    font-size: 20px;
 }
 
 .payment-discount-view {
@@ -283,21 +291,15 @@
     border-left: none;
     border-right: none;
     height: 55px;
+    padding-left: 15px;
+    display: flex;
+    align-items: center;
 }
 
-.payment-discount div:nth-child(1) {
-    height: 54px;
-}
-
-.payment-discount div:nth-child(4) {
-    height: 56px;
-    padding: 15px;
-}
 
 .payment-discount div:nth-child(1),
 .payment-discount div:nth-child(2),
 .payment-discount div:nth-child(3) {
-    padding: 15px;
     border-bottom: none;
 }
 
@@ -312,8 +314,8 @@
 .payPrice span {
     font-weight: bold;
     display: inline-block;
-    padding: 13px;
-    font-size: 18px;
+    font-size: 23px;
+    padding-left: 15px;
 }
 
 .payPrice>span:nth-child(1) {
