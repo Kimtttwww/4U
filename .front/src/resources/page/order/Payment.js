@@ -12,25 +12,10 @@ export default function Payment() {
     const prodImgs = location.state.prodImgs;
 
     const { buyer_name, buyer_addr, merchant_uid } = location.state.payData;
-    const { memberNo, memberName, phone, gradeNo, pointRate } = location.state.userInfo;
-    const { receiverName, address, phone1, phone2, phone3 } = location.state.changeInfo;;
-    const changePhone = phone1 + "-" + phone2 + "-" + phone3;
-    const receiverPhone = changePhone != null ? changePhone : phone
-
-
-    // const getPointRate = async () => {
-    //     const response = await selectPointRateAPI(memberNo);
-    //     location.state.userInfo.pointRate = response;
-    // };
-    const accumulate = paymentPrice * (pointRate / 100);
-
-    // useEffect(() => {
-    //     getPointRate();
-    // }, []);
-
-    useEffect(() => {
-        console.log(accumulate);
-    }, [accumulate]);
+    const { memberName, phone, gradeNo, pointRate } = location.state.userInfo;
+    const { receiverName, phone1, phone2, phone3 } = location.state.changeInfo;;
+    const receiverPhone = phone1 + "-" + phone2 + "-" + phone3;
+    const accumulate = Math.ceil(paymentPrice * pointRate / 100);
 
 
     return (
@@ -49,10 +34,10 @@ export default function Payment() {
                         <tr>
                             <td style={{ width: "10%" }}>이미지</td>
                             <td style={{ width: "40%" }}>상품명</td>
-                            <td style={{ width: "20%" }}>옵션</td>
-                            <td style={{ width: "10%" }}>상품금액</td>
+                            <td style={{ width: "16%" }}>옵션</td>
+                            <td style={{ width: "12%" }}>상품금액</td>
                             <td style={{ width: "10%" }}>수량</td>
-                            <td style={{ width: "10%" }}>주문금액</td>
+                            <td style={{ width: "12%" }}>주문금액</td>
                         </tr>
                     </thead>
                     <tbody>
@@ -82,7 +67,7 @@ export default function Payment() {
                         <span>배송메모</span>
                     </div>
                     <div className="payment-delivery-receiver">
-                        <span>{buyer_name}</span>
+                        <span>{memberName}</span>
                         <span>{receiverName}</span>
                         <span>{receiverPhone}</span>
                         <span>{buyer_addr}</span>

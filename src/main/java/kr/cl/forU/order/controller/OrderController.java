@@ -117,6 +117,7 @@ public class OrderController {
     	// 결제완료되면 ORDER, ORDER_PROD 테이블에 insert해주기
     	// insert완료하면 쿠폰사용했을 경우 COUPON 테이블 update,
     	// 포인트 사용했을 경우, 구매금액에 따라 MEMBER 회원등급 처리
+		// PRODUCT ORDERED +1
     	// 판매자에게 주문건 알림 
 		
     	log.info("orderDTO > " +  orderDTO.toString());
@@ -151,6 +152,7 @@ public class OrderController {
         				.price(orderDTO.getPrice().get(idx))
         				.build();
     			service.insertOrderProd(orderProd);
+    			pService.increaseOrdered(orderDTO.getProdNo().get(idx)) ;
     		}
     		
     	}else {
@@ -222,7 +224,6 @@ public class OrderController {
 			
 		log.info("totalPay ? {}", totalPay);
 		
-		
 		if(totalPay > 2000000) { //vip
 			member.setGradeNo(5);
 		}else if(totalPay > 1000000) { // dia
@@ -238,14 +239,11 @@ public class OrderController {
 		
 		if(member.getGradeNo() != 1) {
 			if(mService.updateMemberGrade(member) > 0) {
-				log.info("멤버grade 업데이트 성공했댜~ {}", member.getGradeNo());
-				
+				log.info("멤버grade 업데이트 성공 {}", member.getGradeNo());
 			}else {
 				log.info("멤버grade 업데이트 실패 {}", member.getGradeNo());
 			}
 		}
-		
-		
 	}
 	
 	

@@ -211,6 +211,11 @@ public class ProductDao {
 		return session.update(map + "sellerListYUpdate", prodNo);
 	}
 
+	public void increaseOrdered(int prodNo) {
+		session.update(map + "increaseOrdered", prodNo);
+		
+	}
+
 
 
 	

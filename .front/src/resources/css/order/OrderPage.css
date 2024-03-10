@@ -311,14 +311,14 @@
     border-bottom: 1px solid #c4c2c2;
 }
 
-.payPrice span {
+.payPrice div {
     font-weight: bold;
-    display: inline-block;
+    /* display: inline-block; */
     font-size: 23px;
     padding-left: 15px;
 }
 
-.payPrice>span:nth-child(1) {
+.payPrice>div:nth-child(1) {
     border-right: 1px solid #c4c2c2;
     width: 25%;
 }
@@ -395,6 +395,7 @@
 
 .optionBody {
     flex-direction: column;
+    font-size: 18px;
 }
 
 .optionBody>.form-check-1,
@@ -426,6 +427,7 @@
 /* 사용가능한 쿠폰보기 모달 */
 .coupon-modal {
     top: 20%;
+    /* width: 100%; */
 }
 
 .modal-header>h3 {
@@ -440,6 +442,7 @@
     display: flex;
     justify-content: space-between;
     margin-bottom: 10px;
+    font-size: 18px;
 }
 
 .coupon-no input[type='radio'] {
@@ -451,8 +454,8 @@
 }
 
 .coupon-validityDate {
-    opacity: 0.7;
-    font-size: 13px;
+    opacity: 0.8;
+    font-size: 14px;
     margin-bottom: 5px;
 }
 

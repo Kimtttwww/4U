@@ -538,8 +538,8 @@ export default function Order({ loginUser }) {
 						</div>
 
 						<div className="payPrice">
-							<span>결제하실 금액</span>
-							<span>
+							<div>결제하실 금액</div>
+							<div>
 								{
 									(totalPrice - discountPrice - applyPoint).toLocaleString()
 								}원
@@ -547,7 +547,7 @@ export default function Order({ loginUser }) {
 								{
 									(discountPrice + applyPoint).toLocaleString()
 								}원 절약
-							</span>)
+							</div>)
 						</div>
 					</div>
 				</div>

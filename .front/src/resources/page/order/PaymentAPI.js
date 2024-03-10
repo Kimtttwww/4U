@@ -6,8 +6,8 @@ import Cookies from "js-cookie";
 export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderProd, prodImgs }) {
 
     const navi = useNavigate();
-    const { memberNo, memberName, email, phone, zipCode, gradeNo, pointRate } = userInfo;
-    const { receiverName, phone1, phone2, phone3, address, addressDetail } = changeInfo;
+    const { memberNo, memberName, phone, gradeNo } = userInfo;
+    const { receiverName, phone1, phone2, phone3, address, addressDetail, zipCode } = changeInfo;
     const { applyCoupon, applyPoint, delMsg, discountPrice, totalPrice } = dataByPayment;
 
 
@@ -19,9 +19,6 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
         const script2 = document.createElement("script");
         script2.src = "https://cdn.iamport.kr/js/iamport.payment-1.2.0.js";
         document.head.appendChild(script2);
-
-        // OrderNo Setting
-        // setOrderNo(getOrderNo());
 
         return () => {
             document.head.removeChild(script1);
@@ -35,11 +32,6 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
         prodName = Object.keys(orderProd).length > 0 ? `${orderProd[0].prodName} 외 ` : orderProd[0].prodName;
     };
     const count = orderProd.length;
-    const buyerName = receiverName == "" ? memberName : receiverName;
-    const buyerTel = (phone1 || phone2 || phone3) ? phone1 + phone2 + phone3 : phone;
-    const addr = (changeInfo.address == "") ? address : changeInfo.address;
-    const addrDetail = (changeInfo.addressDetail == "") ? addressDetail : changeInfo.addressDetail;
-    const zip = (changeInfo.zipCode == "") ? zipCode : changeInfo.zipCode;
     const couponNo = Object.keys(applyCoupon).length > 0 ? applyCoupon.couponNo : 0;
     const payPrice = totalPrice - discountPrice - applyPoint;
 
@@ -47,10 +39,6 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
     const insertToDb = async (insertData) => {
         return await insertOrderAPI(insertData);
     };
-
-    // const getOrderNo = async () => {
-    //     return await selectOrderNoAPI();
-    // };
 
     const getObjData = (arr, key) => {
         let responseArr = [];
@@ -62,9 +50,22 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
         return responseArr;
     };
 
+    const updateCookies = () => {
+        const cartItems = JSON.parse(Cookies.get('cart'));
+
+        const newCookieItem = [];
+        for (let cartitem of cartItems) {
+            const sameProd = orderProd.filter((order) => (order.prodNo == cartitem.prodNo));
+            if (sameProd?.length == 0) {
+                newCookieItem.push(cartitem);
+            };
+        };
+        console.log("newCookieItem", newCookieItem);
+        Cookies.set('cart', JSON.stringify(newCookieItem));
+    };
+
+
     getObjData(Cookies.get('cart') ? JSON.parse(Cookies.get('cart')) : [], 'index');
-    // console.log(`${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}`);
-    // `${new Date().getFullYear()}${(new Date().getMonth() + 1 < 10 ? '0' : '')}${new Date().getMonth() + 1}${(new Date().getDate() < 10 ? '0' : '')}${new Date().getDate()}` 
     let orderData = {};
 
     const requestPay = () => {
@@ -81,10 +82,10 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
                 // payPrice,                                 // 결제금액
                 name: prodName,                             // 주문명
                 buyer_name: userInfo.memberName,                // 구매자 이름
-                buyer_tel: buyerTel,                     // 구매자 전화번호
+                buyer_tel: userInfo.phone,                     // 구매자 전화번호
                 buyer_email: userInfo.email,               // 구매자 이메일
-                buyer_addr: addr + " " + addrDetail,          // 구매자 주소
-                buyer_postcode: zip                    // 구매자 우편번호
+                buyer_addr: address + " " + addressDetail,          // 구매자 주소
+                buyer_postcode: zipCode                    // 구매자 우편번호
             };
             console.log(orderData);
             /* 4. 결제 창 호출하기 */
@@ -98,18 +99,17 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
                 error_msg
             } = response;
 
-
             if (success) {
                 alert('결제 성공');
-                // 
+
                 const insertData = {
                     memberNo: memberNo,
                     orderName: memberName,
-                    receiver: buyerName,
-                    receivePhone: buyerTel,
-                    address: addr,
-                    addressDetail: addrDetail,
-                    zipCode: zip,
+                    receiver: receiverName,
+                    receivePhone: phone1 + phone2 + phone3,
+                    address: address,
+                    addressDetail: addressDetail,
+                    zipCode: zipCode,
                     couponNo: couponNo,
                     point: applyPoint,
                     message: delMsg,
@@ -124,9 +124,8 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
 
                 };
                 insertToDb(insertData);
-                console.log("orderData ?", orderData);
-                console.log("insertData ?", insertData);
-                Cookies.remove("cart");
+                updateCookies();
+
                 navi('/order/payment', {
                     state: {
                         payData: orderData, userInfo: userInfo, changeInfo: changeInfo, orderProd: orderProd,
@@ -144,19 +143,16 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
 
         if (receiverName &&
             phone1 && phone2 && phone3 &&
-            address &&
-            addrDetail) {
+            address && addressDetail) {
             console.log(data);
             console.log(orderData);
 
             requestPay();
 
         } else {
-
             alert("배송정보가 모두 입력되지 않았습니다");
         };
     };
-
 
 
     return (

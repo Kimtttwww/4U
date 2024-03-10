@@ -176,6 +176,10 @@ public class ProductService {
 	public int sellerListYUpdate(int prodNo) {
 		return dao.sellerListYUpdate(prodNo);
 	}
+
+	public void increaseOrdered(int prodNo) {
+		dao.increaseOrdered(prodNo);
+	}
 	
 	
 	
