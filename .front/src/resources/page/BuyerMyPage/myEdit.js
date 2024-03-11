@@ -62,7 +62,19 @@ const MyEdit = () => {
 
     // 회원 탈퇴
     const memberDelete = () => {
-        alert("회원을 탈퇴하시겠습니까?")
+        
+        if(alert("회원을 탈퇴하시겠습니까?")){
+            axios.post("/member/deleteMember", member)
+            .then(response => {
+                alert("회원 탈퇴 성공");
+                navigate("/");
+            }). catch(error => {
+                console.error("정보 탈퇴 오류" , error);
+                alert("회원 탈퇴 실패");
+            })
+        }
+
+        
     }
 
     // 정보수정 눌렀을때 작동하는 방식
