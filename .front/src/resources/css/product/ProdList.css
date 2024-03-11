@@ -73,7 +73,7 @@
 }
 
 /* 금액(원가) 위치 조정 및 색상 */
-.prod-amount span:nth-child(2) {
+.prod-amount span:nth-child(2), .clothContent span:nth-of-child(2) {
 	margin-left: 10px;
 	text-decoration: line-through;
 	color: #ff0000;
@@ -107,6 +107,7 @@
 /* 상품 색상 박스 */
 .prod-color {
 	display: flex;
+	height: 20px;
 }
 
 /* 상품 색상 */

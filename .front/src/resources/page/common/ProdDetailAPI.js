@@ -24,8 +24,8 @@ export function checkDiscount(product) {
 	if (product.discountRate) {
 		let saledPrice = product.price * (100 - product.discountRate) / 100;
 		element = (<>
-			<span>\{priceConverter(saledPrice)}</span>
-			<span>\{priceConverter(product.price)}</span>
+			<span>\{priceConverter(saledPrice)}</span> &nbsp;
+			<span style={{ color: "red", textDecoration: "line-through"}}>{priceConverter(product.price)}</span>
 		</>);
 	} else { element = (<span>\{priceConverter(product.price)}</span>); }
 
