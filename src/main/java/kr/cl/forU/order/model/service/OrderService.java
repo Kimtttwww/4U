@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import kr.cl.forU.member.model.dao.MemberDao;
 import kr.cl.forU.member.model.vo.CouponUser;
 import kr.cl.forU.order.model.dao.OrderDao;
 import kr.cl.forU.order.model.vo.Order;
@@ -13,23 +12,23 @@ import kr.cl.forU.order.model.vo.RecentOrders;
 import kr.cl.forU.order.model.vo.OrderProd;
 import kr.cl.forU.product.model.vo.CategoryMain;
 import kr.cl.forU.product.model.vo.CategorySub;
-import lombok.extern.slf4j.Slf4j;
 
 
-@Slf4j
+
 @Service
 public class OrderService {
 
 	@Autowired
 	OrderDao dao;
 	
-	public List<Order> getAllOrders(int memberNo) {
-	return dao.findAll(memberNo);
-	}
 
-	public Order getOrderById(int orderNo) {
-		return dao.findById(orderNo);
-	}
+    public List<Order> getAllOrders(int memberNo) {
+    	return dao.findAll(memberNo);
+    }
+
+    public Order getOrderById(int orderNo) {
+        return dao.findById(orderNo);
+    }
 
 	public List<CategoryMain> selectMainCate() {
 		return dao.selectMainCate();
@@ -79,13 +78,7 @@ public class OrderService {
 		return dao.selectAllOrder();
 	}
 
-	public List<Order> sellerAllOrder() {
-		return dao.sellerAllOrder();
-	}
 
-//	public int insertOrderNotice() {
-//		return dao.insertOrderNotice();
-//	}
 
 
 	

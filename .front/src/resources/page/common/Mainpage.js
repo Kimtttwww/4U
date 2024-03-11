@@ -57,7 +57,7 @@ export default () => {
     axios.get("/product/outerProducts", null)
       .then((result) => {
         setOuterList(result.data);
-        // console.log(result.data);
+        console.log(result.data);
       }).catch((error) => {
         console.log(error);
         alert("상품을 불러오는 중 문제가 발생했습니다");
@@ -119,6 +119,51 @@ export default () => {
         alert("상품을 불러오는 중 문제가 발생했습니다");
       });
   }, []);
+  
+  function colorList(prod, prodList) {
+		let arr: Set<number> = new Set(prod.detail.map((dtl) => dtl.colorNo));
+		let imgList = [];
+
+		for (let i = 0; i < prod.image.length; i++) {
+			let img = prod.image[i];
+			if (arr.has(img.colorNo)) {
+				imgList.push(img);
+				arr.delete(img.colorNo);
+			}
+			if (!arr.size) break;
+		}
+
+		return (
+			imgList.map((img) => {
+				let { imgNo, refNo, rgb } = img;
+				return (<span onMouseEnter={(e) => changeImageToColor(e, refNo, prodList)} onMouseLeave={(e) => rollbackImage(e, refNo, prodList)}
+					style={{ backgroundColor: rgb, color: rgb }}>{imgNo}</span>);
+			})
+		);
+	}
+
+/**
+	 * 색깔에 커서 올리면 해당 색깔의 상품 이미지가 나오게 하는 fn
+	 * @param {SyntheticBaseEvent} e 이벤트 객체
+	 * @param {number} prodNo 해당 상품 번호
+	*/
+	function changeImageToColor(e, prodNo, prodList) {
+		const imgNo = Number(e.target.innerHTML);
+		const prod = prodList.find((p) => p.prodNo === prodNo);
+
+		e.target.parentElement.parentElement.previousSibling.src = prod.image.find((img) => img.imgNo === imgNo).imgName;
+	}
+
+	/**
+	 * 바뀌었던 이미지를 다시 원래 썸넬로 되돌리는 fn
+	 * @param {SyntheticBaseEvent} e 이벤트 객체
+	 * @param {number} prodNo 해당 상품 번호
+	 */
+	function rollbackImage(e, prodNo, prodList) {
+		const prod = prodList.find((p) => p.prodNo === prodNo);
+
+		e.target.parentElement.parentElement.previousSibling.src = prod.image.find((img) => img.imgType === 1)?.imgName;
+	}
 
   return (<>
     <Leftmenubar subCateClicked={subCateClicked} />
@@ -158,12 +203,17 @@ export default () => {
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
+
+                <div className="prod-color">{prod.image?.length && colorList(prod, prodList)}</div>
+
               </div>
             </div>
           );
         }) : <div>선택한 상품이 없습니다</div>}
       </div> {/* 이 부분에 닫는 태그를 추가했습니다. */}
     </div>
+
+        
 
     {/* =============================================아우터====================================================== */}
 
@@ -179,6 +229,9 @@ export default () => {
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
+
+                <div className="prod-color">{prod.image?.length && colorList(prod, outerList)}</div>
+
               </div>
             </div>
           );
@@ -201,6 +254,9 @@ export default () => {
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
+
+                <div className="prod-color">{prod.image?.length && colorList(prod, topList)}</div>
+
               </div>
             </div>
           );
@@ -222,6 +278,9 @@ export default () => {
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
+
+                <div className="prod-color">{prod.image?.length && colorList(prod, bottomList)}</div>
+
               </div>
             </div>
           );
@@ -243,6 +302,9 @@ export default () => {
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
+
+                <div className="prod-color">{prod.image?.length && colorList(prod, underList)}</div>
+
               </div>
             </div>
           );
@@ -264,6 +326,9 @@ export default () => {
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
                 <p> 가격: {checkDiscount(prod)}</p>
+
+                <div className="prod-color">{prod.image?.length && colorList(prod, accList)}</div>
+
               </div>
             </div>
           );

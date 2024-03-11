@@ -235,7 +235,11 @@
 		WHERE CATE_MAIN = 5
 	</select>
 	
-	
+	<update id="increaseOrdered" parameterType="int">
+		UPDATE PRODUCT
+		   SET ORDERED = ORDERED+1
+		 WHERE PROD_NO = #{prodNo}  
+	</update>
 
 
 
