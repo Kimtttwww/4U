@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
-    pageEncoding="UTF-8"%>
+     pageEncoding="UTF-8"%>
 <!doctype html>
 <html lang="ko">
 	<head>
@@ -15,8 +15,8 @@
 		<link rel="manifest" href="${ pageContext.request.contextPath }/resources/manifest.json"/>
 		<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"/>
 		<title>React App</title>
-		<script defer="defer" src="${ pageContext.request.contextPath }/resources/js/main.7af439a6.js"></script>
-		<link href="${ pageContext.request.contextPath }/resources/css/main.fcc0681a.css" rel="stylesheet">
+		<script defer="defer" src="${ pageContext.request.contextPath }/resources/js/main.c9fbf195.js"></script>
+		<link href="${ pageContext.request.contextPath }/resources/css/main.239a0aab.css" rel="stylesheet">
 	</head>
 	<body>
 		<noscript>You need to enable JavaScript to run this app.</noscript>

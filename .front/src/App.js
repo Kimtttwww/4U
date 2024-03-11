@@ -26,6 +26,7 @@ import SellerStats from "./resources/page/sellerMyPage/SellerStats";
 import Cookies from "js-cookie";
 import ReactGA from "react-ga";
 import SellerMemberInfo from "./resources/page/sellerMyPage/SellerMemberInfo";
+import LoginFilter from "./resources/components/LoginFilter";
 
 
 function App() {
@@ -79,7 +80,7 @@ function App() {
             </Route>
 
             {/* 로그인 필터 */}
-            <Route element={<><div>나중에 로그인 필터 넣을 곳</div><Outlet /></>}>
+            <Route element={<LoginFilter loginMember={loginMember} />}>
                {/* 구매자 마이페이지 */}
                <Route path="/buyer/mypage" element={<BuyerMyPage />} exact />
                <Route path="/BuyerCoupon" element={<BuyerCoupon />} />

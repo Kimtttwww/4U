@@ -19,7 +19,7 @@ export default function Error() {
                                 <span className="glitch" data-text="주소를 잘못 입력 하셨거나,">주소를 잘못 입력 하셨거나,</span>
                                 <span className="glitch" data-text="이전에 찾아놨던 페이지의 주소가 변경, 삭제되신것 같습니다.">이전에 찾아놨던 페이지의 주소가 변경, 삭제되신것 같습니다.</span>
                             </p>
-                            <a lang="en" href="http://localhost:3000/"><span className="glitch" data-text="메인 페이지로 이동">메인 페이지로 이동</span></a>
+                            <a lang="ko" className="glitch" data-text="메인 페이지로 이동"href="/">메인 페이지로 이동</a>
                         </div>
                     </div>
                 </div>

@@ -71,7 +71,6 @@ export default function Login(props) {
 			}
 		}
 		
-		setMember({...member});
 		let {memberId, memberPwd, isRememberId} = member;
 
 		if(memberId && memberPwd) {
@@ -87,8 +86,11 @@ export default function Login(props) {
 					setLoginMember(result.data);
 					setShowLogin(false);
 				} else {
-					setMember({memberId: '', memberPwd: ''});
-					for (let i = 0; i < 2; i++) {inputs.current[i].value = "";}
+					inputs.current[0].value = isRememberId ? memberId : "";
+					inputs.current[1].value = "";
+					if(isRememberId) inputs.current[1].focus();
+					else inputs.current[0].focus();
+					setMember({memberId: isRememberId ? memberId : '', memberPwd: ''});
 					alert('잘못된 아이디 혹은 비밀번호 입니다');
 				}
 			}).catch((e) => {

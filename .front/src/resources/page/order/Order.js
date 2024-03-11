@@ -1,12 +1,11 @@
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import ChangeOption from "../../modal/ChangeOption";
 import AvailbleCoupon from "../../modal/AvailableCoupon";
 import '../../css/order/OrderPage.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Modal } from 'react-bootstrap';
-import { userInfoAPI, loadProdDetilAPI, loadProdNameAPI, loadUserCouponAPI, loadUserPointAPI, loadProdImgAPI } from "./OrderAPI";
+import { userInfoAPI, loadProdNameAPI, loadUserCouponAPI, loadProdImgAPI } from "./OrderAPI";
 import { useNavigate } from "react-router-dom";
-import Payment from "./Payment";
 import PaymentAPI from "./PaymentAPI";
 import AddressAPI from "../common/AddressAPI"
 import Cookies from "js-cookie";
@@ -29,8 +28,6 @@ export default function Order({ loginUser }) {
 	const [prodImgs, setProdImgs] = useState([]);
 	const [userInfo, setuserInfo] = useState({});
 	const [userInfoChecked, setuserInfoChecked] = useState(false);
-	const [phoneParts, setPhoneParts] = useState(['', '', '']);
-	const [changePhoneParts, setChangePhoneParts] = useState(['', '', '']);
 	const [isOptionChange, setisOptionChange] = useState(false);
 	const [isChange, setIsChange] = useState(false); // 주문자정보 변경여부 체크
 	const [userCoupon, setUserCoupon] = useState({}); // member의 coupon
@@ -55,17 +52,11 @@ export default function Order({ loginUser }) {
 		address: "",
 		addressDetail: ""
 	});
-	const [zipAndAddress, setZipAndAddress] = useState({
-		zipCode: "",
-		address: ""
-	});
 
 	const openModal = () => setisOptionChange(true);
 	const closeModal = () => setisOptionChange(false);
 	const openCouponModal = () => setOpenCoupon(true);
 	const closeCouponModal = () => setOpenCoupon(false);
-	const handleModalOpen = () => setModalState(true);
-	const handleModalClose = () => setModalState(false);
 
 
 	// 쿠키에 담아놓은 주문할 상품데이터 꺼내오기
@@ -75,7 +66,7 @@ export default function Order({ loginUser }) {
 		};
 		if (orderProd.length === 0) {
 			const prodNoArr = [];
-			cartItems?.map(item => {
+			cartItems?.forEach(item => {
 				prodNoArr.push(item.prodNo)
 			});
 
@@ -328,7 +319,7 @@ export default function Order({ loginUser }) {
 		if (orderProd.length > 0 && cartItems != null) {
 			// 쿠키에서 담아온 배열 객체에 추가적인 정보를 더 넣기 위해서 합칠거임
 			let arr = [];
-			orderProd?.map((order) => {
+			orderProd?.forEach((order) => {
 				order = {
 					...order, ...cartItems?.filter(
 						(item) => item.prodNo == order.prodNo)[0]
@@ -461,7 +452,7 @@ export default function Order({ loginUser }) {
 
 								<button type="button" onClick={toggleModal} className="btn btn-primary">주소 찾기</button>
 								{/* Daum 주소 API 컴포넌트 */}
-								<Modal id="modal" show={modalState} onHide={handleModalClose}
+								<Modal id="modal" show={modalState} onHide={() => setModalState(false)}
 									dialogClassName='DaumModal' className="addressAPI-modal">
 									<AddressAPI onCompletePost={onCompletePost} />
 								</Modal>
