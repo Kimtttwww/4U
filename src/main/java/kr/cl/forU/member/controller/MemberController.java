@@ -115,12 +115,14 @@ public class MemberController {
 	
 	@CrossOrigin(origins = "https://localhost:3000")
 	@PostMapping("/editInfo")
-	public Map<String, Object> updateMember(@RequestBody Member m) {
+	public boolean updateMember(@RequestBody Member m) {
 	
 		log.info("\n{}",m);
-		String encodedPassword = passwordEncoder.encode(m.getMemberPwd());
-		m.setMemberPwd(encodedPassword);
+		log.info("\n비밀번호 = {}", m.getMemberPwd());
 		
+		if(m.getMemberPwd() != null && m.getMemberPwd() != "") m.setMemberPwd(passwordEncoder.encode(m.getMemberPwd()));
+		
+		log.info("\n비밀번호 = {}", m.getMemberPwd());
 		
 		String formatPhoneOne = (m.getPhone().substring(0,3));
 		log.info("\n 전화번호 = {}", formatPhoneOne);
@@ -133,16 +135,7 @@ public class MemberController {
 		m.setPhone(phoneFinal);
 		log.info("\n 전화번호 = {}", m.getPhone());
 		
-		int result = service.updateMember(m);
-		Map<String, Object> map = new HashMap<>();
-		
-		if(result > 0) {
-			map.put("msg", "정보수정 성공");
-		} else {
-			map.put("msg", "정보수정 실패");
-		}
-		log.info("map로그 = {}", map);
-		return map;
+		return service.updateMember(m) > 0;
 	}
 	
 	@CrossOrigin(origins = "https://localhost:3000")

@@ -158,10 +158,10 @@ const handleProductClick = product => {
       setPassWord(response.data);
       console.log(response.data);
       if(response.data) {
-        alert('비밀번호 일치');
+        alert('정보수정 페이지로 이동합니다.');
         navigate('/buyer/mypage/myEdit');
       } else {
-        alert('비밀번호 불일치');
+        alert('비밀번호가 맞지 않습니다.');
         navigate('/buyer/mypage')
       }
     } catch (error) { 

@@ -11,11 +11,8 @@ import BuyerMyPage from './BuyerMyPage';
 const MyEdit = () => {
     const onCompletePost = (data) => {
         // 'data'에는 선택한 주소 정보가 포함됩니다.
-        const { address, zonecode } = data;
-
         // 선택한 주소 및 우편번호로 상태 변수 업데이트
-        setInputAddressValue(address);
-        setInputZipCodeValue(zonecode);
+        setMember({...member, address: data.address, zipCode: data.zonecode});
 
         // DaumPost 모달 닫기
         setModalState(false);
@@ -29,8 +26,6 @@ const MyEdit = () => {
     const [MemberInfo , setMemberInfo] = useState([]);
     // DAUM API
     const [modalState, setModalState] = useState(false);
-    const [address, setInputAddressValue] = useState('');
-    const [inputZipCodeValue, setInputZipCodeValue] = useState('');
     const [showTooltip, setShowTooltip] = useState({memberPwd: false, checkPwd: false, email: false, phone: false});
     const inputs = useRef([]);
 
@@ -67,12 +62,11 @@ const MyEdit = () => {
     useEffect(() => {
         const loginMember = Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null;
 
-        console.log(loginMember);
         if(loginMember) {
             axios.post("/order/loadMemberInfo", JSON.stringify(loginMember.memberNo), { headers: {'Content-type': 'application/json; charset=UTF-8'}})
             .then((data) => {
                 let memberFull = data.data;
-
+                console.log(data.data)
                 if(memberFull.phone) {memberFull.phone = memberFull.phone.split("-").join("")}
 
                 setMember({...memberFull, memberPwd: ""});
@@ -113,20 +107,31 @@ const MyEdit = () => {
 
     // 정보수정 눌렀을때 작동하는 방식
     const handleSignUp = () => {
+        let validate = (!setShowTooltip.memberPwd && !setShowTooltip.checkPwd) || (setShowTooltip.memberPwd == "사용가능한 비밀번호입니다." && setShowTooltip.checkPwd == "비밀번호가 일치합니다.") && setShowTooltip.phone && setShowTooltip.email && member.address && member.addressDetail.trim();
+        // const validate = []
+        // validate.push((!setShowTooltip.memberPwd && !setShowTooltip.checkPwd) || (setShowTooltip.memberPwd == "사용가능한 비밀번호입니다." && setShowTooltip.checkPwd == "비밀번호가 일치합니다."))
+        // validate.push(!setShowTooltip.phone)
+        // validate.push(!setShowTooltip.email)
+        // validate.push(member.address)
+        // validate.push(member.addressDetail.trim())
 
-        if(!setShowTooltip && inputs.current[2].value !== ""){
-        axios.post("/member/editInfo", member)
-        .then(response => {
-            alert("정보 수정 성공");
-            navigate("/");
-        }).catch(error => {
-            console.error("정보 수정 오류", error);
-            alert("실패");
-        });
-        alert("정보수정 성공")
-    } else{
-        alert("수정을 올바르게 해주세요.")
-    }
+        
+        if(validate){
+            axios.post("/member/editInfo", member)
+            .then(response => {
+                if(response.data){
+                    alert("정보 수정 성공!");
+                    navigate("/buyer/mypage/");
+                } else{
+                    alert("수정을 다시 한번 확인해주세요.");
+                }
+            }).catch(error => {
+                console.error("정보 수정 오류", error);
+                alert("실패");
+            });
+        } else{
+            alert("수정을 올바르게 해주세요.")
+        }
 
     }
 
@@ -141,10 +146,10 @@ const MyEdit = () => {
                 case 'memberPwd':
                     if(e.target.value?.length > 16) {
                         setShowTooltip({...showTooltip, [e.target.name]: '비밀번호는 16자 이하여야합니다.'});
-                    } else if (e.target.value?.length < 8) {
-                        setShowTooltip({...showTooltip, [e.target.name]: '비밀번호는 최소 8자 이상 16자 이하'});
                     } else if (e.target.value?.length === 0) {
                         setShowTooltip({...showTooltip, [e.target.name]: false});
+                    } else if (e.target.value?.length < 8) {
+                        setShowTooltip({...showTooltip, [e.target.name]: '비밀번호는 최소 8자 이상 16자 이하'});
                     } else {
                         setShowTooltip({...showTooltip, [e.target.name]: '사용가능한 비밀번호입니다.'});
                     }
@@ -191,9 +196,9 @@ const MyEdit = () => {
 
     <div className='signUp-password'>
       <div className="mb-3">
-        <label for="disabledTextInput" className="form-label">비밀번호
+        <label className="form-label">비밀번호
 
-        <input ref={(e) => {inputs.current[0] = e}} type="password" id="disabledTextInput"
+        <input ref={(e) => {inputs.current[0] = e}} type="password" 
             className="form-control" name="memberPwd"  onChange={changeMember} style={{ width: '250px' }}/>
         <Overlay target={inputs.current[0]} show={showTooltip.memberPwd} placement="bottom" >
             {(props) => (<Tooltip {...props}>{showTooltip.memberPwd}</Tooltip>)}
@@ -204,7 +209,7 @@ const MyEdit = () => {
 
 
       <div className="mb-3">
-        <label for="disabledTextInput" className="form-label">비밀번호 확인
+        <label  className="form-label">비밀번호 확인
 
         <input ref={(e) => {inputs.current[1] = e}} type="password"
             className="form-control" name='checkPwd' onChange={changeMember} style={{ width: '250px' }}/>
@@ -218,9 +223,9 @@ const MyEdit = () => {
 
 
     <div className="mb-3">
-        <label for="disabledTextInput" className="form-label">이메일
+        <label className="form-label">이메일
 
-        <input ref={(e) => {inputs.current[2] = e}} type="text" id="disabledTextInput0" name="email"
+        <input ref={(e) => {inputs.current[2] = e}} type="text" name="email"
             value={member?.email} className="form-control" onChange={changeMember} style={{ width: '250px' }}/>
         <Overlay target={inputs.current[2]} show={showTooltip.email} placement="bottom">
         {(props) => (<Tooltip {...props}>{showTooltip.email}</Tooltip>)}
@@ -229,9 +234,9 @@ const MyEdit = () => {
     </div>
 
     <div className="mb-3">
-        <label for="disabledTextInput" className="form-label">전화번호
+        <label className="form-label">전화번호
 
-        <input ref={(e) => {inputs.current[3] = e}} type="text" id="disabledTextInput0" name="phone"
+        <input ref={(e) => {inputs.current[3] = e}} type="text" name="phone"
             value={member?.phone} className="form-control" onChange={changeMember} style={{ width: '250px' }}/>
         <Overlay target={inputs.current[3]} show={showTooltip.phone} placement="bottom">
         {(props) => (<Tooltip {...props}>{showTooltip.phone}</Tooltip>)}
@@ -240,10 +245,10 @@ const MyEdit = () => {
     </div>
 
     <div>
-        <label for="disabledTextInput" name="zipCode" className="form-label">우편번호</label>
+        <label name="zipCode" className="form-label">우편번호</label>
       <div className="mb-3 signUp-postcode">
-
-        <input type="text" id="disabledTextInput" className="form-control"readOnly value={member?.inputZipCodeValue} onChange={changeMember} placeholder='우편번호'
+        
+        <input type="text" className="form-control" readOnly value={member?.zipCode} onChange={changeMember} placeholder='우편번호'
 
         style={{ width: '100px' }}/>
       <button type="button" onClick={toggleModal} className= "btn btn-primary address-btn">주소 찾기</button>
@@ -252,8 +257,8 @@ const MyEdit = () => {
 
     <div className='signUp-address'>
       <div className="mb-3">
-        <label for="disabledTextInput" className="form-label">주소</label>
-        <input type="text" id="disabledTextInput" name="address" className="form-control" readOnly value={member?.address} onChange={changeMember}
+        <label className="form-label">주소</label>
+        <input type="text" name="address" className="form-control" readOnly value={member?.address} onChange={changeMember}
         style={{ width: '250px' }}/>
 
         {/* Daum 주소 API 컴포넌트 */}
@@ -268,8 +273,8 @@ const MyEdit = () => {
       </div>
 
       <div className="mb-3">
-        <label for="disabledTextInput" className="form-label">상세주소</label>
-        <input type="text" id="disabledTextInput" name="addressDetail" className="form-control"value={member?.addressDetail} onChange={changeMember} placeholder='상세 주소를 입력하세요.'
+        <label  className="form-label">상세주소</label>
+        <input type="text" name="addressDetail" className="form-control"value={member?.addressDetail} onChange={changeMember} placeholder='상세 주소를 입력하세요.'
         style={{ width: '250px' }}/>
 
       </div>
