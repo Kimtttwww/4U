@@ -1,4 +1,4 @@
-import { Route, Routes } from "react-router-dom";
+import { Outlet, Route, Routes } from "react-router-dom";
 import BuyerMyPage from "./resources/page/BuyerMyPage/BuyerMyPage";
 import MyEdit from "./resources/page/BuyerMyPage/myEdit";
 import CartList from "./resources/page/BuyerMyPage/cart/CartList";
@@ -78,38 +78,40 @@ function App() {
                <Route path="cateSearch" element={<CategorySearch />} />
             </Route>
 
-            {/* 구매자 마이페이지 */}
-            <Route path="/buyer/mypage" element={<BuyerMyPage />} exact />
-            <Route path="/BuyerCoupon" element={<BuyerCoupon />} />
+            {/* 로그인 필터 */}
+            <Route element={<><div>나중에 로그인 필터 넣을 곳</div><Outlet /></>}>
+               {/* 구매자 마이페이지 */}
+               <Route path="/buyer/mypage" element={<BuyerMyPage />} exact />
+               <Route path="/BuyerCoupon" element={<BuyerCoupon />} />
 
-            {/* 구매자 마이페이지 정보수정 */}s
-            <Route path="/buyer/mypage/myEdit" element={<MyEdit />} />
+               {/* 구매자 마이페이지 정보수정 */}
+               <Route path="/buyer/mypage/myEdit" element={<MyEdit />} />
 
-            {/* 장바구니 관련 */}
-            <Route path="/cart/CartList/" element={<CartList />} />
+               {/* 장바구니 관련 */}
+               <Route path="/cart/CartList/" element={<CartList />} />
 
-            {/* 판매자 마이페이지 */}
-            <Route path="/sellerMypage" element={<SellerMyPage />}>
-               {/* 주문 확인 */}
-               <Route path="list" element={<SellerOrderList />} />
-               {/* 상품 관리 */}
-               <Route path="management" element={<SellerManagement />} />
-               {/* 상품 관리 탭 등록 하기 */}
-               <Route path="management/registration" element={<SellerRegistration />} />
-               {/* 리뷰 관리 */}
-               <Route path="review" element={<SellerReview />} />
-               {/* 통계 */}
-               <Route path="stats" element={<SellerStats />} />
-               {/* 멤버 관리 */}
-               <Route path="meminfo" element={<SellerMemberInfo />} />
-            </Route>
+               {/* 판매자 마이페이지 */}
+               <Route path="/sellerMypage" element={<SellerMyPage />}>
+                  {/* 주문 확인 */}
+                  <Route path="list" element={<SellerOrderList />} />
+                  {/* 상품 관리 */}
+                  <Route path="management" element={<SellerManagement />} />
+                  {/* 상품 관리 탭 등록 하기 */}
+                  <Route path="management/registration" element={<SellerRegistration />} />
+                  {/* 리뷰 관리 */}
+                  <Route path="review" element={<SellerReview />} />
+                  {/* 통계 */}
+                  <Route path="stats" element={<SellerStats />} />
+                  {/* 멤버 관리 */}
+                  <Route path="meminfo" element={<SellerMemberInfo />} />
+               </Route>
 
-            {/* QNA */}
-            <Route path="/qna">
-               {/* ? */}
-               <Route path="listqna" element={<ListQna />} />
-            </Route>
-
+               {/* QNA */}
+               <Route path="/qna">
+                  {/* ? */}
+                  <Route path="listqna" element={<ListQna />} />
+               </Route>
+           </Route>
             {/* 그 외의 페이지 */}
             <Route path="*" element={<Error />} />
          </Routes>
