@@ -52,6 +52,7 @@ public class MemberController {
 	
 	@PutMapping("/deleteMember/{memberNo}")
 	public int deleteMember(@PathVariable int memberNo) {
+		log.info("\nint = {}", memberNo);
 		return service.deleteMember(memberNo);
 	}
 	

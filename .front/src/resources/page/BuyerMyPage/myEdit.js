@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router-dom';
 import {Alert, Modal, Overlay, Tooltip} from 'react-bootstrap';
 import Cookies from 'js-cookie';
 import axios from 'axios';
+import BuyerMyPage from './BuyerMyPage';
 
 const MyEdit = () => {
     const onCompletePost = (data) => {
@@ -22,10 +23,10 @@ const MyEdit = () => {
 
     // 정보수정상태값 선언
     const [member, setMember] = useState(null);
-
+    const [PassWord , setPassWord] = useState("");
     // 리다이렉트 문구
     const navigate = useNavigate();
-
+    const [MemberInfo , setMemberInfo] = useState([]);
     // DAUM API
     const [modalState, setModalState] = useState(false);
     const [address, setInputAddressValue] = useState('');
@@ -33,6 +34,35 @@ const MyEdit = () => {
     const [showTooltip, setShowTooltip] = useState({memberPwd: false, checkPwd: false, email: false, phone: false});
     const inputs = useRef([]);
 
+    const handlePasswordCheck = async () => {
+
+        setMember({...member});
+    
+        const loginMember = Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null;
+        
+        let Memberinfo = {
+          "memberId" : loginMember.memberId, // 로그인된 멤버의 멤버 아이디를 가져옴
+          "memberPwd" : member.memberPwd // 내가 친 패스워드를 가져옴
+        }
+    
+        console.log(MemberInfo.memberPwd);
+        console.log(MemberInfo.memberId);
+        
+        try {
+          const response = await axios.post('/member/login', Memberinfo)
+          setPassWord(response.data);
+          console.log(response.data);
+          if(response.data) {
+            alert('비밀번호 일치');
+            navigate('/buyer/mypage/myEdit');
+          } else {
+            alert('비밀번호 불일치');
+            navigate('/buyer/mypage')
+          }
+        } catch (error) { 
+          console.error('멤버 로드 오류:', error); // 오류 발생 시 콘솔에 오류 메시지 출력
+        }
+      };
 
     useEffect(() => {
         const loginMember = Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null;
@@ -60,22 +90,26 @@ const MyEdit = () => {
     // 모든 폼 유효성을 추적할 상태 추가
     const [isFormValid, setIsFormValid] = useState(false);
 
-    // 회원 탈퇴
-    const memberDelete = () => {
-        
-        if(alert("회원을 탈퇴하시겠습니까?")){
-            axios.post("/member/deleteMember", member)
-            .then(response => {
-                alert("회원 탈퇴 성공");
-                navigate("/");
-            }). catch(error => {
-                console.error("정보 탈퇴 오류" , error);
-                alert("회원 탈퇴 실패");
-            })
-        }
 
-        
-    }
+
+    // 회원 탈퇴
+    const deleteMember = async () => {
+        const confirmDelete = window.confirm("정말 회원을 삭제하시겠습니까?");
+        if (confirmDelete) {
+            await axios.put(`/member/deleteMember/${member.memberNo}`)
+            .then(response =>{
+
+                alert("회원 삭제 성공");
+                Cookies.remove("loginMember");
+                setMember(null);
+                window.location.href = '/';
+
+            }).catch( (error) =>{
+                console.error('멤버 삭제 에러', error);
+            });
+        }
+    };
+
 
     // 정보수정 눌렀을때 작동하는 방식
     const handleSignUp = () => {
@@ -242,8 +276,8 @@ const MyEdit = () => {
     </div>
 
 
-    <button type="submit" className="btn btn-primary inroll-btn" onClick={handleSignUp}>정보수정</button>
-    <button type="submit" className="btn btn-primary inroll-btn" onClick={memberDelete}>회원탈퇴</button>
+    <button type="button" className="btn btn-primary inroll-btn" onClick={handleSignUp}>정보수정</button>
+    <button type= "button" className="btn btn-primary inroll-btn" onClick={deleteMember}>회원탈퇴</button>
   </fieldset>
 
 </form>
