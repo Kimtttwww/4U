@@ -32,7 +32,7 @@ export default function AvailableCoupon({ show, closeModal, loginUser, userCoupo
                                 JSON.stringify(userCoupon) === '{}' ?
                                     <div>사용가능한 쿠폰이 없습니다.</div> :
                                     (
-                                        userCoupon?.filter(item => item.status === 'Y' || new Date(item.validityDate) > new Date()).map((item, index) => (
+                                        userCoupon?.filter(item => item.status === 'Y' || new Date(item.validityDate) < new Date()).map((item, index) => (
                                             <div key={index} className='coupon-no'>
                                                 <div>
                                                     <input type='radio' name={"checkedCoupon"}

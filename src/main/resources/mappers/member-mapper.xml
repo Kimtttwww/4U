@@ -109,7 +109,7 @@
 	
 	<update id="increasePoint" parameterType="member">
 		UPDATE MEMBER
-		   SET POINT = #{point}
+		   SET POINT = POINT+ #{point}
 		 WHERE MEMBER_NO = #{memberNo}
 	</update>
 	

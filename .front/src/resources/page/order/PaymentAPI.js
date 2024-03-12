@@ -8,7 +8,7 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
     const navi = useNavigate();
     const { memberNo, memberName, phone, gradeNo } = userInfo;
     const { receiverName, phone1, phone2, phone3, address, addressDetail, zipCode } = changeInfo;
-    const { applyCoupon, applyPoint, delMsg, discountPrice, totalPrice } = dataByPayment;
+    const { applyCoupon, applyPoint, delMsg, discountCoupon, totalPrice, discountProd } = dataByPayment;
 
 
     useEffect(() => {
@@ -33,7 +33,7 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
     };
     const count = orderProd.length;
     const couponNo = Object.keys(applyCoupon).length > 0 ? applyCoupon.couponNo : 0;
-    const payPrice = totalPrice - discountPrice - applyPoint;
+    const payPrice = totalPrice - discountCoupon - applyPoint;
 
 
     const insertToDb = async (insertData) => {
@@ -78,7 +78,7 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
                 pg: 'html5_inicis',                           // PG사
                 pay_method: 'card',                           // 결제수단 //가상계좌 vbank
                 merchant_uid: new Date().getTime(),   // 주문번호
-                amount: 100,
+                amount: payPrice,
                 // payPrice,                                 // 결제금액
                 name: prodName,                             // 주문명
                 buyer_name: userInfo.memberName,                // 구매자 이름
@@ -129,7 +129,8 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
                 navi('/order/payment', {
                     state: {
                         payData: orderData, userInfo: userInfo, changeInfo: changeInfo, orderProd: orderProd,
-                        totalPrice: totalPrice, paymentPrice: payPrice, message: delMsg, prodImgs: prodImgs
+                        totalPrice: totalPrice, paymentPrice: payPrice, message: delMsg, prodImgs: prodImgs,
+                        discountProd: discountProd
                     }
                 });
             } else {

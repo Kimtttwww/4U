@@ -9,14 +9,29 @@ export default function Payment() {
     const paymentPrice = location.state.paymentPrice;
     const message = location.state.message;
     const prodImgs = location.state.prodImgs;
+    const discountProd = location.state.discountProd;
 
     const { buyer_name, buyer_addr, merchant_uid } = location.state.payData;
     const { memberName, phone, gradeNo, pointRate } = location.state.userInfo;
     const { receiverName, phone1, phone2, phone3 } = location.state.changeInfo;;
     const receiverPhone = phone1 + "-" + phone2 + "-" + phone3;
-    const accumulate = Math.ceil(paymentPrice * pointRate / 100);
+    const accumulate = Math.ceil(paymentPrice * pointRate / 100); //회원등급에 따른 적립포인트
 
+    // 상품 할인율이 있으면 할인가 노출
+    const precision = 10;
+    const checkTotalPrice = (item) => {
 
+        let result = 0; // 빈 객체 생성
+        if (item.discountRate) {
+            let saledPrice = Math.floor(item.price * (100 - item.discountRate) / 100 / precision) * precision;
+            result = saledPrice // 할인된 가격 
+        } else {
+            result = item.price // 원래 가격 
+        }
+        return result; // 객체 반환
+    };
+
+    console.log(orderProd);
     return (
         <div className="payment-container">
             <p className="payment-complate">주문 완료</p>
@@ -49,7 +64,7 @@ export default function Payment() {
                                     <td>{item.colorName}/{item.size}</td>
                                     <td>{(item.price).toLocaleString()}원</td>
                                     <td>{item.count}</td>
-                                    <td>{(item.price * item.count).toLocaleString()}원</td>
+                                    <td>{(checkTotalPrice(item) * item.count).toLocaleString()}원</td>
                                 </tr>
                             ))
                         }
@@ -84,11 +99,11 @@ export default function Payment() {
                         <div className="payment-discount-content1">
                             <div>
                                 <span>총 상품금액</span>
-                                <span>{totalPrice.toLocaleString()}원</span>
+                                <span>{(discountProd + totalPrice).toLocaleString()}원</span>
                             </div>
                             <div>
                                 <span>할인혜택</span>
-                                <span>{(totalPrice - paymentPrice).toLocaleString()}원</span>
+                                <span>{(discountProd + totalPrice - paymentPrice).toLocaleString()}원</span>
                             </div>
                             <div>
                                 <span>최종 결제금액</span>

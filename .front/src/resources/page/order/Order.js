@@ -9,7 +9,6 @@ import { useNavigate } from "react-router-dom";
 import PaymentAPI from "./PaymentAPI";
 import AddressAPI from "../common/AddressAPI"
 import Cookies from "js-cookie";
-// import { checkDiscount } from "../common/ProdDetailAPI";
 
 export default function Order({ loginUser }) {
 
@@ -42,7 +41,8 @@ export default function Order({ loginUser }) {
 	const [orderIndex, setOrderIndex] = useState(0);
 	const [prodCount, setProdCount] = useState();
 	const [totalPrice, setTotalPrice] = useState(0);
-	const [discountPrice, setdiscountPrice] = useState(0);
+	const [discountCoupon, setDiscountCoupon] = useState(0);
+	const [discountProd, setdiscountProd] = useState(0);
 	const [inputChange, setInputChange] = useState({
 		receiverName: "",
 		phone1: "010",
@@ -79,28 +79,36 @@ export default function Order({ loginUser }) {
 		};
 	};
 
+	const precision = 10;
+	// 상품 할인율이 있으면 정상가+할인가 노출
 	const checkDiscount = (item) => {
 		let element;
+		let discount = 0;
 		if (item.discountRate) {
-			let saledPrice = item.price * (100 - item.discountRate) / 100;
-			element = (
-				<>
-					<div className="prod-discount-style">{(item.price).toLocaleString()}원</div>
-					<div>{saledPrice.toLocaleString()}원</div>
-				</>
-			);
-		} else { element = (<span>{(item.price).toLocaleString()}원</span>); }
+			let saledPrice = Math.floor(item.price * (100 - item.discountRate) / 100 / precision) * precision;
+			element = (<>
+				<div style={{ color: "red", textDecoration: "line-through" }}>{(item.price).toLocaleString() + "원"}</div>
+				<div>{(saledPrice).toLocaleString() + "원"}</div>
+			</>);
+		} else { element = (<div>{item.price.toLocaleString() + "원"}</div>); }
+
 		return element;
 	};
 
+
+	// 상품 할인율이 있으면 할인가 노출
 	const checkTotalPrice = (item) => {
-		let element;
+
+		let result = 0; // 빈 객체 생성
 		if (item.discountRate) {
-			let saledPrice = ((item.price * (100 - item.discountRate) / 100) * item.count).toLocaleString()
-			element = (<span>{saledPrice}</span>);
-		} else { element = (<span>{(item.price * item.count).toLocaleString()}</span>); }
-		return element;
-	}
+			let saledPrice = Math.floor(item.price * (100 - item.discountRate) / 100 / precision) * precision;
+			result = saledPrice.toLocaleString() + "원"; // 할인된 가격 
+		} else {
+			result = item.price.toLocaleString() + "원"; // 원래 가격 
+		}
+		return result; // 객체 반환
+	};
+
 
 	// 해당 상품의 수량 증가
 	const increaseCount = (index) => {
@@ -218,11 +226,12 @@ export default function Order({ loginUser }) {
 		const findCoupon = userCoupon.filter(item => item.couponNo == data);
 		if (findCoupon) {
 			const disPrice = findCoupon[0].discount == 0 ?
-				totalPrice - (totalPrice * (1 - findCoupon[0].discountRate / 100)) : findCoupon[0].discount;
-			setdiscountPrice(disPrice);
+				Math.floor(totalPrice - (totalPrice * (1 - findCoupon[0].discountRate / 100)) / precision) * precision : findCoupon[0].discount;
+			setDiscountCoupon(disPrice);
 			setApplyCoupon(findCoupon[0]);
 		};
 	};
+
 
 	// 적용할 point
 	const pointHandler = (e) => {
@@ -254,7 +263,7 @@ export default function Order({ loginUser }) {
 
 	// 결제하기 버튼 클릭시 보낼 데이터들
 	const dataByPayment = {
-		applyCoupon, applyPoint, delMsg, totalPrice, discountPrice
+		applyCoupon, applyPoint, delMsg, totalPrice, discountCoupon, discountProd
 	};
 
 	useEffect(() => {
@@ -313,7 +322,7 @@ export default function Order({ loginUser }) {
 			const closeBtn = document.querySelector(".modal-header").children[1];
 			closeBtn.addEventListener('click', (e) => { setModalState(false); });
 		}
-	}, [modalState])
+	}, [modalState]);
 
 	useEffect(() => {
 		if (orderProd.length > 0 && cartItems != null) {
@@ -330,10 +339,24 @@ export default function Order({ loginUser }) {
 			setCartItems(null);
 		};
 
-		const allPrice = orderProd.reduce((total, product) =>
-			total + (product.price * product.count), 0);
-		setTotalPrice(allPrice);
+		let price = 0;
+		let priceSum = orderProd.reduce((total, prod) => total + prod.price, 0);
+		const allPrice = orderProd.map((prod) => {
+
+			let total = 0;
+			if (prod.discountRate) {
+				total = Math.floor(prod.price * (100 - prod.discountRate) / 100 / precision) * precision * prod.count
+			}
+			else {
+				total = prod.price * prod.count
+			}
+			price += total;
+			setTotalPrice(price);
+			return price;
+		});
+		setdiscountProd(priceSum - price);
 	}, [orderProd, prodCount]);
+
 
 	return (
 		<div className="order-container">
@@ -372,7 +395,9 @@ export default function Order({ loginUser }) {
 											closeModal={closeModal}
 											orderProd={orderProd[orderIndex]} />
 									</td>
-									<td className="table-price">{checkDiscount(item)}</td>
+									<td className="table-price">
+										{checkDiscount(item)}
+									</td>
 									<td className="countTdTag">
 										<div className="prod-price-style">
 											{item.count}
@@ -386,7 +411,7 @@ export default function Order({ loginUser }) {
 												onClick={() => decreaseCount(index)} />
 										</div>
 									</td>
-									<td>{(checkTotalPrice(item))}원</td>
+									<td>{(checkTotalPrice(item))}</td>
 									<td>
 										<img src="/photo/order-x.png"
 											style={{ width: "25px" }}
@@ -399,8 +424,11 @@ export default function Order({ loginUser }) {
 					}
 				</tbody>
 			</table>
+			<div className="totalPrice">
+				<span>총 주문금액 {totalPrice.toLocaleString()}원</span>
+				<span>({discountProd.toLocaleString()}원 할인)</span>
+			</div>
 
-			<span className="totalPrice">총 주문금액 {totalPrice.toLocaleString()}원</span>
 
 			<div className="delivery-info">
 				<span className="order-delivery-title">배송정보</span>
@@ -500,7 +528,7 @@ export default function Order({ loginUser }) {
 								<div className="payment-discount-view">
 									<input type="number"
 										style={{ width: '80px', height: "30px" }} readOnly
-										value={discountPrice} />원
+										value={discountCoupon} />원
 									<Button type="button" variant="secondary"
 										style={{ width: '120px', height: '25px', fontSize: '12px', padding: '0', marginLeft: '10px' }}
 										onClick={openCouponModal}>
@@ -528,15 +556,16 @@ export default function Order({ loginUser }) {
 							</div>
 						</div>
 
+
 						<div className="payPrice">
 							<div>결제하실 금액</div>
 							<div>
 								{
-									(totalPrice - discountPrice - applyPoint).toLocaleString()
+									(totalPrice - discountCoupon - applyPoint).toLocaleString()
 								}원
 								(
 								{
-									(discountPrice + applyPoint).toLocaleString()
+									(discountCoupon + applyPoint).toLocaleString()
 								}원 절약
 							</div>)
 						</div>

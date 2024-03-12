@@ -32,6 +32,10 @@
     align-items: center;
 }
 
+/* .countTdTag>div {
+    display: flex;
+} */
+
 /* 수량 up-down 버튼 */
 .updownButton {
     display: flex;
@@ -55,6 +59,10 @@
     font-size: 23px;
 }
 
+/* .order-prod-table>tbody:nth-child(4) {
+    display: flex;
+} */
+
 .orderProdImg {
     padding: 5px;
     width: 80px;
@@ -77,7 +85,21 @@
     margin-bottom: 50px;
     font-size: 25px;
     font-weight: bold;
+    align-items: center;
 }
+
+.totalPrice>span:nth-child(2) {
+    font-weight: normal;
+    font-size: 20px;
+    margin-left: 3px;
+}
+
+/* .table-price {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+} */
 
 .prod-discount-style {
     text-decoration: line-through;
@@ -92,6 +114,7 @@
 .delivery-info input[type=number] {
     height: 25px;
     width: 70px;
+    font-size: 18px;
 }
 
 
@@ -240,6 +263,7 @@
 .receiver-input>div:nth-child(4)>input {
     height: 29px;
     width: 300px;
+    font-size: 18px;
 }
 
 .receiver-input>div:nth-child(4)>select {
