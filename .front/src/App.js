@@ -63,9 +63,9 @@ function App() {
             {/* 제품 관련 */}
             <Route path="/product">
                {/* 제품 리스트 */}
-               <Route path="list" element={<ProdList />} />
-               <Route path="list/:mainNo" element={<ProdList />} />
-               <Route path="list/:mainNo/:subNo" element={<ProdList />} />
+               <Route path="list" element={<ProdList loginMember={loginMember} setLoginMember={setLoginMember} />} />
+               <Route path="list/:mainNo" element={<ProdList loginMember={loginMember} setLoginMember={setLoginMember} />} />
+               <Route path="list/:mainNo/:subNo" element={<ProdList loginMember={loginMember} setLoginMember={setLoginMember} />} />
             </Route>
 
 

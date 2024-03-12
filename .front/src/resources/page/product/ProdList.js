@@ -12,9 +12,13 @@ import { Link } from "react-router-dom";
 
 /**
  * 상품 리스트 페이지
+ * @props props 
+ * 	@param loginMember 로그인 된 사용자
+ * 	@param setLoginMember 로그인 된 사용자's setter fn
  */
-export default function ProdList() {
+export default function ProdList(props) {
 
+	const {loginMember, setLoginMember} = props;
 	const { mainNo, subNo } = useParams();
 	const [prodList, setProdList] = useState([]);
 	const [showDetail, setShowDetail] = useState(false);
@@ -172,7 +176,7 @@ export default function ProdList() {
 		</div>
 
 		<Leftmenubar subCateClicked={subNameHilight} />
-		<Rightmenubar />
+		<Rightmenubar loginMember={loginMember} setLoginMember={setLoginMember} />
 
 		<div className="products">
 			{prodList?.length ? prodList.map((prod) => {
