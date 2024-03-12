@@ -68,20 +68,20 @@ function App() {
                <Route path="list/:mainNo/:subNo" element={<ProdList />} />
             </Route>
 
-            {/* 주문 관련 */}
-            <Route path="/order">
-               {/* 주문 */}
-               <Route path="" element={<Order loginUser={loginMember} />} />
-               {/* 결제완료 */}
-               <Route path="payment" element={<Payment />} />
-               {/* ? */}
-               <Route path="history" element={<OrderHt />} />
-               {/* 카테고리 검색 */}
-               <Route path="cateSearch" element={<CategorySearch />} />
-            </Route>
 
             {/* 로그인 필터 */}
             <Route element={<LoginFilter loginMember={loginMember} />}>
+               {/* 주문 관련 */}
+               <Route path="/order">
+                  {/* 주문 */}
+                  <Route path="" element={<Order loginUser={loginMember} />} />
+                  {/* 결제완료 */}
+                  <Route path="payment" element={<Payment />} />
+                  {/* ? */}
+                  <Route path="history" element={<OrderHt />} />
+                  {/* 카테고리 검색 */}
+                  <Route path="cateSearch" element={<CategorySearch />} />
+               </Route>
                {/* 구매자 마이페이지 */}
                <Route path="/buyer/mypage" element={<BuyerMyPage />} exact />
                <Route path="/BuyerCoupon" element={<BuyerCoupon />} />
@@ -113,7 +113,7 @@ function App() {
                   {/* ? */}
                   <Route path="listqna" element={<ListQna />} />
                </Route>
-           </Route>
+            </Route>
             {/* 그 외의 페이지 */}
             <Route path="*" element={<Error />} />
          </Routes>
