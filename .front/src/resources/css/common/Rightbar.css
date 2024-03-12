@@ -1,6 +1,6 @@
 /* 리모컨 */
 .rightBar {
-  top: 90px;
+  top: 115px;
   width: 60px;
   display: flex;
   flex-direction: column; 
@@ -27,10 +27,10 @@
 }
 
 /* 검색창 틀 */
-.sideBarContent{
+.sideBarContent-category{
   width: 580px;
   position: fixed;
-  top: 90px;
+  top: 115px;
   right: 70px;
   z-index: 2;
   background-color: #e4c0a8;
@@ -38,6 +38,21 @@
   padding: 10px 30px;
   height: 80vh;
   overflow: auto;
+}
+
+/* 간편 내정보 틀 */
+.sideBarContent-member{
+  width: 450px;
+  position: fixed;
+  top: 115px;
+  right: 70px;
+  z-index: 2;
+  background-color: #e4c0a8;
+  border: 2px inset #c0c0c0;
+  padding: 10px 30px;
+  height: 65vh;
+  overflow: auto;
+  text-align: center;
 }
 
 /* 대분류 항목 */
@@ -94,5 +109,15 @@
   flex-wrap: wrap;
 }
 
-.sideBarContent{
+/* 등급 이미지 틀 */
+.right-gradeContainer {
+  padding: 15px;
+  border-radius: 20px;
+  margin: 30px;
+}
+
+/* 등급 이미지 */
+.right-gradeImg img {
+  width: 200px;
+  height: 200px;
 }
