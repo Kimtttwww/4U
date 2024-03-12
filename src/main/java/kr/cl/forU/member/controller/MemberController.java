@@ -22,6 +22,7 @@ import kr.cl.forU.member.model.service.MemberService;
 import kr.cl.forU.member.model.vo.Grade;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.member.model.vo.Notice;
+import kr.cl.forU.member.model.vo.NoticeDetail;
 import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
@@ -107,10 +108,13 @@ public class MemberController {
 		
 		if(result > 0) {
 			map.put("msg", "회원가입 성공");
+			service.insertNotice(NoticeDetail.NEW_MEMBER, m.getMemberNo());
 		} else {
 			map.put("msg", "메뉴 등록 실패");
 		}
 		return map;
+		
+		
 	}
 	
 	@CrossOrigin(origins = "https://localhost:3000")

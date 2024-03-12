@@ -179,15 +179,6 @@
 		   AND CATE_SUB = #{cateSub}
 	</select> 
 	
-	<select id="bestProducts" parameterType="map" resultMap="productResultSet">
-		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
-		FROM PRODUCT
-		LEFT JOIN CATE_SUB USING (CATE_SUB)
-		<where>
-			AND ROWNUM &lt; = 6
-		</where>
-		ORDER BY ORDERED DESC 
-	</select>
 	
 	<select id="selectRecentList" resultMap="productResultSet">
 	    SELECT *
@@ -198,6 +189,17 @@
 	    <foreach item="item" collection="list" open="(" separator="," close=")">
 	        (#{item.prodNo})
 	    </foreach>
+	</select>
+	
+	
+	<select id="bestProducts" parameterType="map" resultMap="productResultSet">
+		SELECT PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB, ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
+		FROM PRODUCT
+		LEFT JOIN CATE_SUB USING (CATE_SUB)
+		<where>
+			AND ROWNUM &lt; = 6
+		</where>
+		ORDER BY ORDERED DESC 
 	</select>
 	
 	<select id="outerProducts" parameterType="map" resultMap="productResultSet">
