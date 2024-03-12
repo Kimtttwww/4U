@@ -9,7 +9,7 @@ export function checkDiscount(product) {
 	if (product.discountRate) {
 		let saledPrice = product.price * (100 - product.discountRate) / 100;
 		element = (<>
-			<span>\{saledPrice.toLocaleString()}</span> &nbsp;
+			<span>\{(Math.floor(saledPrice / 10) * 10).toLocaleString()}</span> &nbsp;
 			<span style={{ color: "red", textDecoration: "line-through"}}>\{product.price.toLocaleString()}</span>
 		</>);
 	} else { element = (<span>\{product.price.toLocaleString()}</span>); }

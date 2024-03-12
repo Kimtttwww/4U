@@ -76,10 +76,27 @@ export default function MemberInfoMin(props) {
 	}
 
 	return(<>
-		<div className="sideBarContent">
+		<div className="sideBarContent-member">
 			<h2>{loginMember.memberName} 님 환영합니다 !!!</h2>
-			
-			<h5>현재 등급 : {loginMember?.grade?.gradeName}</h5>
+
+			<div className="right-gradeContainer">
+				<div className="right-gradeImg">
+					{loginMember?.grade?.gradeNo === 1 && (<img src="/photo/grade-bronze.png" alt="bronze"/>)}
+					{loginMember?.grade?.gradeNo === 2 && (<img src="/photo/grade-silver.png" alt="silver"/>)}
+					{loginMember?.grade?.gradeNo === 3 && (<img src="/photo/grade-gold.png" alt="gold"/>)}
+					{loginMember?.grade?.gradeNo === 4 && (<img src="/photo/grade-diamond.png" alt="diamond"/>)}
+					{loginMember?.grade?.gradeNo === 5 && (<img src="/photo/grade-master.png" alt="master"/>)}
+				</div>
+				<div className="right-gradeInfo">
+					<h3>등급</h3>
+					{loginMember?.grade?.gradeNo === 1 && (<span className='bronze'>브론즈</span>)}
+					{loginMember?.grade?.gradeNo === 2 && (<span className='silver'>실버</span>)}
+					{loginMember?.grade?.gradeNo === 3 && (<span className='gold'>골드</span>)}
+					{loginMember?.grade?.gradeNo === 4 && (<span className='diamond'>다이아</span>)}
+					{loginMember?.grade?.gradeNo === 5 && (<span className='vip'>VIP</span>)}
+				</div>
+			</div>
+
 			{printTargetGrade()}
 			<h5>사용 가능한 쿠폰 : [{membership?.remainCouponCount}] 장</h5>
 			<h5>사용 가능한 포인트 : [{loginMember.point}] 포인트</h5>

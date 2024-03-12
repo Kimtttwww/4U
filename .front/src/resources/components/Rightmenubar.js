@@ -152,7 +152,7 @@ export default function Rightmenubar(props) {
 		</div>
 
 		{isSidebarOpen && (
-			<div className="sideBarContent">
+			<div className="sideBarContent-category">
 				<div className="cateTitle">스타일</div>
 				<div className="productContainer">
 					{filterList.cateMain.map((filter) => (
