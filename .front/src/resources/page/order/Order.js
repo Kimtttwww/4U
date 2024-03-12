@@ -478,7 +478,7 @@ export default function Order({ loginUser }) {
 								<input type="number" id="" name="zipCode" readOnly
 									value={userInfoChecked ? userInfo?.zipCode : inputChange.zipCode} />
 
-								<button type="button" onClick={toggleModal} className="btn btn-primary">주소 찾기</button>
+								<button type="button" onClick={toggleModal} className="btn btn-primary addressBtn">주소 찾기</button>
 								{/* Daum 주소 API 컴포넌트 */}
 								<Modal id="modal" show={modalState} onHide={() => setModalState(false)}
 									dialogClassName='DaumModal' className="addressAPI-modal">
