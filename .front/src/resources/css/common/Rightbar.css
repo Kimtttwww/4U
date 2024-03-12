@@ -1,6 +1,6 @@
 /* 리모컨 */
 .rightBar {
-  top: 90px;
+  top: 300px;
   width: 60px;
   display: flex;
   flex-direction: column; 
@@ -30,13 +30,13 @@
 .sideBarContent{
   width: 580px;
   position: fixed;
-  top: 90px;
+  top: 120px;
   right: 70px;
   z-index: 2;
   background-color: #e4c0a8;
   border: 2px inset #c0c0c0;
   padding: 10px 30px;
-  height: 80vh;
+  height: 70vh;
   overflow: auto;
 }
 
@@ -86,13 +86,10 @@
 .cateTitle{
   margin-left: 5px;
   font-size: 16px;
-  line-height: 59px;
+  line-height: 40px;
 }
 
 .right-category-box{
   display: flex;
   flex-wrap: wrap;
-}
-
-.sideBarContent{
 }

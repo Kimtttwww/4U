@@ -110,6 +110,7 @@ export default function Rightmenubar() {
 		};
 
 		Cookies.set("prodFilter", JSON.stringify(prodFilter));
+		setSidebarOpen(false);
 		navigate("/product/list");
 	};
 
