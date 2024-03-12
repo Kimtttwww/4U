@@ -1,68 +1,71 @@
-.BuyerCoupon{
-    margin: 0 auto;
-    min-height: 61vh;
-    width: 1000px;
+.BuyerCoupon {
+    color: #333;
+    max-width: 800px;
+    margin: 20px auto;
+    margin-top: 15%;
+    margin-bottom: 15%;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
 }
 
-.coupon-title{
-    margin-top: 30px;
+.coupon-title h3 {
+    color: #E57373;
+    font-weight: 600;
 }
 
-.BuyerCoupon-1{
-    display: flex;
-    padding: 5px;
-    border: 3px solid #000;
-    border-bottom: 3px solid #6d6c6c;
-    border-left: none;
-    border-right: none;
-    outline: none;
-    
+.BuyerCoupon-1, .BuyerCoupon-2 {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #FCE4EC;
+    border-radius: 10px;
 }
 
-.BuyerCoupon-1 img{
-    width: 40px;
+.BuyerCoupon-1 div img {
+    width: 60px;
+    margin-bottom: 10px;
 }
 
-.BuyerCoupon-1 h4{
-    padding: 6px 0 0 5px;
+.BuyerCoupon-1 h4 {
+    color: #BA68C8;
+    font-weight: 500;
 }
 
-.use-btn{
-    width: 500px;
-    border:1px solid #6d6c6c;
-    background-color: #ffffff;
-}
-.used-btn{
-    width: 500px;
-    border:1px solid #6d6c6c;
-    background-color: #ffffff;
-}
-
-
-.BuyerCoupon-2 table {
-    border:1px solid #ddd;
-    table-layout:fixed;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
+.use-btn, .used-btn {
+    padding: 10px 20px;
+    margin-right: 10px;
+    border: none;
+    color: #fff;
+    background-color: #BA68C8;
+    border-radius: 20px;
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
-/* th,td 공통 */
-.BuyerCoupon-2 th,
-.BuyerCoupon-2 td {
-    border:1px solid #ddd;
-    padding: 10px 13px;
-    vertical-align:middle;
+.use-btn:hover, .used-btn:hover {
+    background-color: #AB47BC;
 }
 
-/* th 속성 */
-.BuyerCoupon-2 th {
-    letter-spacing:0.1em;
-    background:#f8f8f8;
+.useCoupon, .usedCoupon {
+    margin-top: 20px;
 }
 
-/* td 속성 */
-.BuyerCoupon-2 td {
-    line-height:1.4em;
-    word-break:break-all;
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: left;
+    border-bottom: 1px solid #E1BEE7;
+}
+
+th {
+    background-color: #F3E5F5;
+}
+
+tr:hover {
+    background-color: #F8BBD0;
 }

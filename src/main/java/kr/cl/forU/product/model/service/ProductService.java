@@ -180,6 +180,18 @@ public class ProductService {
 	public void increaseOrdered(int prodNo) {
 		dao.increaseOrdered(prodNo);
 	}
+
+	public int sellerInsertProduct(Product product) {
+		return dao.sellerInsertProduct(product);
+	}
+
+	public int sellerImgInsert(Image Image) {
+		return dao.sellerImgInsert(Image);
+	}
+
+	public int sellerProdDetail(ProdDetail prodDetail) {
+		return dao.sellerProdDetail(prodDetail);
+	}
 	
 	
 	

@@ -14,4 +14,6 @@ public class Notice {
 	private int memberNo;
 	
 	private String noticeMessage;
+	private String memberId;
+	private String memberName;
 }

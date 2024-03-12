@@ -78,6 +78,10 @@ public class OrderService {
 		return dao.selectAllOrder();
 	}
 
+	public List<Order> sellerAllOrder() {
+		return dao.sellerAllOrder();
+	}
+
 
 
 

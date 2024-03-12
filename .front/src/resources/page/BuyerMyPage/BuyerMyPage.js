@@ -177,7 +177,7 @@ const handleProductClick = product => {
                 <div className="userName">
                   <h2>{loginMember.memberId}</h2>
                 </div>
-                <div className="userRating">
+                <div className="gradeInfo">
                     <span>
                     {MemberInfo.gradeNo === 1 && (<span className='bronze'>브론즈</span>)}
                     {MemberInfo.gradeNo === 2 && (<span className='silver'>실버</span>)}

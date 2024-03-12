@@ -48,7 +48,6 @@ export default function SellerOrderList (){
                                 <th>주문번호</th>
                                 <th>주문일</th>
                                 <th>상품명</th>
-                                <th>옵션</th>
                                 <th>주문수량</th>
                                 <th>구매자명</th>
                             </tr>
@@ -59,7 +58,6 @@ export default function SellerOrderList (){
                             <td>{order.orderNo}</td>
                             <td>{order.orderDate}</td>
                             <td>{order.prodName}</td>
-                            <td>{order.details}</td>
                             <td>{order.count}</td>
                             <td>{order.orderName}</td>
                         </tr>

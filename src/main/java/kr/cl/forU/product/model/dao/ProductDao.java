@@ -216,6 +216,18 @@ public class ProductDao {
 		
 	}
 
+	public int sellerInsertProduct(Product product) {
+		return session.insert(map + "sellerInsertProduct", product);
+	}
+
+	public int sellerImgInsert(Image Image) {
+		return session.insert(map + "sellerImgInsert", Image);
+	}
+
+	public int sellerProdDetail(ProdDetail prodDetail) {
+		return session.insert(map + "sellerProdDetail", prodDetail);
+	}
+
 
 
 	

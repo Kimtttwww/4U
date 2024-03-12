@@ -15,4 +15,6 @@ public class Image extends Palette {
 	private int refNo;
 	/** 이미지 용도(1:썸네일/2:상세/3:리뷰(null)/4:문의(null)) */
 	private int imgType;
+	
+	private int prodNo;
 }

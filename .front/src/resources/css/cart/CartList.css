@@ -1,145 +1,101 @@
 .shopping-cart {
-  width: 1200px;
-  margin: 0 auto;
-  margin-top: 130px;
-  margin-bottom: 100px;
-  background: #f6f6f6;
-  padding: 30px;
-  border-radius: 10px;
-  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.4);
+  margin : 10% 10% 10% 10%;
 }
 
-/* 상단 장바구니 글씨 */
+/* 장바구니 타이틀 */
 .shopping-cart h2 {
-  font-size: 2.5em;
-  margin-bottom: 25px;
+  color: #ff79b0;
   text-align: center;
-  color: #333;
+  font-weight: bold;
+  margin-bottom: 20px;
 }
 
-/* 총 결제 예상 금액 */
-.list-totalPrice{
-  font-size: 20px;
+/* 결제 예상 금액 스타일 */
+.list-totalPrice {
+  display: block;
+  text-align: right;
+  margin-right: 20px;
+  font-weight: bold;
+  color: #ff6f61;
 }
 
-/* 장바구니 안에 리스트 */
+/* 상품 목록 스타일 */
 .shopping-cart ul {
   list-style: none;
   padding: 0;
-  width: 1140px;
 }
 
-/* 장바구니 안에 담아놓은 개별 상품 */
-.shopping-cart ul li {
+.shopping-cart li {
   display: flex;
+  align-items: center;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 20px;
-  background: #fff;
-  border-radius: 5px;
-  padding: 10px; 
-  border-bottom: 2px solid #ddd; 
+  background-color: #ffffff;
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 10px;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.1);
 }
 
-/* 장바구니 안에 상품 글자들 */
-.shopping-cart ul li span {
-  font-size: 1.2em;
-}
-
-/* 장바구니 안에 상품 이미지 */
-.shopping-cart ul li img {
-  width: 70px; 
-  height: auto;
-  margin-right: 10px; 
-}
-
-/* 삭제 버튼 */
-.list-delete {
-  padding: 10px 20px;
-  background: #b4b2b1;
-  color: #fff;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-left: 10px;
-}
-
-/* + - 버튼 */
-.list-count-btn button{
-  background: #32cd32;
-  color: #fff;
-  padding: 4px 8px;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin: 3px;
-}
-
-/* 주문하기 버튼 */
-#checkout-btn {
-  display: block;
-  width: 100%;
-  padding: 15px;
-  background: #32cd32;
-  color: #fff;
-  text-align: center;
-  border: none;
-  border-radius: 5px;
-  cursor: pointer;
-  margin-top: 20px;
-  font-size: 1.5em;
-}
-
-
-/* 각 요소들 크기지정 */
-.list-number{
-  text-align: center;
-  width: 2%;
-}
-
-.list-img-prodName{
+/* 이미지와 상품명을 담는 컨테이너 */
+.list-img-prodName {
   display: flex;
-  width: 62%;
   align-items: center;
-  justify-content: center;
+  cursor: pointer;
 }
 
-.list-prodName{
-  width: 70%;
-  word-wrap: break-word;
+.list-img-prodName img {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  margin-right: 10px;
+}
+
+.list-prodName {
+  color: #333;
+  font-weight: bold;
+}
+
+/* 가격, 사이즈, 색상, 수량 스타일 */
+.list-price, .list-size, .list-color, .list-count {
+  font-weight: bold;
+  color: #666;
 }
 
 .list-price{
-  display: flex;
-  width: 20%;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
+  margin-left: 20%;
 }
 
-.list-size{
-  width: 5%;
-  text-align: center;
+/* 수량 조절 버튼 스타일 */
+.list-count-btn button {
+  background-color: #ff79b0;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  padding: 5px 10px;
+  margin: 0 5px;
 }
 
-.list-color{
-  text-align: center;
-  width: 10%;
+/* 삭제 버튼 스타일 */
+.list-delete {
+  background-color: #ff6f61;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  padding: 5px 10px;
+  cursor: pointer;
 }
 
-.list-count{
-  width: 10%;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.list-count-btn{
-  display: flex;
-  flex-direction: column;
-  width: 4%;
-}
-
-.list-delete{
-  width: 7%;
+/* 주문하기 버튼 스타일 */
+#checkout-btn {
+  display: block;
+  width: 100%;
+  background-color: #ff79b0;
+  color: white;
+  border: none;
+  padding: 10px;
+  border-radius: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  margin-top: 20px;
 }

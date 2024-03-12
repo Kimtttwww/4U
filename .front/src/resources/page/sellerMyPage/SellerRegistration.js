@@ -10,27 +10,54 @@ export default function SellerRegistration() {
     const [selectedOption, setSelectedOption] = useState('');
     const [selectedColor, setSelectedColor] = useState('');
 
-    const [price, setPrice] = useState('');
-    const [discountPrice, setDiscountPrice] = useState('');
-    const [color, setColor] = useState('');
+    const [index, setIndex] = useState('');
+    const [colorNo, setColorNo] = useState('');
     const [size, setSize] = useState('');
-    const [quantity, setQuantity] = useState('');
+    const [stack, setStack] = useState('');
+    const [top, setTop] = useState('');
+    const [bottom, setBottom] = useState('');
     const [stockList, setStockList] = useState([]);
 
     const [product, setProduct] = useState({
-        name: '',
-        description: '',
-        design: '',
-        lineType: '',
-        season: ''
+        prodName: '',
+        prodCap: '',
+        thickness : '',
+        lining : '',
+        seeThrough : '',
+        fabric : '',
+        pattern: '',
+        line: '',
+        season: '',
+        price : '',
+        discountRate : ''
     });
 
     const handleChange = (e) => {
+        // 할인률 검사
+        if (e.target.name === 'discountRate') {
+          const value = parseInt(e.target.value, 10);
+          // 할인률 값이 0 미만이거나 100 초과인 경우
+          if (value < 0 || value > 100) {
+            alert('할인률은 0% 이상 100% 이하로 설정해주세요.');
+            e.target.value = '';
+            return; // 여기서 함수 실행을 중단
+          }
+        }
+        
+        // 숫자가 아닌 값 입력 검사 (판매가와 할인률 제외)
+        const nonNumericFields = ['thickness', 'lining', 'seeThrough', 'fabric', 'pattern', 'line', 'season'];
+        if (nonNumericFields.includes(e.target.name) && !isNaN(e.target.value) && e.target.value.trim() !== '') {
+            alert('문자를 입력하십시오.');
+            e.target.value = '';
+            return; // 여기서 함수 실행을 중단
+        }
+
+        // 기타 입력 필드에 대한 상태 업데이트
         setProduct({
-            ...product,
-            [e.target.name]: e.target.value,
+          ...product,
+          [e.target.name]: e.target.value,
         });
-    }
+      };
 
     console.log(product);
 
@@ -63,15 +90,17 @@ export default function SellerRegistration() {
                 return;
             }
             const imageUrl = URL.createObjectURL(selectedImage);
-            const newImages = [...images, { src: imageUrl.trim(), option: selectedOption, color: selectedColor }];
+            const newImages = [...images, { imgName: imageUrl.trim(), imgType: selectedOption, colorNo: selectedColor }];
             console.log("New image: ", newImages[newImages.length - 1]);
             setImages(newImages);
         }
     };
 
+    console.log(newImage);
+
     const handleAddImage = () => {
         // 이미지 URL이 비어 있는지 확인하고, 비어 있으면 추가하지 않음
-        if (!images[images.length - 1].src || !selectedOption || !selectedColor) {
+        if (!images[images.length - 1].imgName || !selectedOption || !selectedColor) {
             alert('이미지 URL, 색상, 옵션을 모두 선택해주세요.');
             return;
         }
@@ -84,27 +113,97 @@ export default function SellerRegistration() {
 
 
     const handleAdd = () => {
-        if (!price || !discountPrice || !color || !size || !quantity) {
+        if (!index || !colorNo || !size || !stack || 
+            (!top && !bottom)) {
             alert('모든 필드를 채워주세요.');
             return;
         }
 
         setStockList(prevList => [...prevList, {
-            price: price,
-            discountPrice: discountPrice,
-            color: color,
-            size: size,
-            quantity: quantity
+            index,
+            colorNo,
+            size,
+            stack,
+            top,
+            bottom
         }]);
 
-        setPrice('');
-        setDiscountPrice('');
-        setColor('');
+        setIndex('');
+        setColorNo('');
         setSize('');
-        setQuantity('');
+        setStack('');
+        setTop('');
+        setBottom('');
     };
 
-    
+
+    // const handleProductRegistration = () => {
+    //     // 클라이언트에서 서버로 상품 정보 전송
+    //     axios.post("/product/sellerInsertProduct", product)
+    //     .then((response) => {
+    //         console.log("Product data sent successfully");
+    //     })
+    //     .catch((error) => {
+    //         console.error("Error sending product data:", error);
+    //     });
+
+    //     // 클라이언트에서 서버로 이미지 데이터 전송
+    //     axios.post("/product/sellerImgInsert", newImage)
+    //     .then((response) => {
+    //         console.log("Image data sent successfully");
+    //     })
+    //     .catch((error) => {
+    //         console.error("Error sending image data:", error);
+    //     });
+
+    //     // 클라이언트에서 서버로 재고 데이터 전송
+    //     axios.post("/product/sellerProdDetail", stockList)
+    //     .then((response) => {
+    //         console.log("Stock data sent successfully");
+    //     })
+    //     .catch((error) => {
+    //         console.error("Error sending stock data:", error);
+    //     })
+
+    //     .then(response => {
+    //         console.log(response.data);
+    //         alert('상품이 성공적으로 등록되었습니다.');
+    //         // 상품 등록 후 필요한 작업 수행
+    //     })
+    //     .catch(error => {
+    //         console.error('상품 등록에 실패했습니다:', error);
+    //         alert('상품 등록에 실패했습니다. 다시 시도해주세요.');
+    //     });
+    // };
+
+    const handleProductRegistration = () => {
+
+        // 상품명과 상품설명 입력값 검사
+        if (!product.prodName.trim() || !product.prodCap.trim()) {
+            alert('상품명 또는 상품설명을 입력해주세요.');
+            window.scrollTo(0,0); // 페이지 맨 위로 이동
+            return; // 함수 실행을 여기서 중단
+        }
+
+        Promise.all([
+            axios.post("/product/sellerInsertProduct", product),
+            axios.post("/product/sellerImgInsert", newImage),
+            axios.post("/product/sellerProdDetail", stockList),
+        ])
+        .then((responses) => {
+            console.log("All data sent successfully");
+            // 모든 응답에서 필요한 데이터 처리
+            responses.forEach(response => console.log(response.data));
+            alert('상품이 성공적으로 등록되었습니다.');
+            // 상품 등록 후 필요한 작업 수행
+        })
+        .catch((error) => {
+            console.error("Error during the registration process:", error);
+            alert('상품 등록에 실패했습니다. 다시 시도해주세요.');
+        });
+    };
+
+
 
 
     return (
@@ -113,8 +212,8 @@ export default function SellerRegistration() {
                 <h2>상품 등록</h2>
 
                 <div className="regi-name-box">
-                    <input type="text" name="name" placeholder="상품명을 입력해 주세요." onChange={handleChange} />
-                    <textarea name="description" placeholder="상품에 대한 설명을 적어 주세요." onChange={handleChange} />
+                    <input type="text" name="prodName" placeholder="상품명을 입력해 주세요." onChange={handleChange} />
+                    <textarea name="prodCap" placeholder="상품에 대한 설명을 적어 주세요." onChange={handleChange} />
                 </div>
 
                 <div className='regi-detail-box'>
@@ -128,7 +227,7 @@ export default function SellerRegistration() {
                     </div>
                     <div>
                         <h5>비침 정도:</h5>
-                        <input type="text" name="opacity" onChange={handleChange} />
+                        <input type="text" name="seeThrough" onChange={handleChange} />
                     </div>
                     <div>
                         <h5>옷감 종류:</h5>
@@ -136,15 +235,27 @@ export default function SellerRegistration() {
                     </div>
                     <div>
                         <h5>디자인(패턴):</h5>
-                        <input type="text" name="design" onChange={handleChange} />
+                        <input type="text" name="pattern" onChange={handleChange} />
                     </div>
                     <div>
                         <h5>라인 타입:</h5>
-                        <input type="text" name="lineType" onChange={handleChange} />
+                        <input type="text" name="line" onChange={handleChange} />
                     </div>
                     <div>
                         <h5>계절감:</h5>
                         <input type="text" name="season" onChange={handleChange} />
+                    </div> 
+
+                    {/* 상품 가격 박스 */}
+                    <div className="regi-price-box">
+                        <div>
+                            <h5>판매가(KRW)</h5>
+                            <input type="text" name='price' onChange={handleChange} placeholder="KRW" />
+                        </div>
+                        <div>
+                            <h5>할인률(%)</h5>
+                            <input type="number" name='discountRate' onChange={handleChange} placeholder="%" min="0" max="100" />
+                        </div>
                     </div>
                 </div>
 
@@ -161,7 +272,7 @@ export default function SellerRegistration() {
                     <div className="image-container" style={{ display: 'flex' }}>
                         {images.map((image, index) => (
                             <div key={index} className="image-item">
-                                <img src={image.src} alt={`Uploaded ${index}`} />
+                                <img src={image.imgName} alt={`Uploaded ${index}`} />
                             </div>
                         ))}
                     </div>
@@ -191,9 +302,9 @@ export default function SellerRegistration() {
                     {/* 추가된 이미지 출력 */}
                     {newImage.map((image, index) => (
                         <div key={index}>
-                            <img src={image.src} alt={`Added ${index}`} />
-                            <p>사진용도: {image.option}</p>
-                            <p>색상: {image.color}</p>
+                            <img src={image.imgName} alt={`Added ${index}`} />
+                            <p>사진용도: {image.imgType}</p>
+                            <p>색상: {image.colorNo}</p>
                         </div>
                     ))}
                 </div>
@@ -201,24 +312,19 @@ export default function SellerRegistration() {
         </div>
 
 
-            {/* 상품 가격 박스 */}
-            <div className="regi-price-box">
-                <div>
-                    <h5>판매가(KRW)</h5>
-                    <input type="text" value={price} onChange={e => setPrice(e.target.value)} placeholder="KRW" />
-                </div>
-                <div>
-                    <h5>할인가(KRW)</h5>
-                    <input type="text" value={discountPrice} onChange={e => setDiscountPrice(e.target.value)} placeholder="KRW" />
-                </div>
-            </div>
+
 
             {/* 옵션 체크 박스 */}
             <div className="regi-option-box">
                 <div>
+                    <h5>인덱스 : </h5>
+                    <input type='text'value={index} onChange={e => setIndex(e.target.value)} placeholder='인덱스 경우의 수 입력' />
+                </div>
+                <div>
                     <h5>색상:</h5>
                     <div>
-                        <select name="color" id="colorSelect" value={color} onChange={e => setColor(e.target.value)}>
+                        <select name="color" id="colorSelect" value={colorNo} onChange={e => setColorNo(e.target.value)}>
+                        <option>색상을 고르세요.</option>
                             {palettes.map(palette => (
                                 <option key={palette.colorNo} value={palette.colorNo}>{palette.colorName}</option>
                             ))}
@@ -230,20 +336,22 @@ export default function SellerRegistration() {
                     <h5>사이즈:</h5>
                     <div>
                         <select name="size" id="colorSelect" value={size} onChange={e => setSize(e.target.value)}>
+                            <option>사이즈를 고르세요.</option>
                             <option value="size-S">S</option>
                             <option value="size-M">M</option>
                             <option value="size-L">L</option>
                             <option value="size-XL">XL</option>
                             <option value="size-XXL">XXL</option>
                         </select>
-                        <input type="text" placeholder='기장 수치 입력.'/>
+                        <input type="text" placeholder='상의 기장 수치 입력.' value={top} onChange={e => setTop(e.target.value)}/>
+                        <input type="text" placeholder='하의 기장 수치 입력.' value={bottom} onChange={e => setBottom(e.target.value)}/>
                     </div>
                 </div>
 
                 <div>
                     <h5>수량:</h5>
                     <div>
-                        <input type="text" value={quantity} onChange={e => setQuantity(e.target.value)} placeholder='수량 입력.'/>
+                        <input type="text" value={stack} onChange={e => setStack(e.target.value)} placeholder='수량 입력.'/>
                     </div>
                 </div>
                 {/* 추가 버튼 누를시 가격/색상/사이즈/수량에 기입된 정보만 아래에 regi-stock-box 박스에 추가 됨 */}
@@ -256,7 +364,7 @@ export default function SellerRegistration() {
                 <div>
                     {stockList.map((item, index) => (
                         <div key={index}>
-                            <p>판매가: {item.price}, 할인가: {item.discountPrice}, 색상: {item.color}, 사이즈: {item.size}, 수량: {item.quantity}</p>
+                            <p>인덱스: {item.index}, 색상: {item.colorNo}, 사이즈: {item.size}, 수량: {item.stack}, 상의 기장 : {item.top} , 하의 기장 :{item.bottom}</p>
                         </div>
                     ))}
                 </div>
@@ -264,7 +372,7 @@ export default function SellerRegistration() {
 
             {/* 버튼 박스 */}
             <div className="regi-btn-box">
-                <button>상품 등록</button>
+                <button onClick={handleProductRegistration}>상품 등록</button>
             </div>
         </div>                
     </>

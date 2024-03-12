@@ -240,6 +240,36 @@
 		   SET ORDERED = ORDERED+1
 		 WHERE PROD_NO = #{prodNo}  
 	</update>
+	
+	<insert id="sellerInsertProduct">
+	    <selectKey keyProperty="prodNo" resultType="int" order="BEFORE">
+	        SELECT SEQ_PROD_NO.NEXTVAL FROM DUAL
+	    </selectKey>
+	
+		INSERT INTO PRODUCT(
+							PROD_NO, PROD_NAME, PROD_CAP, PRICE, DISCOUNT_RATE, CATE_SUB ,ORDERED, THICKNESS, LINING, SEE_THROUGH, FABRIC, PATTERN, LINE, SEASON, UPLOAD_DATE, STATUS
+							)
+					VALUES
+							(
+							 #{prodNo}, #{prodName}, #{prodCap}, #{price}, #{discountRate}, 1 , 0, #{thickness}, #{lining}, #{seeThrough}, #{fabric}, #{pattern}, #{line}, #{season}, SYSDATE, DEFAULT
+							)
+	</insert>
+
+	<insert id="sellerImgInsert">
+	    <selectKey keyProperty="prodNo" resultType="int" order="BEFORE">
+	        SELECT SEQ_PROD_NO.CURRVAL FROM DUAL
+	    </selectKey>
+	    INSERT INTO IMAGE (IMG_NO, REF_NO, IMG_TYPE, COLOR_NO, IMG_NAME)
+	    VALUES (SEQ_IMG_NO.NEXTVAL, #{prodNo}, #{imgType}, #{colorNo}, #{imgName})
+	</insert>
+		
+	<insert id="sellerProdDetail">
+		    <selectKey keyProperty="prodNo" resultType="int" order="BEFORE">
+		        SELECT SEQ_PROD_NO.CURRVAL FROM DUAL
+		    </selectKey>
+		INSERT INTO PROD_DETAIL ("INDEX", PROD_NO, "SIZE", COLOR_NO, STACK, TOP, BOTTOM)
+		VALUES (#{index}, #{prodNo}, #{size}, #{colorNo}, #{stack}, #{top} , #{bottom})
+	</insert>
 
 
 

@@ -14,6 +14,7 @@ import java.util.Map;
 import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -65,6 +66,42 @@ public class ProductController {
 	public int sellerListYUpdate(@PathVariable int prodNo) {
 		return service.sellerListYUpdate(prodNo);
 	}
+	
+    @PostMapping("/sellerInsertProduct")
+    public ResponseEntity<String> sellerInsertProduct(@RequestBody Product product) {
+        int result = service.sellerInsertProduct(product);
+        if (result == 1) {
+            return ResponseEntity.ok("Product data sent successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending product data");
+        }
+    }
+
+    @PostMapping("/sellerImgInsert")
+    public ResponseEntity<String> sellerImgInsert(@RequestBody List<Image> images) {
+        int result = 0;
+        for (Image image : images) {
+            result += service.sellerImgInsert(image);
+        }
+        if (result == images.size()) {
+            return ResponseEntity.ok("Image data sent successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending image data");
+        }
+    }
+
+    @PostMapping("/sellerProdDetail")
+    public ResponseEntity<String> sellerProdDetail(@RequestBody List<ProdDetail> prodDetails) {
+        int result = 0;
+        for (ProdDetail prodDetail : prodDetails) {
+            result += service.sellerProdDetail(prodDetail);
+        }
+        if (result == prodDetails.size()) {
+            return ResponseEntity.ok("Stock data sent successfully");
+        } else {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("Error sending stock data");
+        }
+    }
 	
 	/**
 	 * 상품들 조회

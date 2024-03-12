@@ -17,8 +17,12 @@ public class ProdDetail extends Palette {
 	private String size;
 	/** 재고수량 */
 	private int stack;
+	/* 색 */
+	private int colorNo;
 	/** 상의기장 */
 	private String top;
 	/** 하의기장 */
 	private String bottom;
+	
+	
 }

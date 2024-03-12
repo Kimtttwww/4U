@@ -17,6 +17,8 @@ export default function SellerReview (){
         }
     };
 
+    console.log(notice);
+
     const handleDelete = async (noticeNo) => {
         try {
             const response = await axios.delete(`/member/noticeDelete/${noticeNo}`);
@@ -55,7 +57,7 @@ export default function SellerReview (){
                         {notice.map((notice) => (
                             <tr key={notice.noticeNo}>
                                 <td>{notice.noticeNo}</td>
-                                <td>{notice.noticeMessage}</td>
+                                <td>{notice.memberName}({notice.memberId}){notice.noticeMessage}</td>
                                 <td>24-01-28 16:15</td>
                                 <td><button onClick={() => handleDelete(notice.noticeNo)}>삭제</button></td>
                             </tr>

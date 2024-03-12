@@ -29,6 +29,7 @@ export default function CartList() {
             const cartItemsWithCount = parsedCartItems.map(item => ({...item, count: item.count || 1})); // count 속성이 없는 경우 1로 설정
             setCartItems(cartItemsWithCount); // 상태 업데이트
         }
+
         
         // 장바구니 데이터 가져오기
         const fetchCart = async () => {
@@ -42,6 +43,7 @@ export default function CartList() {
         
         fetchCart();
     }, []); // 마운트 시에만 실행되도록 빈 배열을 전달
+    console.log(cartItems);
 
     const removeFromCart = (index) => {
         const updatedCartItems = cartItems.filter((_, i) => i !== index);
@@ -80,8 +82,17 @@ export default function CartList() {
 
     const totalAmount = cartItems.reduce((total, item) => {
         const product = cart.find(cartItem => cartItem.prodNo === item.prodNo);
-        return total + (product?.price * item.count);
+        if (!product) return total; // 제품을 찾지 못한 경우 현재까지의 합계 반환
+    
+        const originalPrice = product.price;
+        const discountRate = product.discountRate || 0; // 할인율이 없는 경우를 위해 기본값 0 설정
+        const count = item.count || 1; // 수량이 지정되지 않은 경우를 위해 기본값 1 설정
+        const discountedPrice = originalPrice * (1 - discountRate / 100) * count; // 할인된 가격 계산
+    
+        return total + discountedPrice; // 전체 합계에 할인된 가격 더하기
     }, 0);
+
+    
 
     return (
         <>
@@ -91,7 +102,7 @@ export default function CartList() {
             <ul>
                 {cartItems?.length && cartItems.map((item, index) => (
                     <li key={index}>
-                        <span className="list-number">{index}</span>
+                        {/* <span className="list-number">{index}</span> */}
                         <div className="list-img-prodName" onClick={() => handleProductClick(item)}>
                             <img 
                                 src={
@@ -107,11 +118,15 @@ export default function CartList() {
                                 <>
                                     <span className="list-prodName">{cart.find(cartItem => cartItem.prodNo === item.prodNo).prodName}</span>
                                     <span className="list-price">
-                                        {
-                                            new Intl.NumberFormat('ko-KR').format(
-                                                cart.find(cartItem => cartItem.prodNo === item.prodNo).price * item.count || 1
-                                                )
-                                            }원
+                                        {(() => {
+                                        const product = cart.find(cartItem => cartItem.prodNo === item.prodNo);
+                                        const originalPrice = product.price;
+                                        const count = item.count || 1;
+                                        const discountRate = product.discountRate || 0;
+                                        const discountedPrice = originalPrice * (1 - discountRate / 100) * count;
+                                        
+                                        return new Intl.NumberFormat('ko-KR').format(discountedPrice);
+                                        })()}원
                                     </span>
                                 </>
                             )}

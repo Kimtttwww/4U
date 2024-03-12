@@ -6,8 +6,10 @@
 		SELECT *
 		FROM NOTICE
 		JOIN NOTICE_DETAIL USING (NOTICE_TYPE)
-		WHERE REF_NO = #{memberNo}
+		JOIN "MEMBER" ON (REF_NO = MEMBER_NO)
+		ORDER BY NOTICE_NO DESC
 	</select>
+<!-- 		WHERE REF_NO = #{memberNo} -->
 	
 	<delete id="noticeDelete">
 		DELETE FROM NOTICE
