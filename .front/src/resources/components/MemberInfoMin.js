@@ -2,6 +2,14 @@ import axios from "axios";
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom";
 
+/**
+ * 사용자 정보 표시
+ * @props props 
+ * 	@param loginMember 로그인 된 사용자
+ * 	@param setLoginMember 로그인 된 사용자's setter fn
+ * 	@param showMemberInfo 사용자 정보 표시 여부
+ * 	@param setShowMemberInfo 사용자 정보 표시 여부's setter fn
+ */
 export default function MemberInfoMin(props) {
 	
 	const {loginMember, setLoginMember, showMemberInfo, setShowMemberInfo} = props;
@@ -67,7 +75,6 @@ export default function MemberInfoMin(props) {
 		</>);
 	}
 
-	test = membership
 	return(<>
 		<div className="sideBarContent">
 			<h2>{loginMember.memberName} 님 환영합니다 !!!</h2>

@@ -1,12 +1,10 @@
-
-import React, { Component, useContext, useState } from 'react'
+import { Component, useContext, useState } from 'react'
 import { Pagination, Navigation, Autoplay } from 'swiper/modules';
 // Import Swiper React components
 import { Swiper, SwiperSlide } from 'swiper/react';
 import "../../css/common/Mainpage.css";
 import axios from "axios";
 import { useEffect } from "react";
-import { useParams } from "react-router";
 import Leftmenubar from '../../components/Leftmenubar';
 import Rightmenubar from '../../components/Rightmenubar';
 import ProdDetail from '../../modal/ProdDetail';
@@ -24,7 +22,8 @@ const blinkStyle = {
 };
 
 // 베스트
-export default () => {
+export default (props) => {
+  const {loginMember, setLoginMember} = props;
   const [showDetail, setShowDetail] = useState(false);
   const [product, setProduct] = useState(null);
   const [prodList, setProdList] = useState([]);
@@ -57,7 +56,6 @@ export default () => {
     axios.get("/product/outerProducts", null)
       .then((result) => {
         setOuterList(result.data);
-        console.log(result.data);
       }).catch((error) => {
         console.log(error);
         alert("상품을 불러오는 중 문제가 발생했습니다");
@@ -71,7 +69,6 @@ export default () => {
     axios.get("/product/topProducts", null)
       .then((result) => {
         setTopList(result.data);
-        // console.log(result.data);
       }).catch((error) => {
         console.log(error);
         alert("상품을 불러오는 중 문제가 발생했습니다");
@@ -85,7 +82,6 @@ export default () => {
     axios.get("/product/bottomProducts", null)
       .then((result) => {
         setBottomList(result.data);
-        // console.log(result.data);
       }).catch((error) => {
         console.log(error);
         alert("상품을 불러오는 중 문제가 발생했습니다");
@@ -99,7 +95,6 @@ export default () => {
     axios.get("/product/underProducts", null)
       .then((result) => {
         setUnderList(result.data);
-        // console.log(result.data);
       }).catch((error) => {
         console.log(error);
         alert("상품을 불러오는 중 문제가 발생했습니다");
@@ -113,13 +108,18 @@ export default () => {
     axios.get("/product/accProducts", null)
       .then((result) => {
         setAccList(result.data);
-        // console.log(result.data);
       }).catch((error) => {
         console.log(error);
         alert("상품을 불러오는 중 문제가 발생했습니다");
       });
   }, []);
-  
+
+  /**
+	 * 상품별 색상 종류 표시
+   * @param prod 색상을 보여줄 상품 객체
+   * @param prodList 해당 상품이 들어있는 상품 리스트
+	 * @returns 사진 중 중복 색상을 제거한 후 남은 단일한 색상을 반환
+	 */
   function colorList(prod, prodList) {
 		let arr: Set<number> = new Set(prod.detail.map((dtl) => dtl.colorNo));
 		let imgList = [];
@@ -167,7 +167,7 @@ export default () => {
 
   return (<>
     <Leftmenubar subCateClicked={subCateClicked} />
-    <Rightmenubar />
+    <Rightmenubar loginMember={loginMember} setLoginMember={setLoginMember} />
 
     <div className='Mainpage'>
       <Swiper
@@ -213,8 +213,6 @@ export default () => {
       </div> {/* 이 부분에 닫는 태그를 추가했습니다. */}
     </div>
 
-        
-
     {/* =============================================아우터====================================================== */}
 
     <div className='container'>
@@ -238,7 +236,6 @@ export default () => {
         }) : <div>선택한 상품이 없습니다</div>}
       </div> {/* 이 부분에 닫는 태그를 추가했습니다. */}
     </div>
-
 
     {/* ===================================================상의============================================================= */}
 
@@ -288,7 +285,6 @@ export default () => {
       </div> {/* 이 부분에 닫는 태그를 추가했습니다. */}
     </div>
 
-
     {/* ===================================================언더웨어============================================================= */}
     <div className='container'>
       <h1 style={{ textAlign: "center", fontFamily: "JalnanGothic" }}>UnderWear</h1>
@@ -311,7 +307,6 @@ export default () => {
         }) : <div>선택한 상품이 없습니다</div>}
       </div> {/* 이 부분에 닫는 태그를 추가했습니다. */}
     </div>
-
 
     {/* ===================================================악세서리============================================================= */}
     <div className='container'>

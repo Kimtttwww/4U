@@ -105,6 +105,7 @@ export default function ProdList() {
 
 	/**
 	 * 상품별 색상 종류 표시
+	 * @param prod 색상을 보여줄 상품 객체
 	 * @returns 사진 중 중복 색상을 제거한 후 남은 단일한 색상을 반환
 	 */
 	function colorList(prod) {

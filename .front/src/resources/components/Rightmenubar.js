@@ -6,10 +6,16 @@ import Cookies from "js-cookie";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import MemberInfoMin from "./MemberInfoMin";
 
-export default function Rightmenubar() {
+/**
+ * 화면 우측 고정, 상품 필터 검색창
+ * @props props 
+ * 	@param loginMember 로그인 된 사용자
+ * 	@param setLoginMember 로그인 된 사용자's setter fn
+ */
+export default function Rightmenubar(props) {
+	const {loginMember, setLoginMember} = props;
 	const [isSidebarOpen, setSidebarOpen] = useState(false);
 	const [filterList, setFilterList] = useState(null);
-	const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
 	const [showMemberInfo, setShowMemberInfo] = useState(false);
 	const navigate = useNavigate();
 	// ===================================================
@@ -23,8 +29,6 @@ export default function Rightmenubar() {
 
 
 	useEffect(() => {
-		setLoginMember(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
-
 		axios.get("/product/category") // 컨트롤러 주소
 		.then(response => {
 			setFilterList(response.data);
