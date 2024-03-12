@@ -6,10 +6,16 @@ import Cookies from "js-cookie";
 import { OverlayTrigger, Tooltip } from "react-bootstrap";
 import MemberInfoMin from "./MemberInfoMin";
 
-export default function Rightmenubar() {
+/**
+ * 화면 우측 고정, 상품 필터 검색창
+ * @props props 
+ * 	@param loginMember 로그인 된 사용자
+ * 	@param setLoginMember 로그인 된 사용자's setter fn
+ */
+export default function Rightmenubar(props) {
+	const {loginMember, setLoginMember} = props;
 	const [isSidebarOpen, setSidebarOpen] = useState(false);
 	const [filterList, setFilterList] = useState(null);
-	const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
 	const [showMemberInfo, setShowMemberInfo] = useState(false);
 	const navigate = useNavigate();
 	// ===================================================
@@ -23,8 +29,6 @@ export default function Rightmenubar() {
 
 
 	useEffect(() => {
-		setLoginMember(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
-
 		axios.get("/product/category") // 컨트롤러 주소
 		.then(response => {
 			setFilterList(response.data);
@@ -110,6 +114,7 @@ export default function Rightmenubar() {
 		};
 
 		Cookies.set("prodFilter", JSON.stringify(prodFilter));
+		setSidebarOpen(false);
 		navigate("/product/list");
 	};
 
@@ -140,15 +145,15 @@ export default function Rightmenubar() {
 
   	return (<>
 		<div className={`rightBar ${isSidebarOpen ? "open" : ""}`}>
-		 	<span onClick={() => {setSidebarOpen(!isSidebarOpen); setShowMemberInfo(false);}}><i>&#128269;</i></span>
-			<span onClick={() => {setShowMemberInfo(!showMemberInfo); setSidebarOpen(false);}}><i>&#x1F604;</i></span>
-			<span onClick={scrollToTop}><i>&#x2B06;</i></span>
-			<span onClick={scrollToBottom}><i>&#x2B07;</i></span>
+		 	<span onClick={() => {setSidebarOpen(!isSidebarOpen); setShowMemberInfo(false);}}><img src="/photo/free-icon-magnifier-9794483.png" /></span>
+			<span onClick={() => {setShowMemberInfo(!showMemberInfo); setSidebarOpen(false);}}><img src="/photo/free-icon-hearts-3508704.png" /></span>
+			<span onClick={scrollToTop}><img src="/photo/free-icon-up-arrow-10180203.png" /></span>
+			<span onClick={scrollToBottom}><img src="/photo/free-icon-down-arrow-10180214.png" /></span>
 		</div>
 
 		{isSidebarOpen && (
 			<div className="sideBarContent">
-				<div className="cateTitle">대분류</div>
+				<div className="cateTitle">스타일</div>
 				<div className="productContainer">
 					{filterList.cateMain.map((filter) => (
 						<span key={filter.mainName} onClick={() => checkCategoryMain(filter.mainName)}
@@ -158,7 +163,7 @@ export default function Rightmenubar() {
 					))}
 				</div>
 
-				<div className="cateTitle">소분류</div>
+				<div className="cateTitle">타입</div>
 				<div className="right-category-box">
 					{filterList.cateSub.map((filter) => (
 						<span key={filter.subName} onClick={() => checkCategorySub(filter.subName)}

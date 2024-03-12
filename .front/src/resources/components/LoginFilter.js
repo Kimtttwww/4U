@@ -6,7 +6,7 @@ export default function LoginFilter(props) {
 	const nav = useNavigate();
 
 	if (!loginMember) {
-		nav('/');
+		window.location.href = '/';
 		alert("로그인 후 이용 가능합니다");
 	}
 

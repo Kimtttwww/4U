@@ -32,23 +32,25 @@ import LoginFilter from "./resources/components/LoginFilter";
 function App() {
 
    const gaTrackingId = process.env.REACT_APP_GA_TRACKING_ID; // 환경 변수에 저장된 추적ID 가져오기
-   useEffect(() => {
-      ReactGA.initialize('UA-305192561-1', { debug: true }); // react-ga 초기화 및 debug 사용
-      ReactGA.pageview(window.location.pathname + window.location.search); // 현재 페이지 뷰 추적
-   }, []);
-
    /** 로그인창 띄울떄 필요한 매개변수 */
    const [showLogin, setShowLogin] = useState(false);
    const [loginMember, setLoginMember] = useState(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
 
+
+   useEffect(() => {
+      setLoginMember(Cookies.get("loginMember") ? JSON.parse(Cookies.get("loginMember")) : null);
+      ReactGA.initialize('UA-305192561-1', { debug: true }); // react-ga 초기화 및 debug 사용
+      ReactGA.pageview(window.location.pathname + window.location.search); // 현재 페이지 뷰 추적
+   }, []);
+
    return (
       <div className="App">
 
-         <Header setShowLogin={setShowLogin} login={loginMember} setLogin={setLoginMember} />
+         <Header setShowLogin={setShowLogin} loginMember={loginMember} setLoginMember={setLoginMember} />
 
          <Routes>
             {/* 메인 페이지 */}
-            <Route path="/" element={<Mainpage />} />
+            <Route path="/" element={<Mainpage loginMember={loginMember} setLoginMember={setLoginMember} />} />
 
             {/* 회원 관련 */}
             <Route path="/member">
@@ -56,7 +58,6 @@ function App() {
                <Route path="signUp" element={<SignUp />} />
                {/* ? */}
                <Route path="userupdate" element={<UserUpdate />} />
-
             </Route>
 
             {/* 제품 관련 */}

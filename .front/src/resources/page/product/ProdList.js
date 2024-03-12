@@ -3,11 +3,12 @@ import "../../css/product/ProdList.css";
 import ProdDetail from "../../modal/ProdDetail";
 import axios from "axios";
 import { mainCateListAPI, subCateListAPI } from "../common/LeftbarAPI";
-import { useParams } from "react-router";
+import { useParams, useLocation } from "react-router";
 import Leftmenubar from "../../components/Leftmenubar";
-import { Link } from "react-router-dom";
 import Cookies from "js-cookie";
 import { checkDiscount } from "../common/ProdDetailAPI";
+import Rightmenubar from "../../components/Rightmenubar";
+import { Link } from "react-router-dom";
 
 /**
  * 상품 리스트 페이지
@@ -21,6 +22,7 @@ export default function ProdList() {
 	const [mainList, setMainList] = useState([]);
 	const [subList, setSubList] = useState([]);
 	const [checkedSub, setCheckedSub] = useState(subNo);
+	const location = useLocation();
 
 	useEffect(() => {
 		loadMainDb()
@@ -29,7 +31,7 @@ export default function ProdList() {
 	useEffect(() => {
 		loadSubDb();
 		getProduct();
-	}, [mainNo, subNo, mainList]);
+	}, [mainNo, subNo, mainList, location]);
 
 	// DB에서 CATE_MAIN 가져오기
 	const loadMainDb = async () => {
@@ -103,6 +105,7 @@ export default function ProdList() {
 
 	/**
 	 * 상품별 색상 종류 표시
+	 * @param prod 색상을 보여줄 상품 객체
 	 * @returns 사진 중 중복 색상을 제거한 후 남은 단일한 색상을 반환
 	 */
 	function colorList(prod) {
@@ -169,6 +172,7 @@ export default function ProdList() {
 		</div>
 
 		<Leftmenubar subCateClicked={subNameHilight} />
+		<Rightmenubar />
 
 		<div className="products">
 			{prodList?.length ? prodList.map((prod) => {
