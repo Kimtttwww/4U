@@ -1,7 +1,9 @@
 package kr.cl.forU.order.controller;
 
 import java.io.IOException;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -27,10 +29,10 @@ import kr.cl.forU.member.model.service.MemberService;
 import kr.cl.forU.member.model.vo.CouponUser;
 import kr.cl.forU.member.model.vo.Member;
 import kr.cl.forU.order.model.service.OrderService;
-import kr.cl.forU.order.model.vo.RecentOrders;
 import kr.cl.forU.order.model.vo.Order;
 import kr.cl.forU.order.model.vo.OrderDTO;
 import kr.cl.forU.order.model.vo.OrderProd;
+import kr.cl.forU.order.model.vo.RecentOrders;
 import kr.cl.forU.product.model.service.ProductService;
 import kr.cl.forU.product.model.vo.CategoryMain;
 import kr.cl.forU.product.model.vo.CategorySub;
@@ -246,7 +248,31 @@ public class OrderController {
 		}
 	}
 	
-	
+	/**
+	 * 해당 회원의 지금까지의 결제액과 쿠폰 잔량을 조회
+	 * @param memberNo 해당 회원 번호
+	 * @return 회원의 지금까지의 결제액과 쿠폰 잔량이 담긴 객체
+	 */
+	@GetMapping("membership")
+	public Map<String, Integer> selectMembership(@RequestParam int memberNo) {
+		Map<String, Integer> map = new HashMap<>();
+		int totalPaid = service.selectUserTotalPay(memberNo);
+		int remainCouponCount = service.selectUserCoupon(memberNo).size();
+		int[] priceLevel = {300000, 600000, 1000000, 2000000};
+		int nextGradePrice = totalPaid;
+
+		for (int i : priceLevel) {
+			if(i > totalPaid) {
+				nextGradePrice = i - totalPaid;
+				break;
+			}
+		}
+		
+		map.put("nextGradePrice", nextGradePrice);
+		map.put("remainCouponCount", remainCouponCount);
+		
+		return map;
+	}
     
 	@GetMapping("/list")
 	public List<RecentOrders> selectRecentOrders(@RequestParam("orderDate") String orderDate) {
