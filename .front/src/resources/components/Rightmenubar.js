@@ -138,15 +138,15 @@ export default function Rightmenubar() {
 
   	return (<>
 		<div className={`rightBar ${isSidebarOpen ? "open" : ""}`}>
-		 	<span onClick={() => setSidebarOpen(!isSidebarOpen)}><i>&#128269;</i></span>
-			<span onClick={() => setShowMemberInfo(!showMemberInfo)}><i>&#x1F604;</i></span>
-			<span onClick={scrollToTop}><i>&#x2B06;</i></span>
-			<span onClick={scrollToBottom}><i>&#x2B07;</i></span>
+		 	<span onClick={() => {setSidebarOpen(!isSidebarOpen); setShowMemberInfo(false);}}><img src="/photo/free-icon-magnifier-9794483.png" /></span>
+			<span onClick={() => {setShowMemberInfo(!showMemberInfo); setSidebarOpen(false);}}><img src="/photo/free-icon-hearts-3508704.png" /></span>
+			<span onClick={scrollToTop}><img src="/photo/free-icon-up-arrow-10180203.png" /></span>
+			<span onClick={scrollToBottom}><img src="/photo/free-icon-down-arrow-10180214.png" /></span>
 		</div>
 
 		{isSidebarOpen && (
 			<div className="sideBarContent">
-				<div className="cateTitle">대분류</div>
+				<div className="cateTitle">스타일</div>
 				<div className="productContainer">
 					{filterList.cateMain.map((filter) => (
 						<span key={filter.mainName} onClick={() => checkCategoryMain(filter.mainName)}
@@ -156,7 +156,7 @@ export default function Rightmenubar() {
 					))}
 				</div>
 
-				<div className="cateTitle">소분류</div>
+				<div className="cateTitle">타입</div>
 				<div className="right-category-box">
 					{filterList.cateSub.map((filter) => (
 						<span key={filter.subName} onClick={() => checkCategorySub(filter.subName)}
