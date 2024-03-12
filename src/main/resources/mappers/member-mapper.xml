@@ -75,7 +75,7 @@
 
 	<update id="updateMember" parameterType = "member">
 		UPDATE MEMBER
-		SET <if test="memberPwd != null">MEMBER_PWD = #{memberPwd},</if>
+		SET <if test="memberPwd != ''">MEMBER_PWD = #{memberPwd},</if>
 			EMAIL = #{email},
 			PHONE = #{phone},
 			ADDRESS = #{address},
