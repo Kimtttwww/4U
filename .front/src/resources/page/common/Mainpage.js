@@ -105,7 +105,7 @@ export default (props) => {
   const [accList, setAccList] = useState([]);
 
   useEffect(() => {
-    axios.get("/oduct/accProducts", null)
+    axios.get("/product/accProducts", null)
       .then((result) => {
         setAccList(result.data);
       }).catch((error) => {
