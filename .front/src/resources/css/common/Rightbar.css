@@ -50,7 +50,7 @@
   background-color: #e4c0a8;
   border: 2px inset #c0c0c0;
   padding: 30px;
-  height: 73vh;
+  max-height: 73vh;
   overflow: auto;
   text-align: center;
 }

@@ -202,7 +202,7 @@ export default (props) => {
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
-                <p> 가격: {checkDiscount(prod)}</p>
+                <p>{checkDiscount(prod)}</p>
 
                 <div className="prod-color">{prod.image?.length && colorList(prod, prodList)}</div>
 
@@ -226,7 +226,7 @@ export default (props) => {
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
-                <p> 가격: {checkDiscount(prod)}</p>
+                <p>{checkDiscount(prod)}</p>
 
                 <div className="prod-color">{prod.image?.length && colorList(prod, outerList)}</div>
 
@@ -250,7 +250,7 @@ export default (props) => {
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
-                <p> 가격: {checkDiscount(prod)}</p>
+                <p>{checkDiscount(prod)}</p>
 
                 <div className="prod-color">{prod.image?.length && colorList(prod, topList)}</div>
 
@@ -274,7 +274,7 @@ export default (props) => {
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
-                <p> 가격: {checkDiscount(prod)}</p>
+                <p>{checkDiscount(prod)}</p>
 
                 <div className="prod-color">{prod.image?.length && colorList(prod, bottomList)}</div>
 
@@ -297,7 +297,7 @@ export default (props) => {
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
-                <p> 가격: {checkDiscount(prod)}</p>
+                <p>{checkDiscount(prod)}</p>
 
                 <div className="prod-color">{prod.image?.length && colorList(prod, underList)}</div>
 
@@ -320,7 +320,7 @@ export default (props) => {
               <div className='clothContent'>
                 <h2 className='clothName' style={{ fontSize: "19px", fontWeight: "bold" }}>{prod.prodName}</h2>
                 <p style={{ fontSize: "12px" }}>{prod.prodCap}</p>
-                <p> 가격: {checkDiscount(prod)}</p>
+                <p>{checkDiscount(prod)}</p>
 
                 <div className="prod-color">{prod.image?.length && colorList(prod, accList)}</div>
 

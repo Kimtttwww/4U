@@ -38,6 +38,7 @@
 
 /* 이미지와 상품명을 담는 컨테이너 */
 .list-img-prodName {
+  width: 40%;
   display: flex;
   align-items: center;
   cursor: pointer;
@@ -57,12 +58,10 @@
 
 /* 가격, 사이즈, 색상, 수량 스타일 */
 .list-price, .list-size, .list-color, .list-count {
+  min-width: 10%;
+  text-align: center;
   font-weight: bold;
   color: #666;
-}
-
-.list-price{
-  margin-left: 20%;
 }
 
 /* 수량 조절 버튼 스타일 */
@@ -89,7 +88,7 @@
 /* 주문하기 버튼 스타일 */
 #checkout-btn {
   display: block;
-  width: 100%;
+  width: 25%;
   background-color: #ff79b0;
   color: white;
   border: none;
@@ -97,5 +96,5 @@
   border-radius: 10px;
   cursor: pointer;
   font-weight: bold;
-  margin-top: 20px;
+  margin: 20px auto 0 auto;
 }

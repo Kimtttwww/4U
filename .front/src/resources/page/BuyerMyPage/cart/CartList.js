@@ -98,7 +98,7 @@ export default function CartList() {
         <>
         <div className="shopping-cart">
             <h2>장바구니</h2>
-            <span className="list-totalPrice">총 결제 예상 금액 : {new Intl.NumberFormat('ko-KR').format(totalAmount)}원</span>
+            <span className="list-totalPrice">총 결제 예상 금액 : {new Intl.NumberFormat('ko-KR').format(Math.floor(totalAmount / 10) * 10).toLocaleString()}원</span>
             <ul>
                 {cartItems?.length && cartItems.map((item, index) => (
                     <li key={index}>
@@ -117,20 +117,21 @@ export default function CartList() {
                             {cart.find(cartItem => cartItem.prodNo === item.prodNo) && (
                                 <>
                                     <span className="list-prodName">{cart.find(cartItem => cartItem.prodNo === item.prodNo).prodName}</span>
-                                    <span className="list-price">
-                                        {(() => {
-                                        const product = cart.find(cartItem => cartItem.prodNo === item.prodNo);
-                                        const originalPrice = product.price;
-                                        const count = item.count || 1;
-                                        const discountRate = product.discountRate || 0;
-                                        const discountedPrice = originalPrice * (1 - discountRate / 100) * count;
-                                        
-                                        return new Intl.NumberFormat('ko-KR').format(discountedPrice);
-                                        })()}원
-                                    </span>
+                                    
                                 </>
                             )}
                         </div>
+                        <span className="list-price">
+                            {(() => {
+                            const product = cart.find(cartItem => cartItem.prodNo === item.prodNo);
+                            const originalPrice = product?.price;
+                            const count = item.count || 1;
+                            const discountRate = product?.discountRate || 0;
+                            const discountedPrice = originalPrice * (1 - discountRate / 100) * count;
+                            
+                            return (Math.floor(discountedPrice / 10) * 10).toLocaleString();
+                            })()}원
+                        </span>
                         <span className="list-size">{item.size}</span>
                         <span className="list-color">{item.colorName}</span>
                         <span className="list-count">{item.count || 1}</span>
