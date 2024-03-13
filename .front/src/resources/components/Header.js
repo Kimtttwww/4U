@@ -60,7 +60,7 @@ export default function Header(props) {
 							Cookies.remove("loginMember");
 							setLoginMember(null);
 						}}><img src="/photo/free-icon-arrow-10901692.png" />로그아웃</button>
-						<Link className="header-mypage" to={loginMember.memberName === '관리자' ? "/sellerMypage/" : "/buyer/mypage/"}>{loginMember.memberName}님의 마이페이지</Link>
+						<Link className="header-mypage" to={loginMember.memberName === '관리자' ? "/sellerMypage/list" : "/buyer/mypage/"}>{loginMember.memberName}님의 마이페이지</Link>
 					</>) : (<>
 						{mobile ? (<>
 							<Link className="header-signUp-icon" to="/member/SignUp">

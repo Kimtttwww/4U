@@ -51,21 +51,21 @@
     margin-top: 20px;
 }
 
-table {
+.usedCoupon table , .useCoupon table{
     width: 100%;
     border-collapse: collapse;
 }
 
-th, td {
+.usedCoupon th, .usedCoupon td , .useCoupon th, .useCoupon td  {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #E1BEE7;
 }
 
-th {
+.usedCoupon th , .useCoupon th  {
     background-color: #F3E5F5;
 }
 
-tr:hover {
+.usedCoupon tr:hover , .useCoupon tr:hover {
     background-color: #F8BBD0;
 }

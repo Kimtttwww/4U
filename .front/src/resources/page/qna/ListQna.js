@@ -129,7 +129,7 @@ export default function ListQna() {
                         <p>작성일자: {qna.createDate}</p>
                         <div className="answerStatus">
                             {qna.qnaAnswer ? <p>답변 완료</p> : <p>답변 대기</p>}
-                            {loginMember.memberName === '장현진' && qna.qnaAnswer === null && (
+                            {loginMember.memberName === 'admin' && qna.qnaAnswer === null && (
                                 <button onClick={() => setShowAnswerBox(!showAnswerBox)}>답변</button>
                             )}
                         </div>
@@ -139,7 +139,7 @@ export default function ListQna() {
                                 <p>{qna.answerDate}</p>
                             </div>
                         )}
-                        {loginMember.memberName === '장현진' && qna.qnaAnswer === null && (
+                        {loginMember.memberName === 'admin' && qna.qnaAnswer === null && (
                             <div className={`answerBox ${expandedIndex === index ? 'expanded' : ''}`}>
                                 <textarea value={answerText} onChange={handleAnswerChange}  onClick={(e) => e.stopPropagation()} />
                                 <button onClick={() => handleAnswerSubmit(index)}>제출</button>

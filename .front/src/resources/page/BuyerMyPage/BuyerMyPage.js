@@ -33,13 +33,7 @@ export default function BuyerMyPage() {
 
   const couponCount = couponInfo.filter(info => info.status === 'Y').length;
 
-	useEffect(() => {
-		loadRecentlyViewed();
-    loadMemberInfo();
-    loadUserCoupon();
-    loadRecentlyViewed(); // 컴포넌트가 마운트될 때 최근 본 상품 로드
-    fetchQnaList();
-}, []);
+
 
   const loadMemberInfo = async () => {
     try {
@@ -125,6 +119,8 @@ const handleProductClick = product => {
 		console.error('Error fetching Q&A list:', error);
 	}
 	};
+
+  console.log(listQna);
  
   // 정보수정 비밀번호
   const [passwordCheck, setPasswordCheck] = useState("");
@@ -168,6 +164,14 @@ const handleProductClick = product => {
       console.error('멤버 로드 오류:', error); // 오류 발생 시 콘솔에 오류 메시지 출력
     }
   };
+
+  useEffect(() => {
+		loadRecentlyViewed();
+    loadMemberInfo();
+    loadUserCoupon();
+    loadRecentlyViewed(); // 컴포넌트가 마운트될 때 최근 본 상품 로드
+    fetchQnaList();
+}, []);
 
   return (
     <>

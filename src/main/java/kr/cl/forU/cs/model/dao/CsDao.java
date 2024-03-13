@@ -26,4 +26,8 @@ public class CsDao {
 	public int newQna(QNA newQna) {
 		return session.insert(map + "newQna", newQna);
 	}
+
+	public List<QNA> sellerQna() {
+		return session.selectList(map + "sellerQna");
+	}
 }

@@ -37,6 +37,8 @@ export default function SellerMemberInfo() {
                     'Content-Type': 'application/json'
                 }
             }); 
+            alert("멤버 수정 완료");
+            window.location.reload();
             fetchMembers();
         } catch (error) {
             console.error('멤버 정보 수정 에러', error);
