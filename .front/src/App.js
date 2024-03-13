@@ -27,6 +27,7 @@ import Cookies from "js-cookie";
 import ReactGA from "react-ga";
 import SellerMemberInfo from "./resources/page/sellerMyPage/SellerMemberInfo";
 import LoginFilter from "./resources/components/LoginFilter";
+import SellerQna from "./resources/page/sellerMyPage/SellerQna";
 
 
 function App() {
@@ -106,6 +107,8 @@ function App() {
                   <Route path="stats" element={<SellerStats />} />
                   {/* 멤버 관리 */}
                   <Route path="meminfo" element={<SellerMemberInfo />} />
+                  {/* QNA */}
+                  <Route path="qna" element={<SellerQna/>}/>
                </Route>
 
                {/* QNA */}

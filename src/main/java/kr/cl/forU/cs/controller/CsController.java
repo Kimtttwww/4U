@@ -25,6 +25,11 @@ public class CsController {
         return service.qnaList(memberNo);
     }
     
+    @GetMapping("/sellerqna/list")
+    public List<QNA> sellerQna() {
+    	return service.sellerQna();
+    }
+    
     @PostMapping("/qna/addanswer")
     public int addAnswer(@RequestBody Map<String , String> answerData) {
         // 클라이언트로부터 전송된 데이터를 매핑하여 처리

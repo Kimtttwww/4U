@@ -26,5 +26,9 @@ public class CsService {
 		return dao.newQna(newQna);
 	}
 
+	public List<QNA> sellerQna() {
+		return dao.sellerQna();
+	}
+
 
 }

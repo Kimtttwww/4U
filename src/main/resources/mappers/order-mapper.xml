@@ -22,14 +22,14 @@
 		JOIN ORDER_PROD OP USING (ORDER_NO) 
 		JOIN PRODUCT PR USING (PROD_NO)
         WHERE MEMBER_NO = #{memberNo}
-		ORDER BY ORDER_NO ASC
+		ORDER BY ORDER_NO DESC
     </select>
     
     <select id="selectOgOrder" resultType="order">
     	SELECT *
     	FROM "ORDER"
     	WHERE MEMBER_NO = #{memberNo}
-    	ORDER BY ORDER_NO ASC
+    	ORDER BY ORDER_NO DESC
     </select>
     
 <!-- SELECT DISTINCT * -->

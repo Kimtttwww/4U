@@ -7,13 +7,22 @@
         <result column="STATUS" property="status"/>
         <!-- 다른 열에 대한 매핑 추가 -->
     </resultMap>
+    
+    <select id="sellerQna" resultType="qna">
+    	SELECT *
+    	FROM QNA Q
+    	JOIN MEMBER M ON (Q.QNA_WRITER = M.MEMBER_NO)
+    	WHERE Q.STATUS = 'Y'
+    	ORDER BY QNA_NO DESC
+    </select>
+    
 
  	<select id="findQnaList" parameterType="int" resultMap="qnaResultMap"> 
         SELECT *
         FROM QNA Q
         JOIN MEMBER M ON (Q.QNA_WRITER = M.MEMBER_NO)
         WHERE Q.STATUS = 'Y' AND QNA_WRITER = #{memberNo}
-        ORDER BY QNA_NO
+        ORDER BY QNA_NO DESC
     </select>
     
     <update id="addAnswer">
