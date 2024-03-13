@@ -47,10 +47,10 @@ export default function Payment() {
                     <thead>
                         <tr>
                             <td style={{ width: "10%" }}>이미지</td>
-                            <td style={{ width: "40%" }}>상품명</td>
+                            <td style={{ width: "43%" }}>상품명</td>
                             <td style={{ width: "16%" }}>옵션</td>
                             <td style={{ width: "12%" }}>상품금액</td>
-                            <td style={{ width: "10%" }}>수량</td>
+                            <td style={{ width: "7%" }}>수량</td>
                             <td style={{ width: "12%" }}>주문금액</td>
                         </tr>
                     </thead>
@@ -95,7 +95,7 @@ export default function Payment() {
 
                 <div className="payment-discount-area">
                     <div>
-                        <p className="payment-content-title">할인정보</p>
+                        <p className="payment-content-title">결제정보</p>
                         <div className="payment-discount-content1">
                             <div>
                                 <span>총 상품금액</span>
@@ -113,7 +113,7 @@ export default function Payment() {
                     </div>
 
                     <div>
-                        <p className="payment-content-title">결제정보</p>
+                        <p className="payment-content-title">포인트적립</p>
                         <div className="payment-discount-content2">
                             <div>
                                 <div>적립예정액</div>

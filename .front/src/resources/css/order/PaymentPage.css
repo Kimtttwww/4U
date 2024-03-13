@@ -62,14 +62,22 @@
     text-align: center;
 }
 
-.payment-prod-table>tbody {
-    font-size: 18px;
+.payment-prod-table>thead td {
+    font-size: 23px;
+}
+
+.payment-prod-table>tbody td {
+    font-size: 20px;
 }
 
 .payment-delivery-area {
     display: flex;
     border-bottom: 1px solid;
     margin-bottom: 50px;
+
+}
+
+.payment-delivery-area * {
     font-size: 20px;
 }
 
@@ -106,13 +114,6 @@
     flex-direction: column;
 }
 
-/* 최종 결제 금액 라인 */
-.payment-discount-content1>div:nth-child(3) {
-    color: #12b3b3;
-    font-weight: bold;
-    background-color: #dddddd;
-}
-
 .payment-discount-content1>div {
     display: flex;
     flex-direction: row;
@@ -124,9 +125,27 @@
     padding: 0 10px;
 }
 
+.payment-discount-content1 *,
+.payment-discount-content2>div>* {
+    font-size: 20px;
+}
+
+/* 최종 결제 금액 라인 */
+.payment-discount-content1>div:nth-child(3) {
+    color: #12b3b3;
+    font-weight: bold;
+    background-color: #dddddd;
+
+}
+
+.payment-discount-content1>div:nth-child(3)>span {
+    font-size: 23px;
+}
+
 .payment-discount-content2 {
     display: flex;
     flex-direction: column;
+    height: 200px;
 }
 
 .payment-discount-content2>ul {

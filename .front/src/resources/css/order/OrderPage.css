@@ -45,9 +45,11 @@
 
 /* 주문상품(총수량) - 장바구니*/
 .order-prod-table {
-    font-size: 18px;
-    text-align: center;
     width: 100%;
+}
+
+.order-prod-table td {
+    text-align: center;
 }
 
 .order-prod-table tr {
@@ -56,12 +58,16 @@
 
 .order-prod-table>thead>tr {
     height: 50px;
+}
+
+.order-prod-table>thead td {
     font-size: 23px;
 }
 
-/* .order-prod-table>tbody:nth-child(4) {
-    display: flex;
-} */
+.order-prod-table>tbody td,
+.prod-price-style {
+    font-size: 20px;
+}
 
 .orderProdImg {
     padding: 5px;
@@ -79,27 +85,25 @@
     /* opacity: 0.9; */
 }
 
-.totalPrice {
+.totalPriceArea {
     display: flex;
     justify-content: flex-end;
     margin-bottom: 50px;
-    font-size: 25px;
-    font-weight: bold;
     align-items: center;
 }
 
-.totalPrice>span:nth-child(2) {
+.totalPriceArea>span:nth-child(1) {
+    font-size: 25px;
+    font-weight: bold;
+}
+
+.totalPriceArea>span:nth-child(2) {
     font-weight: normal;
     font-size: 20px;
     margin-left: 3px;
 }
 
-/* .table-price {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-} */
+
 
 .prod-discount-style {
     text-decoration: line-through;
@@ -185,6 +189,11 @@
     display: flex;
     flex-direction: column;
     width: 75%;
+}
+
+.payment-discount>div:nth-child(1),
+.payment-discount-point>span {
+    font-size: 20px;
 }
 
 /* 수령자명 인풋 태그 */

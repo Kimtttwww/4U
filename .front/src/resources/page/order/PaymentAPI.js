@@ -26,7 +26,6 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
         };
     }, []);
 
-
     let prodName = "";
     if (orderProd.length > 0) {
         prodName = Object.keys(orderProd).length > 0 ? `${orderProd[0].prodName} 외 ` : orderProd[0].prodName;
@@ -77,21 +76,20 @@ export default function PaymentAPI({ userInfo, dataByPayment, changeInfo, orderP
             orderData = {
                 pg: 'html5_inicis',                           // PG사
                 pay_method: 'card',                           // 결제수단 //가상계좌 vbank
-                merchant_uid: new Date().getTime(),   // 주문번호
-                amount: payPrice,
-                // payPrice,                                 // 결제금액
-                name: prodName,                             // 주문명
-                buyer_name: userInfo.memberName,                // 구매자 이름
-                buyer_tel: userInfo.phone,                     // 구매자 전화번호
-                buyer_email: userInfo.email,               // 구매자 이메일
-                buyer_addr: address + " " + addressDetail,          // 구매자 주소
-                buyer_postcode: zipCode                    // 구매자 우편번호
+                merchant_uid: new Date().getTime(),           // 주문번호
+                amount: 100,                             // 결제금액
+                // ,                                 
+                name: prodName,                               // 주문명
+                buyer_name: userInfo.memberName,              // 구매자 이름
+                buyer_tel: userInfo.phone,                    // 구매자 전화번호
+                buyer_email: userInfo.email,                  // 구매자 이메일
+                buyer_addr: address + " " + addressDetail,    // 구매자 주소
+                buyer_postcode: zipCode                       // 구매자 우편번호
             };
             console.log(orderData);
             /* 4. 결제 창 호출하기 */
             IMP.request_pay(orderData, callback);
         };
-
 
         function callback(response) {
             const {

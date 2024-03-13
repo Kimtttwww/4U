@@ -187,7 +187,7 @@ public class OrderController {
 					.point(orderDTO.getPoint())
 					.build();
 			 mService.updateMemberPoint(m);
-			
+				log.info("포인트사용 ", mService.updateMemberPoint(m));
 		}else {
 			log.info("updateMemberPoint 실패!!");
 		}
@@ -206,7 +206,7 @@ public class OrderController {
 		int pointRate = mService.selectPointRate(orderDTO.getMemberNo());
 		 
 		int point = (orderDTO.getPaymentPrice() * pointRate/100);
-		 log.info(".pointRate/100 {}", pointRate/100);
+		 log.info("적립point {}",(orderDTO.getPaymentPrice() * pointRate/100));
 		Member m = Member.builder()
 				.memberNo(orderDTO.getMemberNo())
 				.point(point)

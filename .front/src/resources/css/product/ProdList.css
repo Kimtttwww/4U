@@ -2,7 +2,7 @@
 .mainCateName {
 	display: flex;
 	justify-content: center;
-	margin: 50px 0;
+	margin: 100px 0 0 0;
 	font-size: 45px;
 	font-weight: bold;
 	letter-spacing: 0.5em;
@@ -37,7 +37,7 @@
 	display: grid;
 	grid-template-columns: repeat(4, 1fr);
 	justify-items: center;
-	margin: 0 auto;
+	margin: 0 auto 100px auto;
 }
 
 /* 태완님 좀 건들겠습니다 -민구- */
@@ -122,4 +122,3 @@
 	margin-right: 15px;
 	cursor: pointer;
 }
-
