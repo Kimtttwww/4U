@@ -226,6 +226,6 @@ export default function Rightmenubar(props) {
 			</div>
 		)}
 
-		{loginMember && showMemberInfo && <MemberInfoMin loginMember={loginMember} setLoginMember={setLoginMember} showMemberInfo={showMemberInfo} setShowMemberInfo={setShowMemberInfo} />}
+		{loginMember && showMemberInfo && loginMember.gradeNo !== 99 && <MemberInfoMin loginMember={loginMember} setLoginMember={setLoginMember} showMemberInfo={showMemberInfo} setShowMemberInfo={setShowMemberInfo} />}
 	</>);
 }
