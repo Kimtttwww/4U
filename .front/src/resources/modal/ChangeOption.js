@@ -26,7 +26,7 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
         setCheckSize(e.target.value)
     };
 
-    // 최종 마무리 변경 !! 버튼까지 눌러서 변경 완벽하게 끝남; 여기서 변경된 변수들로 인덱스 찾아서 넣어놔야 함;
+    // 최종 변경!! 여기서 변경된 변수들로 셋팅해준다. 
     const optionChange = (e) => {
         orderProd.colorName = checkColor;
         orderProd.size = checkSize;
@@ -43,12 +43,12 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
 
     // 옵션변경 prodNo의 모든 colorName 가져오기(중복제거)
     const getProdColor = () => {
-        setProdColor(Array.from(new Set(dbResponse?.map((obj) => obj.colorName))));
+        setProdColor(Array.from(new Set(dbResponse?.map((item) => item.colorName))));
     };
 
     // 선택한 컬러에 맞는 사이즈 가져오기
     const getProdSizeFromColor = async (data) => {
-        setProdSize(dbResponse?.filter((obj) => obj.colorName == checkColor));
+        setProdSize(dbResponse?.filter((item) => item.colorName == checkColor));
     };
 
     // 선택한 색상/사이즈에 맞는 인덱스 가져오기
@@ -72,7 +72,7 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
 
     useEffect(() => {
         if (dbResponse?.length > 0) {
-            // 데이터를 가지고 왔을때.. 필요한 컬러를 가져온다..'
+            // 데이터를 가지고 왔을때.. 필요한 컬러를 가져온다.
             getProdColor();
 
             // 기본 값 컬러 가져와 주기..
@@ -91,6 +91,7 @@ export default function ChangeOption({ show, closeModal, orderProd }) {
 
     useEffect(() => {
         if (checkSize) {
+            // 컬러와 사이즈까지 선택이 되었다면 그에 맞는 index값을 가져온다.
             getProdIndex('index');
         };
     }, [checkColor, checkSize]);

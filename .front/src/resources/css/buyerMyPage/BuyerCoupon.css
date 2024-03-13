@@ -7,7 +7,7 @@
     padding: 20px;
     background-color: #fff;
     border-radius: 10px;
-    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 .coupon-title h3 {
@@ -15,7 +15,8 @@
     font-weight: 600;
 }
 
-.BuyerCoupon-1, .BuyerCoupon-2 {
+.BuyerCoupon-1,
+.BuyerCoupon-2 {
     margin-top: 20px;
     padding: 20px;
     background-color: #FCE4EC;
@@ -32,7 +33,8 @@
     font-weight: 500;
 }
 
-.use-btn, .used-btn {
+.use-btn,
+.used-btn {
     padding: 10px 20px;
     margin-right: 10px;
     border: none;
@@ -43,29 +45,32 @@
     transition: background-color 0.3s;
 }
 
-.use-btn:hover, .used-btn:hover {
+.use-btn:hover,
+.used-btn:hover {
     background-color: #AB47BC;
 }
 
-.useCoupon, .usedCoupon {
+.useCoupon,
+.usedCoupon {
     margin-top: 20px;
 }
 
-table {
+.usedCoupon table {
     width: 100%;
     border-collapse: collapse;
 }
 
-th, td {
+.usedCoupon th,
+.usedCoupon td {
     padding: 10px;
     text-align: left;
     border-bottom: 1px solid #E1BEE7;
 }
 
-th {
+.usedCoupon th {
     background-color: #F3E5F5;
 }
 
-tr:hover {
+.usedCoupon tr:hover {
     background-color: #F8BBD0;
 }

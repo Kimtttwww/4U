@@ -3,7 +3,7 @@
   top: 115px;
   width: 60px;
   display: flex;
-  flex-direction: column; 
+  flex-direction: column;
   position: fixed;
   right: 0;
   z-index: 1;
@@ -27,7 +27,7 @@
 }
 
 /* 검색창 틀 */
-.sideBarContent-category{
+.sideBarContent-category {
   width: 580px;
   position: fixed;
   top: 115px;
@@ -41,16 +41,16 @@
 }
 
 /* 간편 내정보 틀 */
-.sideBarContent-member{
-  width: 450px;
+.sideBarContent-member {
+  width: 400px;
   position: fixed;
   top: 115px;
   right: 70px;
   z-index: 2;
   background-color: #e4c0a8;
   border: 2px inset #c0c0c0;
-  padding: 10px 30px;
-  height: 65vh;
+  padding: 30px;
+  height: 73vh;
   overflow: auto;
   text-align: center;
 }
@@ -62,7 +62,7 @@
 }
 
 /* 검색창 항목들 */
-.cateSeeThrough{
+.cateSeeThrough {
   line-height: 33px;
   border: 1px solid #e3e3e3;
   border-radius: 10px;
@@ -74,13 +74,13 @@
 }
 
 /* 검색창 항목들 선택시 */
-.cateSeeThrough.active{
+.cateSeeThrough.active {
   background-color: #e4c0a8;
   color: white;
 }
 
 /* 상품찾기 버튼 */
-.cateButton{
+.cateButton {
   width: 100%;
   height: 60px;
   color: #fff;
@@ -98,13 +98,13 @@
 }
 
 /* 타이틀 (대분류,소분류...) */
-.cateTitle{
+.cateTitle {
   margin-left: 5px;
   font-size: 16px;
   line-height: 40px;
 }
 
-.right-category-box{
+.right-category-box {
   display: flex;
   flex-wrap: wrap;
 }
@@ -113,11 +113,15 @@
 .right-gradeContainer {
   padding: 15px;
   border-radius: 20px;
-  margin: 30px;
+  margin: 30px 0 10px 0;
 }
 
 /* 등급 이미지 */
 .right-gradeImg img {
-  width: 200px;
-  height: 200px;
+  width: 100px;
+  height: 100px;
+}
+
+.right-gradeInfo>span {
+  font-size: 35px;
 }

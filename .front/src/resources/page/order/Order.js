@@ -176,6 +176,7 @@ export default function Order({ loginUser }) {
 		setInputChange({ ...inputChange, [name]: value });
 	};
 
+
 	// 다음 주소창(주소찾기 버튼) 열리게 하기
 	const toggleModal = () => {
 		setModalState(!modalState);
@@ -221,22 +222,19 @@ export default function Order({ loginUser }) {
 
 	// 적용할 coupon
 	const couponHandler = (data) => {
-		// payPrice에 총결제할 금액 넣어줄거임.. -> (totalPrice-할인가격)
-		// discountRate가 있으면
+		// payPrice에 discountRate가 있으면 할인율을 적용하고 아니라면 할인금액 적용하기
 		const findCoupon = userCoupon.filter(item => item.couponNo == data);
 		if (findCoupon) {
 			const disPrice = findCoupon[0].discount == 0 ?
-				Math.floor(totalPrice - (totalPrice * (1 - findCoupon[0].discountRate / 100)) / precision) * precision : findCoupon[0].discount;
+				Math.floor(totalPrice * (findCoupon[0].discountRate) / 100 / 10) * 10 : findCoupon[0].discount;
 			setDiscountCoupon(disPrice);
 			setApplyCoupon(findCoupon[0]);
 		};
 	};
 
-
 	// 적용할 point
 	const pointHandler = (e) => {
-		// 여기 들어왔다? -> input에 변화가 생김
-		// -> 전체사용버튼 해제 + 내포인트보다 더 입력X(input비우기) + changePoint에 값입력받다가 최종 applyPoint에저장
+		// 전체사용버튼 해제 + 내포인트보다 더 입력X(input비우기) + changePoint에 값입력받다가 최종 applyPoint에저장
 		let inputPoint = parseInt(e.target.value);
 		setPointAllChecked(false);
 		if (userInfo.point < inputPoint) {
@@ -266,6 +264,25 @@ export default function Order({ loginUser }) {
 		applyCoupon, applyPoint, delMsg, totalPrice, discountCoupon, discountProd
 	};
 
+
+	// 로그인상태에서만 페이지 접근가능하도록 설정
+	useEffect(() => {
+		if (loginUser == null || !loginUser.memberNo) {
+			alert("로그인 후 이용가능합니다.");
+			navi("/");
+			return;
+		};
+		if ((Cookies.get('cart') ? JSON.parse(Cookies.get('cart')) : [])?.length == 0) {
+			alert("장바구니가 비어있습니다.");
+			navi("/");
+			return;
+		};
+		loadFromDb();
+		getUserCoupon();
+		getProdName();
+	}, []);
+
+
 	useEffect(() => {
 		if (!userInfoChecked) {
 			// userInfoChecked가 체크해제됨(불러오기 안함)
@@ -294,24 +311,6 @@ export default function Order({ loginUser }) {
 		setApplyPoint(changePoint);
 	}, [changePoint]);
 
-
-
-	// 로그인상태에서만 페이지 접근가능하도록 설정
-	useEffect(() => {
-		if (loginUser == null || !loginUser.memberNo) {
-			alert("로그인 후 이용가능합니다.");
-			navi("/");
-			return;
-		};
-		if ((Cookies.get('cart') ? JSON.parse(Cookies.get('cart')) : [])?.length == 0) {
-			alert("장바구니가 비어있습니다.");
-			navi("/");
-			return;
-		};
-		loadFromDb();
-		getUserCoupon();
-		getProdName();
-	}, []);
 
 	useEffect(() => {
 		if (modalState) {
@@ -424,7 +423,7 @@ export default function Order({ loginUser }) {
 					}
 				</tbody>
 			</table>
-			<div className="totalPrice">
+			<div className="totalPriceArea">
 				<span>총 주문금액 {totalPrice.toLocaleString()}원</span>
 				<span>({discountProd.toLocaleString()}원 할인)</span>
 			</div>
@@ -436,7 +435,7 @@ export default function Order({ loginUser }) {
 					<input type="checkbox" name="ordererInfo"
 						checked={userInfoChecked} onChange={checkedHandler}
 					/>
-					<span style={{ fontSize: "16px" }}>주문자정보 불러오기</span>
+					<span style={{ fontSize: "20px" }}>주문자정보 불러오기</span>
 				</div>
 				<div className="order-delivery-content">
 					<div className="receiver-text">
@@ -547,11 +546,11 @@ export default function Order({ loginUser }) {
 								</div>
 								<div className="payment-discount-point"
 									style={{ height: "56px" }}>
-									<span>{userInfo.point}원</span>
+									<span>{(userInfo?.point)}원</span>
 									<input type="checkbox" checked={pointAllChecked}
 										style={{ marginLeft: "20px" }}
 										onChange={pointAllCheckedHandler} />
-									<span style={{ fontSize: "16px" }}>전체사용하기</span>
+									<span style={{ fontSize: "20px" }}>전체사용하기</span>
 								</div>
 							</div>
 						</div>
@@ -560,14 +559,9 @@ export default function Order({ loginUser }) {
 						<div className="payPrice">
 							<div>결제하실 금액</div>
 							<div>
-								{
-									(totalPrice - discountCoupon - applyPoint).toLocaleString()
-								}원
-								(
-								{
-									(discountCoupon + applyPoint).toLocaleString()
-								}원 절약
-							</div>)
+								{(totalPrice - discountCoupon - applyPoint).toLocaleString()}원
+								({(discountCoupon + applyPoint).toLocaleString()}원 절약)
+							</div>
 						</div>
 					</div>
 				</div>

@@ -80,6 +80,11 @@ a {
     margin-top: 15px;
 }
 
+.mainCateList a,
+.subCateList a {
+    font-size: 20px;
+}
+
 .subCateList {
     width: 100px;
     background-color: #f6a9a1;

@@ -48,7 +48,7 @@ export default function Leftmenubar({ subCateClicked }) {
         }
     };
 
-    // 서브카테 위치조정
+    // 서브카테고리 위치조정
     const rectHandler = (idx) => {
         const rect = document.querySelector(`#mainCategory${idx}`).getBoundingClientRect();
         const obj = {
@@ -109,7 +109,6 @@ export default function Leftmenubar({ subCateClicked }) {
 
     const subCateClickHandler = (subNo) => {
         return subCateClicked(subNo);
-        // return subNo;
     };
 
 
