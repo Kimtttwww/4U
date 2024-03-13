@@ -164,33 +164,38 @@ public class OrderController {
     			pService.increaseOrdered(orderDTO.getProdNo().get(idx)) ;
     		}
     		
+    		
+    		if(orderDTO.getCouponNo() > 0) {
+    			log.info("insertOrderProd 성공!! 쿠폰update 들어옴");
+    			CouponUser coupon = CouponUser.builder()
+    					.memberNo(orderDTO.getMemberNo())
+    					.couponNo(orderDTO.getCouponNo())
+    					.build();
+    			  service.updateCouponUser(coupon);
+    			
+    		}else {
+    			log.info("updateCouponUser 실패!!");
+    		}
+    		
+    		
+    		if(orderDTO.getPoint() > 0) {
+    			log.info("포인트 update 들어옴", orderDTO.getPoint());
+    			int point = orderDTO.getPoint();
+    			log.info("사용한 point : {}", point);
+    			Member m = Member.builder()
+    					.memberNo(orderDTO.getMemberNo())
+    					.point(point)
+    					.build();
+    			 mService.updateMemberPoint(m);
+    		}else {
+    			log.info("updateMemberPoint 실패!!");
+    		}
+    		
     	}else {
     		log.info("insertOrder 실패 ㅠㅠ");
     	}
     	
-    	if(orderDTO.getCouponNo() > 0) {
-			log.info("insertOrderProd 성공!! 쿠폰update 들어옴");
-			CouponUser coupon = CouponUser.builder()
-					.memberNo(orderDTO.getMemberNo())
-					.couponNo(orderDTO.getCouponNo())
-					.build();
-			  service.updateCouponUser(coupon);
-			
-		}else {
-			log.info("updateCouponUser 실패!!");
-		}
 		
-		if(orderDTO.getPoint() > 0) {
-			log.info("포인트 update 들어옴");
-			Member m = Member.builder()
-					.memberNo(orderDTO.getMemberNo())
-					.point(orderDTO.getPoint())
-					.build();
-			 mService.updateMemberPoint(m);
-				log.info("포인트사용 ", mService.updateMemberPoint(m));
-		}else {
-			log.info("updateMemberPoint 실패!!");
-		}
 		
 		// 주문테이블에 넣는 것이 최종 성공이 완료가 되면..
 		// 등급업 함수를 호출하면 된다,..

@@ -339,17 +339,18 @@ export default function Order({ loginUser }) {
 		};
 
 		let price = 0;
-		let priceSum = orderProd.reduce((total, prod) => total + prod.price, 0);
+		let priceSum = orderProd.reduce((total, prod) => total + prod.price * prod.count, 0);
 		const allPrice = orderProd.map((prod) => {
 
 			let total = 0;
 			if (prod.discountRate) {
-				total = Math.floor(prod.price * (100 - prod.discountRate) / 100 / precision) * precision * prod.count
+				total = Math.floor(prod.price * (100 - prod.discountRate) / 100 / 10) * 10 * prod.count
 			}
 			else {
 				total = prod.price * prod.count
 			}
 			price += total;
+
 			setTotalPrice(price);
 			return price;
 		});
