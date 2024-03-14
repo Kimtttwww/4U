@@ -245,7 +245,7 @@ export default function ProdReview(props) {
 						<figcaption className="review-content">
 							{review?.reviewContent}
 						</figcaption>
-						<label style={{display: (review.memberNo == loginMember.memberNo ? "inline": "none")}}
+						<label style={{display: (review.memberNo == loginMember?.memberNo ? "inline": "none")}}
 							onClick={() => subEditReview(review)}>편집</label>
 					</figure>
 					<aside className="reviewer">
